@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -14,7 +16,8 @@ android {
         versionCode =  libs.versions.codeVersion.get().toInt()
         versionName =  libs.versions.compileSDK.get()
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        resourceConfigurations.addAll(listOf("en","ar"))
+        testInstrumentationRunner  = "com.example.weatherpilot.HiltTestRunner"
     }
 
 
@@ -57,9 +60,9 @@ dependencies {
     implementation(libs.androidx.navigation.navigation.fragment)
     implementation(libs.androidx.navigation.navigation.ui.kts)
     implementation(libs.androidx.core.core.splashscreen)
-
-
-
+    kapt(libs.androidx.room.compiler)
+    kapt(libs.com.google.dagger.hilt.compiler)
+    kapt(libs.androidx.hilt.hilt.compiler)
 
 
     //bundles
@@ -77,6 +80,11 @@ dependencies {
     testImplementation(libs.org.robolectric.robolectric)
     testImplementation(libs.bundles.hamcrest)
     testImplementation(libs.junit)
+    kaptTest(libs.com.google.dagger.hilt.android.compiler)
+    kaptTest(libs.com.google.dagger.hilt.android.testing)
     androidTestImplementation(libs.androidx.test.ext)
     androidTestImplementation(libs.androidx.test.espresso)
+    androidTestImplementation(libs.com.google.dagger.hilt.android.testing)
+    kaptAndroidTest(libs.com.google.dagger.hilt.android.compiler)
+
 }
