@@ -61,6 +61,7 @@ dependencies {
 
 
 
+
     //bundles
     implementation(libs.bundles.navigation.component)
     implementation(libs.bundles.sdp)
@@ -69,9 +70,12 @@ dependencies {
     implementation(libs.bundles.hilt)
     implementation(libs.bundles.data.store)
     implementation(libs.bundles.room)
-
+    implementation(libs.bundles.location.maps)
 
     //testing
+    testImplementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.test)
+    testImplementation(libs.org.robolectric.robolectric)
+    testImplementation(libs.bundles.hamcrest)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext)
     androidTestImplementation(libs.androidx.test.espresso)

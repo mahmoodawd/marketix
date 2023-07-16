@@ -3,6 +3,8 @@ package com.example.shopify.di
 import android.content.Context
 import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.example.shopify.utils.connectivity.NetworkConnectivityObserver
+import com.example.shopify.data.datastore.DataStoreUserPreferences
+import com.example.shopify.data.datastore.DataStoreUserPreferencesImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,5 +22,13 @@ object AppModule
     fun providesConnectivityObserver(@ApplicationContext context: Context) : ConnectivityObserver
     = NetworkConnectivityObserver(context = context)
 
+
+    @Provides
+    @Singleton
+    fun provideUserDataStorePreferences(
+        @ApplicationContext applicationContext: Context
+    ): DataStoreUserPreferences {
+        return  DataStoreUserPreferencesImpl(applicationContext)
+    }
 
 }
