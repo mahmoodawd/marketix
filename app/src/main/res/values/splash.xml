@@ -2,8 +2,8 @@
 <resources>
 
     <style name="Theme.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/white</item>
-        <item name="windowSplashScreenAnimatedIcon">@color/white</item>
+        <item name="windowSplashScreenBackground">@color/md_theme_light_onPrimary</item>
+        <item name="windowSplashScreenAnimatedIcon">@color/md_theme_light_onPrimary</item>
         <item name="postSplashScreenTheme">@style/Theme.Shopify</item>
         <item name="duration">5000</item>
     </style>
