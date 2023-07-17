@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true"
+    tools:context=".cart.presentation.CartFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/backImageView"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/pageTitleTextView"
+            style="@style/title_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/checkout"
+            app:layout_constraintBottom_toBottomOf="@+id/backImageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/backImageView" />
+
+
+        <TextView
+            android:id="@+id/contactInfoTextView"
+            style="@style/p2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="@string/contact_information"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/backImageView"
+            app:layout_constraintTop_toBottomOf="@+id/pageTitleTextView" />
+
+        <ImageView
+            android:id="@+id/emailIconImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:src="@drawable/email"
+            app:layout_constraintStart_toStartOf="@+id/contactInfoTextView"
+            app:layout_constraintTop_toBottomOf="@+id/contactInfoTextView" />
+
+        <TextView
+            android:id="@+id/emailValueTextView"
+            style="@style/p3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:text="rumenhussen@gmail.com"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toTopOf="@+id/emailIconImageView"
+            app:layout_constraintStart_toEndOf="@+id/emailIconImageView" />
+
+
+        <TextView
+            android:id="@+id/emailTitleTextView"
+            style="@style/p4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/light"
+            android:text="@string/email"
+            android:textColor="@color/text_grayed"
+            android:textStyle="normal"
+            app:layout_constraintStart_toStartOf="@+id/emailValueTextView"
+            app:layout_constraintTop_toBottomOf="@+id/emailIconImageView" />
+
+        <ImageView
+            android:id="@+id/editEmailIconImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:src="@drawable/edit"
+            app:layout_constraintBottom_toBottomOf="@+id/emailIconImageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/emailIconImageView" />
+
+        <ImageView
+            android:id="@+id/phoneIconImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:src="@drawable/phone"
+            app:layout_constraintStart_toStartOf="@+id/contactInfoTextView"
+            app:layout_constraintTop_toBottomOf="@+id/emailIconImageView" />
+
+        <TextView
+            android:id="@+id/phoneValueTextView"
+            style="@style/p3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:text="+88-692 -764-269"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toTopOf="@+id/phoneIconImageView"
+            app:layout_constraintStart_toEndOf="@+id/phoneIconImageView" />
+
+
+        <TextView
+            android:id="@+id/phoneTitleTextView"
+            style="@style/p4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/light"
+            android:text="@string/phone"
+            android:textColor="@color/text_grayed"
+            android:textStyle="normal"
+            app:layout_constraintStart_toStartOf="@+id/phoneValueTextView"
+            app:layout_constraintTop_toBottomOf="@+id/phoneIconImageView" />
+
+        <ImageView
+            android:id="@+id/editPhoneIconImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/edit"
+            app:layout_constraintBottom_toBottomOf="@+id/phoneIconImageView"
+            app:layout_constraintEnd_toEndOf="@+id/editEmailIconImageView"
+            app:layout_constraintTop_toTopOf="@+id/phoneIconImageView" />
+
+        <TextView
+            android:id="@+id/addressInfoTextView"
+            style="@style/p2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:text="@string/address"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/backImageView"
+            app:layout_constraintTop_toBottomOf="@+id/phoneIconImageView" />
+
+
+        <TextView
+            android:id="@+id/addressValueTextView"
+            style="@style/p4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/light"
+            android:text="Newahall St 36, London, 12908 - UK"
+            android:textColor="@color/text_grayed"
+            android:textStyle="normal"
+            app:layout_constraintStart_toStartOf="@+id/addressInfoTextView"
+            app:layout_constraintTop_toBottomOf="@+id/addressInfoTextView" />
+
+        <ImageView
+            android:id="@+id/addressDownImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/down"
+            app:layout_constraintBottom_toBottomOf="@+id/addressValueTextView"
+            app:layout_constraintEnd_toEndOf="@+id/editPhoneIconImageView"
+            app:layout_constraintTop_toTopOf="@+id/addressValueTextView" />
+
+        <ImageView
+            android:id="@+id/mapImageView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:scaleType="fitXY"
+            android:src="@drawable/map"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addressDownImageView" />
+
+
+        <TextView
+            android:id="@+id/paymentMethodTextView"
+            style="@style/p2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:text="@string/payment_method"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/mapImageView"
+            app:layout_constraintTop_toBottomOf="@+id/mapImageView" />
+
+        <ImageView
+            android:id="@+id/paypalImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:src="@drawable/paypal"
+            app:layout_constraintStart_toStartOf="@+id/paymentMethodTextView"
+            app:layout_constraintTop_toBottomOf="@+id/paymentMethodTextView" />
+
+        <TextView
+            android:id="@+id/paymentTitleTextView"
+            style="@style/p3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:text="Paypal Card"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/paypalImageView"
+            app:layout_constraintTop_toTopOf="@+id/paypalImageView" />
+
+        <TextView
+            android:id="@+id/paymentCardNumberTextView"
+            style="@style/p4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/light"
+            android:text="**** **** 0696 4629"
+            android:textColor="@color/text_grayed"
+            android:textStyle="normal"
+            app:layout_constraintStart_toStartOf="@+id/paymentTitleTextView"
+            app:layout_constraintTop_toBottomOf="@+id/paymentTitleTextView" />
+
+
+        <ImageView
+            android:id="@+id/paymentMethodDownImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/down"
+            app:layout_constraintBottom_toBottomOf="@+id/paymentCardNumberTextView"
+            app:layout_constraintEnd_toEndOf="@+id/mapImageView"
+            app:layout_constraintTop_toTopOf="@+id/paymentTitleTextView" />
+
+
+        <TextView
+            android:id="@+id/subTotalTitleTextView"
+            style="@style/p3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:text="@string/subtotal"
+            android:textColor="@color/text_grayed"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/shoppingTitleTextView"
+            app:layout_constraintStart_toStartOf="@+id/shoppingTitleTextView"
+            app:layout_constraintTop_toBottomOf="@+id/paymentCardNumberTextView" />
+
+        <TextView
+            android:id="@+id/shoppingTitleTextView"
+            style="@style/p3"
+            android:textColor="@color/text_grayed"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_35sdp"
+            android:text="@string/shopping"
+            app:layout_constraintBottom_toTopOf="@+id/totalCostTitleTextView"
+            app:layout_constraintStart_toStartOf="@+id/totalCostTitleTextView" />
+
+        <TextView
+            android:id="@+id/totalCostTitleTextView"
+            style="@style/p3"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:text="@string/total_cost"
+            app:layout_constraintBottom_toTopOf="@+id/checkOutButton"
+            app:layout_constraintStart_toStartOf="@+id/checkOutButton" />
+
+        <Button
+            android:id="@+id/checkOutButton"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:text="@string/payment"
+            android:textAppearance="@style/p3"
+            android:textColor="@color/md_theme_light_onPrimary"
+            android:layout_marginBottom="@dimen/_30sdp"
+            android:background="@drawable/rounded_corner_blue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <TextView
+            android:id="@+id/subtotalValueTextView"
+            style="@style/p2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:elevation="@dimen/_10sdp"
+            android:shadowColor="@color/md_theme_dark_outline"
+            android:shadowDx="1"
+            android:shadowDy="4"
+            android:shadowRadius="1"
+            android:text="$64.95"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="@+id/subTotalTitleTextView"
+            app:layout_constraintEnd_toEndOf="@+id/paymentMethodDownImageView"
+            app:layout_constraintTop_toTopOf="@+id/subTotalTitleTextView" />
+
+
+        <TextView
+            android:id="@+id/shoppingValueTextView"
+            style="@style/p2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/_10sdp"
+            android:shadowColor="@color/md_theme_dark_outline"
+            android:shadowDx="1"
+            android:shadowDy="4"
+            android:shadowRadius="1"
+            android:text="$64.95"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="@+id/shoppingTitleTextView"
+            app:layout_constraintEnd_toEndOf="@+id/subtotalValueTextView"
+            app:layout_constraintTop_toTopOf="@+id/shoppingTitleTextView" />
+
+
+        <TextView
+            android:id="@+id/totalCostValueTextView"
+            style="@style/p2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/_10sdp"
+            android:shadowColor="@color/md_theme_dark_outline"
+            android:shadowDx="1"
+            android:shadowDy="4"
+            android:shadowRadius="1"
+            android:text="$64.95"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="@+id/totalCostTitleTextView"
+            app:layout_constraintEnd_toEndOf="@+id/shoppingValueTextView"
+            app:layout_constraintTop_toTopOf="@+id/totalCostTitleTextView" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

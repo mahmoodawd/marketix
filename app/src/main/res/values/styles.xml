@@ -4,6 +4,7 @@
 
         <item name="font"> @font/extra_bold</item>
         <item name="android:textSize">@dimen/_25ssp</item>
+        <item name="android:textColor">@color/text_color</item>
     </style>
 
 
@@ -11,6 +12,7 @@
 
         <item name="font"> @font/bold</item>
         <item name="android:textSize">@dimen/_18ssp</item>
+        <item name="android:textColor">@color/text_color</item>
     </style>
 
 
@@ -18,6 +20,7 @@
 
         <item name="font"> @font/medium</item>
         <item name="android:textSize">@dimen/_16ssp</item>
+        <item name="android:textColor">@color/text_color</item>
     </style>
 
 
@@ -25,6 +28,7 @@
 
         <item name="font"> @font/medium</item>
         <item name="android:textSize">@dimen/_14ssp</item>
+        <item name="android:textColor">@color/text_color</item>
     </style>
 
 
@@ -32,6 +36,7 @@
 
         <item name="font"> @font/medium</item>
         <item name="android:textSize">@dimen/_12ssp</item>
+        <item name="android:textColor">@color/text_color</item>
     </style>
 
 
@@ -39,6 +44,7 @@
 
         <item name="font"> @font/medium</item>
         <item name="android:textSize">@dimen/_10ssp</item>
+        <item name="android:textColor">@color/text_color</item>
     </style>
 
 
@@ -46,6 +52,7 @@
 
         <item name="font"> @font/light</item>
         <item name="android:textSize">@dimen/_8ssp</item>
+        <item name="android:textColor">@color/text_color</item>
     </style>
 
 </resources>

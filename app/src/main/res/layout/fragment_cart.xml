@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,7 +11,149 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:id="@+id/backImageView"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:src="@drawable/back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:importantForAccessibility="no" />
+
+        <TextView
+            android:id="@+id/pageTitleTextView"
+            style="@style/title_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_cart"
+            app:layout_constraintBottom_toBottomOf="@+id/backImageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/backImageView" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_30sdp"
+            android:clipToPadding="false"
+            android:minHeight="@dimen/_150sdp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/subTotalTitleTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pageTitleTextView"
+            tools:itemCount="5"
+            tools:listitem="@layout/cart_item" />
+
+        <TextView
+            android:id="@+id/subTotalTitleTextView"
+            style="@style/p3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:text="@string/subtotal"
+            android:textColor="@color/text_grayed"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/shoppingTitleTextView"
+            app:layout_constraintStart_toStartOf="@+id/shoppingTitleTextView" />
+
+        <TextView
+            android:id="@+id/shoppingTitleTextView"
+            style="@style/p3"
+            android:textColor="@color/text_grayed"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_35sdp"
+            android:text="@string/shopping"
+            app:layout_constraintBottom_toTopOf="@+id/totalCostTitleTextView"
+            app:layout_constraintStart_toStartOf="@+id/totalCostTitleTextView" />
+
+        <TextView
+            android:id="@+id/totalCostTitleTextView"
+            style="@style/p3"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:text="@string/total_cost"
+            app:layout_constraintBottom_toTopOf="@+id/checkOutButton"
+            app:layout_constraintStart_toStartOf="@+id/checkOutButton" />
+
+        <Button
+            android:id="@+id/checkOutButton"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:text="@string/checkout"
+           android:textAppearance="@style/p3"
+            android:textColor="@color/md_theme_light_onPrimary"
+            android:layout_marginBottom="@dimen/_30sdp"
+            android:background="@drawable/rounded_corner_blue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <TextView
+            android:id="@+id/subtotalValueTextView"
+            style="@style/p2"
+            android:textStyle="normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:elevation="@dimen/_10sdp"
+            android:shadowColor="@color/md_theme_dark_outline"
+            android:shadowDx="1"
+            android:shadowDy="4"
+            android:shadowRadius="1"
+            android:text="$64.95"
+            app:layout_constraintBottom_toBottomOf="@+id/subTotalTitleTextView"
+            app:layout_constraintEnd_toEndOf="@+id/recyclerView"
+            app:layout_constraintTop_toTopOf="@+id/subTotalTitleTextView" />
+
+
+        <TextView
+            android:id="@+id/shoppingValueTextView"
+            style="@style/p2"
+            android:textStyle="normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/_10sdp"
+            android:shadowColor="@color/md_theme_dark_outline"
+            android:shadowDx="1"
+            android:shadowDy="4"
+            android:shadowRadius="1"
+            android:text="$64.95"
+            app:layout_constraintBottom_toBottomOf="@+id/shoppingTitleTextView"
+            app:layout_constraintEnd_toEndOf="@+id/recyclerView"
+            app:layout_constraintTop_toTopOf="@+id/shoppingTitleTextView" />
+
+
+        <TextView
+            android:id="@+id/totalCostValueTextView"
+            style="@style/p2"
+            android:textStyle="normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/_10sdp"
+            android:shadowColor="@color/md_theme_dark_outline"
+            android:shadowDx="1"
+            android:shadowDy="4"
+            android:shadowRadius="1"
+            android:text="$64.95"
+            app:layout_constraintBottom_toBottomOf="@+id/totalCostTitleTextView"
+            app:layout_constraintEnd_toEndOf="@+id/recyclerView"
+            app:layout_constraintTop_toTopOf="@+id/totalCostTitleTextView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
