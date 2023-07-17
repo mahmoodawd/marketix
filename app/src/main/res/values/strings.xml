@@ -56,4 +56,19 @@
     <string name="address">Address</string>
     <string name="payment_method">Payment Method</string>
     <string name="payment">Payment</string>
+
+    <string name="looking_for_products">Looking for products</string>
+    <string name="filters">Filters</string>
+    <string name="categories">Categories</string>
+    <string name="price">Price</string>
+    <string name="kids">Kids</string>
+    <string name="women">Women</string>
+    <string name="men">Men</string>
+    <string name="sale">Sale</string>
+    <string name="home">Home</string>
+    <string name="apply">Apply</string>
+    <array name="initial_slider_values">
+        <item>100</item>
+        <item>900</item>
+    </array>
 </resources>
