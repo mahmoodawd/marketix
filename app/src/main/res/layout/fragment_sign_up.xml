@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f8f9fa"
+        android:isScrollContainer="true"
+        tools:context=".auth.presentation.SignUpFragment">
+
+        <ImageView
+            android:id="@+id/backImageView"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/create_account_header_tv"
+            style="@style/title_font"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginEnd="4dp"
+            android:text="@string/create_account"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/backImageView" />
+
+        <TextView
+            android:id="@+id/create_account_msg_tv"
+            style="@style/p2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_16sdp"
+            android:text="@string/create_account_msg"
+            android:textColor="@color/md_theme_light_onSurfaceVariant"
+            app:layout_constraintBottom_toTopOf="@+id/user_name_et"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/create_account_header_tv"
+            app:layout_constraintVertical_bias="0.478" />
+
+
+        <include
+            android:id="@+id/user_name_et"
+            layout="@layout/user_name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/email_et"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/create_account_msg_tv" />
+
+        <include
+            android:id="@+id/email_et"
+            layout="@layout/email_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/_8sdp"
+            app:layout_constraintBottom_toTopOf="@+id/password_et"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/user_name_et" />
+
+        <include
+            android:id="@+id/password_et"
+            layout="@layout/password_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:endIconMode="password_toggle"
+            app:layout_constraintBottom_toTopOf="@+id/forget_password_btn"
+            app:layout_constraintEnd_toStartOf="@id/guideline_end"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/email_et" />
+
+        <Button
+            android:id="@+id/forget_password_btn"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/forget_password"
+            android:textColor="@color/md_theme_light_onSurfaceVariant"
+            app:layout_constraintBottom_toTopOf="@+id/sign_in_btn"
+            app:layout_constraintEnd_toEndOf="@+id/guideline_end"
+            app:layout_constraintTop_toBottomOf="@+id/password_et" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sign_in_btn"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_54sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:text="@string/sign_up"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/forget_password_btn" />
+
+        <include
+            android:id="@+id/google_btn_view"
+            layout="@layout/google_button"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_54sdp"
+            app:layout_constraintBottom_toTopOf="@+id/nav_to_register_btn"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/sign_in_btn"
+            app:layout_constraintVertical_bias="0.275" />
+
+
+        <TextView
+            android:id="@+id/nav_to_login_tv"
+            style="@style/p3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/already_have_an_account"
+            android:textColor="@color/md_theme_light_onSurfaceVariant"
+            app:layout_constraintBaseline_toBaselineOf="@+id/nav_to_register_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.333"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/nav_to_register_btn"
+            android:layout_width="0dp"
+            android:layout_marginTop="@dimen/_32sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:layout_marginBottom="@dimen/_32sdp"
+            android:fontFamily="@font/bold"
+            android:text="@string/sign_in"
+            android:textColor="@color/md_theme_light_onSurface"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/google_btn_view"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toEndOf="@+id/nav_to_login_tv" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.04" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

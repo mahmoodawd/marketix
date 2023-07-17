@@ -1,0 +1,11 @@
+<ImageButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/google_btn"
+    style="@style/Widget.Material3.Button.TextButton.Icon"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:src="@drawable/google_button"
+    android:text="@string/sing_in_with_google"
+    android:textAlignment="center"
+    android:textAppearance="@style/title_two"
+    android:textColor="@color/md_theme_light_onSurface" />
