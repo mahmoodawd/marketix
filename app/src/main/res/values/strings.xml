@@ -43,7 +43,6 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="my_cart">My Cart</string>
     <string name="subtotal">Subtotal</string>
@@ -56,7 +55,20 @@
     <string name="address">Address</string>
     <string name="payment_method">Payment Method</string>
     <string name="payment">Payment</string>
-    <!-- Auth Related Strings-->
+    <string name="looking_for_products">Looking for products</string>
+    <string name="filters">Filters</string>
+    <string name="categories">Categories</string>
+    <string name="price">Price</string>
+    <string name="kids">Kids</string>
+    <string name="women">Women</string>
+    <string name="men">Men</string>
+    <string name="sale">Sale</string>
+    <string name="home">Home</string>
+    <string name="apply">Apply</string>
+    <array name="initial_slider_values">
+        <item>100</item>
+        <item>900</item>
+    </array>
     <string name="hello_again">Hello Again</string>
     <string name="welcome_back_msg">Welcome Back You\'ve been missed</string>
     <string name="password">Password</string>
