@@ -1,6 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="@dimen/_10sdp">
 
+    <ImageView
+        android:id="@+id/itemImageView"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/shoes" />
+
+    <TextView
+        android:id="@+id/itemNameTextView"
+        style="@style/p2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:elevation="@dimen/_10sdp"
+        android:shadowColor="@color/md_theme_dark_outline"
+        android:shadowDx="1"
+        android:shadowDy="4"
+        android:shadowRadius="5"
+        android:text="Nike Club Max"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/itemImageView"
+        app:layout_constraintTop_toTopOf="@+id/itemImageView" />
+
+
+    <TextView
+        android:id="@+id/itemPriceTextView"
+        style="@style/p2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:elevation="@dimen/_10sdp"
+        android:shadowColor="@color/md_theme_dark_outline"
+        android:shadowDx="1"
+        android:shadowDy="4"
+        android:shadowRadius="5"
+        android:text="$64.95"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/itemNameTextView"
+        app:layout_constraintTop_toBottomOf="@+id/itemNameTextView" />
+
+    <ImageView
+        android:id="@+id/minusImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/_50sdp"
+        app:layout_constraintBottom_toBottomOf="@+id/numberOfItemsTextView"
+        app:layout_constraintStart_toStartOf="@+id/itemPriceTextView"
+        app:layout_constraintTop_toTopOf="@+id/numberOfItemsTextView"
+        app:srcCompat="@drawable/minus" />
+
+    <ImageView
+        android:id="@+id/plusImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15sdp"
+        app:layout_constraintBottom_toBottomOf="@+id/numberOfItemsTextView"
+        app:layout_constraintStart_toEndOf="@+id/numberOfItemsTextView"
+        app:layout_constraintTop_toTopOf="@+id/numberOfItemsTextView"
+        app:srcCompat="@drawable/plus" />
+
+    <TextView
+        android:id="@+id/numberOfItemsTextView"
+        style="@style/p4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:text="1"
+        android:textColor="@color/text_secondary_color"
+        app:layout_constraintBottom_toBottomOf="@+id/itemImageView"
+        app:layout_constraintStart_toEndOf="@+id/minusImageView" />
+
+    <TextView
+        android:id="@+id/sizeTextView"
+        style="@style/p4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:text="L"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/itemNameTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/itemNameTextView" />
+
+    <ImageView
+        android:id="@+id/deleteImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/plusImageView"
+        app:layout_constraintEnd_toEndOf="@+id/sizeTextView"
+        app:layout_constraintStart_toStartOf="@+id/sizeTextView"
+        app:layout_constraintTop_toTopOf="@+id/plusImageView"
+        app:srcCompat="@drawable/recycle_bin" />
 </androidx.constraintlayout.widget.ConstraintLayout>
