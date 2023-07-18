@@ -1,11 +1,17 @@
 package com.example.shopify.home.presentation
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import com.example.shopify.R
+import com.example.shopify.databinding.BottomSheetLayoutBinding
 import com.example.shopify.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -24,6 +30,28 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.filterImageButton.setOnClickListener {
+            showBottomDialog()
+        }
+    }
+
+    private fun showBottomDialog(){
+        val bottomSheet = BottomSheetLayoutBinding.inflate(layoutInflater)
+        val dialog = Dialog(requireContext())
+        dialog.apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setContentView(bottomSheet.root)
+
+            bottomSheet.applyBtn.setOnClickListener {
+                dismiss()
+            }
+
+            window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            window?.attributes?.windowAnimations = R.style.DialogAnimation
+            window?.setGravity(Gravity.BOTTOM)
+
+        }.show()
     }
 
 }
