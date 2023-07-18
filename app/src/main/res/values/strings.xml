@@ -55,6 +55,7 @@
     <string name="address">Address</string>
     <string name="payment_method">Payment Method</string>
     <string name="payment">Payment</string>
+    <string name="confirm">confirm</string>
     <string name="looking_for_products">Looking for products</string>
     <string name="filters">Filters</string>
     <string name="categories">Categories</string>
