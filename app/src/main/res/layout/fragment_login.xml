@@ -91,6 +91,7 @@
         android:layout_height="@dimen/_54sdp"
         android:layout_marginTop="@dimen/_16sdp"
         android:text="@string/sign_in"
+        app:layout_constraintBottom_toTopOf="@id/google_btn_view"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toBottomOf="@+id/forget_password_btn" />
