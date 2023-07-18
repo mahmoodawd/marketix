@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center|top"
         android:scaleType="centerCrop"
-        android:src="@drawable/baseline_remove_24" />
+        android:src="@drawable/baseline_remove_24"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -34,61 +35,68 @@
         android:textColor="@color/md_theme_dark_shadow"
         android:textSize="@dimen/_16sdp" />
 
-    <LinearLayout
+    <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_16sdp"
+        android:checkedButton="@id/menRb"
         android:orientation="horizontal"
         android:weightSum="4">
 
-        <Button
-            android:layout_width="wrap_content"
+        <RadioButton
+            android:id="@+id/menRb"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_3sdp"
             android:layout_weight="1"
-            android:background="@drawable/rounded_corner_blue"
+            android:background="@drawable/rounded_corner_gray"
             android:padding="0dp"
             android:text="@string/men"
             android:textAppearance="@style/p4"
-            android:textColor="@color/md_theme_light_onPrimary" />
+            android:textColor="@color/text_grayed"
+            tools:ignore="TouchTargetSizeCheck" />
 
-        <Button
-            android:layout_width="wrap_content"
+        <RadioButton
+            android:id="@+id/womenRb"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_3sdp"
             android:layout_weight="1"
-            android:background="@drawable/rounded_corner_blue"
+            android:background="@drawable/rounded_corner_gray"
             android:maxLines="1"
             android:padding="0dp"
             android:text="@string/women"
             android:textAppearance="@style/p4"
-            android:textColor="@color/md_theme_light_onPrimary" />
+            android:textColor="@color/text_grayed"
+            tools:ignore="TouchTargetSizeCheck" />
 
-        <Button
-            android:layout_width="wrap_content"
-
+        <RadioButton
+            android:id="@+id/kidsRb"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_3sdp"
             android:layout_weight="1"
-            android:background="@drawable/rounded_corner_blue"
+            android:background="@drawable/rounded_corner_gray"
             android:padding="0dp"
             android:text="@string/kids"
             android:textAppearance="@style/p4"
-            android:textColor="@color/md_theme_light_onPrimary" />
+            android:textColor="@color/text_grayed"
+            tools:ignore="TouchTargetSizeCheck" />
 
-        <Button
-            android:layout_width="wrap_content"
-
+        <RadioButton
+            android:id="@+id/saleRb"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_3sdp"
             android:layout_weight="1"
-            android:background="@drawable/rounded_corner_blue"
+            android:background="@drawable/rounded_corner_gray"
             android:padding="0dp"
             android:text="@string/sale"
             android:textAppearance="@style/p4"
-            android:textColor="@color/md_theme_light_onPrimary" />
+            android:textColor="@color/text_grayed"
+            tools:ignore="TouchTargetSizeCheck" />
 
-    </LinearLayout>
+    </RadioGroup>
 
     <TextView
         android:layout_width="wrap_content"
