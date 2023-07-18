@@ -64,4 +64,5 @@
     <color name="md_theme_dark_onSurface">#C6C6CA</color>
     <color name="md_theme_dark_surfaceVariant">#42474E</color>
     <color name="md_theme_dark_onSurfaceVariant">#C2C7CF</color>
+    <color name="gray">#F5F6FA</color>
 </resources>

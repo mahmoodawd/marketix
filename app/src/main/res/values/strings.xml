@@ -87,4 +87,22 @@
     <string name="password_recovery">Password Recovery</string>
     <string name="password_recovery_msg">Please Enter Your Email address to receive a Verification Code</string>
     <string name="verify">Continue</string>
+    <string name="account_amp_settings"><![CDATA[Account & Settings]]></string>
+    <string name="account">Account</string>
+    <string name="shipping_address">Shipping Address</string>
+    <string name="payment_info">Payment Info</string>
+    <string name="app_settings">App Settings</string>
+    <string name="eneble_push_notifications">Eneble Push Notifications</string>
+    <string name="eneble_location_services">Eneble Location Services</string>
+    <string name="currency_info">currency info</string>
+    <string name="go">go</string>
+    <string name="profile">Profile</string>
+    <string name="full_name">Full Name</string>
+    <string name="your_full_name">your full name</string>
+    <string name="confirm">confirm</string>
+    <string name="logout">logout</string>
+    <string name="save_address">Save Address</string>
+    <string name="country">country</string>
+    <string name="cities">Cities</string>
+    <string name="please_choose_your_currency">please choose your currency</string>
 </resources>
