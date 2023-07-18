@@ -43,7 +43,6 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="my_cart">My Cart</string>
     <string name="subtotal">Subtotal</string>
@@ -57,4 +56,61 @@
     <string name="payment_method">Payment Method</string>
     <string name="payment">Payment</string>
     <string name="confirm">confirm</string>
+    <string name="looking_for_products">Looking for products</string>
+    <string name="filters">Filters</string>
+    <string name="categories">Categories</string>
+    <string name="price">Price</string>
+    <string name="kids">Kids</string>
+    <string name="women">Women</string>
+    <string name="men">Men</string>
+    <string name="sale">Sale</string>
+    <string name="home">Home</string>
+    <string name="apply">Apply</string>
+    <array name="initial_slider_values">
+        <item>100</item>
+        <item>900</item>
+    </array>
+    <string name="hello_again">Hello Again</string>
+    <string name="welcome_back_msg">Welcome Back You\'ve been missed</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sing_in_with_google">Sign in With Google</string>
+    <string name="forget_password">Forget Password</string>
+    <string name="do_not_have_account">Don\'t have an account?</string>
+    <string name="your_email_here">Your email Here</string>
+    <string name="password_here">Password Here</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="create_account">Create Account</string>
+    <string name="your_name">Your Name</string>
+    <string name="your_name_here">Your Name Here</string>
+    <string name="already_have_an_account">Already Have An Account</string>
+    <string name="create_account_msg">Let\'s Create New Account</string>
+    <string name="password_recovery">Password Recovery</string>
+    <string name="password_recovery_msg">Please Enter Your Email address to receive a Verification Code</string>
+    <string name="verify">Continue</string>
+    <string name="account_amp_settings"><![CDATA[Account & Settings]]></string>
+    <string name="account">Account</string>
+    <string name="shipping_address">Shipping Address</string>
+    <string name="payment_info">Payment Info</string>
+    <string name="app_settings">App Settings</string>
+    <string name="eneble_push_notifications">Eneble Push Notifications</string>
+    <string name="eneble_location_services">Eneble Location Services</string>
+    <string name="currency_info">currency info</string>
+    <string name="go">go</string>
+    <string name="profile">Profile</string>
+    <string name="full_name">Full Name</string>
+    <string name="your_full_name">your full name</string>
+    <string name="confirm">confirm</string>
+    <string name="logout">logout</string>
+    <string name="save_address">Save Address</string>
+    <string name="country">country</string>
+    <string name="cities">Cities</string>
+    <string name="please_choose_your_currency">please choose your currency</string>
+    <string name="product_reviews">Product Reviews</string>
+    <string name="add_review">Add Review</string>
+    <string name="how_was_your_experience">How was Your Experience</string>
+    <string name="submit_review">Submit Review</string>
+    <string name="size">Size</string>
+    <string name="describe_your_experience">Describe Your Experience</string>
+    <string name="your_rating">Your Rating</string>
 </resources>

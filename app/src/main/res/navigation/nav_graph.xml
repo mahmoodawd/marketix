@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/checkOutFragment">
+    app:startDestination="@id/settingsFragment">
 
     <fragment
         android:id="@+id/FirstFragment"
@@ -32,7 +32,31 @@
         tools:layout="@layout/fragment_cart" />
     <fragment
         android:id="@+id/checkOutFragment"
-        android:name="com.example.shopify.checkout.presentation.CheckOutFragment"
+        android:name="com.example.shopify.checkout.presentation.checkout.CheckOutFragment"
         android:label="CheckOutFragment"
         tools:layout="@layout/fragment_check_out"/>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.shopify.settings.presenation.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addressFragment"
+        android:name="com.example.shopify.settings.presenation.address.location.AddressFragment"
+        android:label="AddressFragment"
+        tools:layout="@layout/fragment_address"
+        />
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.example.shopify.settings.presenation.account.AccountFragment"
+        android:label="AccountFragment"
+        tools:layout="@layout/fragment_account"
+        />
 </navigation>

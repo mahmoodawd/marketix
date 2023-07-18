@@ -1,23 +1,21 @@
-package com.example.shopify.checkout.presentation
+package com.example.shopify.orders.presentation
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import com.example.shopify.databinding.FragmentCheckOutBinding
+import com.example.shopify.databinding.FragmentOrdersBinding
 
-class CheckOutFragment : Fragment() {
+class OrdersFragment : Fragment() {
 
-
-
-    private lateinit var binding: FragmentCheckOutBinding
-
+    lateinit var binding: FragmentOrdersBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentCheckOutBinding.inflate(layoutInflater)
+    ): View {
+        // Inflate the layout for this fragment
+        binding = FragmentOrdersBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -25,6 +23,4 @@ class CheckOutFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
     }
-
-
 }

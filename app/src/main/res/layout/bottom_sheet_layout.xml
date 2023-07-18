@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_back"
+    android:elevation="@dimen/_20sdp"
+    android:gravity=""
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="@dimen/_55sdp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|top"
+        android:scaleType="centerCrop"
+        android:src="@drawable/baseline_remove_24"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|top"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:text="@string/filters"
+        android:textColor="@color/md_theme_dark_shadow"
+        android:textSize="@dimen/_18sdp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:text="@string/categories"
+        android:textColor="@color/md_theme_dark_shadow"
+        android:textSize="@dimen/_16sdp" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:checkedButton="@id/menRb"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <RadioButton
+            android:id="@+id/menRb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_3sdp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_corner_gray"
+            android:padding="0dp"
+            android:text="@string/men"
+            android:textAppearance="@style/p4"
+            android:textColor="@color/text_grayed"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <RadioButton
+            android:id="@+id/womenRb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_3sdp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_corner_gray"
+            android:maxLines="1"
+            android:padding="0dp"
+            android:text="@string/women"
+            android:textAppearance="@style/p4"
+            android:textColor="@color/text_grayed"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <RadioButton
+            android:id="@+id/kidsRb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_3sdp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_corner_gray"
+            android:padding="0dp"
+            android:text="@string/kids"
+            android:textAppearance="@style/p4"
+            android:textColor="@color/text_grayed"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <RadioButton
+            android:id="@+id/saleRb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_3sdp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_corner_gray"
+            android:padding="0dp"
+            android:text="@string/sale"
+            android:textAppearance="@style/p4"
+            android:textColor="@color/text_grayed"
+            tools:ignore="TouchTargetSizeCheck" />
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:text="@string/price"
+        android:textColor="@color/md_theme_dark_shadow"
+        android:textSize="@dimen/_16sdp" />
+
+    <com.google.android.material.slider.RangeSlider
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:valueFrom="0"
+        android:valueTo="1000"
+        app:thumbColor="@color/md_theme_light_onPrimary"
+        app:thumbElevation="0dp"
+        app:thumbStrokeColor="@color/seed"
+        app:thumbStrokeWidth="@dimen/_2sdp"
+        app:trackColorActive="@color/seed"
+        app:values="@array/initial_slider_values"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <Button
+        android:id="@+id/applyBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/rounded_corner_blue"
+        android:text="@string/apply"
+        android:textAppearance="@style/p3"
+        android:textColor="@color/md_theme_light_onPrimary" />
+
+</LinearLayout>

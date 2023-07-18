@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
     id("dagger.hilt.android.plugin")
+    id("androidx.navigation.safeargs")
 }
 
 android {
@@ -60,9 +61,16 @@ dependencies {
     implementation(libs.androidx.navigation.navigation.fragment)
     implementation(libs.androidx.navigation.navigation.ui.kts)
     implementation(libs.androidx.core.core.splashscreen)
+    implementation(libs.hdodenhof.circleimageview)
+    implementation("com.google.android.gms:play-services-wallet:19.2.0")
+    implementation(libs.com.google.android.gms.play.services.pay)
+    implementation(libs.com.jakewharton.timber.timber)
+
     kapt(libs.androidx.room.compiler)
     kapt(libs.com.google.dagger.hilt.compiler)
     kapt(libs.androidx.hilt.hilt.compiler)
+
+
 
 
     //bundles
@@ -74,6 +82,7 @@ dependencies {
     implementation(libs.bundles.data.store)
     implementation(libs.bundles.room)
     implementation(libs.bundles.location.maps)
+
 
     //testing
     testImplementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.test)
