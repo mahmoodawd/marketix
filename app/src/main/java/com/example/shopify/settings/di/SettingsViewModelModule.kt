@@ -1,6 +1,5 @@
 package com.example.shopify.settings.di
 
-import com.example.shopify.data.datastore.DataStoreUserPreferences
 import com.example.shopify.settings.data.local.LocalDataSource
 import com.example.shopify.settings.data.local.LocalDataSourceImpl
 import com.example.shopify.settings.data.repository.SettingsRepositoryImpl
@@ -31,7 +30,6 @@ abstract class SettingsViewModelModule {
 
 
     companion object{
-
         @Provides
         @ViewModelScoped
         fun providesReadStringFromDataStoreUseCase(repository: SettingsRepository) : ReadStringFromDataStoreUseCase
