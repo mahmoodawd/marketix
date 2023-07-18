@@ -64,6 +64,8 @@ dependencies {
     implementation(libs.hdodenhof.circleimageview)
     implementation("com.google.android.gms:play-services-wallet:19.2.0")
     implementation(libs.com.google.android.gms.play.services.pay)
+    implementation(libs.com.jakewharton.timber.timber)
+
     kapt(libs.androidx.room.compiler)
     kapt(libs.com.google.dagger.hilt.compiler)
     kapt(libs.androidx.hilt.hilt.compiler)
