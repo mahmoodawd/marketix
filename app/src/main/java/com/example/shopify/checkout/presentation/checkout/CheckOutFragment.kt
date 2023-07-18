@@ -1,4 +1,4 @@
-package com.example.shopify.checkout.presentation
+package com.example.shopify.checkout.presentation.checkout
 
 import android.os.Bundle
 import android.view.LayoutInflater

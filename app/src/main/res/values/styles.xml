@@ -55,4 +55,31 @@
         <item name="android:textColor">@color/text_color</item>
     </style>
 
+
+
+
+    <style name="switchStyle" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="android:thumb">@drawable/white_circle</item>
+        <item name="track">@drawable/switch_disabled</item>
+        <item name="trackDecoration">@drawable/switch_disabled</item>
+        <item name="trackTint">@color/seed</item>
+        <item name="android:minHeight">?attr/minTouchTargetSize</item>
+    </style>
+
+
+    <style name="textInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="background">@android:color/transparent</item>
+    </style>
+
+
+    <style name="SpinnerTheme" parent="android:Widget.Material.Spinner.Underlined">
+        <item name="android:background">@drawable/rounded_corner_gray
+        </item>
+        <item name="android:popupBackground">@drawable/rounded_corner_gray
+        </item>
+
+        <item name="android:textAlignment">center</item>
+    </style>
 </resources>
