@@ -138,11 +138,12 @@
             android:id="@+id/notificationSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_15sdp"
             android:checked="true"
             app:layout_constraintBottom_toBottomOf="@+id/enablePushNotificationTextView"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/enablePushNotificationTextView"
-            app:switchMinWidth="@dimen/_100sdp"
-            tools:layout_editor_absoluteX="285dp" />
+            app:switchMinWidth="@dimen/_100sdp" />
 
 
         <TextView
@@ -161,9 +162,9 @@
             android:layout_height="wrap_content"
             android:checked="true"
             app:layout_constraintBottom_toBottomOf="@+id/locationTextView"
+            app:layout_constraintEnd_toEndOf="@+id/notificationSwitch"
             app:layout_constraintTop_toTopOf="@+id/locationTextView"
-            app:switchMinWidth="@dimen/_100sdp"
-            tools:layout_editor_absoluteX="285dp" />
+            app:switchMinWidth="@dimen/_100sdp" />
 
         <ImageView
             android:id="@+id/coinImageView"
@@ -181,8 +182,8 @@
             android:layout_height="wrap_content"
             android:text="@string/currency_info"
             app:layout_constraintBottom_toBottomOf="@+id/coinImageView"
-            app:layout_constraintTop_toTopOf="@+id/coinImageView"
-            tools:layout_editor_absoluteX="78dp" />
+            app:layout_constraintStart_toStartOf="@+id/addressTextView"
+            app:layout_constraintTop_toTopOf="@+id/coinImageView" />
 
 
         <TextView
@@ -205,8 +206,8 @@
             android:layout_height="@dimen/_35sdp"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="@+id/coinIconImageView"
-            app:layout_constraintTop_toTopOf="@+id/coinIconImageView"
-            tools:layout_editor_absoluteX="243dp" />
+            app:layout_constraintEnd_toEndOf="@+id/addressRightArrowImageView"
+            app:layout_constraintTop_toTopOf="@+id/coinIconImageView" />
 
 
         <ImageView
