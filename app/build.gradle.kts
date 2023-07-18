@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
     id("dagger.hilt.android.plugin")
+    id("com.google.gms.google-services")
     id("androidx.navigation.safeargs")
 }
 
@@ -12,13 +13,13 @@ android {
 
     defaultConfig {
         applicationId = libs.versions.applicationId.get()
-        minSdk =  libs.versions.minSDK.get().toInt()
-        targetSdk =  libs.versions.targetSDK.get().toInt()
-        versionCode =  libs.versions.codeVersion.get().toInt()
-        versionName =  libs.versions.compileSDK.get()
+        minSdk = libs.versions.minSDK.get().toInt()
+        targetSdk = libs.versions.targetSDK.get().toInt()
+        versionCode = libs.versions.codeVersion.get().toInt()
+        versionName = libs.versions.compileSDK.get()
 
-        resourceConfigurations.addAll(listOf("en","ar"))
-        testInstrumentationRunner  = "com.example.weatherpilot.HiltTestRunner"
+        resourceConfigurations.addAll(listOf("en", "ar"))
+        testInstrumentationRunner = "com.example.weatherpilot.HiltTestRunner"
     }
 
 
@@ -61,6 +62,8 @@ dependencies {
     implementation(libs.androidx.navigation.navigation.fragment)
     implementation(libs.androidx.navigation.navigation.ui.kts)
     implementation(libs.androidx.core.core.splashscreen)
+    implementation(libs.com.google.firebase.firebase.auth.ktx)
+    implementation(libs.com.google.android.gms.play.services.auth)
     implementation(libs.hdodenhof.circleimageview)
     implementation("com.google.android.gms:play-services-wallet:19.2.0")
     implementation("com.google.android.gms:play-services-pay:16.1.0")
