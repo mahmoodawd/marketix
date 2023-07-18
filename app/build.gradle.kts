@@ -4,6 +4,7 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
     id("dagger.hilt.android.plugin")
     id("com.google.gms.google-services")
+    id("androidx.navigation.safeargs")
 }
 
 android {
@@ -63,10 +64,14 @@ dependencies {
     implementation(libs.androidx.core.core.splashscreen)
     implementation(libs.com.google.firebase.firebase.auth.ktx)
     implementation(libs.com.google.android.gms.play.services.auth)
-
+    implementation(libs.hdodenhof.circleimageview)
+    implementation("com.google.android.gms:play-services-wallet:19.2.0")
+    implementation("com.google.android.gms:play-services-pay:16.1.0")
     kapt(libs.androidx.room.compiler)
     kapt(libs.com.google.dagger.hilt.compiler)
     kapt(libs.androidx.hilt.hilt.compiler)
+
+
 
 
     //bundles
@@ -78,6 +83,7 @@ dependencies {
     implementation(libs.bundles.data.store)
     implementation(libs.bundles.room)
     implementation(libs.bundles.location.maps)
+
 
     //testing
     testImplementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.test)
