@@ -10,6 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
 import com.example.shopify.databinding.BottomSheetLayoutBinding
 import com.example.shopify.databinding.FragmentHomeBinding
@@ -18,7 +20,7 @@ class HomeFragment : Fragment() {
 
 
     private lateinit var binding: FragmentHomeBinding
-
+    lateinit var navController: NavController
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,12 +32,16 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = findNavController()
         binding.filterImageButton.setOnClickListener {
             showBottomDialog()
         }
+        binding.cartImageButton.setOnClickListener {
+            navController.navigate(HomeFragmentDirections.actionHomeFragmentToCartFragment())
+        }
     }
 
-    private fun showBottomDialog(){
+    private fun showBottomDialog() {
         val bottomSheet = BottomSheetLayoutBinding.inflate(layoutInflater)
         val dialog = Dialog(requireContext())
         dialog.apply {
@@ -46,7 +52,10 @@ class HomeFragment : Fragment() {
                 dismiss()
             }
 
-            window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT)
+            window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             window?.attributes?.windowAnimations = R.style.DialogAnimation
             window?.setGravity(Gravity.BOTTOM)
