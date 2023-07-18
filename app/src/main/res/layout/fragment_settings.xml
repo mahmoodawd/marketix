@@ -217,16 +217,6 @@
             app:layout_constraintStart_toStartOf="@+id/paymentTextView"
             app:layout_constraintTop_toTopOf="@+id/coinImageView" />
 
-        <ImageView
-            android:id="@+id/coinRightArrowImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_15sdp"
-            android:src="@drawable/right_arrow"
-            app:layout_constraintBottom_toBottomOf="@+id/coinImageView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/coinImageView" />
-
 
         <TextView
             android:id="@+id/logoutTextView"
@@ -240,6 +230,28 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/locationTextView" />
 
+
+        <Spinner
+            android:id="@+id/currencySpinner"
+            style="@style/SpinnerTheme"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/coinIconImageView"
+            app:layout_constraintEnd_toEndOf="@+id/paymentRightArrowImageView"
+            app:layout_constraintTop_toTopOf="@+id/coinIconImageView" />
+
+
+        <ImageView
+            android:id="@+id/dropDownCitiesImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:elevation="5dp"
+            android:src="@drawable/down"
+            app:layout_constraintBottom_toBottomOf="@+id/currencySpinner"
+            app:layout_constraintEnd_toEndOf="@+id/currencySpinner"
+            app:layout_constraintTop_toTopOf="@+id/currencySpinner" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
