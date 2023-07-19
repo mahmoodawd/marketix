@@ -100,7 +100,6 @@
     <string name="profile">Profile</string>
     <string name="full_name">Full Name</string>
     <string name="your_full_name">your full name</string>
-    <string name="confirm">confirm</string>
     <string name="logout">logout</string>
     <string name="save_address">Save Address</string>
     <string name="country">country</string>
@@ -113,4 +112,10 @@
     <string name="size">Size</string>
     <string name="describe_your_experience">Describe Your Experience</string>
     <string name="your_rating">Your Rating</string>
+    <string name="orders">Orders</string>
+    <string name="created_at">Created at:</string>
+    <string name="order_price">Price:</string>
+    <string name="discount_code">discount code</string>
+    <string name="do_you_have_any_discount_code">do you have any discount code ?</string>
+    <string name="dismiss">dismiss</string>
 </resources>

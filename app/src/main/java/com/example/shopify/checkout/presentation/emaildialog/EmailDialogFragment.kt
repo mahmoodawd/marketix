@@ -1,4 +1,4 @@
-package com.example.shopify.checkout.presentation
+package com.example.shopify.checkout.presentation.emaildialog
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -17,7 +17,7 @@ class EmailDialogFragment : DialogFragment() {
     private lateinit var binding: FragmentEmailDialogBinding
 
 
-
+    override fun getTheme() = R.style.RoundedCornersDialog
 
 
 
@@ -37,6 +37,18 @@ class EmailDialogFragment : DialogFragment() {
             dismiss()
         }
 
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        setFullScreen()
+    }
+    private fun DialogFragment.setFullScreen() {
+        dialog?.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
     }
 
 }
