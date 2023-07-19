@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/Theme.Shopify"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/standard_bottom_sheet"
+        style="ThemeOverlay.Material3.BottomSheetDialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+            android:id="@+id/drag_handle"
+            style="@style/Widget.Material3.BottomSheet.DragHandle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/question_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/md_theme_light_onPrimary" />
+
+        <TextView
+            android:id="@+id/question_tv"
+            style="@style/p2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="16dp"
+            android:elevation="@dimen/_10sdp"
+            android:shadowColor="@color/md_theme_dark_outline"
+            android:shadowDx="1"
+            android:shadowDy="4"
+            android:shadowRadius="5"
+            android:text="@string/how_was_your_experience"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/review_card"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/drag_handle" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/review_card"
+            android:layout_width="@dimen/_300sdp"
+            android:layout_height="@dimen/_150sdp"
+            app:layout_constraintBottom_toTopOf="@+id/rating_question_tv"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/question_tv">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/user_comment_et"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_8sdp"
+                android:hint="@string/describe_your_experience"
+                tools:layout_editor_absoluteY="144dp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/rating_question_tv"
+            style="@style/p2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="16dp"
+            android:elevation="@dimen/_10sdp"
+            android:shadowColor="@color/md_theme_dark_outline"
+            android:shadowDx="1"
+            android:shadowDy="4"
+            android:shadowRadius="5"
+            android:text="@string/your_rating"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/slider"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/review_card" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/slider"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="wrap_content"
+            android:stepSize="0.5"
+            android:valueFrom="0.0"
+            android:valueTo="5.0"
+            app:layout_constraintBottom_toTopOf="@+id/save_button"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/rating_question_tv" />
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/submit_review"
+            android:layout_margin="@dimen/_16sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/slider" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.04" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
