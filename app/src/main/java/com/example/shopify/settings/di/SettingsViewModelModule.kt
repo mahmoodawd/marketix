@@ -7,8 +7,10 @@ import com.example.shopify.settings.data.remote.RemoteDataSourceImpl
 import com.example.shopify.settings.data.repository.SettingsRepositoryImpl
 import com.example.shopify.settings.domain.repository.SettingsRepository
 import com.example.shopify.settings.domain.usecase.GetAllCurrenciesUseCase
-import com.example.shopify.settings.domain.usecase.ReadStringFromDataStoreUseCase
-import com.example.shopify.settings.domain.usecase.SaveStringToDataStoreUseCase
+import com.example.shopify.settings.domain.usecase.dataStore.ReadBooleanDataStoreUseCase
+import com.example.shopify.settings.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
+import com.example.shopify.settings.domain.usecase.dataStore.SaveBooleanToDataStoreUseCase
+import com.example.shopify.settings.domain.usecase.dataStore.SaveStringToDataStoreUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -53,5 +55,19 @@ abstract class SettingsViewModelModule {
         @ViewModelScoped
         fun providesGetAllCurrenciesUseCase(repository: SettingsRepository) : GetAllCurrenciesUseCase
                 = GetAllCurrenciesUseCase(repository)
+
+
+        @Provides
+        @ViewModelScoped
+        fun providesSaveBooleanToDataStoreUseCase(repository: SettingsRepository) : SaveBooleanToDataStoreUseCase
+                = SaveBooleanToDataStoreUseCase(repository)
+
+        @Provides
+        @ViewModelScoped
+        fun providesReadBooleanFromDataStoreUseCase(repository: SettingsRepository) : ReadBooleanDataStoreUseCase
+        {
+            return ReadBooleanDataStoreUseCase(repository)
+        }
+
     }
 }

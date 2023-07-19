@@ -118,6 +118,12 @@
     <string name="discount_code">discount code</string>
     <string name="do_you_have_any_discount_code">do you have any discount code ?</string>
     <string name="dismiss">dismiss</string>
+    <string name="successfull_message">data saved successfully</string>
+    <string name="failed_message">something went wrong</string>
+    <string name="currency">currency</string>
+    <string name="notification">notification</string>
+    <string name="location">location</string>
+    <string name="locationservice">LocationService</string>
     <string name="favorites">Favorites</string>
     <string name="cartFragmentDeepLink">shopify://cartFragment</string>
 </resources>

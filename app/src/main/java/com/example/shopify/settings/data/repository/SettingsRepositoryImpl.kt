@@ -21,6 +21,14 @@ class SettingsRepositoryImpl @Inject constructor(private val remoteDataSource: R
         return localDataSource.getStringFromDataStore(key)
     }
 
+    override suspend fun <T> saveBooleanToDataStore(key: String, value: Boolean): Flow<Response<T>> {
+        return  localDataSource.saveBooleanToDataStore(key,value)
+    }
+
+    override suspend fun <T> getBooleanFromDataStore(key: String): Flow<Response<T>> {
+       return localDataSource.getBooleanFromDataStore(key)
+    }
+
     override suspend fun <T> getAllCurrencies(): Flow<Response<T>> {
         return remoteDataSource.getAllCurrencies()
     }
