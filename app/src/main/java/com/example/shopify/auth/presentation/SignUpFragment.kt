@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.example.shopify.R
 import com.example.shopify.auth.domain.entities.AuthState
 import com.example.shopify.databinding.FragmentSignUpBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +32,9 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.signUpBtn.setOnClickListener { signUp() }
-
+        binding.navToLoginTv.setOnClickListener {
+            findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
+        }
         listenToSignUpStatus()
     }
 

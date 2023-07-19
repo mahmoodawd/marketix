@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.example.shopify.R
 import com.example.shopify.auth.domain.entities.AuthState
 import com.example.shopify.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,6 +32,12 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.signInBtn.setOnClickListener { login() }
+        binding.navToRegisterTv.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
+        }
+        binding.forgetPasswordBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_passwordRecoveryFragment)
+        }
 
         listenToLoginStatus()
     }
