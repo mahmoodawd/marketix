@@ -38,7 +38,8 @@ class HomeFragment : Fragment() {
             showBottomDialog()
         }
         binding.cartImageButton.setOnClickListener {
-                navController.navigate(Uri.parse(getString(R.string.cartFragmentDeepLink)))
+            navController.setGraph(R.navigation.settings_graph)
+            navController.navigate(Uri.parse(getString(R.string.cartFragmentDeepLink)))
         }
     }
 
