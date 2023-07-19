@@ -1,6 +1,5 @@
 package com.example.shopify.settings.presenation.settings
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
@@ -143,7 +142,9 @@ class SettingsViewModel @Inject constructor(
                         _snackBarFlow.emit(R.string.failed_message)
                     }
                     is Response.Loading -> _state.update { it.copy(loading = true) }
-                    is Response.Success -> {}
+                    is Response.Success -> {
+
+                    }
                 }
             }
         }

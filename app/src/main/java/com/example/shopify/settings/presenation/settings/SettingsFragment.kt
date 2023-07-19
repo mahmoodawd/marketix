@@ -17,6 +17,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.databinding.FragmentSettingsBinding
 import com.example.shopify.settings.domain.model.CurrencyModel
+import com.example.shopify.utils.snackBarObserver
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -65,7 +66,7 @@ class SettingsFragment : Fragment() {
 
 
         stateObserver()
-        snackBarObserver()
+        snackBarObserver(viewModel.snackBarFlow,binding.root)
         
         
 
@@ -107,18 +108,7 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun snackBarObserver() {
-        lifecycleScope.launch {
-                viewModel.snackBarFlow.collectLatest { resourceId ->
-                    Snackbar.make(binding.root, getString(resourceId), Snackbar.LENGTH_LONG)
-                        .setActionTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-                        .setBackgroundTint(
-                            ContextCompat.getColor(requireContext(), R.color.background_dark)
-                        )
-                        .show()
-                }
-        }
-    }
+
 
 
     private fun spinnerSetup(arraySpinner: List<CurrencyModel>?,selectedItem : String) {

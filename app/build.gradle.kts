@@ -47,6 +47,8 @@ android {
             it.buildConfigField("String","API_TOKEN","\"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\"")
             it.buildConfigField("String","API_SECRET","\"4c9701e1037c46aebb8e81bc4b1c26ee\"")
             it.buildConfigField("String","API_BASE","\"https://itp-sv-and5.myshopify.com/admin/api/2023-07/\"")
+            it.buildConfigField("String","COUNTRIES_API","\"https://countriesnow.space/api/v0.1/\"")
+
         }
     }
     compileOptions {

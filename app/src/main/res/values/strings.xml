@@ -126,4 +126,5 @@
     <string name="locationservice">LocationService</string>
     <string name="favorites">Favorites</string>
     <string name="cartFragmentDeepLink">shopify://cartFragment</string>
+    <string name="city">city</string>
 </resources>

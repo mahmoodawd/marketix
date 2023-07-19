@@ -20,4 +20,7 @@ interface SettingsRepository {
 
     suspend fun <T> getAllCurrencies() : Flow<Response<T>>
 
+
+    suspend fun <T> getAllCities() :  Flow<Response<T>>
+
 }

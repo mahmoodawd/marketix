@@ -32,18 +32,31 @@
     </fragment>
     <fragment
         android:id="@+id/addressFragment"
-        android:name="com.example.shopify.settings.presenation.address.location.AddressFragment"
+        android:name="com.example.shopify.settings.presenation.address.map.AddressFragment"
         android:label="AddressFragment"
         tools:layout="@layout/fragment_address"
-        />
+        >
+        <action
+            android:id="@+id/action_addressFragment_to_writeAddressFragment"
+            app:destination="@id/writeAddressFragment" />
+    </fragment>
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.example.shopify.settings.presenation.account.AccountFragment"
         android:label="AccountFragment"
         tools:layout="@layout/fragment_account"
         />
-
-
+    <fragment
+        android:id="@+id/writeAddressFragment"
+        android:name="com.example.shopify.settings.presenation.address.write.WriteAddressFragment"
+        android:label="WriteAddressFragment" >
+        <argument
+            android:name="country"
+            app:argType="string" />
+        <argument
+            android:name="city"
+            app:argType="string" />
+    </fragment>
 
 
 </navigation>

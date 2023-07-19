@@ -13,4 +13,6 @@ interface LocalDataSource {
     suspend fun <T> getBooleanFromDataStore(key : String) : Flow<Response<T>>
 
     suspend fun <T> getStringFromDataStore(key : String) : Flow<Response<T>>
+
+
 }

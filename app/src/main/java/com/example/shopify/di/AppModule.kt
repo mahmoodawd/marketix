@@ -9,6 +9,7 @@ import com.example.shopify.data.datastore.DataStoreUserPreferencesImpl
 import com.google.firebase.auth.FirebaseAuth
 import com.example.shopify.data.remote.AuthorizationInterceptor
 import com.example.shopify.data.remote.RemoteInterface
+import com.example.shopify.settings.data.remote.RemoteCountriesInterface
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -60,13 +61,24 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesRetrofitApi(okHttpClient: OkHttpClient): RemoteInterface
+    fun providesShopifyRetrofitApi(okHttpClient: OkHttpClient): RemoteInterface
             = Retrofit.Builder()
         .baseUrl(BuildConfig.API_BASE)
         .client(okHttpClient)
         .addConverterFactory(
             GsonConverterFactory.create()).build()
         .create(RemoteInterface::class.java)
+
+
+    @Singleton
+    @Provides
+    fun providesCountriesRetrofitApi(okHttpClient: OkHttpClient): RemoteCountriesInterface
+            = Retrofit.Builder()
+        .baseUrl(BuildConfig.COUNTRIES_API)
+        .client(okHttpClient)
+        .addConverterFactory(
+            GsonConverterFactory.create()).build()
+        .create(RemoteCountriesInterface::class.java)
 
 
 }
