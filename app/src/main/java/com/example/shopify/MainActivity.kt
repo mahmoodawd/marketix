@@ -3,6 +3,7 @@ package com.example.shopify
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -38,7 +39,24 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
         currentFragmentObserver()
         bottomNavigationSelector()
+        backPressedHandler()
 
+    }
+
+
+    private fun backPressedHandler() {
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                  if (navController.currentDestination!!.id != R.id.homeFragment)
+                  {
+                      navController.setGraph(R.navigation.home_graph)
+                  }else{
+                        moveTaskToBack(true)
+                  }
+                }
+            })
     }
 
 
@@ -87,4 +105,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+
 }
