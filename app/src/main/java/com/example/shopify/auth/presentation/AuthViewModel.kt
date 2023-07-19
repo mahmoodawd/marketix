@@ -14,7 +14,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthViewModel @Inject constructor(private val authenticationUseCase: AuthenticationUseCase) :
+class AuthViewModel @Inject constructor(
+    private val authenticationUseCase: AuthenticationUseCase
+    ) :
     ViewModel() {
     private val _loginStateFlow = MutableStateFlow<AuthState<FirebaseUser>?>(null)
     val loginStateFlow = _loginStateFlow.asStateFlow()
