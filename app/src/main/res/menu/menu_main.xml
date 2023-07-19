@@ -7,11 +7,11 @@
         android:title="@string/favorites"
         android:icon="@drawable/heart" />
     <item
+        android:id="@+id/settingsFragment"
+        android:title="@string/action_settings"
+        android:icon="@drawable/settings_icon" />
+    <item
         android:id="@+id/action_profile"
         android:title="@string/profile"
         android:icon="@drawable/user" />
-    <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:icon="@drawable/settings_icon" />
 </menu>
