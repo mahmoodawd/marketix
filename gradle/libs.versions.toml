@@ -41,6 +41,7 @@ firebase = "22.1.0"
 auth = "20.6.0"
 googlePay = "16.1.0"
 androidGradlePlugin = "8.0.2"
+firebaseUI = "7.2.0"
 timber="5.0.1"
 
 
@@ -81,7 +82,7 @@ com-google-android-gms-play-services-auth = { group = "com.google.android.gms", 
 hdodenhof-circleimageview = {group = "de.hdodenhof",name = "circleimageview",version.ref="circleImageView"}
 com-google-android-gms-play-services-pay ={group = "com.google.android.gms" , name = "play-services-pay",version.ref = "googlePay"}
 com-jakewharton-timber-timber = {group ="com.jakewharton.timber", name = "timber", version.ref="timber"}
-
+com-firebaseui-firebase-ui-auth = {group = "com.firebaseui",name = "firebase-ui-auth",version.ref="firebaseUI"}
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext = { group = "androidx.test.ext", name = "junit", version.ref = "androidxTestExt" }
