@@ -16,7 +16,11 @@ class AuthRepoImpl @Inject constructor(private val firebaseAuth: FirebaseAuth) :
     override suspend fun login(email: String, password: String): AuthState<FirebaseUser> {
         return try {
             val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()
-            AuthState.Success(result.user!!)
+            if (result.user?.isEmailVerified!!) {
+                AuthState.Success(result.user!!)
+            } else {
+                AuthState.UnVerified
+            }
         } catch (e: Exception) {
             AuthState.Failure(e)
         }
@@ -32,7 +36,17 @@ class AuthRepoImpl @Inject constructor(private val firebaseAuth: FirebaseAuth) :
             result?.user?.updateProfile(
                 UserProfileChangeRequest.Builder().setDisplayName(name).build()
             )?.await()
-            AuthState.Success(result.user!!)
+            result.user?.sendEmailVerification()?.await()
+            AuthState.EmailSent
+        } catch (e: Exception) {
+            AuthState.Failure(e)
+        }
+    }
+
+    override suspend fun resetPassword(email: String): AuthState<FirebaseUser> {
+        return try {
+            firebaseAuth.sendPasswordResetEmail(email).await()
+            AuthState.EmailSent
         } catch (e: Exception) {
             AuthState.Failure(e)
         }

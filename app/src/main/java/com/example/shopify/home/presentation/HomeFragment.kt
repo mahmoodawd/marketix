@@ -10,18 +10,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopify.R
 import com.example.shopify.databinding.BottomSheetLayoutBinding
 import com.example.shopify.databinding.FragmentHomeBinding
+import com.example.shopify.home.domain.model.BrandModel
+import com.example.shopify.utils.connectivity.ConnectivityObserver
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
-class HomeFragment : Fragment() {
+@AndroidEntryPoint
+class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fragment() {
 
 
     private lateinit var binding: FragmentHomeBinding
-    lateinit var navController: NavController
+    private lateinit var navController: NavController
+    private val viewModel: HomeViewModel by viewModels()
+    private lateinit var brandsAdapter: BrandsAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,6 +54,12 @@ class HomeFragment : Fragment() {
             navController.setGraph(R.navigation.settings_graph)
             navController.navigate(Uri.parse(getString(R.string.cartFragmentDeepLink)))
         }
+        brandsAdapter = BrandsAdapter(requireContext()) {
+            getProductsByBrand(it)
+        }
+        setBrandsRecycler()
+        checkConnection()
+        stateObserve()
     }
 
     private fun showBottomDialog() {
@@ -65,4 +84,44 @@ class HomeFragment : Fragment() {
         }.show()
     }
 
+    private fun checkConnection() {
+        lifecycleScope.launch {
+            connectivityObserver.observe().collectLatest {
+                when (it) {
+                    ConnectivityObserver.Status.Available -> {
+                        viewModel.getAllBrands()
+                    }
+
+                    else -> {
+                        Toast.makeText(requireContext(), "No Connection", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun stateObserve() {
+        lifecycleScope.launch {
+            viewModel.homeState.collectLatest {
+                if (it.brands.isNotEmpty()) {
+                    Timber.e(it.brands.toString())
+                    brandsAdapter.submitList(it.brands)
+                }
+            }
+        }
+
+    }
+
+    private fun getProductsByBrand(brandModel: BrandModel) {
+        Toast.makeText(requireContext(), brandModel.title, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun setBrandsRecycler() {
+        val brandsLayoutManager = LinearLayoutManager(requireContext())
+        brandsLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        binding.brandRv.apply {
+            adapter = brandsAdapter
+            layoutManager = brandsLayoutManager
+        }
+    }
 }
