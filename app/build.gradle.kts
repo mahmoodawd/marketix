@@ -40,6 +40,14 @@ android {
                 "proguard-rules.pro"
             )
         }
+
+
+        forEach {
+            it.buildConfigField("String","API_KEY","\"1a63fd6a655de75849051be17b899886\"")
+            it.buildConfigField("String","API_TOKEN","\"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\"")
+            it.buildConfigField("String","API_SECRET","\"4c9701e1037c46aebb8e81bc4b1c26ee\"")
+            it.buildConfigField("String","API_BASE","\"https://itp-sv-and3.myshopify.com/\"")
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -50,6 +58,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -62,8 +71,11 @@ dependencies {
     implementation(libs.androidx.navigation.navigation.ui.kts)
     implementation(libs.androidx.core.core.splashscreen)
     implementation(libs.hdodenhof.circleimageview)
+    implementation ("com.jakewharton.timber:timber:5.0.1")
     implementation("com.google.android.gms:play-services-wallet:19.2.0")
     implementation(libs.com.google.android.gms.play.services.pay)
+    implementation(libs.com.jakewharton.timber.timber)
+
     kapt(libs.androidx.room.compiler)
     kapt(libs.com.google.dagger.hilt.compiler)
     kapt(libs.androidx.hilt.hilt.compiler)

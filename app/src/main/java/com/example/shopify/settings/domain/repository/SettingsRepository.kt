@@ -10,4 +10,7 @@ interface SettingsRepository {
 
     suspend fun <T> getStringFromDataStore(key : String) : Flow<Response<T>>
 
+
+    suspend fun <T> getAllCurrencies() : Flow<Response<T>>
+
 }

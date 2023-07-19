@@ -112,38 +112,6 @@
             app:layout_constraintTop_toTopOf="@+id/addressIconImageView" />
 
 
-        <ImageView
-            android:id="@+id/paymentIconImageView"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_25sdp"
-            android:src="@drawable/payment"
-            app:layout_constraintStart_toStartOf="@+id/accountIconImageView"
-            app:layout_constraintTop_toBottomOf="@+id/addressIconImageView" />
-
-
-        <TextView
-            android:id="@+id/paymentTextView"
-            style="@style/p2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_25sdp"
-            android:text="@string/payment_info"
-            app:layout_constraintBottom_toBottomOf="@+id/paymentIconImageView"
-            app:layout_constraintStart_toEndOf="@+id/paymentIconImageView"
-            app:layout_constraintTop_toTopOf="@+id/paymentIconImageView" />
-
-        <ImageView
-            android:id="@+id/paymentRightArrowImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_15sdp"
-            android:src="@drawable/right_arrow"
-            app:layout_constraintBottom_toBottomOf="@+id/paymentIconImageView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/paymentIconImageView" />
-
-
         <TextView
             android:id="@+id/appSettingsTextView"
             style="@style/p1"
@@ -170,12 +138,12 @@
             android:id="@+id/notificationSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:switchMinWidth="@dimen/_100sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
             android:checked="true"
             app:layout_constraintBottom_toBottomOf="@+id/enablePushNotificationTextView"
-            app:layout_constraintEnd_toEndOf="@+id/paymentRightArrowImageView"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/enablePushNotificationTextView"
-            />
+            app:switchMinWidth="@dimen/_100sdp" />
 
 
         <TextView
@@ -194,9 +162,9 @@
             android:layout_height="wrap_content"
             android:checked="true"
             app:layout_constraintBottom_toBottomOf="@+id/locationTextView"
-            app:layout_constraintEnd_toEndOf="@+id/paymentRightArrowImageView"
+            app:layout_constraintEnd_toEndOf="@+id/notificationSwitch"
             app:layout_constraintTop_toTopOf="@+id/locationTextView"
-            app:switchMinWidth="@dimen/_100sdp"/>
+            app:switchMinWidth="@dimen/_100sdp" />
 
         <ImageView
             android:id="@+id/coinImageView"
@@ -204,8 +172,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_25sdp"
             android:src="@drawable/money"
-            app:layout_constraintStart_toStartOf="@+id/paymentIconImageView"
-            app:layout_constraintTop_toBottomOf="@+id/paymentIconImageView" />
+            app:layout_constraintStart_toStartOf="@+id/addressIconImageView"
+            app:layout_constraintTop_toBottomOf="@+id/addressIconImageView" />
 
         <TextView
             android:id="@+id/coinIconImageView"
@@ -214,17 +182,7 @@
             android:layout_height="wrap_content"
             android:text="@string/currency_info"
             app:layout_constraintBottom_toBottomOf="@+id/coinImageView"
-            app:layout_constraintStart_toStartOf="@+id/paymentTextView"
-            app:layout_constraintTop_toTopOf="@+id/coinImageView" />
-
-        <ImageView
-            android:id="@+id/coinRightArrowImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_15sdp"
-            android:src="@drawable/right_arrow"
-            app:layout_constraintBottom_toBottomOf="@+id/coinImageView"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/addressTextView"
             app:layout_constraintTop_toTopOf="@+id/coinImageView" />
 
 
@@ -240,6 +198,28 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/locationTextView" />
 
+
+        <Spinner
+            android:id="@+id/currencySpinner"
+            style="@style/SpinnerTheme"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/coinIconImageView"
+            app:layout_constraintEnd_toEndOf="@+id/addressRightArrowImageView"
+            app:layout_constraintTop_toTopOf="@+id/coinIconImageView" />
+
+
+        <ImageView
+            android:id="@+id/dropDownCitiesImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:elevation="5dp"
+            android:src="@drawable/down"
+            app:layout_constraintBottom_toBottomOf="@+id/currencySpinner"
+            app:layout_constraintEnd_toEndOf="@+id/currencySpinner"
+            app:layout_constraintTop_toTopOf="@+id/currencySpinner" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
