@@ -7,7 +7,7 @@ import com.example.shopify.utils.connectivity.NetworkConnectivityObserver
 import com.example.shopify.data.datastore.DataStoreUserPreferences
 import com.example.shopify.data.datastore.DataStoreUserPreferencesImpl
 import com.example.shopify.data.remote.AuthorizationInterceptor
-import com.example.shopify.data.remote.remoteInterface
+import com.example.shopify.data.remote.RemoteInterface
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,12 +55,12 @@ object AppModule
 
     @Singleton
     @Provides
-    fun providesRetrofitApi(okHttpClient: OkHttpClient): remoteInterface
+    fun providesRetrofitApi(okHttpClient: OkHttpClient): RemoteInterface
             = Retrofit.Builder()
         .baseUrl(BuildConfig.API_BASE)
         .client(okHttpClient)
         .addConverterFactory(
             GsonConverterFactory.create()).build()
-        .create(remoteInterface::class.java)
+        .create(RemoteInterface::class.java)
 
 }

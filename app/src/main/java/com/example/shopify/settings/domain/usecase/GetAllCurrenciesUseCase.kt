@@ -5,11 +5,10 @@ import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class ReadStringFromDataStoreUseCase @Inject constructor(private val repository : SettingsRepository) {
+class GetAllCurrenciesUseCase @Inject constructor(private val settingsRepository: SettingsRepository) {
 
-    suspend fun  <T> execute(key : String) : Flow<Response<T>>
+    suspend fun  <T> execute() : Flow<Response<T>>
     {
-            return repository.getStringFromDataStore(key)
+        return  settingsRepository.getAllCurrencies<T>()
     }
-
 }

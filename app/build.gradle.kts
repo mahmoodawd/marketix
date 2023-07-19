@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.androidx.navigation.navigation.ui.kts)
     implementation(libs.androidx.core.core.splashscreen)
     implementation(libs.hdodenhof.circleimageview)
+    implementation ("com.jakewharton.timber:timber:5.0.1")
     implementation("com.google.android.gms:play-services-wallet:19.2.0")
     implementation("com.google.android.gms:play-services-pay:16.1.0")
     kapt(libs.androidx.room.compiler)
