@@ -3,8 +3,8 @@ package com.example.shopify.settings.presenation.address.location
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shopify.settings.domain.usecase.ReadStringFromDataStoreUseCase
-import com.example.shopify.settings.domain.usecase.SaveStringToDataStoreUseCase
+import com.example.shopify.settings.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
+import com.example.shopify.settings.domain.usecase.dataStore.SaveStringToDataStoreUseCase
 import com.example.shopify.utils.hiltanotations.Dispatcher
 import com.example.shopify.utils.hiltanotations.Dispatchers
 import com.example.shopify.utils.response.Response
@@ -48,8 +48,6 @@ class AddressViewModel  @Inject constructor(
         {
             if (!_state.value.latitude.isNullOrEmpty() && !_state.value.longitude.isNullOrEmpty()) {
                 with(_state.value) {
-                    Log.d("latLong",longitude.toString())
-                    Log.d("latLong",latitude.toString())
                     saveStringToDataStoreUseCase.execute("latitude", latitude.toString())
                     saveStringToDataStoreUseCase.execute("longitude", longitude.toString())
                 }

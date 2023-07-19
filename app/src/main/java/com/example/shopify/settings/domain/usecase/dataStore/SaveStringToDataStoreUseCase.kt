@@ -1,4 +1,4 @@
-package com.example.shopify.settings.domain.usecase
+package com.example.shopify.settings.domain.usecase.dataStore
 
 import com.example.shopify.settings.domain.repository.SettingsRepository
 import com.example.shopify.utils.response.Response
