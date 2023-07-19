@@ -7,4 +7,6 @@ import dagger.hilt.android.components.FragmentComponent
 @Module
 @InstallIn(FragmentComponent::class)
 object HomeFragmentModule {
+
+    
 }

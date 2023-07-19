@@ -76,6 +76,7 @@ dependencies {
     implementation(libs.com.google.android.gms.play.services.pay)
     implementation(libs.com.jakewharton.timber.timber)
     implementation(libs.com.google.firebase.firebase.auth.ktx)
+    implementation(libs.com.github.bumtech.glide.glide)
     kapt(libs.androidx.room.compiler)
     kapt(libs.com.google.dagger.hilt.compiler)
     kapt(libs.androidx.hilt.hilt.compiler)
