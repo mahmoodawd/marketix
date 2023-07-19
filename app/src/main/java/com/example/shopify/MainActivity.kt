@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                       navController.setGraph(R.navigation.home_graph)
                   }else{
                         moveTaskToBack(true)
-                  }
+                    }
                 }
             })
     }
@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.cartFragment -> {
+                    navController.setGraph(R.navigation.settings_graph)
                     navController.navigate(getString(R.string.cartFragmentDeepLink).toUri())
                 }
 
@@ -95,7 +96,6 @@ class MainActivity : AppCompatActivity() {
                     , R.id.settingsFragment, R.id.cartFragment -> {
                     binding.bottomNavigation.visibility = View.VISIBLE
                 }
-
                 else -> {
                     binding.bottomNavigation.visibility = View.GONE
                 }
