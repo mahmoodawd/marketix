@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.shopify.auth.presentation.LoginFragment"
+        android:name="com.example.shopify.auth.presentation.login.LoginFragment"
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_passwordRecoveryFragment"
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.example.shopify.auth.presentation.SignUpFragment"
+        android:name="com.example.shopify.auth.presentation.signup.SignUpFragment"
         android:label="SignUpFragment" >
         <action
             android:id="@+id/action_signUpFragment_to_loginFragment"
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/passwordRecoveryFragment"
-        android:name="com.example.shopify.auth.presentation.PasswordRecoveryFragment"
+        android:name="com.example.shopify.auth.presentation.password_recovery.PasswordRecoveryFragment"
         android:label="PasswordRecoveryFragment" >
         <action
             android:id="@+id/action_passwordRecoveryFragment_to_loginFragment"

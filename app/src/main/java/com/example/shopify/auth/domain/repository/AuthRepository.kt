@@ -8,5 +8,6 @@ interface AuthRepository {
     suspend fun login(email: String, password: String): AuthState<FirebaseUser>
     suspend fun signup(name: String, email: String, password: String): AuthState<FirebaseUser>
     fun logout()
+    suspend fun resetPassword(email: String): AuthState<FirebaseUser>
 
 }

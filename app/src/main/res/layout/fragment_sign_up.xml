@@ -11,10 +11,10 @@
         android:layout_height="wrap_content"
         android:background="#f8f9fa"
         android:isScrollContainer="true"
-        tools:context=".auth.presentation.SignUpFragment">
+        tools:context=".auth.presentation.signup.SignUpFragment">
 
         <ProgressBar
-            android:id="@+id/progressBar"
+            android:id="@+id/signUpProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="@dimen/_50sdp"
