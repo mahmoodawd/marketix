@@ -4,7 +4,7 @@ import com.example.shopify.auth.data.repository.AuthRepoImpl
 import com.example.shopify.auth.domain.repository.AuthRepository
 import com.example.shopify.auth.domain.usecases.AuthenticationUseCase
 import com.example.shopify.auth.domain.usecases.LogOutUseCase
-import com.example.shopify.auth.domain.usecases.SignInUseCase
+import com.example.shopify.auth.domain.usecases.LogInUseCase
 import com.example.shopify.auth.domain.usecases.SignUpUseCase
 import dagger.Binds
 import dagger.Module
@@ -25,15 +25,34 @@ abstract class AuthViewModelModule {
 
         @Provides
         @ViewModelScoped
-        fun provideAuthenticationUseCase(authRepoImpl: AuthRepoImpl): AuthenticationUseCase {
+        fun provideLogInUseCase(authRepoImpl: AuthRepoImpl): LogInUseCase =
+            LogInUseCase(authRepoImpl)
 
-            return AuthenticationUseCase(
-                signInUseCase = SignInUseCase(authRepoImpl),
-                signUpUseCase = SignUpUseCase(authRepoImpl),
-                logOutUseCase = LogOutUseCase(authRepoImpl),
-                currentUser = authRepoImpl.currentUser
-            )
-        }
+        @Provides
+        @ViewModelScoped
+        fun provideSignUpUseCase(authRepoImpl: AuthRepoImpl): SignUpUseCase =
+            SignUpUseCase(authRepoImpl)
+
+        @Provides
+        @ViewModelScoped
+        fun provideLogOutUseCase(authRepoImpl: AuthRepoImpl): LogOutUseCase =
+            LogOutUseCase(authRepoImpl)
+
     }
 
+    /* companion object {
+
+         @Provides
+         @ViewModelScoped
+         fun provideAuthenticationUseCase(authRepoImpl: AuthRepoImpl): AuthenticationUseCase {
+
+             return AuthenticationUseCase(
+                 signInUseCase = LogInUseCase(authRepoImpl),
+                 signUpUseCase = SignUpUseCase(authRepoImpl),
+                 logOutUseCase = LogOutUseCase(authRepoImpl),
+                 currentUser = authRepoImpl.currentUser
+             )
+         }
+     }
+ */
 }
