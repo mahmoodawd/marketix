@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/_205sdp"
+    android:layout_margin="@dimen/_16sdp"
+    android:layout_marginStart="0dp"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="0dp"
+        android:layout_margin="@dimen/_8sdp">
+
+
+        <CheckBox
+            android:id="@+id/fav_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:button="@drawable/sl_favourites"
+            android:checked="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/itemImageView"
+            android:layout_width="@dimen/_125sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/shoes" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="16dp"
+            android:text="Best Seller"
+            android:textColor="@color/md_theme_light_primary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/itemImageView" />
+
+        <TextView
+            android:id="@+id/item_name_tv"
+            style="@style/p2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="16dp"
+            android:elevation="@dimen/_10sdp"
+            android:shadowColor="@color/md_theme_dark_outline"
+            android:shadowDx="1"
+            android:shadowDy="4"
+            android:shadowRadius="5"
+            android:text="Nike Club Max"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+        <TextView
+            android:id="@+id/item_price_tv"
+            style="@style/p2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="16dp"
+            android:elevation="@dimen/_10sdp"
+            android:shadowColor="@color/md_theme_dark_outline"
+            android:shadowDx="1"
+            android:shadowDy="4"
+            android:shadowRadius="5"
+            android:text="$64.95"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_name_tv" />
+
+        <ImageButton
+            android:id="@+id/imageButton10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/colored_dot"
+            app:layout_constraintBottom_toBottomOf="@+id/item_price_tv"
+            app:layout_constraintEnd_toStartOf="@+id/imageButton11"
+            app:layout_constraintTop_toTopOf="@+id/item_price_tv"
+            app:tint="@color/md_theme_light_primary" />
+
+        <ImageButton
+            android:id="@+id/imageButton11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_16sdp"
+
+            android:background="@android:color/transparent"
+            android:src="@drawable/colored_dot"
+            app:layout_constraintBottom_toBottomOf="@+id/imageButton10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/md_theme_light_onSurfaceVariant" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
+
+

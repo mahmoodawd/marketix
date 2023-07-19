@@ -1,28 +1,22 @@
-package com.example.shopify
+package com.example.shopify.orders.presentation
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.shopify.databinding.FragmentFirstBinding
-import com.example.shopify.utils.connectivity.ConnectivityObserver
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.shopify.databinding.FragmentOrdersBinding
 
-@AndroidEntryPoint
-class FirstFragment() : Fragment() {
+class OrdersFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
-    private val binding get() = _binding!!
-
+    lateinit var binding: FragmentOrdersBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+    ): View {
+        // Inflate the layout for this fragment
+        binding = FragmentOrdersBinding.inflate(layoutInflater)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
