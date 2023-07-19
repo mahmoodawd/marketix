@@ -112,4 +112,11 @@
     <string name="size">Size</string>
     <string name="describe_your_experience">Describe Your Experience</string>
     <string name="your_rating">Your Rating</string>
+    <string name="orders">Orders</string>
+    <string name="created_at">Created at:</string>
+    <string name="order_price">Price:</string>
+    <string name="discount_code">discount code</string>
+    <string name="do_you_have_any_discount_code">do you have any discount code ?</string>
+    <string name="dismiss">dismiss</string>
+    <string name="favorites">Favorites</string>
 </resources>
