@@ -1,6 +1,5 @@
 package com.example.shopify.data.datastore
 
-import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
 
 interface DataStoreUserPreferences {

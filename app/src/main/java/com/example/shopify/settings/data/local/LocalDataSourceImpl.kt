@@ -1,8 +1,6 @@
 package com.example.shopify.settings.data.local
 
-import android.util.Log
 import com.example.shopify.data.datastore.DataStoreUserPreferences
-import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject

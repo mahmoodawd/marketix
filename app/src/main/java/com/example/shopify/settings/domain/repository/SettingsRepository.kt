@@ -1,6 +1,5 @@
 package com.example.shopify.settings.domain.repository
 
-import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
 
 interface SettingsRepository {
@@ -9,5 +8,8 @@ interface SettingsRepository {
 
 
     suspend fun <T> getStringFromDataStore(key : String) : Flow<Response<T>>
+
+
+    suspend fun <T> getAllCurrencies() : Flow<Response<T>>
 
 }
