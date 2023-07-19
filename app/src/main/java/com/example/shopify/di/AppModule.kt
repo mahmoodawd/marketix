@@ -6,6 +6,7 @@ import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.example.shopify.utils.connectivity.NetworkConnectivityObserver
 import com.example.shopify.data.datastore.DataStoreUserPreferences
 import com.example.shopify.data.datastore.DataStoreUserPreferencesImpl
+import com.google.firebase.auth.FirebaseAuth
 import com.example.shopify.data.remote.AuthorizationInterceptor
 import com.example.shopify.data.remote.RemoteInterface
 import dagger.Module
@@ -20,13 +21,12 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule
-{
+object AppModule {
 
     @Singleton
     @Provides
-    fun providesConnectivityObserver(@ApplicationContext context: Context) : ConnectivityObserver
-    = NetworkConnectivityObserver(context = context)
+    fun providesConnectivityObserver(@ApplicationContext context: Context): ConnectivityObserver =
+        NetworkConnectivityObserver(context = context)
 
 
     @Provides
@@ -34,8 +34,13 @@ object AppModule
     fun provideUserDataStorePreferences(
         @ApplicationContext applicationContext: Context
     ): DataStoreUserPreferences {
-        return  DataStoreUserPreferencesImpl(applicationContext)
+        return DataStoreUserPreferencesImpl(applicationContext)
     }
+
+    @Singleton
+    @Provides
+    fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
+
 
     @Singleton
     @Provides
@@ -62,5 +67,6 @@ object AppModule
         .addConverterFactory(
             GsonConverterFactory.create()).build()
         .create(RemoteInterface::class.java)
+
 
 }

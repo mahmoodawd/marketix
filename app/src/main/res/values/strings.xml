@@ -55,7 +55,6 @@
     <string name="address">Address</string>
     <string name="payment_method">Payment Method</string>
     <string name="payment">Payment</string>
-    <string name="confirm">confirm</string>
     <string name="looking_for_products">Looking for products</string>
     <string name="filters">Filters</string>
     <string name="categories">Categories</string>
@@ -100,6 +99,7 @@
     <string name="profile">Profile</string>
     <string name="full_name">Full Name</string>
     <string name="your_full_name">your full name</string>
+    <string name="confirm">confirm</string>
     <string name="logout">logout</string>
     <string name="save_address">Save Address</string>
     <string name="country">country</string>
@@ -124,4 +124,6 @@
     <string name="notification">notification</string>
     <string name="location">location</string>
     <string name="locationservice">LocationService</string>
+    <string name="favorites">Favorites</string>
+    <string name="cartFragmentDeepLink">shopify://cartFragment</string>
 </resources>

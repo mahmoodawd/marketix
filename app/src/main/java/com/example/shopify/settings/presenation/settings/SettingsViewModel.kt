@@ -151,12 +151,9 @@ class SettingsViewModel @Inject constructor(
 
 
     init {
-
         onEvent(SettingsIntent.GetCurrencies)
         readBooleanPrefFromDataStore("notification")
         readBooleanPrefFromDataStore("LocationService")
         readStringPrefFromDataStore("currency")
-
-
     }
 }

@@ -2,7 +2,6 @@ package com.example.shopify.settings.presenation.address.location
 
 sealed interface AddressIntent {
 
-
     object MapLoaded : AddressIntent
 
     object SaveLastLocation : AddressIntent
