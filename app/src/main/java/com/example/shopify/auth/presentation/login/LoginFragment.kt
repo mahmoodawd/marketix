@@ -14,15 +14,17 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
 import com.example.shopify.auth.domain.entities.AuthState
-import com.example.shopify.auth.presentation.googleauth.GoogleAuthClient
 import com.example.shopify.auth.presentation.getValue
 import com.example.shopify.databinding.FragmentLoginBinding
-import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -32,12 +34,6 @@ class LoginFragment : Fragment() {
 
     private val viewModel: LoginViewModel by viewModels()
 
-    private val googleAuthClient by lazy {
-        GoogleAuthClient(
-            requireActivity().applicationContext,
-            Identity.getSignInClient(requireActivity().applicationContext)
-        )
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -54,16 +50,7 @@ class LoginFragment : Fragment() {
         binding.signInBtn.setOnClickListener { login() }
 
         binding.googleBtnView.googleBtn.setOnClickListener {
-            /*lifecycleScope.launch {
-                val signInIntentSender = googleAuthClient.signIn()
-                val intent = IntentSenderRequest.Builder(
-                    signInIntentSender ?: return@launch
-                ).build()
-                authResultLauncher.launch(
-                    intent
-                )
-            }*/
-            Timber.tag("TAG").i("onGoogleButtonClicked: ")
+            signInWithGoogle()
         }
 
         binding.navToRegisterBtn.setOnClickListener {
@@ -78,23 +65,50 @@ class LoginFragment : Fragment() {
 
         listenToLoginStatus()
 
-        listenToGoogleSignInStatus()
 
     }
+
 
     private val authResultLauncher =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
             if (result.resultCode == RESULT_OK) {
-                lifecycleScope.launch {
-                    val signInResult = googleAuthClient.signInUsingIntent(
-                        result.data ?: return@launch
-                    )
-                    viewModel.onSignInResult(signInResult)
+
+                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                try {
+                    val account = task.getResult(ApiException::class.java)
+                    setCurrentUser(account.idToken)
+                } catch (e: ApiException) {
+                    e.printStackTrace()
                 }
+
             }
         }
+
+    private fun setCurrentUser(idToken: String?) {
+        val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
+        lifecycleScope.launch {
+
+            FirebaseAuth.getInstance().signInWithCredential(firebaseCredential)
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        navController.setGraph(R.navigation.home_graph)
+                    }
+                }
+
+        }
+    }
+
+
+    private fun signInWithGoogle() {
+        val googleSignInOptions = GoogleSignInOptions.Builder()
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        val client = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
+        authResultLauncher.launch(client.signInIntent)
+    }
 
     private fun login() {
         val email = binding.emailField.emailEt.getValue()
@@ -110,7 +124,7 @@ class LoginFragment : Fragment() {
 
                 when (it) {
                     is AuthState.Success -> {
-//                        navController.setGraph(R.navigation.home_graph)
+                        navController.setGraph(R.navigation.home_graph)
                         Toast.makeText(
                             requireContext(),
                             it.result.displayName,
@@ -120,37 +134,6 @@ class LoginFragment : Fragment() {
 
                     is AuthState.UnVerified -> {
                         showDialog()
-                    }
-
-                    is AuthState.Failure -> {
-                        Toast.makeText(
-                            requireContext(),
-                            it.exception.localizedMessage,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
-                    else -> Unit
-
-                }
-            }
-        }
-    }
-
-    private fun listenToGoogleSignInStatus() {
-        lifecycleScope.launch {
-            viewModel.googleSignInState.collectLatest {
-                binding.loginProgressBar.visibility =
-                    if (it == AuthState.Loading) View.VISIBLE else View.GONE
-
-                when (it) {
-                    is AuthState.Success -> {
-                        navController.setGraph(R.navigation.home_graph)
-                        Toast.makeText(
-                            requireContext(),
-                            it.result.userName,
-                            Toast.LENGTH_SHORT
-                        ).show()
                     }
 
                     is AuthState.Failure -> {
