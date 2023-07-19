@@ -5,6 +5,7 @@ import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.example.shopify.utils.connectivity.NetworkConnectivityObserver
 import com.example.shopify.data.datastore.DataStoreUserPreferences
 import com.example.shopify.data.datastore.DataStoreUserPreferencesImpl
+import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,13 +15,12 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule
-{
+object AppModule {
 
     @Singleton
     @Provides
-    fun providesConnectivityObserver(@ApplicationContext context: Context) : ConnectivityObserver
-    = NetworkConnectivityObserver(context = context)
+    fun providesConnectivityObserver(@ApplicationContext context: Context): ConnectivityObserver =
+        NetworkConnectivityObserver(context = context)
 
 
     @Provides
@@ -28,7 +28,11 @@ object AppModule
     fun provideUserDataStorePreferences(
         @ApplicationContext applicationContext: Context
     ): DataStoreUserPreferences {
-        return  DataStoreUserPreferencesImpl(applicationContext)
+        return DataStoreUserPreferencesImpl(applicationContext)
     }
+
+    @Singleton
+    @Provides
+    fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 
 }
