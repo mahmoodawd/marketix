@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.example.shopify.R
 import com.example.shopify.databinding.FragmentCheckOutBinding
 
 class CheckOutFragment : Fragment() {

@@ -30,7 +30,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-
         }
 
         val release by getting {
@@ -75,7 +74,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-wallet:19.2.0")
     implementation(libs.com.google.android.gms.play.services.pay)
     implementation(libs.com.jakewharton.timber.timber)
-
+    implementation(libs.com.google.firebase.firebase.auth.ktx)
     kapt(libs.androidx.room.compiler)
     kapt(libs.com.google.dagger.hilt.compiler)
     kapt(libs.androidx.hilt.hilt.compiler)
