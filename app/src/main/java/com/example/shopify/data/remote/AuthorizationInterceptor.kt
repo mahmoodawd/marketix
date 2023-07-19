@@ -19,6 +19,8 @@ class AuthorizationInterceptor @Inject constructor(): Interceptor {
 
         val request = chain.request()
             .newBuilder()
+            .addHeader("Accept", "application/json")
+            .addHeader("X-Shopify-Access-Token", BuildConfig.API_TOKEN)
             .header("Authorization", credentials)
             .url(url)
             .build()

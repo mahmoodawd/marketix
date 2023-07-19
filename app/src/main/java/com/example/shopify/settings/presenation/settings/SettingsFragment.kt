@@ -40,7 +40,5 @@ class SettingsFragment : Fragment() {
             navController.navigate(SettingsFragmentDirections.actionSettingsFragmentToAccountFragment())
         }
 
-        viewModel.getAllCurrencies()
-
     }
 }

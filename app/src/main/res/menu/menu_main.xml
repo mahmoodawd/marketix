@@ -7,7 +7,7 @@
         android:title="@string/favorites"
         android:icon="@drawable/heart" />
     <item
-        android:id="@+id/settingsFragment"
+        android:id="@+id/settings_graph"
         android:title="@string/action_settings"
         android:icon="@drawable/settings_icon" />
     <item
