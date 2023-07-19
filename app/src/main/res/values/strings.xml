@@ -53,6 +53,7 @@
     <string name="email">Email</string>
     <string name="phone">Phone</string>
     <string name="address">Address</string>
+    <string name="addressType">address</string>
     <string name="payment_method">Payment Method</string>
     <string name="payment">Payment</string>
     <string name="looking_for_products">Looking for products</string>
@@ -126,5 +127,6 @@
     <string name="locationservice">LocationService</string>
     <string name="favorites">Favorites</string>
     <string name="cartFragmentDeepLink">shopify://cartFragment</string>
-    <string name="city">city</string>
+    <string name="cityType">city</string>
+    <string name="addresses">Addresses</string>
 </resources>

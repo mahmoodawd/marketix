@@ -1,25 +1,20 @@
 package com.example.shopify.utils
 
-import android.content.Context
-import android.view.View
-import androidx.core.content.ContextCompat
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 
- fun Fragment.snackBarObserver(snackBarFlow : SharedFlow<Int>,root : View) {
+fun Fragment.snackBarObserver(snackBarFlow : SharedFlow<Int>) {
     lifecycleScope.launch {
-        snackBarFlow.collectLatest { resourceId ->
-            Snackbar.make(root, getString(resourceId), Snackbar.LENGTH_LONG)
-                .setActionTextColor(ContextCompat.getColor(requireContext(), android.R.color.white))
-                .setBackgroundTint(
-                    ContextCompat.getColor(requireContext(), android.R.color.background_dark)
-                )
-                .show()
+        snackBarFlow.shareIn(lifecycleScope, SharingStarted.Eagerly,0).collectLatest { resourceId ->
+            delay(500)
+            Toast.makeText(requireContext(), getString(resourceId), Toast.LENGTH_SHORT).show()
         }
     }
 }
