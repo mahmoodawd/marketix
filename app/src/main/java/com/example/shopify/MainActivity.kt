@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.cartFragment -> {
+                    navController.setGraph(R.navigation.settings_graph)
                     navController.navigate(getString(R.string.cartFragmentDeepLink).toUri())
                 }
 
