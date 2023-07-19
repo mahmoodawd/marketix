@@ -40,9 +40,10 @@ object AppModule {
     @Singleton
     @Provides
     fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
-    
-    
 
+
+    @Singleton
+    @Provides
     fun providesAuthorizationInterceptor()  = AuthorizationInterceptor()
 
     @Singleton

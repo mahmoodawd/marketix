@@ -42,7 +42,6 @@ class SettingsViewModel @Inject constructor(
 
 
     init {
-
         getAllCurrencies()
     }
 }

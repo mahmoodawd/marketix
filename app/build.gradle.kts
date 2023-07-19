@@ -30,7 +30,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-
         }
 
         val release by getting {
@@ -43,10 +42,10 @@ android {
 
 
         forEach {
-            it.buildConfigField("String","API_KEY","\"1a63fd6a655de75849051be17b899886\"")
+            it.buildConfigField("String","API_KEY","\"6aaa8200ce048ed2bee45a85dc8ce851\"")
             it.buildConfigField("String","API_TOKEN","\"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\"")
             it.buildConfigField("String","API_SECRET","\"4c9701e1037c46aebb8e81bc4b1c26ee\"")
-            it.buildConfigField("String","API_BASE","\"https://itp-sv-and3.myshopify.com/\"")
+            it.buildConfigField("String","API_BASE","\"https://itp-sv-and5.myshopify.com/admin/api/2023-07/\"")
         }
     }
     compileOptions {
@@ -75,7 +74,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-wallet:19.2.0")
     implementation(libs.com.google.android.gms.play.services.pay)
     implementation(libs.com.jakewharton.timber.timber)
-
+    implementation(libs.com.google.firebase.firebase.auth.ktx)
     kapt(libs.androidx.room.compiler)
     kapt(libs.com.google.dagger.hilt.compiler)
     kapt(libs.androidx.hilt.hilt.compiler)

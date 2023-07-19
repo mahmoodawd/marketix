@@ -4,8 +4,9 @@ import com.example.shopify.BuildConfig
 import okhttp3.Credentials
 import okhttp3.Interceptor
 import okhttp3.Response
+import javax.inject.Inject
 
-class AuthorizationInterceptor : Interceptor {
+class AuthorizationInterceptor @Inject constructor(): Interceptor {
 
 
     val credentials = Credentials.basic(BuildConfig.API_KEY, BuildConfig.API_SECRET)
@@ -18,6 +19,8 @@ class AuthorizationInterceptor : Interceptor {
 
         val request = chain.request()
             .newBuilder()
+            .addHeader("Accept", "application/json")
+            .addHeader("X-Shopify-Access-Token", BuildConfig.API_TOKEN)
             .header("Authorization", credentials)
             .url(url)
             .build()
