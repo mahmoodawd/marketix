@@ -18,7 +18,7 @@ interface RemoteInterface {
     suspend fun getAllBrands():BrandsResponse
 
     @GET("products.json")
-    suspend fun getAllProducts(@Query("vendor") vendor: String):ProductsResponse
+    suspend fun getAllProducts(@Query("vendor") vendor: String,@Query("id") id: Long):ProductsResponse
 
     @GET("collections/{collection_id}/products.json")
     suspend fun getCategoryProducts(@Path("collection_id") collectionId: Long): ProductsResponse

@@ -72,11 +72,35 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
     private fun showBottomDialog() {
         val bottomSheet = BottomSheetLayoutBinding.inflate(layoutInflater)
         val dialog = Dialog(requireContext())
+        var selectedCategory: Long = 0
         dialog.apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setContentView(bottomSheet.root)
 
+            bottomSheet.categoryRg.setOnCheckedChangeListener { _, checkedId ->
+                when (checkedId) {
+                    R.id.menRb -> {
+                        selectedCategory = bottomSheet.menRb.tag.toString().toLong()
+                    }
+
+                    R.id.womenRb -> {
+                        selectedCategory = bottomSheet.womenRb.tag.toString().toLong()
+                    }
+
+                    R.id.kidsRb -> {
+                        selectedCategory = bottomSheet.kidsRb.tag.toString().toLong()
+                    }
+
+                    R.id.saleRb -> {
+                        selectedCategory = bottomSheet.saleRb.tag.toString().toLong()
+                    }
+                }
+            }
+
             bottomSheet.applyBtn.setOnClickListener {
+                if (selectedCategory != 0L){
+                    viewModel.getProductsByCategory(selectedCategory)
+                }
                 dismiss()
             }
 
@@ -117,7 +141,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
                 }
                 if (it.products.isNotEmpty()) {
                     productsAdapter.submitList(it.products)
-                }else{
+                } else {
                     productsAdapter.submitList(listOf())
                 }
             }
@@ -146,7 +170,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
     }
 
     private fun setProductsRecycler() {
-        val productsLayoutManager = GridLayoutManager(requireContext(),2)
+        val productsLayoutManager = GridLayoutManager(requireContext(), 2)
         productsLayoutManager.orientation = GridLayoutManager.VERTICAL
         binding.productsRv.apply {
             adapter = productsAdapter

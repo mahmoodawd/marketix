@@ -8,10 +8,20 @@ import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 class ProductsApiClient @Inject constructor(private val remoteInterface: RemoteInterface): ProductRemoteSource {
-    override suspend fun <T> getAllProducts(brand: String): Flow<Response<T>> {
+    override suspend fun <T> getAllProducts(brand: String, id: Long): Flow<Response<T>> {
         return flowOf(
             try {
-                Response.Success(remoteInterface.getAllProducts(brand).toProductsModel() as T)
+                Response.Success(remoteInterface.getAllProducts(brand, id).toProductsModel() as T)
+            } catch (e: Exception) {
+                Response.Failure(e.message ?: "UnKnown")
+            }
+        )
+    }
+
+    override suspend fun <T> getProductsByCategory(category: Long): Flow<Response<T>> {
+        return flowOf(
+            try {
+                Response.Success(remoteInterface.getCategoryProducts(category).toProductsModel() as T)
             } catch (e: Exception) {
                 Response.Failure(e.message ?: "UnKnown")
             }

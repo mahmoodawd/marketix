@@ -5,5 +5,5 @@ data class OptionModel(
     val name: String,
     val position: Int,
     val productId: Long,
-    val values: List<String>
+    val values: List<String>?
 )

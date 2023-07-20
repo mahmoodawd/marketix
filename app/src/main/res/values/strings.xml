@@ -130,4 +130,8 @@
     <string name="cityType">city</string>
     <string name="addresses">Addresses</string>
     <string name="new_password">new password</string>
+    <string name="kids_category">451868557591</string>
+    <string name="men_category">451868492055</string>
+    <string name="women_category">451868524823</string>
+    <string name="sale_category">451868590359</string>
 </resources>

@@ -15,7 +15,10 @@ class HomeRepositoryImp @Inject constructor(
     override suspend fun <T> getAllBrands(): Flow<Response<T>> =
         brandsRemoteSource.getAllBrands()
 
-    override suspend fun <T> getAllProducts(brand: String): Flow<Response<T>> =
-        productRemoteSource.getAllProducts(brand)
+    override suspend fun <T> getAllProducts(brand: String,id : Long): Flow<Response<T>> =
+        productRemoteSource.getAllProducts(brand, id)
+
+    override suspend fun <T> getProductsByCategory(category: Long): Flow<Response<T>> =
+        productRemoteSource.getProductsByCategory(category)
 
 }

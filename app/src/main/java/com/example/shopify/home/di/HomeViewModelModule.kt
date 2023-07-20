@@ -8,6 +8,8 @@ import com.example.shopify.home.data.repository.HomeRepositoryImp
 import com.example.shopify.home.domain.repository.HomeRepository
 import com.example.shopify.home.domain.usecase.GetAllBrandsUseCase
 import com.example.shopify.home.domain.usecase.GetAllProductsUseCase
+import com.example.shopify.home.domain.usecase.GetProductByIdUseCase
+import com.example.shopify.home.domain.usecase.GetProductsByCategoryUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -41,5 +43,15 @@ abstract class HomeViewModelModule {
         @ViewModelScoped
         fun provideGetAllProductsUseCase(repository: HomeRepository): GetAllProductsUseCase =
             GetAllProductsUseCase(repository)
+
+        @Provides
+        @ViewModelScoped
+        fun provideGetProductsByCategoryUseCase(repository: HomeRepository): GetProductsByCategoryUseCase =
+            GetProductsByCategoryUseCase(repository)
+
+        @Provides
+        @ViewModelScoped
+        fun provideGetProductByIdUseCase(repository: HomeRepository): GetProductByIdUseCase =
+            GetProductByIdUseCase(repository)
     }
 }

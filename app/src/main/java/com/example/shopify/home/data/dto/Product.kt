@@ -17,6 +17,6 @@ data class Product(
     val template_suffix: Any,
     val title: String,
     val updated_at: String,
-    val variants: List<Variant>,
+    val variants: List<Variant>?,
     val vendor: String
 )

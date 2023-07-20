@@ -1,12 +1,10 @@
 package com.example.shopify.home.data.mappers
 
-import com.example.shopify.home.data.dto.BrandsResponse
 import com.example.shopify.home.data.dto.ImageX
 import com.example.shopify.home.data.dto.Option
 import com.example.shopify.home.data.dto.Product
 import com.example.shopify.home.data.dto.ProductsResponse
 import com.example.shopify.home.data.dto.Variant
-import com.example.shopify.home.domain.model.BrandsModel
 import com.example.shopify.home.domain.model.ImageModel
 import com.example.shopify.home.domain.model.OptionModel
 import com.example.shopify.home.domain.model.ProductModel
@@ -24,7 +22,7 @@ fun Product.toProductModel(): ProductModel =
         status = this.status,
         tags = this.tags,
         title = this.title,
-        variants = this.variants.toVariantListModel(),
+        variants = this.variants?.toVariantListModel(),
         vendor = this.vendor
     )
 
