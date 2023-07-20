@@ -5,4 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface HomeRepository {
     suspend fun <T> getAllBrands(): Flow<Response<T>>
+    suspend fun <T> getAllProducts(): Flow<Response<T>>
 }

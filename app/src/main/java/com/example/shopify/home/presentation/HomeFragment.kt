@@ -16,13 +16,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopify.R
 import com.example.shopify.databinding.BottomSheetLayoutBinding
 import com.example.shopify.databinding.FragmentHomeBinding
 import com.example.shopify.home.domain.model.BrandModel
+import com.example.shopify.home.domain.model.ProductModel
 import com.example.shopify.utils.connectivity.ConnectivityObserver
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -35,6 +38,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
     private lateinit var navController: NavController
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var brandsAdapter: BrandsAdapter
+    private lateinit var productsAdapter: ProductsAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,6 +61,10 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
         brandsAdapter = BrandsAdapter(requireContext()) {
             getProductsByBrand(it)
         }
+        productsAdapter = ProductsAdapter(requireContext()) {
+            goToProductsInfo(it)
+        }
+        setProductsRecycler()
         setBrandsRecycler()
         checkConnection()
         stateObserve()
@@ -89,6 +97,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
             connectivityObserver.observe().collectLatest {
                 when (it) {
                     ConnectivityObserver.Status.Available -> {
+                        viewModel.getAllProducts()
                         viewModel.getAllBrands()
                     }
 
@@ -103,9 +112,12 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
     private fun stateObserve() {
         lifecycleScope.launch {
             viewModel.homeState.collectLatest {
+
                 if (it.brands.isNotEmpty()) {
-                    Timber.e(it.brands.toString())
                     brandsAdapter.submitList(it.brands)
+                }
+                if (it.products.isNotEmpty()) {
+                    productsAdapter.submitList(it.products)
                 }
             }
         }
@@ -116,6 +128,10 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
         Toast.makeText(requireContext(), brandModel.title, Toast.LENGTH_SHORT).show()
     }
 
+    private fun goToProductsInfo(product: ProductModel) {
+        Toast.makeText(requireContext(), product.title, Toast.LENGTH_SHORT).show()
+    }
+
     private fun setBrandsRecycler() {
         val brandsLayoutManager = LinearLayoutManager(requireContext())
         brandsLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
@@ -124,4 +140,14 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
             layoutManager = brandsLayoutManager
         }
     }
+
+    private fun setProductsRecycler() {
+        val productsLayoutManager = GridLayoutManager(requireContext(),2)
+        productsLayoutManager.orientation = GridLayoutManager.VERTICAL
+        binding.productsRv.apply {
+            adapter = productsAdapter
+            layoutManager = productsLayoutManager
+        }
+    }
+
 }
