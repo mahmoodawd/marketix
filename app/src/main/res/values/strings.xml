@@ -129,4 +129,5 @@
     <string name="cartFragmentDeepLink">shopify://cartFragment</string>
     <string name="cityType">city</string>
     <string name="addresses">Addresses</string>
+    <string name="new_password">new password</string>
 </resources>
