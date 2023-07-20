@@ -71,7 +71,7 @@ class AddressFragment(private val englishGeoCoder: Geocoder) : Fragment() {
             }
 
         }
-        snackBarObserver(viewModel.snackBarFlow,binding.root)
+        snackBarObserver(viewModel.snackBarFlow)
     }
 
 

@@ -43,8 +43,8 @@ class WriteAddressViewModel  @Inject constructor(
     fun onEvent(intent: WriteAddressIntent){
         when(intent)
         {
-           is  WriteAddressIntent.SaveAddress -> {
-                  saveStringToDataStore(intent.key,_state.value.selectedCity+" "+_state.value.address)
+           is  WriteAddressIntent.SavePref -> {
+                  saveStringToDataStore(intent.key,_state.value.address)
             }
 
             is WriteAddressIntent.NewSelectedCity -> _state.update { it.copy(selectedCity = intent.city) }
@@ -93,7 +93,7 @@ class WriteAddressViewModel  @Inject constructor(
     }
 
 
-    private fun readStringFromFromDataStore(key: String) {
+    private fun readStringFromFromDataStore(key: String,event : (String) -> Unit) {
         viewModelScope.launch(ioDispatcher) {
             readStringFromDataStoreUseCase.execute<String>(key = key).collectLatest { response ->
                 when (response) {
@@ -101,10 +101,7 @@ class WriteAddressViewModel  @Inject constructor(
                         _snackBarFlow.emit(R.string.failed_message)
                     }
                     is Response.Loading -> _state.update { it.copy(loading = true) }
-                    is Response.Success -> _state.update {
-                        it.copy(address = response.data?.split(" ")?.get(1) ?: "", selectedCity = response.data?.split(" ")
-                            ?.get(0) ?: "")
-                    }
+                    is Response.Success -> event(response.data?:"")
                 }
             }
         }
@@ -114,7 +111,17 @@ class WriteAddressViewModel  @Inject constructor(
 
     init {
         getAllCities()
-        readStringFromFromDataStore("address")
+        readStringFromFromDataStore("address"){ address->
+            _state.update {
+                it.copy(address = address)
+            }
+        }
+
+        readStringFromFromDataStore("city"){ city ->
+            _state.update {
+                it.copy(selectedCity = city)
+            }
+        }
     }
 
 }

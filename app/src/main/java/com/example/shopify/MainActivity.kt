@@ -38,55 +38,11 @@ class MainActivity : AppCompatActivity() {
         navController = Navigation.findNavController(this, R.id.navHostFragment)
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
         currentFragmentObserver()
-        bottomNavigationSelector()
-        backPressedHandler()
 
     }
 
 
-    private fun backPressedHandler() {
-        onBackPressedDispatcher.addCallback(
-            this,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                  if (navController.currentDestination!!.id != R.id.homeFragment)
-                  {
-                      navController.setGraph(R.navigation.home_graph)
-                  }else{
-                        moveTaskToBack(true)
-                    }
-                }
-            })
-    }
 
-
-    private fun bottomNavigationSelector() {
-
-
-        binding.bottomNavigation.setOnItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-
-                R.id.home_graph -> {
-                    navController.setGraph(R.navigation.home_graph)
-                }
-
-                R.id.favorites_graph -> {
-                    navController.setGraph(R.navigation.fav_nav_graph)
-                }
-
-                R.id.settings_graph -> {
-                    navController.setGraph(R.navigation.settings_graph)
-                }
-
-                R.id.cartFragment -> {
-                    navController.setGraph(R.navigation.settings_graph)
-                    navController.navigate(getString(R.string.cartFragmentDeepLink).toUri())
-                }
-
-            }
-            return@setOnItemSelectedListener true
-        }
-    }
 
 
     private fun currentFragmentObserver() {

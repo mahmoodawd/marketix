@@ -8,17 +8,6 @@
 
 
     <fragment
-        android:id="@+id/cartFragment"
-        android:name="com.example.shopify.cart.presentation.CartFragment"
-        android:label="fragment_cart"
-        tools:layout="@layout/fragment_cart">
-
-
-        <deepLink app:uri="shopify://cartFragment" />
-
-    </fragment>
-
-    <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.shopify.settings.presenation.settings.SettingsFragment"
         android:label="fragment_settings"

@@ -68,6 +68,7 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_50sdp"
             android:background="@drawable/rounded_corner_blue"
             android:elevation="@dimen/_20sdp"
             android:text="@string/save_address"
@@ -106,7 +107,8 @@
             android:id="@+id/addressTextInputLayout"
             android:layout_width="0dp"
             android:layout_height="@dimen/_45sdp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:layout_marginBottom="@dimen/_150sdp"
             app:boxBackgroundColor="@color/gray"
             app:boxCornerRadiusBottomEnd="@dimen/_15sdp"
             app:boxCornerRadiusBottomStart="@dimen/_15sdp"
@@ -121,7 +123,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="@string/address" />
         </com.google.android.material.textfield.TextInputLayout>
 

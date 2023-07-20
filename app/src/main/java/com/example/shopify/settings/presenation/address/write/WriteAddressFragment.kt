@@ -1,14 +1,12 @@
 package com.example.shopify.settings.presenation.address.write
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -16,11 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
-import com.example.shopify.databinding.FragmentPaymentBinding
 import com.example.shopify.databinding.FragmentWriteAddressBinding
-import com.example.shopify.settings.domain.model.CurrencyModel
-import com.example.shopify.settings.presenation.settings.SettingsIntent
-import com.example.shopify.settings.presenation.settings.SettingsViewModel
 import com.example.shopify.utils.snackBarObserver
 import com.example.shopify.utils.ui.changeFlow
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,7 +48,7 @@ class WriteAddressFragment : Fragment() {
         navController = findNavController()
         stateObserver()
         changeAddressListener()
-        snackBarObserver(viewModel.snackBarFlow, binding.root)
+        snackBarObserver(viewModel.snackBarFlow)
         binding.citiesSpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
@@ -73,7 +67,8 @@ class WriteAddressFragment : Fragment() {
             }
 
         binding.saveAddress.setOnClickListener {
-            viewModel.onEvent(WriteAddressIntent.SaveAddress("address"))
+            viewModel.onEvent(WriteAddressIntent.SavePref(getString(R.string.addressType)))
+            viewModel.onEvent(WriteAddressIntent.SavePref(getString(R.string.cityType)))
         }
 
 

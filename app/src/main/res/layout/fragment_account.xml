@@ -146,13 +146,49 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
-                android:hint="@string/password"
+                android:hint="@string/new_password"
                 android:inputType="textPassword"
                 style="@style/p2"
                 android:textStyle="normal"
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
+
+        <TextView
+            android:id="@+id/phoneTitleTextView"
+            style="@style/title_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:text="@string/phone"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/backImageView"
+            app:layout_constraintTop_toBottomOf="@+id/passwordTextInputLayout" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/phoneTextInputLayout"
+            style="textInputLayout"
+            app:hintEnabled="false"
+            app:boxBackgroundMode="none"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/phoneTitleTextView"
+            app:layout_constraintTop_toBottomOf="@+id/phoneTitleTextView">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:hint="@string/phone"
+                android:inputType="phone"
+                style="@style/p2"
+                android:textStyle="normal"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
         <androidx.appcompat.widget.AppCompatButton

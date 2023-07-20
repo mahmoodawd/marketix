@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -18,7 +17,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.shopify.databinding.FragmentSettingsBinding
 import com.example.shopify.settings.domain.model.CurrencyModel
 import com.example.shopify.utils.snackBarObserver
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -66,7 +64,7 @@ class SettingsFragment : Fragment() {
 
 
         stateObserver()
-        snackBarObserver(viewModel.snackBarFlow,binding.root)
+
         
         
 
@@ -116,6 +114,6 @@ class SettingsFragment : Fragment() {
             R.layout.simple_spinner_item, arraySpinner!!.map { it.currency })
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
         binding.currencySpinner.adapter = adapter
-        binding.currencySpinner.setSelection(arraySpinner.indexOfFirst { it.currency == selectedItem })
+        binding.currencySpinner.setSelection(arraySpinner.indexOfFirst { it.currency == selectedItem }.coerceAtLeast(0))
     }
 }
