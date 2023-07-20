@@ -48,6 +48,8 @@ android {
             it.buildConfigField("String","API_SECRET","\"4c9701e1037c46aebb8e81bc4b1c26ee\"")
             it.buildConfigField("String","API_BASE","\"https://itp-sv-and5.myshopify.com/admin/api/2023-07/\"")
             it.buildConfigField("String","COUNTRIES_API","\"https://countriesnow.space/api/v0.1/\"")
+            it.buildConfigField("String","EXCHANGE_API","\"https://api.apilayer.com/exchangerates_data/convert\"")
+            it.buildConfigField("String","EXCHANGE_TOKEN","\"fbnsZOKUdbSKjI3VMe2GTWqoVrQR0Lue\"")
 
         }
     }
