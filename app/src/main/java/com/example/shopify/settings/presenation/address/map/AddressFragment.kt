@@ -24,6 +24,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -97,7 +98,17 @@ class AddressFragment(private val englishGeoCoder: Geocoder) : Fragment() {
 
             googleMap.setOnMapLongClickListener { latLong ->
 
-                newMapLocationIsSelected(latLong, googleMap)
+                val egyptBounds = LatLngBounds(
+                    LatLng(22.00, 29.00),
+                    LatLng(31.50, 32.00)
+                )
+                if(egyptBounds.contains(latLong))
+                {
+                    newMapLocationIsSelected(latLong, googleMap)
+                }else{
+                    Toast.makeText(requireContext(), getString(R.string.please_select_place_in_egypt), Toast.LENGTH_SHORT).show()
+                }
+
 
             }
 

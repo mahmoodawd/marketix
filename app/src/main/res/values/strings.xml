@@ -152,4 +152,5 @@ Is between 8 and 30 characters long</string>
     <string name="please_choose_your_address_location">please choose your address location</string>
     <string name="please_insert_all_required_fields">please insert all required fields</string>
     <string name="newaddressType">newAddress</string>
+    <string name="please_select_place_in_egypt">please select place in egypt</string>
 </resources>
