@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
 import com.example.shopify.auth.domain.entities.AuthState
@@ -110,7 +112,7 @@ class LoginFragment : Fragment() {
 
                 when (it) {
                     is AuthState.Success -> {
-//                        navController.setGraph(R.navigation.home_graph)
+                       navController.navigate(getString(R.string.homeFragmentDeepLink).toUri())
                         Toast.makeText(
                             requireContext(),
                             it.result.displayName,

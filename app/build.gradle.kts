@@ -41,7 +41,6 @@ android {
             )
         }
 
-
         forEach {
             it.buildConfigField("String","API_KEY","\"6aaa8200ce048ed2bee45a85dc8ce851\"")
             it.buildConfigField("String","API_TOKEN","\"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\"")
@@ -50,7 +49,6 @@ android {
             it.buildConfigField("String","COUNTRIES_API","\"https://countriesnow.space/api/v0.1/\"")
             it.buildConfigField("String","EXCHANGE_API","\"https://api.apilayer.com/exchangerates_data/convert\"")
             it.buildConfigField("String","EXCHANGE_TOKEN","\"fbnsZOKUdbSKjI3VMe2GTWqoVrQR0Lue\"")
-
         }
     }
     compileOptions {
@@ -83,10 +81,12 @@ dependencies {
     implementation(libs.com.github.bumtech.glide.glide)
     implementation(libs.com.google.android.gms.play.services.auth)
     implementation(libs.com.firebaseui.firebase.ui.auth)
+    implementation(libs.com.google.firebase.firebase.firestore.kts)
+    implementation("com.google.firebase:firebase-storage-ktx:20.2.1")
     kapt(libs.androidx.room.compiler)
     kapt(libs.com.google.dagger.hilt.compiler)
     kapt(libs.androidx.hilt.hilt.compiler)
-
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.2")
 
 
 
@@ -103,6 +103,7 @@ dependencies {
 
     //testing
     testImplementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.test)
+
     testImplementation(libs.org.robolectric.robolectric)
     testImplementation(libs.bundles.hamcrest)
     testImplementation(libs.junit)

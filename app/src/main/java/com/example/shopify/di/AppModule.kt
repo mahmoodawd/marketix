@@ -10,6 +10,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.example.shopify.data.remote.AuthorizationInterceptor
 import com.example.shopify.data.remote.RemoteInterface
 import com.example.shopify.settings.data.remote.RemoteCountriesInterface
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,6 +46,15 @@ object AppModule {
     @Singleton
     @Provides
     fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
+
+    @Singleton
+    @Provides
+    fun provideFirebaseStorage() : FirebaseStorage  = FirebaseStorage.getInstance()
+
+
+    @Singleton
+    @Provides
+    fun provideFirebaseFireStore() : FirebaseFirestore  = FirebaseFirestore.getInstance()
 
 
     @Singleton

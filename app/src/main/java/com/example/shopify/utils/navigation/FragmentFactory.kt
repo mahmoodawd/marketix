@@ -8,12 +8,17 @@ import com.example.shopify.settings.presenation.account.AccountFragment
 import com.example.shopify.settings.presenation.address.map.AddressFragment
 import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import javax.inject.Inject
 
 class FragmentFactory  @Inject constructor(
     private val connectivityObserver: ConnectivityObserver,
     private val englishGeoCoder: Geocoder,
-    private val firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuth,
+    private val firebaseStorage: FirebaseStorage,
+    private val firebaseFirestore: FirebaseFirestore
+
     ): FragmentFactory() {
 
     override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
@@ -23,11 +28,6 @@ class FragmentFactory  @Inject constructor(
             HomeFragment::class.java.name ->{
                 HomeFragment(connectivityObserver)
             }
-
-            AccountFragment::class.java.name ->{
-                AccountFragment(firebaseAuth)
-            }
-
 
             AddressFragment::class.java.name ->{
                 AddressFragment(englishGeoCoder)

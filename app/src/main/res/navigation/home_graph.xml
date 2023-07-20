@@ -9,6 +9,8 @@
         android:name="com.example.shopify.home.presentation.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
+
+        <deepLink app:uri="shopify://homeFragment" />
         <action
             android:id="@+id/action_homeFragment_to_cartFragment"
             app:destination="@id/cartFragment" />

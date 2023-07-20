@@ -1,5 +1,6 @@
 package com.example.shopify.settings.data.repository
 
+import android.net.Uri
 import com.example.shopify.settings.data.local.LocalDataSource
 import com.example.shopify.settings.data.remote.RemoteDataSource
 import com.example.shopify.settings.domain.repository.SettingsRepository
@@ -31,5 +32,31 @@ class SettingsRepositoryImpl @Inject constructor(private val remoteDataSource: R
 
     override suspend fun <T> getAllCities(): Flow<Response<T>> {
         return remoteDataSource.getAllCities()
+    }
+
+    override suspend fun <T> updateUserImage(uri: Uri): Response<T> {
+        return remoteDataSource.updateUserImage(uri)
+    }
+
+    override suspend fun <T> updateUsername(userName: String): Response<T> {
+        return remoteDataSource.updateUsername(userName)
+    }
+
+
+
+    override suspend fun <T> updateUserPhone(phone: String): Response<T> {
+        return remoteDataSource.updateUserPhone(phone)
+    }
+
+    override suspend fun <T> getUserName(): Response<T> {
+        return  remoteDataSource.getUserName()
+    }
+
+    override suspend fun <T> getUserImage(): Response<T> {
+        return  remoteDataSource.getUserImage()
+    }
+
+    override suspend fun <T> getUserPhone(): Response<T> {
+       return  remoteDataSource.getUserPhone()
     }
 }
