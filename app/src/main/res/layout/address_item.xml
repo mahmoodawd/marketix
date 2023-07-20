@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="kotlin.Unit" />
+
+        <import type="kotlin.jvm.functions.Function0" />
+
+        <variable
+            name="addressClickListener"
+            type="Function0&lt;Unit>" />
+
+        <variable
+            name="address"
+            type="com.example.shopify.settings.domain.model.AddressModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:onClick="@{() ->addressClickListener.invoke()}"
+        >
+
+
+        <TextView
+            android:id="@+id/cityTitleTextView"
+            style="@style/p2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:elevation="@dimen/_10sdp"
+            android:shadowColor="@color/md_theme_dark_outline"
+            android:shadowDx="1"
+            android:shadowDy="4"
+            android:shadowRadius="5"
+            android:text="@string/city_colon"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/cityValueTextView"
+            style="@style/p2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_50sdp"
+            android:elevation="@dimen/_10sdp"
+            android:shadowColor="@color/md_theme_dark_outline"
+            android:shadowDx="1"
+            android:shadowDy="4"
+            android:shadowRadius="5"
+            android:text="@{address.city}"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/cityTitleTextView"
+            app:layout_constraintStart_toEndOf="@+id/cityTitleTextView"
+            app:layout_constraintTop_toTopOf="@+id/cityTitleTextView" />
+
+
+        <TextView
+            android:id="@+id/addressTitleTextView"
+            style="@style/p2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:elevation="@dimen/_10sdp"
+            android:shadowColor="@color/md_theme_dark_outline"
+            android:shadowDx="1"
+            android:shadowDy="4"
+            android:shadowRadius="5"
+            android:text="@string/address_colon"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/cityTitleTextView"
+            app:layout_constraintTop_toBottomOf="@+id/cityValueTextView" />
+
+
+        <TextView
+            android:id="@+id/addressValueTextView"
+            style="@style/p2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/_10sdp"
+            android:shadowColor="@color/md_theme_dark_outline"
+            android:shadowDx="1"
+            android:shadowDy="4"
+            android:shadowRadius="5"
+            android:text="@{address.address}"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/addressTitleTextView"
+            app:layout_constraintStart_toStartOf="@+id/cityValueTextView"
+            app:layout_constraintTop_toTopOf="@+id/addressTitleTextView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
