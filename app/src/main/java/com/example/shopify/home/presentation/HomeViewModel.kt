@@ -60,11 +60,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getAllProducts() {
+    fun getAllProducts(brand: String= "") {
         Timber.e("getAllProducts")
         viewModelScope.launch(ioDispatcher) {
             _homeState.update { it.copy(loading = true) }
-            getAllProductsUseCase.execute<ProductsModel>().collectLatest { response ->
+            getAllProductsUseCase.execute<ProductsModel>(brand).collectLatest { response ->
                 when (response) {
                     is Response.Success -> {
                         Timber.e("success")

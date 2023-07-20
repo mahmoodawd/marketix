@@ -6,6 +6,8 @@ import com.example.shopify.home.data.dto.ProductsResponse
 import com.example.shopify.settings.data.dto.currencies.CurrenciesResponse
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface RemoteInterface {
 
@@ -16,6 +18,9 @@ interface RemoteInterface {
     suspend fun getAllBrands():BrandsResponse
 
     @GET("products.json")
-    suspend fun getAllProducts():ProductsResponse
+    suspend fun getAllProducts(@Query("vendor") vendor: String):ProductsResponse
+
+    @GET("collections/{collection_id}/products.json")
+    suspend fun getCategoryProducts(@Path("collection_id") collectionId: Long): ProductsResponse
 
 }

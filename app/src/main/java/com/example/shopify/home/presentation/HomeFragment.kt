@@ -25,10 +25,8 @@ import com.example.shopify.home.domain.model.BrandModel
 import com.example.shopify.home.domain.model.ProductModel
 import com.example.shopify.utils.connectivity.ConnectivityObserver
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fragment() {
@@ -39,6 +37,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var brandsAdapter: BrandsAdapter
     private lateinit var productsAdapter: ProductsAdapter
+    private var vendor: String = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -118,6 +117,8 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
                 }
                 if (it.products.isNotEmpty()) {
                     productsAdapter.submitList(it.products)
+                }else{
+                    productsAdapter.submitList(listOf())
                 }
             }
         }
@@ -126,6 +127,9 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
 
     private fun getProductsByBrand(brandModel: BrandModel) {
         Toast.makeText(requireContext(), brandModel.title, Toast.LENGTH_SHORT).show()
+        vendor = brandModel.title
+        viewModel.getAllProducts(vendor)
+        vendor = ""
     }
 
     private fun goToProductsInfo(product: ProductModel) {
