@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -101,8 +102,7 @@ class LoginFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
                             currentUser?.let { user -> customerViewModel.createCustomerAccount(user) }
-                            navController.navigate(R.id.home_graph)
-                        }
+                            navController.navigate(getString(R.string.homeFragmentDeepLink).toUri())                        }
                     }
             }
 
@@ -135,8 +135,7 @@ class LoginFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
                             if (state.loading == true) View.VISIBLE else View.GONE
 
                         if (state.success == true) {
-                            navController.navigate(R.id.home_graph)
-                        }
+                            navController.navigate(getString(R.string.homeFragmentDeepLink).toUri())                        }
                         if (state.unVerified == true) showDialog()
                     }
                 }
