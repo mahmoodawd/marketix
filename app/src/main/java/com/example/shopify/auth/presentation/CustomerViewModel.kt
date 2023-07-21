@@ -23,7 +23,7 @@ class CustomerViewModel @Inject constructor(
                 is Response.Success -> {
 
                     Timber.tag(this.javaClass.name).i(
-                        "createCustomerAccount for ${response.data?.customer?.first_name}: OK"
+                        "createCustomerAccount for ${response.data?.customer?.id}: OK"
                     )
                 }
 
