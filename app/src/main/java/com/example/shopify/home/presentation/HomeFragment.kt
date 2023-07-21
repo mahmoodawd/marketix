@@ -126,7 +126,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
                 format.format(it.toDouble())
             }
 
-            bottomSheet.priceRangeSlider.addOnSliderTouchListener(object : OnSliderTouchListener{
+            bottomSheet.priceRangeSlider.addOnSliderTouchListener(object : OnSliderTouchListener {
                 override fun onStartTrackingTouch(slider: RangeSlider) {
                 }
 
@@ -141,7 +141,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
 
 
             bottomSheet.applyBtn.setOnClickListener {
-                if (selectedCategory != 0L || selectedType.isNotEmpty()) {
+                if (selectedCategory != null || selectedType.isNotEmpty() || max != Double.MAX_VALUE || min != Double.MIN_VALUE) {
                     Timber.e(max.toString())
                     Timber.e(min.toString())
                     viewModel.filterProducts(selectedCategory, selectedType, max, min)
@@ -190,6 +190,11 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
                     Timber.e(it.products.count().toString())
                 } else {
                     productsAdapter.submitList(listOf())
+                }
+                binding.progressBar.visibility = if (it.loading == true) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
                 }
             }
         }
