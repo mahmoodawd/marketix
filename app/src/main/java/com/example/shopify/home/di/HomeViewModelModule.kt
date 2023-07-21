@@ -6,6 +6,7 @@ import com.example.shopify.home.data.remote.products.ProductRemoteSource
 import com.example.shopify.home.data.remote.products.ProductsApiClient
 import com.example.shopify.home.data.repository.HomeRepositoryImp
 import com.example.shopify.home.domain.repository.HomeRepository
+import com.example.shopify.home.domain.usecase.FilterByPriceUseCase
 import com.example.shopify.home.domain.usecase.FilterProductsUseCase
 import com.example.shopify.home.domain.usecase.GetAllBrandsUseCase
 import com.example.shopify.home.domain.usecase.GetAllProductsUseCase
@@ -53,5 +54,10 @@ abstract class HomeViewModelModule {
         @ViewModelScoped
         fun provideFilterProductsUseCase(repository: HomeRepository): FilterProductsUseCase =
             FilterProductsUseCase(repository)
+
+        @Provides
+        @ViewModelScoped
+        fun provideFilterByPriceUseCase(): FilterByPriceUseCase =
+            FilterByPriceUseCase()
     }
 }

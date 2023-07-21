@@ -172,12 +172,13 @@
         android:textSize="@dimen/_16sdp" />
 
     <com.google.android.material.slider.RangeSlider
+        android:id="@+id/priceRangeSlider"
         android:layout_width="@dimen/_200sdp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="@dimen/_16sdp"
         android:valueFrom="0"
-        android:valueTo="1000"
+        android:valueTo="500"
         app:thumbColor="@color/md_theme_light_onPrimary"
         app:thumbElevation="0dp"
         app:thumbStrokeColor="@color/seed"

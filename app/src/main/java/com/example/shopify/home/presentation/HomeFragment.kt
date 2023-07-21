@@ -23,9 +23,14 @@ import com.example.shopify.databinding.FragmentHomeBinding
 import com.example.shopify.home.domain.model.BrandModel
 import com.example.shopify.home.domain.model.ProductModel
 import com.example.shopify.utils.connectivity.ConnectivityObserver
+import com.google.android.material.slider.RangeSlider
+import com.google.android.material.slider.RangeSlider.OnSliderTouchListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.text.NumberFormat
+import java.util.Currency
 
 @AndroidEntryPoint
 class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fragment() {
@@ -72,6 +77,8 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
         val dialog = Dialog(requireContext())
         var selectedCategory: Long? = null
         var selectedType = ""
+        var max = Double.MAX_VALUE
+        var min = Double.MIN_VALUE
         dialog.apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setContentView(bottomSheet.root)
@@ -112,9 +119,32 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
                 }
             }
 
+            bottomSheet.priceRangeSlider.setLabelFormatter {
+                val format = NumberFormat.getCurrencyInstance()
+                format.maximumFractionDigits = 0
+                format.currency = Currency.getInstance("EGP")
+                format.format(it.toDouble())
+            }
+
+            bottomSheet.priceRangeSlider.addOnSliderTouchListener(object : OnSliderTouchListener {
+                override fun onStartTrackingTouch(slider: RangeSlider) {
+                }
+
+                override fun onStopTrackingTouch(slider: RangeSlider) {
+                    Timber.e(slider.values.max().toString())
+                    Timber.e(slider.values.min().toString())
+                    max = slider.values.max().toDouble()
+                    min = slider.values.min().toDouble()
+                }
+
+            })
+
+
             bottomSheet.applyBtn.setOnClickListener {
-                if (selectedCategory != 0L || selectedType.isNotEmpty()) {
-                    viewModel.filterProducts(selectedCategory, selectedType)
+                if (selectedCategory != null || selectedType.isNotEmpty() || max != Double.MAX_VALUE || min != Double.MIN_VALUE) {
+                    Timber.e(max.toString())
+                    Timber.e(min.toString())
+                    viewModel.filterProducts(selectedCategory, selectedType, max, min)
                     brandsAdapter.clearSelection()
                 }
                 dismiss()
@@ -157,8 +187,14 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
                 }
                 if (it.products.isNotEmpty()) {
                     productsAdapter.submitList(it.products)
+                    Timber.e(it.products.count().toString())
                 } else {
                     productsAdapter.submitList(listOf())
+                }
+                binding.progressBar.visibility = if (it.loading == true) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
                 }
             }
         }
