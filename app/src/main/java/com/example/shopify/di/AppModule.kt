@@ -1,7 +1,9 @@
 package com.example.shopify.di
 
 import android.content.Context
+import androidx.room.Room
 import com.example.shopify.BuildConfig
+import com.example.shopify.R
 import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.example.shopify.utils.connectivity.NetworkConnectivityObserver
 import com.example.shopify.data.datastore.DataStoreUserPreferences
@@ -9,7 +11,14 @@ import com.example.shopify.data.datastore.DataStoreUserPreferencesImpl
 import com.google.firebase.auth.FirebaseAuth
 import com.example.shopify.data.remote.AuthorizationInterceptor
 import com.example.shopify.data.remote.RemoteInterface
+import com.example.shopify.data.room.LocationDatabase
+import com.example.shopify.settings.data.local.AddressDao
 import com.example.shopify.settings.data.remote.RemoteCountriesInterface
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,6 +50,15 @@ object AppModule {
     @Singleton
     @Provides
     fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
+
+    @Singleton
+    @Provides
+    fun provideFirebaseStorage() : FirebaseStorage  = FirebaseStorage.getInstance()
+
+
+    @Singleton
+    @Provides
+    fun provideFirebaseFireStore() : FirebaseFirestore  = FirebaseFirestore.getInstance()
 
 
     @Singleton
@@ -79,6 +97,25 @@ object AppModule {
         .addConverterFactory(
             GsonConverterFactory.create()).build()
         .create(RemoteCountriesInterface::class.java)
+
+
+
+    @Singleton
+    @Provides
+    fun providesWeatherDatabase(@ApplicationContext applicationContext: Context): LocationDatabase {
+        return Room.databaseBuilder(
+            applicationContext,
+            LocationDatabase::class.java, applicationContext.getString(R.string.location_database)
+        ).build()
+    }
+
+
+    @Singleton
+    @Provides
+    fun providesAddressesDao(database: LocationDatabase) : AddressDao
+    {
+        return  database.addressDao
+    }
 
 
 }
