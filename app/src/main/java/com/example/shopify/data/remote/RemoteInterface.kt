@@ -1,6 +1,7 @@
 package com.example.shopify.data.remote
 
 import com.example.shopify.auth.data.dto.CustomerResponse
+import com.example.shopify.data.dto.DraftOrderResponse
 import com.example.shopify.home.data.dto.BrandsResponse
 import com.example.shopify.home.data.dto.ProductsResponse
 import com.example.shopify.settings.data.dto.currencies.CurrenciesResponse
@@ -33,6 +34,14 @@ interface RemoteInterface {
 
     @POST("customers.json")
     suspend fun createCustomer(@Body customerResponse: CustomerResponse): CustomerResponse
+
+    @GET("draft_orders.json")
+    suspend fun getDraftOrders(
+        @Query("customer_id") id: String = "",
+        @Query("note") note: String = ""
+    ): DraftOrderResponse
+
+
 
 
 }
