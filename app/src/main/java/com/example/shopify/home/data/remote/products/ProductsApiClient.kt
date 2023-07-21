@@ -7,21 +7,37 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
-class ProductsApiClient @Inject constructor(private val remoteInterface: RemoteInterface): ProductRemoteSource {
-    override suspend fun <T> getAllProducts(brand: String, id: Long): Flow<Response<T>> {
+class ProductsApiClient @Inject constructor(private val remoteInterface: RemoteInterface) :
+    ProductRemoteSource {
+    override suspend fun <T> getAllProducts(): Flow<Response<T>> {
         return flowOf(
             try {
-                Response.Success(remoteInterface.getAllProducts(brand, id).toProductsModel() as T)
+                Response.Success(remoteInterface.getAllProducts().toProductsModel() as T)
             } catch (e: Exception) {
                 Response.Failure(e.message ?: "UnKnown")
             }
         )
     }
 
-    override suspend fun <T> getProductsByCategory(category: Long): Flow<Response<T>> {
+    override suspend fun <T> getProductsByBrand(brand: String): Flow<Response<T>> {
         return flowOf(
             try {
-                Response.Success(remoteInterface.getCategoryProducts(category).toProductsModel() as T)
+                Response.Success(remoteInterface.getProductsByBrand(brand).toProductsModel() as T)
+            } catch (e: Exception) {
+                Response.Failure(e.message ?: "UnKnown")
+            }
+        )
+    }
+
+    override suspend fun <T> filterProducts(
+        category: Long?,
+        productType: String
+    ): Flow<Response<T>> {
+        return flowOf(
+            try {
+                Response.Success(
+                    remoteInterface.filterProducts(category, productType).toProductsModel() as T
+                )
             } catch (e: Exception) {
                 Response.Failure(e.message ?: "UnKnown")
             }

@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.home.domain.model.BrandsModel
 import com.example.shopify.home.domain.model.ProductsModel
+import com.example.shopify.home.domain.usecase.FilterProductsUseCase
 import com.example.shopify.home.domain.usecase.GetAllBrandsUseCase
 import com.example.shopify.home.domain.usecase.GetAllProductsUseCase
-import com.example.shopify.home.domain.usecase.GetProductByIdUseCase
-import com.example.shopify.home.domain.usecase.GetProductsByCategoryUseCase
+import com.example.shopify.home.domain.usecase.GetProductsByBrandUseCase
 import com.example.shopify.utils.hiltanotations.Dispatcher
 import com.example.shopify.utils.hiltanotations.Dispatchers
 import com.example.shopify.utils.response.Response
@@ -26,8 +26,8 @@ class HomeViewModel @Inject constructor(
     @Dispatcher(Dispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     private val getAllBrandsUseCase: GetAllBrandsUseCase,
     private val getAllProductsUseCase: GetAllProductsUseCase,
-    private val getProductsByCategoryUseCase: GetProductsByCategoryUseCase,
-    private val getProductByIdUseCase: GetProductByIdUseCase
+    private val getProductsByBrandUseCase: GetProductsByBrandUseCase,
+    private val filterProductsUseCase: FilterProductsUseCase
 ) : ViewModel() {
 
     private val _homeState: MutableStateFlow<HomeState.Display> =
@@ -64,11 +64,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getAllProducts(brand: String = "") {
+    fun getAllProducts() {
         Timber.e("getAllProducts")
         viewModelScope.launch(ioDispatcher) {
             _homeState.update { it.copy(loading = true) }
-            getAllProductsUseCase.execute<ProductsModel>(brand).collectLatest { response ->
+            getAllProductsUseCase.execute<ProductsModel>().collectLatest { response ->
                 when (response) {
                     is Response.Success -> {
                         Timber.e("success")
@@ -96,33 +96,43 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getProductById(id: Long) {
+    fun getProductsByBrand(brand: String) {
         Timber.e("getAllProducts")
         viewModelScope.launch(ioDispatcher) {
             _homeState.update { it.copy(loading = true) }
-            getProductByIdUseCase.execute<ProductsModel>(id).collectLatest { response ->
+            getProductsByBrandUseCase.execute<ProductsModel>(brand).collectLatest { response ->
                 when (response) {
                     is Response.Success -> {
-                        Timber.e(response.data?.products?.get(0).toString())
+                        Timber.e("success")
+                        response.data?.let {
+                            _homeState.update {
+                                it.copy(products = response.data.products, loading = false)
+                            }
+                        }
                     }
 
                     is Response.Failure -> {
-                        Timber.e(response.error)
+                        Timber.e("fail")
+                        _homeState.update {
+                            it.copy(error = response.error, loading = false)
+                        }
                     }
 
                     is Response.Loading -> {
-
+                        _homeState.update {
+                            it.copy(loading = true)
+                        }
                     }
                 }
             }
         }
     }
 
-    fun getProductsByCategory(category: Long) {
-        Timber.e("getProductsByCategory")
+    fun filterProducts(category: Long?, productType: String) {
+        Timber.e("getProductsByType")
         viewModelScope.launch(ioDispatcher) {
             _homeState.update { it.copy(loading = true) }
-            getProductsByCategoryUseCase.execute<ProductsModel>(category)
+            filterProductsUseCase.execute<ProductsModel>(category, productType)
                 .collectLatest { response ->
                     when (response) {
                         is Response.Success -> {

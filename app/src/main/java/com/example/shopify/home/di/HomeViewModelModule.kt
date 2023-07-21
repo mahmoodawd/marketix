@@ -6,10 +6,10 @@ import com.example.shopify.home.data.remote.products.ProductRemoteSource
 import com.example.shopify.home.data.remote.products.ProductsApiClient
 import com.example.shopify.home.data.repository.HomeRepositoryImp
 import com.example.shopify.home.domain.repository.HomeRepository
+import com.example.shopify.home.domain.usecase.FilterProductsUseCase
 import com.example.shopify.home.domain.usecase.GetAllBrandsUseCase
 import com.example.shopify.home.domain.usecase.GetAllProductsUseCase
-import com.example.shopify.home.domain.usecase.GetProductByIdUseCase
-import com.example.shopify.home.domain.usecase.GetProductsByCategoryUseCase
+import com.example.shopify.home.domain.usecase.GetProductsByBrandUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -46,12 +46,12 @@ abstract class HomeViewModelModule {
 
         @Provides
         @ViewModelScoped
-        fun provideGetProductsByCategoryUseCase(repository: HomeRepository): GetProductsByCategoryUseCase =
-            GetProductsByCategoryUseCase(repository)
+        fun provideGetProductsByBrandUseCase(repository: HomeRepository): GetProductsByBrandUseCase =
+            GetProductsByBrandUseCase(repository)
 
         @Provides
         @ViewModelScoped
-        fun provideGetProductByIdUseCase(repository: HomeRepository): GetProductByIdUseCase =
-            GetProductByIdUseCase(repository)
+        fun provideFilterProductsUseCase(repository: HomeRepository): FilterProductsUseCase =
+            FilterProductsUseCase(repository)
     }
 }

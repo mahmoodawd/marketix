@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import com.example.shopify.R
 import com.example.shopify.databinding.BrandListItemBinding
 import com.example.shopify.databinding.ClickedBrandItemBinding
@@ -70,6 +69,12 @@ class BrandsAdapter(private val context: Context, private val selectBrand: (Bran
             }
         }
 
+    }
+
+    fun clearSelection(){
+        val previouslySelectedItemPosition = selectedItemPosition
+        selectedItemPosition = -1
+        notifyItemChanged(previouslySelectedItemPosition)
     }
 }
 

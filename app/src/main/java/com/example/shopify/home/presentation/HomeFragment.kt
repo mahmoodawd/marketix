@@ -3,7 +3,6 @@ package com.example.shopify.home.presentation
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -54,8 +53,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
             showBottomDialog()
         }
         binding.cartImageButton.setOnClickListener {
-            navController.setGraph(R.navigation.settings_graph)
-            navController.navigate(Uri.parse(getString(R.string.cartFragmentDeepLink)))
+            navController.setGraph(R.navigation.cart_nav_graph)
         }
         brandsAdapter = BrandsAdapter(requireContext()) {
             getProductsByBrand(it)
@@ -72,7 +70,8 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
     private fun showBottomDialog() {
         val bottomSheet = BottomSheetLayoutBinding.inflate(layoutInflater)
         val dialog = Dialog(requireContext())
-        var selectedCategory: Long = 0
+        var selectedCategory: Long? = null
+        var selectedType = ""
         dialog.apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setContentView(bottomSheet.root)
@@ -97,9 +96,26 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
                 }
             }
 
+            bottomSheet.typesRg.setOnCheckedChangeListener { _, checkedId ->
+                when (checkedId) {
+                    R.id.tShirtsRb -> {
+                        selectedType = bottomSheet.tShirtsRb.tag.toString()
+                    }
+
+                    R.id.accessoriesRb -> {
+                        selectedType = bottomSheet.accessoriesRb.tag.toString()
+                    }
+
+                    R.id.shoesRb -> {
+                        selectedType = bottomSheet.shoesRb.tag.toString()
+                    }
+                }
+            }
+
             bottomSheet.applyBtn.setOnClickListener {
-                if (selectedCategory != 0L){
-                    viewModel.getProductsByCategory(selectedCategory)
+                if (selectedCategory != 0L || selectedType.isNotEmpty()) {
+                    viewModel.filterProducts(selectedCategory, selectedType)
+                    brandsAdapter.clearSelection()
                 }
                 dismiss()
             }
@@ -152,7 +168,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
     private fun getProductsByBrand(brandModel: BrandModel) {
         Toast.makeText(requireContext(), brandModel.title, Toast.LENGTH_SHORT).show()
         vendor = brandModel.title
-        viewModel.getAllProducts(vendor)
+        viewModel.getProductsByBrand(vendor)
         vendor = ""
     }
 

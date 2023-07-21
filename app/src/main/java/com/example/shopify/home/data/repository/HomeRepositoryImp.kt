@@ -15,10 +15,17 @@ class HomeRepositoryImp @Inject constructor(
     override suspend fun <T> getAllBrands(): Flow<Response<T>> =
         brandsRemoteSource.getAllBrands()
 
-    override suspend fun <T> getAllProducts(brand: String,id : Long): Flow<Response<T>> =
-        productRemoteSource.getAllProducts(brand, id)
+    override suspend fun <T> getAllProducts(): Flow<Response<T>> =
+        productRemoteSource.getAllProducts()
 
-    override suspend fun <T> getProductsByCategory(category: Long): Flow<Response<T>> =
-        productRemoteSource.getProductsByCategory(category)
+    override suspend fun <T> getProductsByBrand(brand: String): Flow<Response<T>> =
+        productRemoteSource.getProductsByBrand(brand)
+
+    override suspend fun <T> filterProducts(
+        category: Long?,
+        productType: String
+    ): Flow<Response<T>> =
+        productRemoteSource.filterProducts(category, productType)
+
 
 }
