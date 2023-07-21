@@ -46,6 +46,7 @@ class WriteAddressFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
+        setLatLongArguments()
         stateObserver()
         changeAddressListener()
         snackBarObserver(viewModel.snackBarFlow)
@@ -67,12 +68,22 @@ class WriteAddressFragment : Fragment() {
             }
 
         binding.saveAddress.setOnClickListener {
-            viewModel.onEvent(WriteAddressIntent.SavePref(getString(R.string.addressType)))
-            viewModel.onEvent(WriteAddressIntent.SavePref(getString(R.string.cityType)))
+            viewModel.onEvent(WriteAddressIntent.SaveAddress(getString(R.string.addressType)))
         }
 
 
     }
+
+
+
+    private fun setLatLongArguments()
+    {
+        val latitude = arguments?.getString(getString(R.string.latitudeType))
+        val longitude = arguments?.getString(getString(R.string.longitude))
+        viewModel.onEvent(WriteAddressIntent.NewLatLong(latitude!!.toDouble(),longitude!!.toDouble()))
+
+    }
+
 
     private fun changeAddressListener() {
         lifecycleScope.launch {

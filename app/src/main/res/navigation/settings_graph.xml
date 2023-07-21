@@ -13,11 +13,11 @@
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" >
         <action
-            android:id="@+id/action_settingsFragment_to_addressFragment"
-            app:destination="@id/addressFragment" />
-        <action
             android:id="@+id/action_settingsFragment_to_accountFragment"
             app:destination="@id/accountFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_allAddressesFragment"
+            app:destination="@id/allAddressesFragment" />
     </fragment>
     <fragment
         android:id="@+id/addressFragment"
@@ -28,6 +28,12 @@
         <action
             android:id="@+id/action_addressFragment_to_writeAddressFragment"
             app:destination="@id/writeAddressFragment" />
+        <argument
+            android:name="latitude"
+            app:argType="string" />
+        <argument
+            android:name="longitude"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/accountFragment"
@@ -40,11 +46,23 @@
         android:name="com.example.shopify.settings.presenation.address.write.WriteAddressFragment"
         android:label="WriteAddressFragment" >
         <argument
-            android:name="country"
+            android:name="latitude"
             app:argType="string" />
         <argument
-            android:name="city"
+            android:name="longitude"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/allAddressesFragment"
+        android:name="com.example.shopify.settings.presenation.address.adresses.AllAddressesFragment"
+        android:label="fragment_all_addresses"
+        tools:layout="@layout/fragment_all_addresses" >
+        <action
+            android:id="@+id/action_allAddressesFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
+        <action
+            android:id="@+id/action_allAddressesFragment_to_writeAddressFragment"
+            app:destination="@id/writeAddressFragment" />
     </fragment>
 
 
