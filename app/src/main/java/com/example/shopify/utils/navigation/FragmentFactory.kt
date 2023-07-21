@@ -3,6 +3,8 @@ package com.example.shopify.utils.navigation
 import android.location.Geocoder
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
+import com.example.shopify.auth.presentation.login.LoginFragment
+import com.example.shopify.auth.presentation.signup.SignUpFragment
 import com.example.shopify.home.presentation.HomeFragment
 import com.example.shopify.settings.presenation.account.AccountFragment
 import com.example.shopify.settings.presenation.address.map.AddressFragment
@@ -31,6 +33,15 @@ class FragmentFactory  @Inject constructor(
 
             AddressFragment::class.java.name ->{
                 AddressFragment(englishGeoCoder)
+            }
+
+
+            LoginFragment::class.java.name -> {
+                LoginFragment(firebaseAuth)
+            }
+
+            SignUpFragment::class.java.name -> {
+                SignUpFragment(firebaseAuth)
             }
             else -> return super.instantiate(classLoader, className)
         }
