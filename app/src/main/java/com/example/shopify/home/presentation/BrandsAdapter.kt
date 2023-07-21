@@ -49,7 +49,6 @@ class BrandsAdapter(private val context: Context, private val selectBrand: (Bran
                     selectBrand(brandItem)
                     val previouslySelectedItemPosition = selectedItemPosition
                     selectedItemPosition = holder.adapterPosition
-//                    brandItem.clicked = true
                     notifyItemChanged(previouslySelectedItemPosition)
                     notifyItemChanged(position)
                 }
@@ -70,6 +69,12 @@ class BrandsAdapter(private val context: Context, private val selectBrand: (Bran
             }
         }
 
+    }
+
+    fun clearSelection(){
+        val previouslySelectedItemPosition = selectedItemPosition
+        selectedItemPosition = -1
+        notifyItemChanged(previouslySelectedItemPosition)
     }
 }
 

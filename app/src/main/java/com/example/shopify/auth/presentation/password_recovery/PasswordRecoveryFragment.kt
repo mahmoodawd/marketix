@@ -1,24 +1,27 @@
 package com.example.shopify.auth.presentation.password_recovery
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
-import com.example.shopify.auth.domain.entities.AuthState
 import com.example.shopify.auth.presentation.getValue
 import com.example.shopify.databinding.FragmentPasswordRecoveryBinding
-import com.example.shopify.utils.response.Response
+import com.example.shopify.utils.snackBarObserver
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class PasswordRecoveryFragment : Fragment() {
@@ -52,30 +55,25 @@ class PasswordRecoveryFragment : Fragment() {
         }
 
         listenToEmailSendingStatus()
+
+        snackBarObserver(viewModel.snackBarFlow)
     }
 
 
     private fun listenToEmailSendingStatus() {
-        lifecycleScope.launch {
-            viewModel.resetPasswordStateFlow.collectLatest { state ->
-                binding.passwordResetProgressBar.visibility =
-                    if (state is AuthState.Loading)
-                        View.VISIBLE else View.GONE
 
-                when (state) {
-                    is AuthState.EmailSent -> {
-                        showDialog()
+        lifecycleScope.launch(Dispatchers.IO) {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.resetPasswordState.collectLatest { state ->
+                    withContext(Dispatchers.Main) {
+                        binding.passwordResetProgressBar.visibility =
+                            if (state.loading == true)
+                                View.VISIBLE else View.GONE
+
+                        if (state.success == true) {
+                            showDialog()
+                        }
                     }
-
-                    is AuthState.Failure -> {
-                        Toast.makeText(
-                            requireContext(),
-                            state.exception.localizedMessage,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
-                    else -> Unit
                 }
             }
         }
