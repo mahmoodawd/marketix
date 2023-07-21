@@ -4,11 +4,10 @@
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/_7sdp">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/brandImage"
         android:layout_width="@dimen/_40sdp"
         android:layout_height="@dimen/_40sdp"
-        android:background="@drawable/image_icon_back"
-        android:scaleType="centerInside" />
+        android:background="@drawable/image_icon_back" />
 
 </FrameLayout>

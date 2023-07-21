@@ -132,6 +132,17 @@
     <string name="cityType">city</string>
     <string name="addresses">Addresses</string>
     <string name="new_password">new password</string>
+    <string name="kids_category">451868557591</string>
+    <string name="men_category">451868492055</string>
+    <string name="women_category">451868524823</string>
+    <string name="sale_category">451868590359</string>
+    <string name="product_types">Product Types</string>
+    <string name="t_shirts_tag">T-SHIRTS</string>
+    <string name="t_shirts">T-shirts</string>
+    <string name="accessories_tag">ACCESSORIES</string>
+    <string name="accessories">Accessories</string>
+    <string name="shoes">Shoes</string>
+    <string name="shoes_tag">SHOES</string>
     <string name="users">users\n</string>
     <string name="username_invalid">Starts with an alphabetic character
 Contains only alphanumeric characters and underscores and

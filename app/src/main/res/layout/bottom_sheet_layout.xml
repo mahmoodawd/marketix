@@ -36,10 +36,10 @@
         android:textSize="@dimen/_16sdp" />
 
     <RadioGroup
+        android:id="@+id/categoryRg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_16sdp"
-        android:checkedButton="@id/menRb"
         android:orientation="horizontal"
         android:weightSum="4">
 
@@ -51,6 +51,7 @@
             android:layout_weight="1"
             android:background="@drawable/rounded_corner_gray"
             android:padding="0dp"
+            android:tag="@string/men_category"
             android:text="@string/men"
             android:textAppearance="@style/p4"
             android:textColor="@color/text_grayed"
@@ -65,6 +66,7 @@
             android:background="@drawable/rounded_corner_gray"
             android:maxLines="1"
             android:padding="0dp"
+            android:tag="@string/women_category"
             android:text="@string/women"
             android:textAppearance="@style/p4"
             android:textColor="@color/text_grayed"
@@ -78,6 +80,7 @@
             android:layout_weight="1"
             android:background="@drawable/rounded_corner_gray"
             android:padding="0dp"
+            android:tag="@string/kids_category"
             android:text="@string/kids"
             android:textAppearance="@style/p4"
             android:textColor="@color/text_grayed"
@@ -91,7 +94,69 @@
             android:layout_weight="1"
             android:background="@drawable/rounded_corner_gray"
             android:padding="0dp"
+            android:tag="@string/sale_category"
             android:text="@string/sale"
+            android:textAppearance="@style/p4"
+            android:textColor="@color/text_grayed"
+            tools:ignore="TouchTargetSizeCheck" />
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:text="@string/product_types"
+        android:textColor="@color/md_theme_dark_shadow"
+        android:textSize="@dimen/_16sdp" />
+
+    <RadioGroup
+        android:id="@+id/typesRg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <RadioButton
+            android:id="@+id/tShirtsRb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_3sdp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_corner_gray"
+            android:maxLines="1"
+            android:padding="0dp"
+            android:tag="@string/t_shirts_tag"
+            android:text="@string/t_shirts"
+            android:textAppearance="@style/p4"
+            android:textColor="@color/text_grayed"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <RadioButton
+            android:id="@+id/accessoriesRb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_3sdp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_corner_gray"
+            android:padding="0dp"
+            android:tag="@string/accessories_tag"
+            android:text="@string/accessories"
+            android:textAppearance="@style/p4"
+            android:textColor="@color/text_grayed"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <RadioButton
+            android:id="@+id/shoesRb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_3sdp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_corner_gray"
+            android:padding="0dp"
+            android:tag="@string/shoes_tag"
+            android:text="@string/shoes"
             android:textAppearance="@style/p4"
             android:textColor="@color/text_grayed"
             tools:ignore="TouchTargetSizeCheck" />
