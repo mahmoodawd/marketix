@@ -1,6 +1,5 @@
 package com.example.shopify.settings.presenation.address.map
 
-import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,8 +15,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
 import com.example.shopify.databinding.FragmentAddressBinding
-import com.example.shopify.settings.presenation.address.write.WriteAddressIntent
-import com.example.shopify.utils.getAddress
 import com.example.shopify.utils.snackBarObserver
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -32,11 +29,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
-class AddressFragment(private val englishGeoCoder: Geocoder) : Fragment() {
+class MapFragment(private val englishGeoCoder: Geocoder) : Fragment() {
 
     private lateinit var binding: FragmentAddressBinding
 
-    private val viewModel: AddressViewModel by viewModels()
+    private val viewModel: MapViewModel by viewModels()
 
     private val supportMapFragment: SupportMapFragment by lazy {
         childFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
@@ -62,7 +59,7 @@ class AddressFragment(private val englishGeoCoder: Geocoder) : Fragment() {
         binding.go.setOnClickListener {
             with(viewModel.state.value) {
                 if (!latitude.isNullOrBlank()){
-                navController.navigate(AddressFragmentDirections.actionAddressFragmentToWriteAddressFragment(latitude,longitude!!))
+                navController.navigate(MapFragmentDirections.actionAddressFragmentToWriteAddressFragment(latitude,longitude!!))
                 }else{
                     Toast.makeText(requireContext(), getString(R.string.please_choose_your_address_location), Toast.LENGTH_SHORT).show()
                 }
@@ -103,7 +100,7 @@ class AddressFragment(private val englishGeoCoder: Geocoder) : Fragment() {
 
             googleMap.setOnMapLoadedCallback {
                 viewModel.onEvent(
-                    AddressIntent.MapLoaded
+                    MapIntent.MapLoaded
                 )
 
                 with(viewModel.state.value) {
@@ -124,7 +121,7 @@ class AddressFragment(private val englishGeoCoder: Geocoder) : Fragment() {
     private fun newMapLocationIsSelected(latLong: LatLng, googleMap: GoogleMap) {
         setMarkerAndAnimateCamera(latLong, googleMap)
         viewModel.onEvent(
-            AddressIntent.NewLatLong(
+            MapIntent.NewLatLong(
                 latLong.latitude,
                 latLong.longitude
             )
