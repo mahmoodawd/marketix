@@ -1,11 +1,15 @@
 package com.example.shopify.settings.presenation.address.adresses
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.shopify.R
 import com.example.shopify.settings.domain.model.AddressModel
+import com.example.shopify.settings.domain.usecase.dataStore.ReadBooleanDataStoreUseCase
 import com.example.shopify.settings.domain.usecase.location.DeleteAddressUseCase
 import com.example.shopify.settings.domain.usecase.location.GetAllAddressesUseCase
 import com.example.shopify.settings.domain.usecase.location.UpdateAddressUseCase
+import com.example.shopify.settings.presenation.settings.SettingsState
 import com.example.shopify.utils.hiltanotations.Dispatcher
 import com.example.shopify.utils.hiltanotations.Dispatchers
 import com.example.shopify.utils.response.Response
@@ -25,6 +29,7 @@ class AllAddressesViewModel @Inject constructor(
     @Dispatcher(Dispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     private val getAllAddressesUseCase: GetAllAddressesUseCase,
     private val deleteAddressUseCase: DeleteAddressUseCase,
+    private val readBooleanFromDataStoreUseCase: ReadBooleanDataStoreUseCase,
 ): ViewModel() {
 
     private val _state: MutableStateFlow<AllAddressState> =
@@ -43,6 +48,11 @@ class AllAddressesViewModel @Inject constructor(
         {
             is AllAddressesIntent.DeleteAddress -> deleteAddress(intent.position)
             AllAddressesIntent.GetAllAddresses -> getAllAddress()
+            is AllAddressesIntent.LatLongFromGPS ->{
+
+                 Log.d("newLatLong",intent.latitude.toString())
+            _state.update { it.copy(latitude = intent.latitude, longitude = intent.longitude) }
+            }
         }
     }
 
@@ -64,8 +74,31 @@ class AllAddressesViewModel @Inject constructor(
     }
 
 
+    private fun readBooleanPrefFromDataStore(key: String) {
+        val property = AllAddressState::class.java.getDeclaredField(key)
+        property.isAccessible = true
+        viewModelScope.launch(ioDispatcher) {
+            readBooleanFromDataStoreUseCase.execute<Boolean>(key = key).collectLatest { response ->
+                when (response) {
+                    is Response.Failure -> {
+                        _snackBarFlow.emit(R.string.failed_message)
+                    }
+                    is Response.Loading -> _state.update { it.copy(loading = true) }
+                    is Response.Success -> _state.update {
+                        val newState = _state.value.copy()
+                        property.set(newState, response.data ?: true)
+                        _state.update { newState }
+                        it.copy()
+                    }
+                }
+            }
+        }
+    }
+
+
     init {
         onEvent(AllAddressesIntent.GetAllAddresses)
+        readBooleanPrefFromDataStore("LocationService")
     }
 
 
