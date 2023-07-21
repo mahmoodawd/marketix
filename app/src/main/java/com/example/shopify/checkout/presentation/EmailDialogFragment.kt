@@ -17,10 +17,6 @@ class EmailDialogFragment : DialogFragment() {
     private lateinit var binding: FragmentEmailDialogBinding
 
 
-
-
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
