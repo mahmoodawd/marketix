@@ -67,7 +67,7 @@ class FavoritesViewModel @Inject constructor(
 
                         } else {
 
-                            _state.update { it.copy(empty = true, loading = false) }
+                            _state.update { it.copy(products = productList, loading = false) }
                             Timber.i(productList.toString())
                         }
                     }

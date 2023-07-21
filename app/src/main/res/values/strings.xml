@@ -171,5 +171,7 @@ Is between 8 and 30 characters long</string>
     <string name="please_choose_location_type">please choose location type</string>
     <string name="type">type</string>
     <string name="please_enable_your_location">please enable your location</string>
-  </resources>
+    <string name="no_favorites">No Favorites Yet</string>
+    <string name="please_we_need_location_permission">please enable location permission</string>
+</resources>
 

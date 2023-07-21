@@ -157,7 +157,6 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             window?.attributes?.windowAnimations = R.style.DialogAnimation
             window?.setGravity(Gravity.BOTTOM)
-
         }.show()
     }
 

@@ -57,7 +57,6 @@ class FavoritesFragment : Fragment() {
                     withContext(Dispatchers.Main) {
                         binding.favoritesProgressBar visibleIf state.loading
                         binding.noFavsView.imageView.parent as View visibleIf state.empty
-
                         favoritesAdapter.submitList(state.products)
 
                     }
