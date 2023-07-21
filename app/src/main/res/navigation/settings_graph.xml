@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/addressFragment"
-        android:name="com.example.shopify.settings.presenation.address.map.AddressFragment"
+        android:name="com.example.shopify.settings.presenation.address.map.MapFragment"
         android:label="AddressFragment"
         tools:layout="@layout/fragment_address"
         >
@@ -63,7 +63,15 @@
         <action
             android:id="@+id/action_allAddressesFragment_to_writeAddressFragment"
             app:destination="@id/writeAddressFragment" />
+        <action
+            android:id="@+id/action_allAddressesFragment_to_locationTypeDialog"
+            app:destination="@id/locationTypeDialog" />
     </fragment>
+    <dialog
+        android:id="@+id/locationTypeDialog"
+        android:name="com.example.shopify.settings.presenation.address.typedialog.LocationTypeFragment"
+        android:label="fragment_location_type"
+        tools:layout="@layout/fragment_location_type" />
 
 
 </navigation>
