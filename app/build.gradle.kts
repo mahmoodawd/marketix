@@ -4,6 +4,8 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
     id("dagger.hilt.android.plugin")
     id("androidx.navigation.safeargs")
+    id("com.google.gms.google-services")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -30,7 +32,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-
         }
 
         val release by getting {
@@ -39,6 +40,16 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+
+        forEach {
+            it.buildConfigField("String","API_KEY","\"6aaa8200ce048ed2bee45a85dc8ce851\"")
+            it.buildConfigField("String","API_TOKEN","\"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\"")
+            it.buildConfigField("String","API_SECRET","\"4c9701e1037c46aebb8e81bc4b1c26ee\"")
+            it.buildConfigField("String","API_BASE","\"https://itp-sv-and5.myshopify.com/admin/api/2023-07/\"")
+            it.buildConfigField("String","COUNTRIES_API","\"https://countriesnow.space/api/v0.1/\"")
+            it.buildConfigField("String","EXCHANGE_API","\"https://api.apilayer.com/exchangerates_data/convert\"")
+            it.buildConfigField("String","EXCHANGE_TOKEN","\"fbnsZOKUdbSKjI3VMe2GTWqoVrQR0Lue\"")
         }
     }
     compileOptions {
@@ -50,6 +61,8 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
+        dataBinding = true
     }
 }
 
@@ -62,14 +75,20 @@ dependencies {
     implementation(libs.androidx.navigation.navigation.ui.kts)
     implementation(libs.androidx.core.core.splashscreen)
     implementation(libs.hdodenhof.circleimageview)
+    implementation ("com.jakewharton.timber:timber:5.0.1")
     implementation("com.google.android.gms:play-services-wallet:19.2.0")
     implementation(libs.com.google.android.gms.play.services.pay)
     implementation(libs.com.jakewharton.timber.timber)
-
-    kapt(libs.androidx.room.compiler)
+    implementation(libs.com.google.firebase.firebase.auth.ktx)
+    implementation(libs.com.github.bumtech.glide.glide)
+    implementation(libs.com.google.android.gms.play.services.auth)
+    implementation(libs.com.firebaseui.firebase.ui.auth)
+    implementation(libs.com.google.firebase.firebase.firestore.kts)
+    implementation("com.google.firebase:firebase-storage-ktx:20.2.1")
+    ksp(libs.androidx.room.compiler)
     kapt(libs.com.google.dagger.hilt.compiler)
     kapt(libs.androidx.hilt.hilt.compiler)
-
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.2")
 
 
 
@@ -86,6 +105,7 @@ dependencies {
 
     //testing
     testImplementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.test)
+
     testImplementation(libs.org.robolectric.robolectric)
     testImplementation(libs.bundles.hamcrest)
     testImplementation(libs.junit)

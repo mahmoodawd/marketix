@@ -10,7 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <ImageView
             android:id="@+id/backImageView"
@@ -118,56 +119,56 @@
 
 
         <TextView
-            android:id="@+id/passwordTitleTextView"
+            android:id="@+id/phoneTitleTextView"
             style="@style/title_two"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:text="@string/password"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:text="@string/phone"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/backImageView"
             app:layout_constraintTop_toBottomOf="@+id/fullNameTextInputLayout" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/passwordTextInputLayout"
+            android:id="@+id/phoneTextInputLayout"
             style="textInputLayout"
-            app:hintEnabled="false"
-            app:boxBackgroundMode="none"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40sdp"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_150sdp"
+            app:boxBackgroundMode="none"
+            app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/passwordTitleTextView"
-            app:layout_constraintTop_toBottomOf="@+id/passwordTitleTextView">
+            app:layout_constraintStart_toStartOf="@+id/phoneTitleTextView"
+            app:layout_constraintTop_toBottomOf="@+id/phoneTitleTextView">
 
             <com.google.android.material.textfield.TextInputEditText
+                style="@style/p2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
-                android:hint="@string/password"
-                android:inputType="textPassword"
-                style="@style/p2"
-                android:textStyle="normal"
-                />
+                android:hint="@string/phone"
+                android:inputType="phone"
+                android:textStyle="normal" />
         </com.google.android.material.textfield.TextInputLayout>
-
 
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/confirmButton"
             style="@style/p3"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_45sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_30sdp"
-            android:elevation="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_50sdp"
             android:background="@drawable/rounded_corner_blue"
+            android:elevation="@dimen/_20sdp"
             android:text="@string/confirm"
-            android:textColor="@color/md_theme_light_onPrimary"
             android:textAllCaps="false"
+            android:textColor="@color/md_theme_light_onPrimary"
+            android:textSize="@dimen/_15sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

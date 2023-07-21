@@ -5,22 +5,43 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Gravity
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopify.R
 import com.example.shopify.databinding.BottomSheetLayoutBinding
 import com.example.shopify.databinding.FragmentHomeBinding
+import com.example.shopify.home.domain.model.BrandModel
+import com.example.shopify.home.domain.model.ProductModel
+import com.example.shopify.utils.connectivity.ConnectivityObserver
+import com.google.android.material.slider.RangeSlider
+import com.google.android.material.slider.RangeSlider.OnSliderTouchListener
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.text.NumberFormat
+import java.util.Currency
 
-class HomeFragment : Fragment() {
+@AndroidEntryPoint
+class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fragment() {
 
 
     private lateinit var binding: FragmentHomeBinding
-    lateinit var navController: NavController
+    private lateinit var navController: NavController
+    private val viewModel: HomeViewModel by viewModels()
+    private lateinit var brandsAdapter: BrandsAdapter
+    private lateinit var productsAdapter: ProductsAdapter
+    private var vendor: String = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,18 +58,95 @@ class HomeFragment : Fragment() {
             showBottomDialog()
         }
         binding.cartImageButton.setOnClickListener {
-            navController.navigate(HomeFragmentDirections.actionHomeFragmentToCartFragment())
+            navController.setGraph(R.navigation.cart_nav_graph)
         }
+        brandsAdapter = BrandsAdapter(requireContext()) {
+            getProductsByBrand(it)
+        }
+        productsAdapter = ProductsAdapter(requireContext()) {
+            goToProductsInfo(it)
+        }
+        setProductsRecycler()
+        setBrandsRecycler()
+        checkConnection()
+        stateObserve()
     }
 
     private fun showBottomDialog() {
         val bottomSheet = BottomSheetLayoutBinding.inflate(layoutInflater)
         val dialog = Dialog(requireContext())
+        var selectedCategory: Long? = null
+        var selectedType = ""
+        var max = Double.MAX_VALUE
+        var min = Double.MIN_VALUE
         dialog.apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setContentView(bottomSheet.root)
 
+            bottomSheet.categoryRg.setOnCheckedChangeListener { _, checkedId ->
+                when (checkedId) {
+                    R.id.menRb -> {
+                        selectedCategory = bottomSheet.menRb.tag.toString().toLong()
+                    }
+
+                    R.id.womenRb -> {
+                        selectedCategory = bottomSheet.womenRb.tag.toString().toLong()
+                    }
+
+                    R.id.kidsRb -> {
+                        selectedCategory = bottomSheet.kidsRb.tag.toString().toLong()
+                    }
+
+                    R.id.saleRb -> {
+                        selectedCategory = bottomSheet.saleRb.tag.toString().toLong()
+                    }
+                }
+            }
+
+            bottomSheet.typesRg.setOnCheckedChangeListener { _, checkedId ->
+                when (checkedId) {
+                    R.id.tShirtsRb -> {
+                        selectedType = bottomSheet.tShirtsRb.tag.toString()
+                    }
+
+                    R.id.accessoriesRb -> {
+                        selectedType = bottomSheet.accessoriesRb.tag.toString()
+                    }
+
+                    R.id.shoesRb -> {
+                        selectedType = bottomSheet.shoesRb.tag.toString()
+                    }
+                }
+            }
+
+            bottomSheet.priceRangeSlider.setLabelFormatter {
+                val format = NumberFormat.getCurrencyInstance()
+                format.maximumFractionDigits = 0
+                format.currency = Currency.getInstance("EGP")
+                format.format(it.toDouble())
+            }
+
+            bottomSheet.priceRangeSlider.addOnSliderTouchListener(object : OnSliderTouchListener {
+                override fun onStartTrackingTouch(slider: RangeSlider) {
+                }
+
+                override fun onStopTrackingTouch(slider: RangeSlider) {
+                    Timber.e(slider.values.max().toString())
+                    Timber.e(slider.values.min().toString())
+                    max = slider.values.max().toDouble()
+                    min = slider.values.min().toDouble()
+                }
+
+            })
+
+
             bottomSheet.applyBtn.setOnClickListener {
+                if (selectedCategory != null || selectedType.isNotEmpty() || max != Double.MAX_VALUE || min != Double.MIN_VALUE) {
+                    Timber.e(max.toString())
+                    Timber.e(min.toString())
+                    viewModel.filterProducts(selectedCategory, selectedType, max, min)
+                    brandsAdapter.clearSelection()
+                }
                 dismiss()
             }
 
@@ -59,8 +157,76 @@ class HomeFragment : Fragment() {
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             window?.attributes?.windowAnimations = R.style.DialogAnimation
             window?.setGravity(Gravity.BOTTOM)
-
         }.show()
+    }
+
+    private fun checkConnection() {
+        lifecycleScope.launch {
+            connectivityObserver.observe().collectLatest {
+                when (it) {
+                    ConnectivityObserver.Status.Available -> {
+                        viewModel.getAllProducts()
+                        viewModel.getAllBrands()
+                    }
+
+                    else -> {
+                        Toast.makeText(requireContext(), "No Connection", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun stateObserve() {
+        lifecycleScope.launch {
+            viewModel.homeState.collectLatest {
+
+                if (it.brands.isNotEmpty()) {
+                    brandsAdapter.submitList(it.brands)
+                }
+                if (it.products.isNotEmpty()) {
+                    productsAdapter.submitList(it.products)
+                    Timber.e(it.products.count().toString())
+                } else {
+                    productsAdapter.submitList(listOf())
+                }
+                binding.progressBar.visibility = if (it.loading == true) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
+            }
+        }
+
+    }
+
+    private fun getProductsByBrand(brandModel: BrandModel) {
+        Toast.makeText(requireContext(), brandModel.title, Toast.LENGTH_SHORT).show()
+        vendor = brandModel.title
+        viewModel.getProductsByBrand(vendor)
+        vendor = ""
+    }
+
+    private fun goToProductsInfo(product: ProductModel) {
+        Toast.makeText(requireContext(), product.title, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun setBrandsRecycler() {
+        val brandsLayoutManager = LinearLayoutManager(requireContext())
+        brandsLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        binding.brandRv.apply {
+            adapter = brandsAdapter
+            layoutManager = brandsLayoutManager
+        }
+    }
+
+    private fun setProductsRecycler() {
+        val productsLayoutManager = GridLayoutManager(requireContext(), 2)
+        productsLayoutManager.orientation = GridLayoutManager.VERTICAL
+        binding.productsRv.apply {
+            adapter = productsAdapter
+            layoutManager = productsLayoutManager
+        }
     }
 
 }

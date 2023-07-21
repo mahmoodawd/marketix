@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/_7sdp"
     app:cardBackgroundColor="@color/md_theme_light_primary"
-    app:cardCornerRadius="@dimen/_15sdp"
+    app:cardCornerRadius="@dimen/_30sdp"
     app:strokeWidth="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,8 +15,9 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/_5sdp">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/brandImage"
+
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
             android:layout_marginEnd="@dimen/_5sdp"

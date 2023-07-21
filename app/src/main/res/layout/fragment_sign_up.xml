@@ -5,12 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#f8f9fa"
         android:isScrollContainer="true"
-        tools:context=".auth.presentation.SignUpFragment">
+        tools:context=".auth.presentation.signup.SignUpFragment">
+
+        <ProgressBar
+            android:id="@+id/signUpProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/_50sdp"
+            android:indeterminateTint="@color/seed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
 
         <ImageView
             android:id="@+id/backImageView"
@@ -36,6 +50,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/backImageView" />
 
+
         <TextView
             android:id="@+id/create_account_msg_tv"
             style="@style/p2"
@@ -44,7 +59,7 @@
             android:layout_marginBottom="@dimen/_16sdp"
             android:text="@string/create_account_msg"
             android:textColor="@color/md_theme_light_onSurfaceVariant"
-            app:layout_constraintBottom_toTopOf="@+id/user_name_et"
+            app:layout_constraintBottom_toTopOf="@+id/user_name_field"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,31 +68,31 @@
 
 
         <include
-            android:id="@+id/user_name_et"
+            android:id="@+id/user_name_field"
             layout="@layout/user_name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/email_et"
+            app:layout_constraintBottom_toTopOf="@+id/email_field"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/create_account_msg_tv" />
 
         <include
-            android:id="@+id/email_et"
+            android:id="@+id/email_field"
             layout="@layout/email_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="@dimen/_8sdp"
-            app:layout_constraintBottom_toTopOf="@+id/password_et"
+            app:layout_constraintBottom_toTopOf="@+id/password_field"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/user_name_et" />
+            app:layout_constraintTop_toBottomOf="@+id/user_name_field" />
 
         <include
-            android:id="@+id/password_et"
+            android:id="@+id/password_field"
             layout="@layout/password_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -86,7 +101,7 @@
             app:layout_constraintEnd_toStartOf="@id/guideline_end"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/email_et" />
+            app:layout_constraintTop_toBottomOf="@+id/email_field" />
 
         <Button
             android:id="@+id/forget_password_btn"
@@ -95,12 +110,12 @@
             android:layout_height="wrap_content"
             android:text="@string/forget_password"
             android:textColor="@color/md_theme_light_onSurfaceVariant"
-            app:layout_constraintBottom_toTopOf="@+id/sign_in_btn"
+            app:layout_constraintBottom_toTopOf="@+id/sign_up_btn"
             app:layout_constraintEnd_toEndOf="@+id/guideline_end"
-            app:layout_constraintTop_toBottomOf="@+id/password_et" />
+            app:layout_constraintTop_toBottomOf="@+id/password_field" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/sign_in_btn"
+            android:id="@+id/sign_up_btn"
             android:layout_width="0dp"
             android:layout_height="@dimen/_54sdp"
             android:layout_marginTop="@dimen/_16sdp"
@@ -118,7 +133,7 @@
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/sign_in_btn"
+            app:layout_constraintTop_toBottomOf="@+id/sign_up_btn"
             app:layout_constraintVertical_bias="0.275" />
 
 
@@ -137,17 +152,17 @@
         <TextView
             android:id="@+id/nav_to_register_btn"
             android:layout_width="0dp"
-            android:layout_marginTop="@dimen/_32sdp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_32sdp"
             android:layout_marginBottom="@dimen/_32sdp"
             android:fontFamily="@font/bold"
             android:text="@string/sign_in"
             android:textColor="@color/md_theme_light_onSurface"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/google_btn_view"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintStart_toEndOf="@+id/nav_to_login_tv" />
+            app:layout_constraintStart_toEndOf="@+id/nav_to_login_tv"
+            app:layout_constraintTop_toBottomOf="@id/google_btn_view" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"

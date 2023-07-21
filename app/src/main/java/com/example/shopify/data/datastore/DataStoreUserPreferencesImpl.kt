@@ -47,14 +47,13 @@ class DataStoreUserPreferencesImpl @Inject constructor(private val context: Cont
                 }
     }
 
-    override suspend fun getBoolean(key: String): Boolean? {
-        return try {
-            val preferenceKey = booleanPreferencesKey(key)
-            val preference = context.dataStore.data.first()
-            preference[preferenceKey]
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
+    override suspend fun <T> getBoolean(key: String):  Flow<Response<T>> {
+
+        val preferenceKey = booleanPreferencesKey(key)
+        return context.dataStore.data
+            .catch {  Response.Failure<T>( it.message ?: "error") }
+            .map { preference ->
+                Response.Success(preference[preferenceKey] as T)
+            }
     }
 }

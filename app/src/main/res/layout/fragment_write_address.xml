@@ -38,38 +38,15 @@
 
 
         <TextView
-            android:id="@+id/countryTitleTextView"
-            style="@style/p1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_60sdp"
-            android:text="@string/country"
-            android:textStyle="normal"
-            app:layout_constraintStart_toStartOf="@+id/backImageView"
-            app:layout_constraintTop_toBottomOf="@+id/backImageView" />
-
-
-        <Spinner
-            android:id="@+id/countriesSpinner"
-            style="@style/SpinnerTheme"
-            android:layout_width="@dimen/_150sdp"
-            android:layout_height="@dimen/_50sdp"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="@+id/countryTitleTextView"
-            app:layout_constraintEnd_toEndOf="@+id/saveAddress"
-            app:layout_constraintTop_toTopOf="@+id/countryTitleTextView" />
-
-
-        <TextView
             android:id="@+id/cityTitleTextView"
             style="@style/p1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_60sdp"
+            android:layout_marginTop="@dimen/_50sdp"
             android:text="@string/cities"
             android:textStyle="normal"
             app:layout_constraintStart_toStartOf="@+id/backImageView"
-            app:layout_constraintTop_toBottomOf="@+id/countryTitleTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/pageTitleTextView" />
 
 
         <Spinner
@@ -91,6 +68,7 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_50sdp"
             android:background="@drawable/rounded_corner_blue"
             android:elevation="@dimen/_20sdp"
             android:text="@string/save_address"
@@ -99,17 +77,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
-        <ImageView
-            android:id="@+id/dropDownCountriesImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:elevation="5dp"
-            android:src="@drawable/down"
-            app:layout_constraintBottom_toBottomOf="@+id/countriesSpinner"
-            app:layout_constraintEnd_toEndOf="@+id/countriesSpinner"
-            app:layout_constraintTop_toTopOf="@+id/countriesSpinner" />
 
 
         <ImageView
@@ -140,7 +107,8 @@
             android:id="@+id/addressTextInputLayout"
             android:layout_width="0dp"
             android:layout_height="@dimen/_45sdp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:layout_marginBottom="@dimen/_150sdp"
             app:boxBackgroundColor="@color/gray"
             app:boxCornerRadiusBottomEnd="@dimen/_15sdp"
             app:boxCornerRadiusBottomStart="@dimen/_15sdp"

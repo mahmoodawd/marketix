@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings_graph"
+    app:startDestination="@id/settingsFragment"
+    >
+
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.shopify.settings.presenation.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_allAddressesFragment"
+            app:destination="@id/allAddressesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addressFragment"
+        android:name="com.example.shopify.settings.presenation.address.map.MapFragment"
+        android:label="AddressFragment"
+        tools:layout="@layout/fragment_address"
+        >
+        <action
+            android:id="@+id/action_addressFragment_to_writeAddressFragment"
+            app:destination="@id/writeAddressFragment" />
+        <argument
+            android:name="latitude"
+            app:argType="string" />
+        <argument
+            android:name="longitude"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.example.shopify.settings.presenation.account.AccountFragment"
+        android:label="AccountFragment"
+        tools:layout="@layout/fragment_account"
+        />
+    <fragment
+        android:id="@+id/writeAddressFragment"
+        android:name="com.example.shopify.settings.presenation.address.write.WriteAddressFragment"
+        android:label="WriteAddressFragment" >
+        <argument
+            android:name="latitude"
+            app:argType="string" />
+        <argument
+            android:name="longitude"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/allAddressesFragment"
+        android:name="com.example.shopify.settings.presenation.address.adresses.AllAddressesFragment"
+        android:label="fragment_all_addresses"
+        tools:layout="@layout/fragment_all_addresses" >
+        <action
+            android:id="@+id/action_allAddressesFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
+        <action
+            android:id="@+id/action_allAddressesFragment_to_writeAddressFragment"
+            app:destination="@id/writeAddressFragment" />
+        <action
+            android:id="@+id/action_allAddressesFragment_to_locationTypeDialog"
+            app:destination="@id/locationTypeDialog" />
+    </fragment>
+    <dialog
+        android:id="@+id/locationTypeDialog"
+        android:name="com.example.shopify.settings.presenation.address.typedialog.LocationTypeFragment"
+        android:label="fragment_location_type"
+        tools:layout="@layout/fragment_location_type" />
+
+
+</navigation>

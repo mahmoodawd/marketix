@@ -10,10 +10,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ProgressBar
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/_250sdp"
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/_8sdp"
+            android:visibility="visible"/>
+
         <ImageButton
             android:id="@+id/filterImageButton"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_25sdp"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
             android:layout_marginTop="@dimen/_30sdp"
             android:background="@drawable/image_icon_back"
             android:src="@drawable/filter_icon"
@@ -23,7 +34,7 @@
 
         <TextView
             android:id="@+id/homeTitleTv"
-            style="@style/title_font"
+            style="@style/title_two"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/home"
@@ -36,8 +47,8 @@
 
         <ImageButton
             android:id="@+id/cartImageButton"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_25sdp"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
             android:layout_marginTop="@dimen/_30sdp"
             android:background="@drawable/image_icon_back"
             android:src="@drawable/cart_icon"
@@ -83,7 +94,7 @@
             app:cardCornerRadius="@dimen/_15sdp"
             app:layout_constraintEnd_toEndOf="@id/endGuideline"
             app:layout_constraintStart_toStartOf="@id/startGuideline"
-            app:layout_constraintTop_toBottomOf="@id/searchEditText"
+            app:layout_constraintTop_toBottomOf="@id/brandRv"
             app:strokeWidth="@dimen/_1sdp">
 
             <ImageView
@@ -101,7 +112,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="@id/endGuideline"
             app:layout_constraintStart_toStartOf="@id/startGuideline"
-            app:layout_constraintTop_toBottomOf="@id/addsCardView"
+            app:layout_constraintTop_toBottomOf="@id/searchEditText"
             tools:ignore="SpeakableTextPresentCheck"
             tools:listitem="@layout/brand_list_item" />
 
@@ -114,7 +125,7 @@
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="@id/endGuideline"
             app:layout_constraintStart_toStartOf="@id/startGuideline"
-            app:layout_constraintTop_toBottomOf="@id/brandRv"
+            app:layout_constraintTop_toBottomOf="@id/addsCardView"
             app:spanCount="2"
             tools:listitem="@layout/product_list_item" />
 
@@ -132,12 +143,5 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/_16sdp" />
 
-        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
