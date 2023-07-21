@@ -152,7 +152,7 @@ Is between 8 and 30 characters long</string>
     <string name="please_choose_your_address_location">please choose your address location</string>
     <string name="please_insert_all_required_fields">please insert all required fields</string>
     <string name="newaddressType">newAddress</string>
-    <string name="error_invalid_email">Invalid Email, Check it again</string>
+     <string name="error_invalid_email">Invalid Email, Check it again</string>
     <string name="error_invalid_password">Invalid Password Format!</string>
     <string name="error_empty_fields">Fields can\'t be empty</string>
     <string name="kids_category">451868557591</string>
@@ -171,5 +171,5 @@ Is between 8 and 30 characters long</string>
     <string name="please_choose_location_type">please choose location type</string>
     <string name="type">type</string>
     <string name="please_enable_your_location">please enable your location</string>
-    <string name="please_we_need_location_permission">please we need location permission</string>
-</resources>
+  </resources>
+
