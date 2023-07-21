@@ -3,8 +3,9 @@ package com.example.shopify.favorites.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
-import com.example.shopify.favorites.domain.model.FavoritesModel
 import com.example.shopify.domain.usecase.GetDraftOrdersUseCase
+import com.example.shopify.domain.usecase.RemoveDraftOrderUseCase
+import com.example.shopify.favorites.domain.model.FavoritesModel
 import com.example.shopify.utils.hiltanotations.Dispatcher
 import com.example.shopify.utils.hiltanotations.Dispatchers
 import com.example.shopify.utils.response.Response
@@ -23,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
     @Dispatcher(Dispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
-    private val getFavoritesUseCase: GetDraftOrdersUseCase
+    private val getFavoritesUseCase: GetDraftOrdersUseCase,
+    private val removeDraftOrderUseCase: RemoveDraftOrderUseCase
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<FavoritesState> =
@@ -38,7 +40,7 @@ class FavoritesViewModel @Inject constructor(
     fun onEvent(intent: FavoritesIntent) {
         when (intent) {
             is FavoritesIntent.GetFavorites -> getFavorites()
-            is FavoritesIntent.RemoveFromFavorites -> Unit
+            is FavoritesIntent.RemoveFromFavorites -> removeItem(intent.id)
         }
     }
 
@@ -78,4 +80,16 @@ class FavoritesViewModel @Inject constructor(
 
     }
 
+    fun removeItem(id: String) {
+        viewModelScope.launch(ioDispatcher) {
+
+            removeDraftOrderUseCase(id).collectLatest { response ->
+                when (response) {
+                    is Response.Success -> _state.update { it.copy(deleted = true) }
+                    is Response.Loading -> _state.update { it.copy(loading = true) }
+                    is Response.Failure -> _snackBarFlow.emit(R.string.failed_message)
+                }
+            }
+        }
+    }
 }

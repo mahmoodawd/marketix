@@ -26,7 +26,10 @@ class FavoritesFragment : Fragment() {
     lateinit var binding: FragmentFavoritesBinding
 
     private val favoritesAdapter: FavoritesAdapter by lazy {
-        FavoritesAdapter(listOf(), {}, {})
+        FavoritesAdapter(
+            listOf(),
+            onItemClick = {},
+            onFavClick = { viewModel.onEvent(FavoritesIntent.RemoveFromFavorites(it)) })
     }
 
     override fun onCreateView(
@@ -42,7 +45,8 @@ class FavoritesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getFavorites()
+
+        viewModel.onEvent(FavoritesIntent.GetFavorites)
 
         snackBarObserver(viewModel.snackBarFlow)
 
