@@ -68,7 +68,7 @@
     <string name="apply">Apply</string>
     <array name="initial_slider_values">
         <item>100</item>
-        <item>900</item>
+        <item>400</item>
     </array>
     <string name="hello_again">Hello Again</string>
     <string name="welcome_back_msg">Welcome Back You\'ve been missed</string>

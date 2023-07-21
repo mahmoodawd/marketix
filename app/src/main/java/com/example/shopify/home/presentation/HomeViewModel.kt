@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.home.domain.model.BrandsModel
 import com.example.shopify.home.domain.model.ProductsModel
+import com.example.shopify.home.domain.usecase.FilterByPriceUseCase
 import com.example.shopify.home.domain.usecase.FilterProductsUseCase
 import com.example.shopify.home.domain.usecase.GetAllBrandsUseCase
 import com.example.shopify.home.domain.usecase.GetAllProductsUseCase
@@ -27,7 +28,8 @@ class HomeViewModel @Inject constructor(
     private val getAllBrandsUseCase: GetAllBrandsUseCase,
     private val getAllProductsUseCase: GetAllProductsUseCase,
     private val getProductsByBrandUseCase: GetProductsByBrandUseCase,
-    private val filterProductsUseCase: FilterProductsUseCase
+    private val filterProductsUseCase: FilterProductsUseCase,
+    private val filerByPriceUseCase: FilterByPriceUseCase
 ) : ViewModel() {
 
     private val _homeState: MutableStateFlow<HomeState.Display> =
@@ -128,7 +130,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun filterProducts(category: Long?, productType: String) {
+    fun filterProducts(
+        category: Long?,
+        productType: String,
+        max: Double,
+        min: Double
+    ) {
         Timber.e("getProductsByType")
         viewModelScope.launch(ioDispatcher) {
             _homeState.update { it.copy(loading = true) }
@@ -139,7 +146,13 @@ class HomeViewModel @Inject constructor(
                             Timber.e("success")
                             response.data?.let {
                                 _homeState.update {
-                                    it.copy(products = response.data.products, loading = false)
+                                    it.copy(
+                                        products = filerByPriceUseCase(
+                                            max,
+                                            min,
+                                            response.data.products
+                                        ), loading = false
+                                    )
                                 }
                             }
                         }
