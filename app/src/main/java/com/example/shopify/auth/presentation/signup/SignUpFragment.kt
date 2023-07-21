@@ -3,7 +3,6 @@ package com.example.shopify.auth.presentation.signup
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,13 +12,16 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
-import com.example.shopify.auth.domain.entities.AuthState
+import com.example.shopify.auth.presentation.CustomerViewModel
 import com.example.shopify.auth.presentation.getValue
 import com.example.shopify.databinding.FragmentSignUpBinding
+import com.example.shopify.utils.snackBarObserver
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -27,18 +29,22 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 
 @AndroidEntryPoint
-class SignUpFragment : Fragment() {
+class SignUpFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
     lateinit var binding: FragmentSignUpBinding
 
     lateinit var navController: NavController
 
     private val viewModel: SignUpViewModel by viewModels()
+
+    private val customerViewModel: CustomerViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,6 +69,9 @@ class SignUpFragment : Fragment() {
         }
 
         listenToSignUpStatus()
+
+        snackBarObserver(viewModel.snackBarFlow)
+
     }
 
     private val authResultLauncher =
@@ -81,19 +90,22 @@ class SignUpFragment : Fragment() {
 
             }
         }
+
     private fun setCurrentUser(idToken: String?) {
         val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
         lifecycleScope.launch {
 
-            FirebaseAuth.getInstance().signInWithCredential(firebaseCredential)
+            firebaseAuth.signInWithCredential(firebaseCredential)
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
-                        navController.setGraph(R.navigation.home_graph)
+                        customerViewModel.createCustomerAccount(firebaseAuth.currentUser!!)
+                        navController.navigate(R.id.home_graph)
                     }
                 }
 
         }
     }
+
     private fun signInWithGoogle() {
         val googleSignInOptions = GoogleSignInOptions.Builder()
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -102,6 +114,7 @@ class SignUpFragment : Fragment() {
         val client = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
         authResultLauncher.launch(client.signInIntent)
     }
+
     private fun signUp() {
         val userName = binding.userNameField.userNameEt.getValue()
         val email = binding.emailField.emailEt.getValue().trim()
@@ -110,29 +123,21 @@ class SignUpFragment : Fragment() {
     }
 
     private fun listenToSignUpStatus() {
-        lifecycleScope.launch {
-            viewModel.signUpStateFlow.collectLatest {
-                binding.signUpProgressBar.visibility =
-                    if (it == AuthState.Loading) View.VISIBLE else View.GONE
+        lifecycleScope.launch(Dispatchers.IO) {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.signUpState.collectLatest { state ->
+                    withContext(Dispatchers.Main) {
 
-                when (it) {
-                    is AuthState.EmailSent -> {
-                        showVerificationDialog()
-                        binding.userNameField.userNameEt.editText?.text?.clear()
-                        binding.emailField.emailEt.editText?.text?.clear()
-                        binding.passwordField.passwordEt.editText?.text?.clear()
+                        binding.signUpProgressBar.visibility =
+                            if (state.loading == true) View.VISIBLE else View.GONE
+
+                        if (state.success == true) {
+
+                            customerViewModel.createCustomerAccount(firebaseAuth.currentUser!!)
+
+                            showVerificationDialog()
+                        }
                     }
-
-                    is AuthState.Failure -> {
-                        Toast.makeText(
-                            requireContext(),
-                            it.exception.localizedMessage,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
-                    else -> Unit
-
                 }
             }
         }
