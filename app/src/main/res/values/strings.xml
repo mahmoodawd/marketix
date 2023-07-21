@@ -126,8 +126,30 @@
     <string name="location">location</string>
     <string name="locationservice">LocationService</string>
     <string name="favorites">Favorites</string>
+
     <string name="cartFragmentDeepLink">shopify://cartFragment</string>
+    <string name="homeFragmentDeepLink">shopify://homeFragment</string>
     <string name="cityType">city</string>
     <string name="addresses">Addresses</string>
     <string name="new_password">new password</string>
+    <string name="users">users\n</string>
+    <string name="username_invalid">Starts with an alphabetic character
+Contains only alphanumeric characters and underscores and
+Is between 8 and 30 characters long</string>
+    <string name="password_invalid">password must have Capital letter, small letter , special character and at least 8 chars</string>
+    <string name="userName_isUpdated">your user name updated successfully</string>
+    <string name="userImage_isUpdated">your image updated successfully</string>
+    <string name="userPassword_isUpdated">your  password updated successfully</string>
+    <string name="userPhone_isUpdated">your phone number updated successfully</string>
+    <string name="account_updated_successfully"> your account is updated successfully</string>
+    <string name="location_database">locationDatabase\n</string>
+    <string name="city_colon">city : </string>
+    <string name="address_colon">address : </string>
+    <string name="latitudeType">latitude</string>
+    <string name="longitude">longitude</string>
+    <string name="inserted_successfully">address inserted successfully</string>
+    <string name="updated_successfully">address updated successfully</string>
+    <string name="please_choose_your_address_location">please choose your address location</string>
+    <string name="please_insert_all_required_fields">please insert all required fields</string>
+    <string name="newaddressType">newAddress</string>
 </resources>

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -15,6 +16,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
 import com.example.shopify.databinding.FragmentAddressBinding
+import com.example.shopify.settings.presenation.address.write.WriteAddressIntent
 import com.example.shopify.utils.getAddress
 import com.example.shopify.utils.snackBarObserver
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -58,45 +60,16 @@ class AddressFragment(private val englishGeoCoder: Geocoder) : Fragment() {
         stateObserver()
 
         binding.go.setOnClickListener {
-            viewModel.onEvent(AddressIntent.SaveLastLocation)
-
-            with(viewModel.state.value){
-                getCityNameByLatLong(latitude!!.toDouble(),longitude!!.toDouble()){address ->
-                   val country =  address.countryName
-                    val cityName = address.subAdminArea
-                    withContext(Dispatchers.Main){
-                        navController.navigate(AddressFragmentDirections.actionAddressFragmentToWriteAddressFragment(country?:"",cityName ?: ""))
-                    }
+            with(viewModel.state.value) {
+                if (!latitude.isNullOrBlank()){
+                navController.navigate(AddressFragmentDirections.actionAddressFragmentToWriteAddressFragment(latitude,longitude!!))
+                }else{
+                    Toast.makeText(requireContext(), getString(R.string.please_choose_your_address_location), Toast.LENGTH_SHORT).show()
                 }
             }
-
         }
         snackBarObserver(viewModel.snackBarFlow)
     }
-
-
-
-
-    private fun getCityNameByLatLong(
-        latitude : Double,
-        longitude : Double,
-        onEvent:  suspend  (Address) -> Unit
-    ) {
-
-
-        englishGeoCoder.getAddress(latitude, longitude) { englishFlow ->
-            lifecycleScope.launch(Dispatchers.IO) {
-                englishFlow.collect { englishAddress ->
-                    if (englishAddress == null) return@collect
-                    onEvent.invoke(englishAddress)
-                }
-            }
-
-
-        }
-    }
-
-
 
 
     private fun stateObserver() {
@@ -104,8 +77,9 @@ class AddressFragment(private val englishGeoCoder: Geocoder) : Fragment() {
             lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.state.collectLatest { state ->
 
-                    withContext(Dispatchers.Main){
-                    binding.progressBar.visibility = if (state.loading) View.VISIBLE else View.GONE
+                    withContext(Dispatchers.Main) {
+                        binding.progressBar.visibility =
+                            if (state.loading) View.VISIBLE else View.GONE
                     }
 
 

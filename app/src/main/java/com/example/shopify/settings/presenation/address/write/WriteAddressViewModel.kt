@@ -1,12 +1,15 @@
 package com.example.shopify.settings.presenation.address.write
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
+import com.example.shopify.settings.domain.model.AddressModel
 import com.example.shopify.settings.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
 import com.example.shopify.settings.domain.usecase.dataStore.SaveStringToDataStoreUseCase
 import com.example.shopify.settings.domain.usecase.location.GetAllCitiesUseCase
+import com.example.shopify.settings.domain.usecase.location.InsertNewAddressUseCase
+import com.example.shopify.settings.domain.usecase.location.SelectAddressByLatLongUseCase
+import com.example.shopify.settings.domain.usecase.location.UpdateAddressUseCase
 import com.example.shopify.utils.hiltanotations.Dispatcher
 import com.example.shopify.utils.hiltanotations.Dispatchers
 import com.example.shopify.utils.response.Response
@@ -22,12 +25,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class WriteAddressViewModel  @Inject constructor(
+class WriteAddressViewModel @Inject constructor(
     @Dispatcher(Dispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     private val getAllCitiesUseCase: GetAllCitiesUseCase,
-    private val saveStringToDataStoreUseCase: SaveStringToDataStoreUseCase,
-    private val readStringFromDataStoreUseCase: ReadStringFromDataStoreUseCase,
-):ViewModel()  {
+    private val insertNewAddressUseCase: InsertNewAddressUseCase,
+    private val selectAddressByLatLongUseCase: SelectAddressByLatLongUseCase,
+    private val updateAddressUseCase: UpdateAddressUseCase
+) : ViewModel() {
 
 
     private val _state: MutableStateFlow<WriteAddressState> =
@@ -40,88 +44,123 @@ class WriteAddressViewModel  @Inject constructor(
     val snackBarFlow = _snackBarFlow.asSharedFlow()
 
 
-    fun onEvent(intent: WriteAddressIntent){
-        when(intent)
-        {
-           is  WriteAddressIntent.SavePref -> {
-                  saveStringToDataStore(intent.key,_state.value.address)
+    fun onEvent(intent: WriteAddressIntent) {
+        when (intent) {
+            is WriteAddressIntent.SaveAddress -> {
+                if (_state.value.newAddress) {
+
+                    insertNewAddressToDataBase()
+                } else {
+                    updateAddress()
+                }
             }
 
             is WriteAddressIntent.NewSelectedCity -> _state.update { it.copy(selectedCity = intent.city) }
             is WriteAddressIntent.NewAddress -> {
-                 _state.update { it.copy(address = intent.address) }
+                _state.update { it.copy(address = intent.address) }
+            }
+
+            is WriteAddressIntent.NewLatLong -> {
+                _state.update { it.copy(latitude = intent.latitude, longitude = intent.longitude) }
+                onEvent(WriteAddressIntent.ReadAddressFromDatabase)
+            }
+            WriteAddressIntent.ReadAddressFromDatabase -> getAddressByLatLong()
+        }
+    }
+
+    private fun insertNewAddressToDataBase() {
+        viewModelScope.launch(ioDispatcher) {
+            val address = AddressModel(
+                latitude = _state.value.latitude,
+                longitude = _state.value.longitude,
+                address = _state.value.address,
+                city = _state.value.selectedCity
+            )
+            val insertResult = insertNewAddressUseCase.execute<String>(address)
+            if (insertResult is Response.Success) {
+                _snackBarFlow.emit(R.string.inserted_successfully)
+            } else {
+                _snackBarFlow.emit(R.string.failed_message)
+
+            }
+
+        }
+
+    }
+
+
+    private fun updateAddress() {
+        viewModelScope.launch(ioDispatcher) {
+            with(_state.value) {
+                val updateResult = updateAddressUseCase.execute<String>(
+                    AddressModel(
+                        latitude = latitude,
+                        longitude = longitude,
+                        city = selectedCity,
+                        address = address
+                    )
+                )
+
+                if (updateResult is Response.Success){
+                    _snackBarFlow.emit(R.string.account_updated_successfully)
+                }
             }
         }
     }
 
 
-    private fun getAllCities()
-    {
+    private fun getAddressByLatLong() {
 
-        viewModelScope.launch(ioDispatcher){
+        with(_state.value) {
+            viewModelScope.launch(ioDispatcher) {
+                val addressResponse =
+                    selectAddressByLatLongUseCase.execute<AddressModel>(latitude, longitude)
+                if (addressResponse is Response.Success) {
+                    _state.update {
+                        it.copy(
+                            address = addressResponse.data!!.address,
+                            selectedCity = addressResponse.data.city,
+                            latitude = addressResponse.data.latitude,
+                            longitude = addressResponse.data.longitude,
+                            newAddress = false
+                        )
+                    }
+                } else {
+                    _state.update {
+                        it.copy(
+                            newAddress = true
+                        )
+                    }
+                }
+            }
+
+        }
+
+
+    }
+
+
+    private fun getAllCities() {
+
+        viewModelScope.launch(ioDispatcher) {
             getAllCitiesUseCase.execute<List<String>>().collectLatest { response ->
-                when(response){
-                    is Response.Failure -> {
-                        _snackBarFlow.emit(R.string.failed_message)
-                    }
-                    is Response.Loading ->  _state.update { it.copy(loading = true) }
-                    is Response.Success -> {
-                        _state.update { it.copy(response.data!!,loading = false) }
-                    }
-                }
-            }
-        }
-    }
-
-
-
-    private fun saveStringToDataStore(key : String ,value : String){
-        viewModelScope.launch(ioDispatcher) {
-            saveStringToDataStoreUseCase.execute(key,value).collectLatest { response ->
-
-                when(response){
-                    is Response.Failure ->{
-                        _snackBarFlow.emit(R.string.failed_message)
-                    }
-                    is Response.Loading -> _state.update { it.copy(loading = true) }
-                    is Response.Success -> {
-                        _snackBarFlow.emit(R.string.successfull_message)
-                    }
-                }
-            }
-        }
-    }
-
-
-    private fun readStringFromFromDataStore(key: String,event : (String) -> Unit) {
-        viewModelScope.launch(ioDispatcher) {
-            readStringFromDataStoreUseCase.execute<String>(key = key).collectLatest { response ->
                 when (response) {
                     is Response.Failure -> {
                         _snackBarFlow.emit(R.string.failed_message)
                     }
+
                     is Response.Loading -> _state.update { it.copy(loading = true) }
-                    is Response.Success -> event(response.data?:"")
+                    is Response.Success -> {
+                        _state.update { it.copy(response.data!!, loading = false) }
+                    }
                 }
             }
         }
     }
 
 
-
     init {
         getAllCities()
-        readStringFromFromDataStore("address"){ address->
-            _state.update {
-                it.copy(address = address)
-            }
-        }
-
-        readStringFromFromDataStore("city"){ city ->
-            _state.update {
-                it.copy(selectedCity = city)
-            }
-        }
     }
 
 }
