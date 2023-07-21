@@ -24,6 +24,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -96,9 +97,7 @@ class AddressFragment(private val englishGeoCoder: Geocoder) : Fragment() {
 
 
             googleMap.setOnMapLongClickListener { latLong ->
-
-                newMapLocationIsSelected(latLong, googleMap)
-
+                    newMapLocationIsSelected(latLong, googleMap)
             }
 
             googleMap.setOnMapLoadedCallback {

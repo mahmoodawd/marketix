@@ -3,7 +3,6 @@ package com.example.shopify.home.presentation
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -16,16 +15,17 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopify.R
 import com.example.shopify.databinding.BottomSheetLayoutBinding
 import com.example.shopify.databinding.FragmentHomeBinding
 import com.example.shopify.home.domain.model.BrandModel
+import com.example.shopify.home.domain.model.ProductModel
 import com.example.shopify.utils.connectivity.ConnectivityObserver
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fragment() {
@@ -35,6 +35,8 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
     private lateinit var navController: NavController
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var brandsAdapter: BrandsAdapter
+    private lateinit var productsAdapter: ProductsAdapter
+    private var vendor: String = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,12 +53,15 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
             showBottomDialog()
         }
         binding.cartImageButton.setOnClickListener {
-            navController.setGraph(R.navigation.settings_graph)
-            navController.navigate(Uri.parse(getString(R.string.cartFragmentDeepLink)))
+            navController.setGraph(R.navigation.cart_nav_graph)
         }
         brandsAdapter = BrandsAdapter(requireContext()) {
             getProductsByBrand(it)
         }
+        productsAdapter = ProductsAdapter(requireContext()) {
+            goToProductsInfo(it)
+        }
+        setProductsRecycler()
         setBrandsRecycler()
         checkConnection()
         stateObserve()
@@ -65,11 +70,53 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
     private fun showBottomDialog() {
         val bottomSheet = BottomSheetLayoutBinding.inflate(layoutInflater)
         val dialog = Dialog(requireContext())
+        var selectedCategory: Long? = null
+        var selectedType = ""
         dialog.apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setContentView(bottomSheet.root)
 
+            bottomSheet.categoryRg.setOnCheckedChangeListener { _, checkedId ->
+                when (checkedId) {
+                    R.id.menRb -> {
+                        selectedCategory = bottomSheet.menRb.tag.toString().toLong()
+                    }
+
+                    R.id.womenRb -> {
+                        selectedCategory = bottomSheet.womenRb.tag.toString().toLong()
+                    }
+
+                    R.id.kidsRb -> {
+                        selectedCategory = bottomSheet.kidsRb.tag.toString().toLong()
+                    }
+
+                    R.id.saleRb -> {
+                        selectedCategory = bottomSheet.saleRb.tag.toString().toLong()
+                    }
+                }
+            }
+
+            bottomSheet.typesRg.setOnCheckedChangeListener { _, checkedId ->
+                when (checkedId) {
+                    R.id.tShirtsRb -> {
+                        selectedType = bottomSheet.tShirtsRb.tag.toString()
+                    }
+
+                    R.id.accessoriesRb -> {
+                        selectedType = bottomSheet.accessoriesRb.tag.toString()
+                    }
+
+                    R.id.shoesRb -> {
+                        selectedType = bottomSheet.shoesRb.tag.toString()
+                    }
+                }
+            }
+
             bottomSheet.applyBtn.setOnClickListener {
+                if (selectedCategory != 0L || selectedType.isNotEmpty()) {
+                    viewModel.filterProducts(selectedCategory, selectedType)
+                    brandsAdapter.clearSelection()
+                }
                 dismiss()
             }
 
@@ -89,6 +136,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
             connectivityObserver.observe().collectLatest {
                 when (it) {
                     ConnectivityObserver.Status.Available -> {
+                        viewModel.getAllProducts()
                         viewModel.getAllBrands()
                     }
 
@@ -103,9 +151,14 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
     private fun stateObserve() {
         lifecycleScope.launch {
             viewModel.homeState.collectLatest {
+
                 if (it.brands.isNotEmpty()) {
-                    Timber.e(it.brands.toString())
                     brandsAdapter.submitList(it.brands)
+                }
+                if (it.products.isNotEmpty()) {
+                    productsAdapter.submitList(it.products)
+                } else {
+                    productsAdapter.submitList(listOf())
                 }
             }
         }
@@ -114,6 +167,13 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
 
     private fun getProductsByBrand(brandModel: BrandModel) {
         Toast.makeText(requireContext(), brandModel.title, Toast.LENGTH_SHORT).show()
+        vendor = brandModel.title
+        viewModel.getProductsByBrand(vendor)
+        vendor = ""
+    }
+
+    private fun goToProductsInfo(product: ProductModel) {
+        Toast.makeText(requireContext(), product.title, Toast.LENGTH_SHORT).show()
     }
 
     private fun setBrandsRecycler() {
@@ -124,4 +184,14 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
             layoutManager = brandsLayoutManager
         }
     }
+
+    private fun setProductsRecycler() {
+        val productsLayoutManager = GridLayoutManager(requireContext(), 2)
+        productsLayoutManager.orientation = GridLayoutManager.VERTICAL
+        binding.productsRv.apply {
+            adapter = productsAdapter
+            layoutManager = productsLayoutManager
+        }
+    }
+
 }

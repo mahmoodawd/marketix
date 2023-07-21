@@ -152,4 +152,18 @@ Is between 8 and 30 characters long</string>
     <string name="please_choose_your_address_location">please choose your address location</string>
     <string name="please_insert_all_required_fields">please insert all required fields</string>
     <string name="newaddressType">newAddress</string>
+    <string name="error_invalid_email">Invalid Email, Check it again</string>
+    <string name="error_invalid_password">Invalid Password Format!</string>
+    <string name="error_empty_fields">Fields can\'t be empty</string>
+    <string name="kids_category">451868557591</string>
+    <string name="men_category">451868492055</string>
+    <string name="women_category">451868524823</string>
+    <string name="sale_category">451868590359</string>
+    <string name="product_types">Product Types</string>
+    <string name="t_shirts_tag">T-SHIRTS</string>
+    <string name="t_shirts">T-shirts</string>
+    <string name="accessories_tag">ACCESSORIES</string>
+    <string name="accessories">Accessories</string>
+    <string name="shoes">Shoes</string>
+    <string name="shoes_tag">SHOES</string>
 </resources>
