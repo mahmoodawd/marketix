@@ -97,19 +97,7 @@ class AddressFragment(private val englishGeoCoder: Geocoder) : Fragment() {
 
 
             googleMap.setOnMapLongClickListener { latLong ->
-
-                val egyptBounds = LatLngBounds(
-                    LatLng(22.00, 29.00),
-                    LatLng(31.50, 32.00)
-                )
-                if(egyptBounds.contains(latLong))
-                {
                     newMapLocationIsSelected(latLong, googleMap)
-                }else{
-                    Toast.makeText(requireContext(), getString(R.string.please_select_place_in_egypt), Toast.LENGTH_SHORT).show()
-                }
-
-
             }
 
             googleMap.setOnMapLoadedCallback {
