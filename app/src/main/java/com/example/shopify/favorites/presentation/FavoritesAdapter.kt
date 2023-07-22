@@ -10,8 +10,8 @@ import com.example.shopify.favorites.domain.model.FavoriteProductModel
 
 class FavoritesAdapter(
     var products: List<FavoriteProductModel>,
-    private val onItemClick: (String) -> Unit,
-    private val onDeleteClick: (String) -> Unit,
+    private val onItemClick: (Long) -> Unit,
+    private val onFavClick: (Long) -> Unit,
 
     ) : ListAdapter<FavoriteProductModel, RecyclerView.ViewHolder>(FavDiffUtil()) {
 
@@ -22,14 +22,12 @@ class FavoritesAdapter(
         fun bind(item: FavoriteProductModel) {
 
             binding.product = item
-            binding.onItemClick = { onItemClick(item.id.toString()) }
-            binding.onDeleteClick = {
-                onDeleteClick(item.draftOrderId.toString())
+            binding.onItemClick = { onItemClick(item.id) }
+            binding.onFavClick = {
+                onFavClick(item.draftOrderId)
                 binding.executePendingBindings()
             }
         }
-
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
