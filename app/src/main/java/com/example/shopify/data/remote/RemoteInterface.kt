@@ -10,6 +10,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface RemoteInterface {
@@ -31,6 +32,10 @@ interface RemoteInterface {
         @Query("collection_id") collectionId: Long?,
         @Query("product_type") productType: String=""
     ): ProductsResponse
+
+
+    @GET("products/{ProductId}.json")
+    suspend fun getProductById(@Path("ProductId")productId : String) : ProductsResponse
 
     @POST("customers.json")
     suspend fun createCustomer(@Body customerResponse: CustomerResponse): CustomerResponse

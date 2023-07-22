@@ -35,7 +35,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/cartRecyclerView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_15sdp"
@@ -50,6 +50,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pageTitleTextView"
             tools:itemCount="5"
+            android:paddingBottom="@dimen/_20sdp"
             tools:listitem="@layout/cart_item" />
 
         <TextView
@@ -117,7 +118,7 @@
             android:shadowRadius="1"
             android:text="$64.95"
             app:layout_constraintBottom_toBottomOf="@+id/subTotalTitleTextView"
-            app:layout_constraintEnd_toEndOf="@+id/recyclerView"
+            app:layout_constraintEnd_toEndOf="@+id/cartRecyclerView"
             app:layout_constraintTop_toTopOf="@+id/subTotalTitleTextView" />
 
 
@@ -134,7 +135,7 @@
             android:shadowRadius="1"
             android:text="$64.95"
             app:layout_constraintBottom_toBottomOf="@+id/shoppingTitleTextView"
-            app:layout_constraintEnd_toEndOf="@+id/recyclerView"
+            app:layout_constraintEnd_toEndOf="@+id/cartRecyclerView"
             app:layout_constraintTop_toTopOf="@+id/shoppingTitleTextView" />
 
 
@@ -151,7 +152,7 @@
             android:shadowRadius="1"
             android:text="$64.95"
             app:layout_constraintBottom_toBottomOf="@+id/totalCostTitleTextView"
-            app:layout_constraintEnd_toEndOf="@+id/recyclerView"
+            app:layout_constraintEnd_toEndOf="@+id/cartRecyclerView"
             app:layout_constraintTop_toTopOf="@+id/totalCostTitleTextView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
