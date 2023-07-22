@@ -11,15 +11,15 @@
         android:layout_height="wrap_content">
 
         <ProgressBar
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/_250sdp"
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_250sdp"
             android:elevation="@dimen/_8sdp"
-            android:visibility="visible"/>
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/filterImageButton"
@@ -44,6 +44,19 @@
             app:layout_constraintStart_toStartOf="@id/startGuideline"
             app:layout_constraintTop_toTopOf="@id/filterImageButton"
             tools:ignore="TextSizeCheck" />
+
+        <ImageButton
+            android:id="@+id/ordersImageButton"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:background="@drawable/image_icon_back"
+            android:scaleType="centerInside"
+            android:src="@drawable/orders"
+            app:layout_constraintBottom_toBottomOf="@id/cartImageButton"
+            app:layout_constraintEnd_toStartOf="@id/cartImageButton"
+            app:layout_constraintTop_toTopOf="@id/cartImageButton"
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         <ImageButton
             android:id="@+id/cartImageButton"

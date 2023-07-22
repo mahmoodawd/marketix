@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -58,12 +59,15 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
             showBottomDialog()
         }
         binding.cartImageButton.setOnClickListener {
-            navController.setGraph(R.navigation.cart_nav_graph)
+            navController.navigate(getString(R.string.cartFragmentDeepLink).toUri())
+        }
+        binding.ordersImageButton.setOnClickListener {
+            navController.navigate(HomeFragmentDirections.actionHomeFragmentToOrdersFragment())
         }
         brandsAdapter = BrandsAdapter(requireContext()) {
             getProductsByBrand(it)
         }
-        productsAdapter = ProductsAdapter(requireContext()) {
+        productsAdapter = ProductsAdapter{
             goToProductsInfo(it)
         }
         setProductsRecycler()

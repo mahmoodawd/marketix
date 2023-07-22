@@ -12,7 +12,6 @@ import com.example.shopify.databinding.ProductListItemBinding
 import com.example.shopify.home.domain.model.ProductModel
 
 class ProductsAdapter(
-    private val context: Context,
     private val selectProduct: (ProductModel) -> Unit
 ) : ListAdapter<ProductModel, ProductViewHolder>(ProductDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
