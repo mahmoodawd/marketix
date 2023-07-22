@@ -38,10 +38,11 @@ interface RemoteInterface {
     @GET("draft_orders.json")
     suspend fun getDraftOrders(
         @Query("customer_id") id: String = "",
-        @Query("note") note: String = ""
+        @Query("filter") note: String = "note=fav"
     ): DraftOrderResponse
 
-
+    @DELETE("draft_orders/{draftOrderId}.json")
+    suspend fun removeDraftOrder(@Path("draftOrderId") draftOrderId: String)
 
 
 }

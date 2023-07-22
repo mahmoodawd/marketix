@@ -1,11 +1,11 @@
-package com.example.shopify.domain.usecase
+package com.example.shopify.favorites.domain.usecase
 
 import com.example.shopify.domain.repository.DraftOrdersRepository
 import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetDraftOrdersUseCase @Inject constructor(
+class GetFavoriteProductsUseCase @Inject constructor(
     private val draftOrdersRepository: DraftOrdersRepository
 ) {
 

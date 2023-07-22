@@ -9,14 +9,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
-class DraftOrdersRepoImp @Inject constructor(
+class FavoritesRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource
 ) : DraftOrdersRepository {
 
     override suspend fun <T> getDraftOrders(): Flow<Response<T>> = flowOf(
         try {
-            //should be mapped
             Response.Success(remoteDataSource.getFavoritesProducts().toFavoritesModel() as T)
         } catch (e: Exception) {
             Response.Failure(e.message ?: "unknownException")

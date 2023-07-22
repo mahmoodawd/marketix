@@ -5,14 +5,19 @@ import com.example.shopify.data.dto.DraftOrdersItem
 import com.example.shopify.data.dto.LineItem
 import com.example.shopify.favorites.domain.model.FavoriteProductModel
 import com.example.shopify.favorites.domain.model.FavoritesModel
+import com.example.shopify.utils.constants.TAG_FAVORITES
+import com.google.firebase.auth.FirebaseAuth
 
 fun DraftOrdersItem.toFavoriteItem(): FavoriteProductModel =
     line_items[0].toProduct().also {
-        it.draftOrderId = this.id
+        it.draftOrderId = this@toFavoriteItem.id
     }
 
 fun DraftOrderResponse.toFavoritesModel(): FavoritesModel =
-    FavoritesModel(products = draft_orders.map { it.toFavoriteItem() })
+    FavoritesModel(products = draft_orders.filter { item ->
+        item.email == FirebaseAuth.getInstance().currentUser!!.email &&
+                item.tags == TAG_FAVORITES
+    }.map { it.toFavoriteItem() })
 
 fun LineItem.toProduct() =
     FavoriteProductModel(
@@ -21,6 +26,6 @@ fun LineItem.toProduct() =
         title = title,
         price = price,
         vendor = vendor,
-        imageSrc = "https://cdn.shopify.com/s/files/1/0790/0712/1687/products/85cc58608bf138a50036bcfe86a3a362.jpg?v=1689452647",
+        imageSrc = properties.takeIf { it.isNotEmpty() }?.first()?.value ?: ""
 
-        )
+    )
