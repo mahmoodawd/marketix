@@ -21,4 +21,12 @@ class FavoritesRepository @Inject constructor(
             Response.Failure(e.message ?: "unknownException")
         }
     )
+
+    override suspend fun removeDraftOrder(id: String) = flowOf(
+        try {
+            Response.Success(remoteDataSource.removeDraftOrder(id))
+        } catch (e: Exception) {
+            Response.Failure(e.message ?: "unknownException")
+        }
+    )
 }
