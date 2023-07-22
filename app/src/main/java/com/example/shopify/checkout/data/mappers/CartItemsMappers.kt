@@ -7,7 +7,7 @@ import com.example.shopify.data.dto.DraftOrdersItem
 
 fun DraftOrderResponse.toCartItems() : CartItems
 {
-    return CartItems(cartItems = draft_orders.map { it.toCartItem() })
+    return CartItems(cartItems = draft_orders.filter { it.tags == "cartItem" }.map { it.toCartItem() })
 }
 fun DraftOrdersItem.toCartItem(): CartItem {
     return CartItem(
@@ -16,6 +16,6 @@ fun DraftOrdersItem.toCartItem(): CartItem {
         currency = currency,
         itemPrice = total_price,
         quantity = line_items.first().quantity.toString(),
-        imageUrl = line_items.first().properties.first().toString()
+        imageUrl = line_items.first().properties.first().value
     )
 }
