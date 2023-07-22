@@ -14,7 +14,7 @@ data class DraftOrder(
     val invoice_url: String,
     val line_items: List<LineItem>,
     val name: String,
-    val note: Any,
+    val note: String,
     val note_attributes: List<Any>,
     val order_id: Any,
     val payment_terms: Any,

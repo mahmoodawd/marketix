@@ -17,12 +17,4 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(private val remoteDataSo
                 Response.Success((response.data as DraftOrderResponse).toCartItems() as T)
             }
     }
-
-    override suspend fun <T> deleteItemFromCart(id: String): Flow<Response<T>> {
-        return remoteDataSource.deleteItemFromCart(id)
-    }
-
-    override suspend fun <T> updateItemFromCart(id: String, quantity: String): Flow<Response<T>> {
-        return remoteDataSource.updateItemFromCart(id,quantity)
-    }
 }

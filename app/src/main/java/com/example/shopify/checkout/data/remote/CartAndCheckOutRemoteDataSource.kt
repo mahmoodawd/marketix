@@ -7,9 +7,4 @@ interface CartAndCheckOutRemoteDataSource {
 
     suspend fun <T> getCartItems() : Flow<Response<T>>
 
-    suspend fun <T> deleteItemFromCart(id : String) : Flow<Response<T>>
-
-
-    suspend fun <T> updateItemFromCart(id : String,quantity : String) : Flow<Response<T>>
-
 }

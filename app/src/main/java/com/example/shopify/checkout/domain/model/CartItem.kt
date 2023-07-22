@@ -6,5 +6,5 @@ data class CartItem(
     val itemPrice: String,
     val currency: String,
     val imageUrl: String,
-    var quantity: String
+    val quantity: String
 )

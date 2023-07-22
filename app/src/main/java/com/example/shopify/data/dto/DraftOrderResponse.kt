@@ -36,26 +36,26 @@ data class DraftOrdersItem(
 )
 
 data class LineItem(
-    val variant_title: String = "",
-    var quantity: Int = 0,
-    val taxable: Boolean = false,
-    val gift_card: Boolean = false,
-    val fulfillment_service: String = "",
-    val applied_discount: Any = "",
-    val requires_shipping: Boolean = false,
-    val custom: Boolean = false,
-    val title: String = "",
-    val variant_id: Long = 0L,
-    val tax_lines: List<TaxLine> = emptyList(),
-    val vendor: String = "",
-    val price: String = "",
-    val product_id: Long = 0L,
-    val admin_graphql_api_id: String = "",
-    val name: String = "",
-    val id: Long = 0L,
-    val sku: String = "",
-    val grams: Int = 0,
-    val properties: List<Property> = emptyList()
+	val variant_title: String = "",
+	val quantity: Int = 0,
+	val taxable: Boolean = false,
+	val gift_card: Boolean = false,
+	val fulfillment_service: String = "",
+	val applied_discount: Any = "",
+	val requires_shipping: Boolean = false,
+	val custom: Boolean = false,
+	val title: String = "",
+	val variant_id: Long = 0L,
+	val tax_lines: List<TaxLine> = emptyList(),
+	val vendor: String = "",
+	val price: String = "",
+	val product_id: Long = 0L,
+	val admin_graphql_api_id: String = "",
+	val name: String = "",
+	val id: Long = 0L,
+	val sku: String = "",
+	val grams: Int = 0,
+	val properties: List<Any> = emptyList()
 )
 
 data class TaxLine(
@@ -96,10 +96,4 @@ data class Customer(
 	val phone: Any = "",
 	val admin_graphql_api_id: String = "",
 	val tax_exemptions: List<Any> = emptyList()
-)
-
-
-data class Property(
-	val name: String,
-	val value: String
 )

@@ -13,15 +13,6 @@
             name="deleteClickListener"
             type="Function0&lt;Unit>" />
 
-        <variable
-            name="plusClickListener"
-            type="Function0&lt;Unit>" />
-
-
-        <variable
-            name="minusClickListener"
-            type="Function0&lt;Unit>" />
-
 
         <variable
             name="cartItem"
@@ -57,7 +48,6 @@
             android:shadowDy="4"
             android:shadowRadius="5"
             android:text="@{cartItem.itemName}"
-
             android:textStyle="normal"
             app:layout_constraintStart_toEndOf="@+id/itemImageView"
             app:layout_constraintTop_toTopOf="@+id/itemImageView" />
@@ -75,8 +65,6 @@
             android:shadowDy="4"
             android:shadowRadius="5"
             android:text="@{cartItem.itemPrice}"
-            bind:price="@{cartItem.itemPrice}"
-            bind:currency="@{cartItem.currency}"
             android:textStyle="normal"
             app:layout_constraintStart_toStartOf="@+id/itemNameTextView"
             app:layout_constraintTop_toBottomOf="@+id/itemNameTextView" />
@@ -86,7 +74,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="@dimen/_50sdp"
-            android:onClick="@{() ->minusClickListener.invoke()}"
             app:layout_constraintBottom_toBottomOf="@+id/numberOfItemsTextView"
             app:layout_constraintStart_toStartOf="@+id/itemPriceTextView"
             app:layout_constraintTop_toTopOf="@+id/numberOfItemsTextView"
@@ -97,7 +84,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_15sdp"
-            android:onClick="@{() ->plusClickListener.invoke()}"
             app:layout_constraintBottom_toBottomOf="@+id/numberOfItemsTextView"
             app:layout_constraintStart_toEndOf="@+id/numberOfItemsTextView"
             app:layout_constraintTop_toTopOf="@+id/numberOfItemsTextView"

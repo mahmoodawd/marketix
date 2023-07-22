@@ -1,7 +1,6 @@
 package com.example.shopify.checkout.presentation.cart
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -34,32 +33,12 @@ class CartFragment : Fragment() {
 
     private lateinit var navController: NavController
 
-    private val viewModel: CartViewModel by viewModels()
+    private val viewModel : CartViewModel by viewModels()
 
 
     private val cartRecyclerAdapter by lazy {
-        CartRecyclerAdapter(onPlusClickAction = { updatedId, quantity, position ->
-            viewModel.onEvent(
-                CartIntent.UpdateCartItem(
-                    updatedId.toString(),
-                    (quantity.toInt() + 1).toString(),
-                    position
-                )
-            )
-        }, onMinusClickAction = { updatedId, quantity, position ->
+        CartRecyclerAdapter { deletedItemId ->
 
-            if (quantity.toInt() >= 2) {
-                viewModel.onEvent(
-                    CartIntent.UpdateCartItem(
-                        updatedId.toString(),
-                        (quantity.toInt() - 1).toString(),
-                        position
-                    )
-                )
-            }
-
-        }) { deletedItemId, position ->
-            viewModel.onEvent(CartIntent.DeleteCartItem(deletedItemId.toString(), position))
         }
     }
 
@@ -75,17 +54,17 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
-        viewModel.onEvent(CartIntent.GetAllCartItems)
         setUpCartRecyclerView()
         stateObserver()
         binding.checkOutButton.setOnClickListener {
-            navController.navigate(CartFragmentDirections.actionCartFragmentToCheckOutFragment())
+           navController.navigate(CartFragmentDirections.actionCartFragmentToCheckOutFragment())
         }
 
     }
 
 
-    private fun setUpCartRecyclerView() {
+    private fun setUpCartRecyclerView()
+    {
         val linearLayoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         binding.cartRecyclerView.layoutManager = linearLayoutManager
@@ -96,8 +75,9 @@ class CartFragment : Fragment() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.state.collectLatest { state ->
-                    cartRecyclerAdapter.submitList(state.cartItems)
-                 cartRecyclerAdapter.notifyDataSetChanged()
+                    if (state.cartItems.isNotEmpty()) {
+                        cartRecyclerAdapter.submitList(state.cartItems)
+                    }
                 }
             }
         }

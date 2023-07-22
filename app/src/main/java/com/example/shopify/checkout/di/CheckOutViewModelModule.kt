@@ -4,9 +4,7 @@ import com.example.shopify.checkout.data.remote.CartAndCheckOutRemoteDataSource
 import com.example.shopify.checkout.data.remote.CartAndCheckOutRemoteDataSourceImpl
 import com.example.shopify.checkout.data.repository.CartAndCheckoutRepositoryImpl
 import com.example.shopify.checkout.domain.repository.CartAndCheckoutRepository
-import com.example.shopify.checkout.domain.usecase.DeleteCartItemUseCase
 import com.example.shopify.checkout.domain.usecase.GetCartItemsUseCase
-import com.example.shopify.checkout.domain.usecase.UpdateCartItemUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -40,19 +38,7 @@ abstract class CheckOutViewModelModule {
             return GetCartItemsUseCase(repository)
         }
 
-        @Provides
-        @ViewModelScoped
-        fun providesDeleteCartItemUseCase(repository: CartAndCheckoutRepository) : DeleteCartItemUseCase
-        {
-            return DeleteCartItemUseCase(repository)
-        }
 
 
-        @Provides
-        @ViewModelScoped
-        fun providesUpdateCartItemUseCase(repository: CartAndCheckoutRepository) : UpdateCartItemUseCase
-        {
-            return UpdateCartItemUseCase(repository)
-        }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.shopify.favorites.domain.usecase
+package com.example.shopify.domain.usecase
 
 import com.example.shopify.domain.repository.DraftOrdersRepository
 import com.example.shopify.utils.response.Response
