@@ -2,7 +2,6 @@ package com.example.shopify.orders.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shopify.orders.data.dto.OrdersResponse
 import com.example.shopify.orders.domain.usecase.GetCustomerOrdersUseCase
 import com.example.shopify.utils.hiltanotations.Dispatcher
 import com.example.shopify.utils.hiltanotations.Dispatchers

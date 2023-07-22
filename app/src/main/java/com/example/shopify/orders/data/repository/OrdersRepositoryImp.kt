@@ -1,7 +1,5 @@
 package com.example.shopify.orders.data.repository
 
-import com.example.shopify.home.data.dto.BrandsResponse
-import com.example.shopify.home.data.mappers.toBrandsModel
 import com.example.shopify.orders.data.dto.OrdersResponse
 import com.example.shopify.orders.data.mappers.toOrdersModel
 import com.example.shopify.orders.data.remote.OrdersRemoteSource
