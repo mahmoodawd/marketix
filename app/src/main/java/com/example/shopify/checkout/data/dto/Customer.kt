@@ -8,7 +8,7 @@ data class Customer(
     val currency: String,
     val email: String,
     val email_marketing_consent: EmailMarketingConsent,
-    val first_name: String,
+    val first_name: Any,
     val id: Long,
     val last_name: Any,
     val last_order_id: Any,

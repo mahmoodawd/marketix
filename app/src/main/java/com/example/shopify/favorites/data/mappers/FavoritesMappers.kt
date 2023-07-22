@@ -8,7 +8,7 @@ import com.example.shopify.favorites.domain.model.FavoritesModel
 
 fun DraftOrdersItem.toFavoriteItem(): FavoriteProductModel =
     line_items[0].toProduct().also {
-        it.draftOrderId = this@toFavoriteItem.id
+        it.draftOrderId = this.id
     }
 
 fun DraftOrderResponse.toFavoritesModel(): FavoritesModel =
