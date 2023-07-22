@@ -46,6 +46,9 @@ interface RemoteInterface {
     ): DraftOrderResponse
 
 
+    @DELETE("draft_orders/{draftOrderId}.json")
+    suspend fun removeDraftOrder(@Path("draftOrderId") draftOrderId:String)
+
 
 
 }
