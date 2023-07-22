@@ -6,6 +6,7 @@ data class FavoriteProductModel(
     var imageSrc: String,
     val title: String,
     val price: String,
-    val vendor: String
+    val vendor: String,
+    var currency: String
 
 )
