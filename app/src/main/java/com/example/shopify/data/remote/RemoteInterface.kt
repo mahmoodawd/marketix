@@ -7,6 +7,7 @@ import com.example.shopify.data.dto.DraftOrderResponse
 import com.example.shopify.data.dto.DraftOrdersItem
 import com.example.shopify.home.data.dto.BrandsResponse
 import com.example.shopify.home.data.dto.ProductsResponse
+import com.example.shopify.orders.data.dto.OrdersResponse
 import com.example.shopify.settings.data.dto.currencies.CurrenciesResponse
 import retrofit2.http.Body
 import retrofit2.http.DELETE
