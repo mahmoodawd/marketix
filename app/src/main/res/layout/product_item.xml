@@ -2,7 +2,7 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tool="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -42,27 +42,23 @@
 
             <ImageView
                 android:id="@+id/itemImageView"
-                imageUrl="@{product.imageSrc}"
-                placeholder="@drawable/shoes"
-                android:layout_width="@dimen/_125sdp"
-                android:layout_height="@dimen/_80sdp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
+                loadImage="@{product.imageSrc}"
+                android:layout_width="@dimen/_110sdp"
+                android:layout_height="@dimen/_75sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/shoes" />
+                tools:src="@drawable/shoes" />
 
             <TextView
                 android:id="@+id/vendor_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
-                tool:text="Vendor"
                 android:text="@{product.vendor}"
                 android:textColor="@color/md_theme_light_primary"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/itemImageView" />
+                app:layout_constraintTop_toBottomOf="@+id/itemImageView"
+                tools:text="Vendor" />
 
             <TextView
                 android:id="@+id/item_name_tv"
@@ -71,16 +67,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:elevation="@dimen/_10sdp"
+                android:maxLines="2"
                 android:shadowColor="@color/md_theme_dark_outline"
                 android:shadowDx="1"
                 android:shadowDy="4"
                 android:shadowRadius="4"
                 android:text="@{product.title}"
-                tool:text = "title"
-                android:maxLines="2"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/vendor_tv" />
+                app:layout_constraintTop_toBottomOf="@+id/vendor_tv"
+                tools:text="title" />
 
             <TextView
                 android:id="@+id/item_price_tv"
@@ -94,12 +90,12 @@
                 android:shadowDx="1"
                 android:shadowDy="4"
                 android:shadowRadius="5"
-                tool:text="@string/price"
                 android:text="@{product.price}"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_name_tv" />
+                app:layout_constraintTop_toBottomOf="@+id/item_name_tv"
+                tools:text="@string/price" />
 
             <ImageButton
                 android:id="@+id/imageButton10"

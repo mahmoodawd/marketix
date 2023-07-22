@@ -11,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.shopify.databinding.FragmentFavoritesBinding
 import com.example.shopify.utils.snackBarObserver
-import com.example.shopify.utils.ui.goneIf
 import com.example.shopify.utils.ui.visibleIf
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +32,7 @@ class FavoritesFragment : Fragment() {
             listOf(),
             onItemClick = { Timber.i("Item: $it pressed") },
             onDeleteClick = {
-                showConfirmDeleteDialog(it)
+                showConfirmDeleteDialog(it.toString())
             })
     }
 
@@ -65,11 +64,10 @@ class FavoritesFragment : Fragment() {
 
                     withContext(Dispatchers.Main) {
 
+                        binding.noFavsView visibleIf state.products.isNullOrEmpty()
+
                         binding.favoritesProgressBar visibleIf state.loading
 
-                        binding.favItemsRv goneIf state.empty
-
-                        binding.noFavsView visibleIf state.empty
                         favoritesAdapter.submitList(state.products)
 
                     }

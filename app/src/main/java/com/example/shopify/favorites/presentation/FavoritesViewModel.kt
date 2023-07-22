@@ -3,9 +3,9 @@ package com.example.shopify.favorites.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
-import com.example.shopify.favorites.domain.usecase.GetDraftOrdersUseCase
 import com.example.shopify.domain.usecase.RemoveDraftOrderUseCase
 import com.example.shopify.favorites.domain.model.FavoritesModel
+import com.example.shopify.favorites.domain.usecase.GetFavoriteProductsUseCase
 import com.example.shopify.utils.hiltanotations.Dispatcher
 import com.example.shopify.utils.hiltanotations.Dispatchers
 import com.example.shopify.utils.response.Response
@@ -24,7 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
     @Dispatcher(Dispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
-    private val getFavoritesUseCase: GetDraftOrdersUseCase,
+    private val getFavoritesUseCase: GetFavoriteProductsUseCase,
     private val removeDraftOrderUseCase: RemoveDraftOrderUseCase
 ) : ViewModel() {
 
@@ -46,13 +46,17 @@ class FavoritesViewModel @Inject constructor(
 
 
     private fun getFavorites() {
-        Timber.i("GET Favorites ")
         viewModelScope.launch(ioDispatcher) {
             getFavoritesUseCase<FavoritesModel>().collectLatest { response ->
+                Timber.i(" RESPONSE: ${response.data?.products?.size}")
                 when (response) {
 
                     is Response.Failure -> {
                         _snackBarFlow.emit(R.string.failed_message)
+
+                        Timber.i(" ERROR: ${response.error}")
+
+                        _state.update { it.copy(loading = false) }
                     }
 
 
@@ -61,21 +65,13 @@ class FavoritesViewModel @Inject constructor(
                     }
 
                     is Response.Success -> {
-                        val productList = response.data?.products
 
-                        if (productList.isNullOrEmpty()) {
+                        _state.update {
+                            it.copy(
+                                loading = false,
+                                products = response.data?.products,
+                            )
 
-                            _state.update { it.copy(empty = true) }
-
-                        } else {
-
-                            _state.update {
-                                it.copy(
-                                    products = productList,
-                                    loading = false,
-                                    empty = false
-                                )
-                            }
 
                         }
                     }
@@ -93,9 +89,7 @@ class FavoritesViewModel @Inject constructor(
                 Timber.i("response: ${response.data}")
                 when (response) {
                     is Response.Success -> {
-                        _state.update {
-                            it.copy(deleted = true)
-                        }
+                        _snackBarFlow.emit(R.string.successfull_message)
                         getFavorites()
                     }
 

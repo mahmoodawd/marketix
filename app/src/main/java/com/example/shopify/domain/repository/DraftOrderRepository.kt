@@ -5,6 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface DraftOrdersRepository {
     suspend fun <T> getDraftOrders(): Flow<Response<T>>
-
     suspend fun removeDraftOrder(id: String): Flow<Response<*>>
 }

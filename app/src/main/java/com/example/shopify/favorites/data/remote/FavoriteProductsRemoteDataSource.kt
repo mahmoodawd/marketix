@@ -8,7 +8,7 @@ class FavoriteProductsRemoteDataSource @Inject constructor(private val remoteInt
     RemoteDataSource {
 
     override suspend fun getFavoritesProducts(): DraftOrderResponse =
-        remoteInterface.getDraftOrders()  //request only fav by passing note parameter
+        remoteInterface.getDraftOrders()
 
     override suspend fun removeDraftOrder(id: String) {
         remoteInterface.removeDraftOrder(id)
