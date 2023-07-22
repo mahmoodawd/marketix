@@ -3,7 +3,7 @@ package com.example.shopify.favorites.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
-import com.example.shopify.domain.usecase.GetDraftOrdersUseCase
+import com.example.shopify.favorites.domain.usecase.GetDraftOrdersUseCase
 import com.example.shopify.domain.usecase.RemoveDraftOrderUseCase
 import com.example.shopify.favorites.domain.model.FavoritesModel
 import com.example.shopify.utils.hiltanotations.Dispatcher
@@ -45,7 +45,7 @@ class FavoritesViewModel @Inject constructor(
     }
 
 
-    fun getFavorites() {
+    private fun getFavorites() {
         Timber.i("GET Favorites ")
         viewModelScope.launch(ioDispatcher) {
             getFavoritesUseCase<FavoritesModel>().collectLatest { response ->
@@ -69,8 +69,14 @@ class FavoritesViewModel @Inject constructor(
 
                         } else {
 
-                            _state.update { it.copy(products = productList, loading = false) }
-                            Timber.i(productList.toString())
+                            _state.update {
+                                it.copy(
+                                    products = productList,
+                                    loading = false,
+                                    empty = false
+                                )
+                            }
+
                         }
                     }
 
@@ -80,12 +86,19 @@ class FavoritesViewModel @Inject constructor(
 
     }
 
-    fun removeItem(id: String) {
+    private fun removeItem(id: String) {
         viewModelScope.launch(ioDispatcher) {
 
             removeDraftOrderUseCase(id).collectLatest { response ->
+                Timber.i("response: ${response.data}")
                 when (response) {
-                    is Response.Success -> _state.update { it.copy(deleted = true) }
+                    is Response.Success -> {
+                        _state.update {
+                            it.copy(deleted = true)
+                        }
+                        getFavorites()
+                    }
+
                     is Response.Loading -> _state.update { it.copy(loading = true) }
                     is Response.Failure -> _snackBarFlow.emit(R.string.failed_message)
                 }
