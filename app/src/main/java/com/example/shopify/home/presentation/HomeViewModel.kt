@@ -2,8 +2,6 @@ package com.example.shopify.home.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shopify.home.domain.model.BrandsModel
-import com.example.shopify.home.domain.model.ProductsModel
 import com.example.shopify.home.domain.usecase.FilterByPriceUseCase
 import com.example.shopify.home.domain.usecase.FilterProductsUseCase
 import com.example.shopify.home.domain.usecase.GetAllBrandsUseCase
@@ -39,7 +37,7 @@ class HomeViewModel @Inject constructor(
     fun getAllBrands() {
         viewModelScope.launch(ioDispatcher) {
             _homeState.update { it.copy(loading = true) }
-            getAllBrandsUseCase.execute<BrandsModel>().collectLatest { response ->
+            getAllBrandsUseCase.execute().collectLatest { response ->
                 when (response) {
                     is Response.Success -> {
                         response.data?.let {
@@ -70,7 +68,7 @@ class HomeViewModel @Inject constructor(
         Timber.e("getAllProducts")
         viewModelScope.launch(ioDispatcher) {
             _homeState.update { it.copy(loading = true) }
-            getAllProductsUseCase.execute<ProductsModel>().collectLatest { response ->
+            getAllProductsUseCase.execute().collectLatest { response ->
                 when (response) {
                     is Response.Success -> {
                         Timber.e("success")
@@ -102,7 +100,7 @@ class HomeViewModel @Inject constructor(
         Timber.e("getAllProducts")
         viewModelScope.launch(ioDispatcher) {
             _homeState.update { it.copy(loading = true) }
-            getProductsByBrandUseCase.execute<ProductsModel>(brand).collectLatest { response ->
+            getProductsByBrandUseCase.execute(brand).collectLatest { response ->
                 when (response) {
                     is Response.Success -> {
                         Timber.e("success")
@@ -139,7 +137,7 @@ class HomeViewModel @Inject constructor(
         Timber.e("getProductsByType")
         viewModelScope.launch(ioDispatcher) {
             _homeState.update { it.copy(loading = true) }
-            filterProductsUseCase.execute<ProductsModel>(category, productType)
+            filterProductsUseCase.execute(category, productType)
                 .collectLatest { response ->
                     when (response) {
                         is Response.Success -> {

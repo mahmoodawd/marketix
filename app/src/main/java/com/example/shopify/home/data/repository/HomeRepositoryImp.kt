@@ -1,10 +1,18 @@
 package com.example.shopify.home.data.repository
 
+import com.example.shopify.home.data.dto.BrandsResponse
+import com.example.shopify.home.data.dto.ProductsResponse
+import com.example.shopify.home.data.mappers.toBrandsModel
+import com.example.shopify.home.data.mappers.toProductsModel
 import com.example.shopify.home.data.remote.brands.BrandsRemoteSource
 import com.example.shopify.home.data.remote.products.ProductRemoteSource
+import com.example.shopify.home.domain.model.BrandsModel
+import com.example.shopify.home.domain.model.ProductsModel
 import com.example.shopify.home.domain.repository.HomeRepository
 import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class HomeRepositoryImp @Inject constructor(
@@ -12,20 +20,53 @@ class HomeRepositoryImp @Inject constructor(
     private val productRemoteSource: ProductRemoteSource
 ) :
     HomeRepository {
-    override suspend fun <T> getAllBrands(): Flow<Response<T>> =
-        brandsRemoteSource.getAllBrands()
+    override suspend fun getAllBrands(): Flow<Response<BrandsModel>> {
+        return try {
+            brandsRemoteSource.getAllBrands<BrandsResponse>().map {
+                Response.Success(it.data!!.toBrandsModel())
+            }
+        } catch (e: Exception) {
+            flowOf(Response.Failure(e.message ?: "UnKnown"))
+        }
 
-    override suspend fun <T> getAllProducts(): Flow<Response<T>> =
-        productRemoteSource.getAllProducts()
+    }
 
-    override suspend fun <T> getProductsByBrand(brand: String): Flow<Response<T>> =
-        productRemoteSource.getProductsByBrand(brand)
 
-    override suspend fun <T> filterProducts(
+    override suspend fun getAllProducts(): Flow<Response<ProductsModel>> {
+        return try {
+            productRemoteSource.getAllProducts<ProductsResponse>().map {
+                Response.Success(it.data!!.toProductsModel())
+            }
+        } catch (e: Exception) {
+            flowOf(Response.Failure(e.message ?: "Unknown"))
+        }
+    }
+
+
+    override suspend fun getProductsByBrand(brand: String): Flow<Response<ProductsModel>> {
+        return try {
+            productRemoteSource.getProductsByBrand<ProductsResponse>(brand).map {
+                Response.Success(it.data!!.toProductsModel())
+            }
+        } catch (e: Exception) {
+            flowOf(Response.Failure(e.message ?: "UnKnown"))
+        }
+
+    }
+
+
+    override suspend fun filterProducts(
         category: Long?,
         productType: String
-    ): Flow<Response<T>> =
-        productRemoteSource.filterProducts(category, productType)
+    ): Flow<Response<ProductsModel>> {
+        return try {
+            productRemoteSource.filterProducts<ProductsResponse>(category, productType).map {
+                Response.Success(it.data!!.toProductsModel())
+            }
+        } catch (e: Exception) {
+            flowOf(Response.Failure(e.message?:"UnKnown"))
+        }
+    }
 
 
 }

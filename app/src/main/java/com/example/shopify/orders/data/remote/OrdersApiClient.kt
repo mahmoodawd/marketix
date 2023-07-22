@@ -1,4 +1,4 @@
-package com.example.shopify.home.data.remote.brands
+package com.example.shopify.orders.data.remote
 
 import com.example.shopify.data.remote.RemoteInterface
 import com.example.shopify.utils.response.Response
@@ -6,12 +6,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
-class BrandsApiClient @Inject constructor(private val remoteInterface: RemoteInterface) :
-    BrandsRemoteSource {
-    override suspend fun <T> getAllBrands(): Flow<Response<T>> {
+class OrdersApiClient @Inject constructor(private val remoteInterface: RemoteInterface) :
+    OrdersRemoteSource {
+    override suspend fun <T> getCustomerOrders(customerEmail: String): Flow<Response<T>> {
         return flowOf(
             try {
-                Response.Success(remoteInterface.getAllBrands() as T)
+                Response.Success(remoteInterface.getCustomerOrders(customerEmail) as T)
             } catch (e: Exception) {
                 Response.Failure(e.message ?: "UnKnown")
             }
