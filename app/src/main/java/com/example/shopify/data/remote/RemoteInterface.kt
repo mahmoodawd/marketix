@@ -32,17 +32,23 @@ interface RemoteInterface {
         @Query("product_type") productType: String = ""
     ): ProductsResponse
 
+
+    @GET("products/{ProductId}.json")
+    suspend fun getProductById(@Path("ProductId")productId : String) : ProductsResponse
+
     @POST("customers.json")
     suspend fun createCustomer(@Body customerResponse: CustomerResponse): CustomerResponse
 
     @GET("draft_orders.json")
     suspend fun getDraftOrders(
         @Query("customer_id") id: String = "",
-        @Query("filter") note: String = "note=fav"
+        @Query("note") note: String = ""
     ): DraftOrderResponse
 
+
     @DELETE("draft_orders/{draftOrderId}.json")
-    suspend fun removeDraftOrder(@Path("draftOrderId") draftOrderId: String)
+    suspend fun removeDraftOrder(@Path("draftOrderId") draftOrderId:String)
+
 
 
 }
