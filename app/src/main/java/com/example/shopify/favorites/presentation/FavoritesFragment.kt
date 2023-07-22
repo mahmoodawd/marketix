@@ -32,7 +32,7 @@ class FavoritesFragment : Fragment() {
             listOf(),
             onItemClick = { Timber.i("Item: $it pressed") },
             onDeleteClick = {
-                showConfirmDeleteDialog(it)
+                showConfirmDeleteDialog(it.toString())
             })
     }
 
