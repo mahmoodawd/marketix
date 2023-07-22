@@ -1,6 +1,6 @@
 package com.example.shopify.favorites.di
 
-import com.example.shopify.domain.repository.DraftOrdersRepository
+import com.example.shopify.favorites.domain.repository.DraftOrdersRepository
 import com.example.shopify.favorites.domain.usecase.GetFavoriteProductsUseCase
 import com.example.shopify.domain.usecase.RemoveDraftOrderUseCase
 import com.example.shopify.favorites.data.local.FavoriteProductsLocalDataSource
