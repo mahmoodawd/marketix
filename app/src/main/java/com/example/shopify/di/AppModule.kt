@@ -10,15 +10,12 @@ import com.example.shopify.data.datastore.DataStoreUserPreferences
 import com.example.shopify.data.datastore.DataStoreUserPreferencesImpl
 import com.google.firebase.auth.FirebaseAuth
 import com.example.shopify.data.remote.AuthorizationInterceptor
-import com.example.shopify.data.remote.RemoteInterface
+import com.example.shopify.data.remote.ShopifyRemoteInterface
 import com.example.shopify.data.room.LocationDatabase
 import com.example.shopify.settings.data.local.AddressDao
 import com.example.shopify.settings.data.remote.RemoteCountriesInterface
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -79,13 +76,13 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesShopifyRetrofitApi(okHttpClient: OkHttpClient): RemoteInterface
+    fun providesShopifyRetrofitApi(okHttpClient: OkHttpClient): ShopifyRemoteInterface
             = Retrofit.Builder()
         .baseUrl(BuildConfig.API_BASE)
         .client(okHttpClient)
         .addConverterFactory(
             GsonConverterFactory.create()).build()
-        .create(RemoteInterface::class.java)
+        .create(ShopifyRemoteInterface::class.java)
 
 
     @Singleton

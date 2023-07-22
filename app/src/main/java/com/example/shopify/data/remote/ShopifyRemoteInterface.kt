@@ -4,7 +4,6 @@ import com.example.shopify.auth.data.dto.CustomerResponse
 import com.example.shopify.checkout.data.dto.DraftOrderById
 import com.example.shopify.checkout.data.dto.product.OneProductResponse
 import com.example.shopify.data.dto.DraftOrderResponse
-import com.example.shopify.data.dto.DraftOrdersItem
 import com.example.shopify.home.data.dto.BrandsResponse
 import com.example.shopify.home.data.dto.ProductsResponse
 import com.example.shopify.orders.data.dto.OrdersResponse
@@ -17,7 +16,7 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface RemoteInterface {
+interface ShopifyRemoteInterface {
 
     @GET("currencies.json")
     suspend fun getAllCurrencies(): CurrenciesResponse

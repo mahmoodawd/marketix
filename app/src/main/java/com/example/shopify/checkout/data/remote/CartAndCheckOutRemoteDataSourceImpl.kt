@@ -1,15 +1,12 @@
 package com.example.shopify.checkout.data.remote
 
-import android.util.Log
-import com.example.shopify.checkout.data.dto.UpdateDraftOrderRequest
-import com.example.shopify.data.dto.DraftOrderResponse
-import com.example.shopify.data.remote.RemoteInterface
+import com.example.shopify.data.remote.ShopifyRemoteInterface
 import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
-class CartAndCheckOutRemoteDataSourceImpl @Inject constructor(private val remoteInterface: RemoteInterface) :
+class CartAndCheckOutRemoteDataSourceImpl @Inject constructor(private val remoteInterface: ShopifyRemoteInterface) :
     CartAndCheckOutRemoteDataSource {
 
 
