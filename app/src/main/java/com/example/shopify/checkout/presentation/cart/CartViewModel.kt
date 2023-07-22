@@ -94,6 +94,11 @@ class CartViewModel @Inject constructor(
     private fun updateCartItem(id: String, quantity: String,itemPosition: Int) {
         viewModelScope.launch(ioDispatcher)
         {
+            if (quantity.toInt() > _state.value.cartItems[itemPosition].upperLimit)
+            {
+                _snackBarFlow.emit(R.string.the_max_mount_item)
+                return@launch
+            }
             _state.update { it.copy(loading = true) }
             updateCartItemUseCase.execute<String>(id,quantity).collectLatest { response ->
                 when (response) {
@@ -109,7 +114,6 @@ class CartViewModel @Inject constructor(
                              cartItems = cartItems
                             )
                         }
-                        _snackBarFlow.emit(R.string.item_deleted_successfully)
                     }
                 }
             }

@@ -2,6 +2,7 @@ package com.example.shopify.data.remote
 
 import com.example.shopify.auth.data.dto.CustomerResponse
 import com.example.shopify.checkout.data.dto.DraftOrderById
+import com.example.shopify.checkout.data.dto.product.OneProductResponse
 import com.example.shopify.data.dto.DraftOrderResponse
 import com.example.shopify.data.dto.DraftOrdersItem
 import com.example.shopify.home.data.dto.BrandsResponse
@@ -34,6 +35,10 @@ interface RemoteInterface {
         @Query("collection_id") collectionId: Long?,
         @Query("product_type") productType: String = ""
     ): ProductsResponse
+
+
+    @GET("products/{productId}.json")
+    suspend fun getProductById(@Path("productId") productId : String): OneProductResponse
 
 
 

@@ -21,6 +21,7 @@ import com.example.shopify.settings.presenation.address.adresses.AddressesRecycl
 import com.example.shopify.settings.presenation.address.adresses.AllAddressesFragmentDirections
 import com.example.shopify.settings.presenation.address.adresses.AllAddressesIntent
 import com.example.shopify.utils.recycler.swipeRecyclerItemListener
+import com.example.shopify.utils.snackBarObserver
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -75,6 +76,7 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
+        snackBarObserver(viewModel.snackBarFlow)
         viewModel.onEvent(CartIntent.GetAllCartItems)
         setUpCartRecyclerView()
         stateObserver()

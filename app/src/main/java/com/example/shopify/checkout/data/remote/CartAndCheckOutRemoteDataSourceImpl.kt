@@ -24,6 +24,18 @@ class CartAndCheckOutRemoteDataSourceImpl @Inject constructor(private val remote
         )
     }
 
+    override suspend fun <T> getProductById(id : String): Flow<Response<T>> {
+        return flowOf(
+            try {
+
+                val response = remoteInterface.getProductById(id).product
+                Response.Success(response as T)
+            } catch (e: Exception) {
+                Response.Failure(e.message ?: "unknownError")
+            }
+        )
+    }
+
     override suspend fun <T> deleteItemFromCart(id: String): Flow<Response<T>> {
         return flowOf(
             try {
