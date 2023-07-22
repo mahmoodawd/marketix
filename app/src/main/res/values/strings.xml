@@ -173,5 +173,6 @@ Is between 8 and 30 characters long</string>
     <string name="please_enable_your_location">please enable your location</string>
     <string name="no_favorites">No Favorites Yet</string>
     <string name="please_we_need_location_permission">please enable location permission</string>
+    <string name="item_deleted_successfully">item deleted successfully</string>
 </resources>
 
