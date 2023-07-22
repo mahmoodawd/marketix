@@ -32,6 +32,10 @@ interface RemoteInterface {
         @Query("product_type") productType: String = ""
     ): ProductsResponse
 
+
+    @GET("products/{ProductId}.json")
+    suspend fun getProductById(@Path("ProductId")productId : String) : ProductsResponse
+
     @POST("customers.json")
     suspend fun createCustomer(@Body customerResponse: CustomerResponse): CustomerResponse
 
