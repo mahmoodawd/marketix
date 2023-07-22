@@ -5,7 +5,7 @@ import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetDraftOrdersUseCase @Inject constructor(
+class GetFavoriteProductsUseCase @Inject constructor(
     private val draftOrdersRepository: DraftOrdersRepository
 ) {
 

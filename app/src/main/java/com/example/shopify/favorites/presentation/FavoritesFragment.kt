@@ -12,11 +12,13 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.shopify.databinding.FragmentFavoritesBinding
 import com.example.shopify.utils.snackBarObserver
 import com.example.shopify.utils.ui.visibleIf
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 @AndroidEntryPoint
 class FavoritesFragment : Fragment() {
@@ -26,7 +28,12 @@ class FavoritesFragment : Fragment() {
     lateinit var binding: FragmentFavoritesBinding
 
     private val favoritesAdapter: FavoritesAdapter by lazy {
-        FavoritesAdapter(listOf(), {}, {})
+        FavoritesAdapter(
+            listOf(),
+            onItemClick = { Timber.i("Item: $it pressed") },
+            onDeleteClick = {
+                showConfirmDeleteDialog(it)
+            })
     }
 
     override fun onCreateView(
@@ -42,7 +49,8 @@ class FavoritesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getFavorites()
+
+        viewModel.onEvent(FavoritesIntent.GetFavorites)
 
         snackBarObserver(viewModel.snackBarFlow)
 
@@ -55,8 +63,11 @@ class FavoritesFragment : Fragment() {
                 viewModel.state.collectLatest { state ->
 
                     withContext(Dispatchers.Main) {
+
+                        binding.noFavsView visibleIf state.products.isNullOrEmpty()
+
                         binding.favoritesProgressBar visibleIf state.loading
-                        binding.noFavsView.imageView.parent as View visibleIf state.empty
+
                         favoritesAdapter.submitList(state.products)
 
                     }
@@ -64,5 +75,17 @@ class FavoritesFragment : Fragment() {
             }
         }
 
+    }
+
+    private fun showConfirmDeleteDialog(id: String) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setMessage("Are You Sure To Delete")
+            .setPositiveButton("No") { _, _ ->
+
+            }.setNeutralButton("Yes") { _, _ ->
+
+                viewModel.onEvent(FavoritesIntent.RemoveFromFavorites(id))
+            }
+            .show()
     }
 }

@@ -1,14 +1,16 @@
 package com.example.shopify.favorites.di
 
+import com.example.shopify.domain.repository.DraftOrdersRepository
+import com.example.shopify.favorites.domain.usecase.GetFavoriteProductsUseCase
+import com.example.shopify.domain.usecase.RemoveDraftOrderUseCase
 import com.example.shopify.favorites.data.local.FavoriteProductsLocalDataSource
 import com.example.shopify.favorites.data.local.LocalDataSource
 import com.example.shopify.favorites.data.remote.FavoriteProductsRemoteDataSource
 import com.example.shopify.favorites.data.remote.RemoteDataSource
-import com.example.shopify.favorites.data.repository.DraftOrdersRepoImp
-import com.example.shopify.domain.repository.DraftOrdersRepository
-import com.example.shopify.domain.usecase.GetDraftOrdersUseCase
+import com.example.shopify.favorites.data.repository.FavoritesRepository
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
@@ -28,11 +30,20 @@ abstract class FavoritesViewModelModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun bindsFavoritesRepository(favoritesRepoImp: DraftOrdersRepoImp): DraftOrdersRepository
+    abstract fun bindsFavoritesRepository(favoritesRepo: FavoritesRepository): DraftOrdersRepository
 
     companion object {
-        fun provideGetFavoritesUseCase(draftOrdersRepository: DraftOrdersRepository) =
-            GetDraftOrdersUseCase(draftOrdersRepository)
+        @Provides
+        @ViewModelScoped
+        fun provideGetFavoritesUseCase(favoritesRepo: DraftOrdersRepository) =
+            GetFavoriteProductsUseCase(favoritesRepo)
+
+        @Provides
+        @ViewModelScoped
+        fun provideRemoveDraftOrderUseCase(draftOrdersRepository: DraftOrdersRepository) =
+            RemoveDraftOrderUseCase(draftOrdersRepository)
+
     }
+
 
 }
