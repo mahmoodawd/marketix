@@ -37,45 +37,19 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cartRecyclerView"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_30sdp"
-            android:clipToPadding="false"
-            android:minHeight="@dimen/_150sdp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/subTotalTitleTextView"
+            app:layout_constraintBottom_toTopOf="@+id/totalCostTitleTextView"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.865"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pageTitleTextView"
             tools:itemCount="5"
-            android:paddingBottom="@dimen/_20sdp"
             tools:listitem="@layout/cart_item" />
-
-        <TextView
-            android:id="@+id/subTotalTitleTextView"
-            style="@style/p3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_15sdp"
-            android:text="@string/subtotal"
-            android:textColor="@color/text_grayed"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/shoppingTitleTextView"
-            app:layout_constraintStart_toStartOf="@+id/shoppingTitleTextView" />
-
-        <TextView
-            android:id="@+id/shoppingTitleTextView"
-            style="@style/p3"
-            android:textColor="@color/text_grayed"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_35sdp"
-            android:text="@string/shopping"
-            app:layout_constraintBottom_toTopOf="@+id/totalCostTitleTextView"
-            app:layout_constraintStart_toStartOf="@+id/totalCostTitleTextView" />
 
         <TextView
             android:id="@+id/totalCostTitleTextView"
@@ -102,41 +76,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
-
-        <TextView
-            android:id="@+id/subtotalValueTextView"
-            style="@style/p2"
-            android:textStyle="normal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:elevation="@dimen/_10sdp"
-            android:shadowColor="@color/md_theme_dark_outline"
-            android:shadowDx="1"
-            android:shadowDy="4"
-            android:shadowRadius="1"
-            android:text="$64.95"
-            app:layout_constraintBottom_toBottomOf="@+id/subTotalTitleTextView"
-            app:layout_constraintEnd_toEndOf="@+id/cartRecyclerView"
-            app:layout_constraintTop_toTopOf="@+id/subTotalTitleTextView" />
-
-
-        <TextView
-            android:id="@+id/shoppingValueTextView"
-            style="@style/p2"
-            android:textStyle="normal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="@dimen/_10sdp"
-            android:shadowColor="@color/md_theme_dark_outline"
-            android:shadowDx="1"
-            android:shadowDy="4"
-            android:shadowRadius="1"
-            android:text="$64.95"
-            app:layout_constraintBottom_toBottomOf="@+id/shoppingTitleTextView"
-            app:layout_constraintEnd_toEndOf="@+id/cartRecyclerView"
-            app:layout_constraintTop_toTopOf="@+id/shoppingTitleTextView" />
 
 
         <TextView

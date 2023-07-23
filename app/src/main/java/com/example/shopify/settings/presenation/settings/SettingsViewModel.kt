@@ -6,10 +6,10 @@ import com.example.shopify.R
 import com.example.shopify.settings.domain.model.CurrenciesModel
 import com.example.shopify.settings.domain.model.CurrencyModel
 import com.example.shopify.settings.domain.usecase.GetAllCurrenciesUseCase
-import com.example.shopify.settings.domain.usecase.dataStore.ReadBooleanDataStoreUseCase
-import com.example.shopify.settings.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
-import com.example.shopify.settings.domain.usecase.dataStore.SaveBooleanToDataStoreUseCase
-import com.example.shopify.settings.domain.usecase.dataStore.SaveStringToDataStoreUseCase
+import com.example.shopify.domain.usecase.dataStore.ReadBooleanDataStoreUseCase
+import com.example.shopify.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
+import com.example.shopify.domain.usecase.dataStore.SaveBooleanToDataStoreUseCase
+import com.example.shopify.domain.usecase.dataStore.SaveStringToDataStoreUseCase
 import com.example.shopify.utils.hiltanotations.Dispatcher
 import com.example.shopify.utils.hiltanotations.Dispatchers
 import com.example.shopify.utils.response.Response

@@ -3,6 +3,7 @@ import com.example.shopify.checkout.domain.model.CartItem
 import com.example.shopify.checkout.domain.model.CartItems
 import com.example.shopify.data.dto.DraftOrderResponse
 import com.example.shopify.data.dto.DraftOrdersItem
+import com.example.shopify.utils.rounder.roundTo
 
 
 fun DraftOrderResponse.toCartItems(limits : List<Int>) : CartItems
@@ -19,6 +20,7 @@ fun DraftOrdersItem.toCartItem(limit : Int): CartItem {
         itemPrice = total_price,
         quantity = line_items.first().quantity.toString(),
         imageUrl = line_items.first().properties.first().value,
-        upperLimit = limit
+        upperLimit = limit,
+        oneItemPrice = (total_price.toDouble()/line_items.first().quantity).roundTo(2).toString()
     )
 }

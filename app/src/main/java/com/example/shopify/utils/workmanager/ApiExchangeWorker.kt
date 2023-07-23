@@ -33,11 +33,13 @@ class ApiExchangeWorker @AssistedInject constructor(
 
                 val exchangeResponse = exchangeApi.getExchangeMagicNumber(to = targetCurrency)
                 dataStore.putString("currencyFactor",exchangeResponse.info.rate.toString())
+                Log.d("exchangeFactory", dataStore.getString<String>("currencyFactor").first().data.toString())
             } catch (e: Exception) {
 
                 Log.d("exchangeFactory", e.message ?: " error")
             }
-
+        } ?: run{
+            dataStore.putString("currency","EGP")
         }
         return Result.success()
     }
