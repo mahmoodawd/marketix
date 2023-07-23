@@ -23,10 +23,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.work.BackoffPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.OutOfQuotaPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.shopify.databinding.FragmentSettingsBinding
 import com.example.shopify.settings.domain.model.CurrencyModel
 import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.example.shopify.utils.snackBarObserver
+import com.example.shopify.utils.workmanager.ApiExchangeWorker
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -36,7 +42,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
+import java.time.Duration
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -49,7 +57,6 @@ class SettingsFragment(
     private lateinit var navController: NavController
 
     private val viewModel: SettingsViewModel by viewModels()
-
 
 
     override fun onCreateView(
@@ -100,13 +107,13 @@ class SettingsFragment(
                     viewModel.onEvent(intent = SettingsIntent
                         .SaveCurrencyPref(getString(com.example.shopify.R.string.currency)
                             ,item.toString()))
-                    binding.currencySpinner.setSelection(position)
 
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
     }
+
 
 
     private fun stateObserver() {
