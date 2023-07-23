@@ -1,5 +1,6 @@
 package com.example.shopify.checkout.presentation.cart
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -94,12 +95,15 @@ class CartFragment : Fragment() {
         binding.cartRecyclerView.adapter = cartRecyclerAdapter
     }
 
+    @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
     private fun stateObserver() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.state.collectLatest { state ->
                     cartRecyclerAdapter.submitList(state.cartItems)
                  cartRecyclerAdapter.notifyDataSetChanged()
+
+                    binding.totalCostValueTextView.text = "${state.cartTotalCost} ${state.currency}"
                 }
             }
         }

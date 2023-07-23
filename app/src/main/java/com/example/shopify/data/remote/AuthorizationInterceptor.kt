@@ -9,7 +9,7 @@ import javax.inject.Inject
 class AuthorizationInterceptor @Inject constructor(): Interceptor {
 
 
-    val credentials = Credentials.basic(BuildConfig.API_KEY, BuildConfig.API_SECRET)
+   private val credentials = Credentials.basic(BuildConfig.API_KEY, BuildConfig.API_SECRET)
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val url = chain.request()

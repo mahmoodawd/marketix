@@ -2,7 +2,7 @@
 
 # application versions section
 javaVersion = "17"
-minSDK = "24"
+minSDK = "26"
 targetSDK = "33"
 compileSDK = "33"
 codeVersion = "1"
@@ -27,6 +27,7 @@ lottie = "5.2.0"
 hilt = "2.46.1"
 daggerHiltCompiler = "2.46.1"
 hiltCompiler = "1.0.0"
+hiltWorkManager="1.0.0"
 location = "21.0.1"
 maps = "17.0.0"
 androidxDataStore = "1.0.0"
@@ -44,6 +45,8 @@ androidGradlePlugin = "8.0.2"
 firebaseUI = "7.2.0"
 fireStore = "24.7.0"
 timber="5.0.1"
+workManager = "2.8.1"
+coroutinesFirebase="1.7.2"
 
 
 
@@ -66,6 +69,7 @@ androidx-datastore-preferences-core = { group = "androidx.datastore", name = "da
 com-intuit-sdp-sdp-android = { group = "com.intuit.sdp", name = "sdp-android", version.ref = "sdp" }
 com-intuit-sdp-ssp-android = { group = "com.intuit.ssp", name = "ssp-android", version.ref = "sdp" }
 androidx-hilt-hilt-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltCompiler" }
+androidx-hilt-hilt-work={group="androidx.hilt",name="hilt-work",version.ref="hiltWorkManager"}
 com-google-dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "daggerHiltCompiler" }
 com-google-dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "daggerHiltCompiler" }
 com-google-dagger-hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "daggerHiltCompiler" }
@@ -85,6 +89,10 @@ com-google-android-gms-play-services-pay ={group = "com.google.android.gms" , na
 com-jakewharton-timber-timber = {group ="com.jakewharton.timber", name = "timber", version.ref="timber"}
 com-firebaseui-firebase-ui-auth = {group = "com.firebaseui",name = "firebase-ui-auth",version.ref="firebaseUI"}
 com-google-firebase-firebase-firestore-kts = {group = "com.google.firebase",name = "firebase-firestore-ktx",version.ref = "fireStore"}
+androidx-work-work-runtime-kts = {group = "androidx.work",name="work-runtime-ktx",version.ref = "workManager"}
+
+
+org-jetbrains-kotlinx-kotlinx-coroutines-play-services={group = "org.jetbrains.kotlinx",name="kotlinx-coroutines-play-services",version.ref="coroutinesFirebase"}
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext = { group = "androidx.test.ext", name = "junit", version.ref = "androidxTestExt" }
 androidx-test-espresso = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidxTestEspresso" }
@@ -101,7 +109,7 @@ okhttp = ["com-squareu-okhttp3-okhttp", "com-squareu-okhttp3-logging-interceptor
 retrofit = ["com-squareu-retrofit2-retrofit", "com-squareu-retrofit2-gson-converter"]
 room = ["androidx-room-ktx", "androidx-room-runtime"]
 sdp = ["com-intuit-sdp-sdp-android", "com-intuit-sdp-ssp-android"]
-hilt = ["androidx-hilt-hilt-compiler", "com-google-dagger-hilt-android"]
+hilt = ["androidx-hilt-hilt-compiler", "com-google-dagger-hilt-android","androidx-hilt-hilt-work"]
 data-store = ["androidx-datastore-preferences", "androidx-datastore-preferences-core"]
 location-maps = ["com-google-android-gms-play-services-location", "com-google-android-gms-play-services-maps"]
 hamcrest = ["org-hamcrest-hamcrest", "org-hamcrest-hamcrest-library"]

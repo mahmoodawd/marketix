@@ -13,10 +13,10 @@ import com.example.shopify.settings.domain.usecase.account.GetUserPhoneUseCase
 import com.example.shopify.settings.domain.usecase.account.UpdateUserImageUseCase
 import com.example.shopify.settings.domain.usecase.account.UpdateUserNameUseCase
 import com.example.shopify.settings.domain.usecase.account.UpdateUserPhoneUseCase
-import com.example.shopify.settings.domain.usecase.dataStore.ReadBooleanDataStoreUseCase
-import com.example.shopify.settings.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
-import com.example.shopify.settings.domain.usecase.dataStore.SaveBooleanToDataStoreUseCase
-import com.example.shopify.settings.domain.usecase.dataStore.SaveStringToDataStoreUseCase
+import com.example.shopify.domain.usecase.dataStore.ReadBooleanDataStoreUseCase
+import com.example.shopify.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
+import com.example.shopify.domain.usecase.dataStore.SaveBooleanToDataStoreUseCase
+import com.example.shopify.domain.usecase.dataStore.SaveStringToDataStoreUseCase
 import com.example.shopify.settings.domain.usecase.location.DeleteAddressUseCase
 import com.example.shopify.settings.domain.usecase.location.GetAllAddressesUseCase
 import com.example.shopify.settings.domain.usecase.location.InsertNewAddressUseCase
@@ -53,35 +53,9 @@ abstract class SettingsViewModelModule {
     companion object{
         @Provides
         @ViewModelScoped
-        fun providesReadStringFromDataStoreUseCase(repository: SettingsRepository) : ReadStringFromDataStoreUseCase
-        {
-            return ReadStringFromDataStoreUseCase(repository)
-        }
-
-
-        @Provides
-        @ViewModelScoped
-        fun providesSaveStringToDataStoreUseCase(repository: SettingsRepository) : SaveStringToDataStoreUseCase
-                = SaveStringToDataStoreUseCase(repository)
-
-
-        @Provides
-        @ViewModelScoped
         fun providesGetAllCurrenciesUseCase(repository: SettingsRepository) : GetAllCurrenciesUseCase
                 = GetAllCurrenciesUseCase(repository)
 
-
-        @Provides
-        @ViewModelScoped
-        fun providesSaveBooleanToDataStoreUseCase(repository: SettingsRepository) : SaveBooleanToDataStoreUseCase
-                = SaveBooleanToDataStoreUseCase(repository)
-
-        @Provides
-        @ViewModelScoped
-        fun providesReadBooleanFromDataStoreUseCase(repository: SettingsRepository) : ReadBooleanDataStoreUseCase
-        {
-            return ReadBooleanDataStoreUseCase(repository)
-        }
 
 
         @Provides

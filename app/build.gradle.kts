@@ -48,7 +48,7 @@ android {
             it.buildConfigField("String","API_SECRET","\"4c9701e1037c46aebb8e81bc4b1c26ee\"")
             it.buildConfigField("String","API_BASE","\"https://itp-sv-and5.myshopify.com/admin/api/2023-07/\"")
             it.buildConfigField("String","COUNTRIES_API","\"https://countriesnow.space/api/v0.1/\"")
-            it.buildConfigField("String","EXCHANGE_API","\"https://api.apilayer.com/exchangerates_data/convert\"")
+            it.buildConfigField("String","EXCHANGE_API","\"https://api.apilayer.com/exchangerates_data/\"")
             it.buildConfigField("String","EXCHANGE_TOKEN","\"fbnsZOKUdbSKjI3VMe2GTWqoVrQR0Lue\"")
         }
     }
@@ -85,10 +85,12 @@ dependencies {
     implementation(libs.com.firebaseui.firebase.ui.auth)
     implementation(libs.com.google.firebase.firebase.firestore.kts)
     implementation("com.google.firebase:firebase-storage-ktx:20.2.1")
+    implementation(libs.androidx.work.work.runtime.kts)
+    implementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.play.services)
+    implementation("androidx.startup:startup-runtime:1.1.1")
     ksp(libs.androidx.room.compiler)
     kapt(libs.com.google.dagger.hilt.compiler)
     kapt(libs.androidx.hilt.hilt.compiler)
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.2")
 
 
 
