@@ -1,6 +1,5 @@
 package com.example.shopify.orders.domain.model
 
-import com.example.shopify.orders.data.dto.Customer
 
 
 data class OrderModel(
@@ -9,7 +8,7 @@ data class OrderModel(
     val currentSubtotalPrice: String,
     val currentTotalDiscounts: String,
     val currentTotalPrice: String,
-    val customer: Customer,
+    val customer: CustomerModel,
     val email: String,
     val id: Long,
     val lineItems: List<LineItemModel>,
