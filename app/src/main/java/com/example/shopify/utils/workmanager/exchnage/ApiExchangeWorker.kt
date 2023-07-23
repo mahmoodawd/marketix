@@ -1,4 +1,4 @@
-package com.example.shopify.utils.workmanager
+package com.example.shopify.utils.workmanager.exchnage
 
 import android.content.Context
 import android.util.Log
@@ -10,6 +10,7 @@ import com.example.shopify.data.remote.ExchangeApi
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first
+import java.lang.Exception
 
 @HiltWorker
 class ApiExchangeWorker @AssistedInject constructor(

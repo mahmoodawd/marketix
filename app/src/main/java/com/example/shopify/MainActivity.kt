@@ -1,7 +1,12 @@
 package com.example.shopify
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
@@ -20,7 +25,8 @@ import androidx.work.WorkManager
 import com.example.shopify.data.datastore.DataStoreUserPreferences
 import com.example.shopify.databinding.ActivityMainBinding
 import com.example.shopify.utils.connectivity.ConnectivityObserver
-import com.example.shopify.utils.workmanager.ApiExchangeWorker
+import com.example.shopify.utils.workmanager.discount.DiscountCodesWorker
+import com.example.shopify.utils.workmanager.exchnage.ApiExchangeWorker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -45,19 +51,32 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var dataStore: DataStoreUserPreferences
 
+
+    @Inject
+    lateinit var  notificationManager: NotificationManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         installSplashScreen()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        createNotificationChannel()
         navController = Navigation.findNavController(this, R.id.navHostFragment)
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
         currentFragmentObserver()
         updateCurrencyValuePeriodicallyWorkRequest()
         currentFragmentObserver()
         currencyChangeObserver()
+        showNotificationPeriodicTimeRequest()
 
+    }
+
+    private fun createNotificationChannel() {
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val channel = NotificationChannel( getString(R.string.notificationBuilder), getString(R.string.notificationBuilder), importance)
+        channel.description = getString(R.string.notificationBuilder)
+        notificationManager.createNotificationChannel(channel)
     }
 
     private fun currencyChangeObserver() {
@@ -77,8 +96,7 @@ class MainActivity : AppCompatActivity() {
                 .setBackoffCriteria(
                     backoffPolicy = BackoffPolicy.LINEAR,
                     duration = Duration.ofMinutes(5)
-                )
-                .build()
+                ).build()
         workManager.enqueue(workRequest)
     }
 
@@ -93,6 +111,19 @@ class MainActivity : AppCompatActivity() {
                 )
                 .build()
         workManager.enqueue(workRequest)
+    }
+
+    private fun showNotificationPeriodicTimeRequest()
+    {
+        val workRequest =
+        PeriodicWorkRequestBuilder<DiscountCodesWorker>(1, TimeUnit.HOURS)
+            .setInitialDelay(0,TimeUnit.MINUTES)
+            .setBackoffCriteria(
+                backoffPolicy = BackoffPolicy.LINEAR,
+                duration = Duration.ofMinutes(5)
+            ).build()
+        workManager.enqueue(workRequest)
+
     }
 
 
