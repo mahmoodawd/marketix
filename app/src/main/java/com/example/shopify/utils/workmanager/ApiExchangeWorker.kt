@@ -38,7 +38,6 @@ class ApiExchangeWorker @AssistedInject constructor(
 
                 Log.d("exchangeFactory", e.message ?: " error")
             }
-
         } ?: run{
             dataStore.putString("currency","EGP")
         }

@@ -16,6 +16,7 @@ import com.example.shopify.settings.data.remote.RemoteCountriesInterface
 import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.example.shopify.utils.connectivity.NetworkConnectivityObserver
 import com.google.firebase.auth.FirebaseAuth
+import com.example.shopify.utils.workmanager.ExchangeWorkerFactory
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
