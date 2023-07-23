@@ -1,12 +1,12 @@
 package com.example.shopify.orders.data.remote
 
-import com.example.shopify.data.remote.RemoteInterface
+import com.example.shopify.data.remote.ShopifyRemoteInterface
 import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
-class OrdersApiClient @Inject constructor(private val remoteInterface: RemoteInterface) :
+class OrdersApiClient @Inject constructor(private val remoteInterface: ShopifyRemoteInterface) :
     OrdersRemoteSource {
     override suspend fun <T> getCustomerOrders(customerEmail: String): Flow<Response<T>> {
         return flowOf(

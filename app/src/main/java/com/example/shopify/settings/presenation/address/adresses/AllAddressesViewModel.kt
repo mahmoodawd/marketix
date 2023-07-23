@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
 import com.example.shopify.settings.domain.model.AddressModel
-import com.example.shopify.settings.domain.usecase.dataStore.ReadBooleanDataStoreUseCase
+import com.example.shopify.domain.usecase.dataStore.ReadBooleanDataStoreUseCase
 import com.example.shopify.settings.domain.usecase.location.DeleteAddressUseCase
 import com.example.shopify.settings.domain.usecase.location.GetAllAddressesUseCase
 import com.example.shopify.settings.domain.usecase.location.UpdateAddressUseCase

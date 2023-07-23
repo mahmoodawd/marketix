@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
 import com.example.shopify.settings.domain.model.AddressModel
-import com.example.shopify.settings.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
-import com.example.shopify.settings.domain.usecase.dataStore.SaveStringToDataStoreUseCase
+import com.example.shopify.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
+import com.example.shopify.domain.usecase.dataStore.SaveStringToDataStoreUseCase
 import com.example.shopify.settings.domain.usecase.location.GetAllCitiesUseCase
 import com.example.shopify.settings.domain.usecase.location.InsertNewAddressUseCase
 import com.example.shopify.settings.domain.usecase.location.SelectAddressByLatLongUseCase

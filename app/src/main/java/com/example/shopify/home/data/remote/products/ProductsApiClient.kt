@@ -1,12 +1,12 @@
 package com.example.shopify.home.data.remote.products
 
-import com.example.shopify.data.remote.RemoteInterface
+import com.example.shopify.data.remote.ShopifyRemoteInterface
 import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
-class ProductsApiClient @Inject constructor(private val remoteInterface: RemoteInterface) :
+class ProductsApiClient @Inject constructor(private val remoteInterface: ShopifyRemoteInterface) :
     ProductRemoteSource {
     override suspend fun <T> getAllProducts(): Flow<Response<T>> {
         return flowOf(
