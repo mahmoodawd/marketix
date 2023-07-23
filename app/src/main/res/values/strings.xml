@@ -175,5 +175,8 @@ Is between 8 and 30 characters long</string>
     <string name="please_we_need_location_permission">please enable location permission</string>
     <string name="item_deleted_successfully">item deleted successfully</string>
     <string name="the_max_mount_item">currently this is the max mount of this item</string>
+    <string name="address_hint">Octorber, Cairo 12/8AB</string>
+    <string name="free_discount_code">"free discount code : "</string>
+    <string name="notificationBuilder">builder</string>
 </resources>
 

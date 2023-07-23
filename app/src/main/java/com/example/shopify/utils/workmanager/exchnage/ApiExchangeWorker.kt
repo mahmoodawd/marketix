@@ -1,20 +1,15 @@
-package com.example.shopify.utils.workmanager
+package com.example.shopify.utils.workmanager.exchnage
 
 import android.content.Context
 import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
-import androidx.work.Worker
 import androidx.work.WorkerParameters
-import androidx.work.workDataOf
 import com.example.shopify.data.datastore.DataStoreUserPreferences
 import com.example.shopify.data.remote.ExchangeApi
-import com.google.gson.Gson
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first
-import java.io.File
-import java.io.FileOutputStream
 import java.lang.Exception
 
 @HiltWorker

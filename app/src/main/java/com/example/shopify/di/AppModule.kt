@@ -1,6 +1,8 @@
 package com.example.shopify.di
 
+import android.app.NotificationManager
 import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
 import androidx.work.WorkManager
 import com.example.shopify.BuildConfig
@@ -37,6 +39,15 @@ object AppModule {
     @Provides
     fun providesConnectivityObserver(@ApplicationContext context: Context): ConnectivityObserver =
         NetworkConnectivityObserver(context = context)
+
+
+
+    @Singleton
+    @Provides
+    fun providesNotificationManager(@ApplicationContext context: Context) : NotificationManager
+    {
+        return context.getSystemService(AppCompatActivity.NOTIFICATION_SERVICE) as NotificationManager
+    }
 
 
     @Provides

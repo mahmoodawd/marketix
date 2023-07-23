@@ -4,6 +4,7 @@ import com.example.shopify.auth.data.dto.CustomerResponse
 import com.example.shopify.checkout.data.dto.DraftOrderById
 import com.example.shopify.checkout.data.dto.product.OneProductResponse
 import com.example.shopify.data.dto.DraftOrderResponse
+import com.example.shopify.data.dto.codes.DiscountCodesResponse
 import com.example.shopify.home.data.dto.BrandsResponse
 import com.example.shopify.home.data.dto.ProductsResponse
 import com.example.shopify.orders.data.dto.OrdersResponse
@@ -67,5 +68,7 @@ interface ShopifyRemoteInterface {
     @GET("orders.json")
     suspend fun getCustomerOrders(@Query("email") customerEmail: String): OrdersResponse
 
+    @GET("price_rules/1396109508887/discount_codes.json")
+    suspend fun getDiscountCodes() : DiscountCodesResponse?
 
 }
