@@ -2,14 +2,16 @@ package com.example.shopify.productdetails.domain.model
 
 
 data class ProductsDetailsModel(
-    val handle: String,
     val id: Long,
+    val title: String,
+    val vendor: String,
+    val description: String,
+    val rating: Float,
     val images: List<ImageModel>,
-    val options: List<OptionModel>?,
     val productType: String,
+    val handle: String,
     val status: String,
     val tags: String,
-    val title: String,
+    val options: List<OptionModel>?,
     val variants: List<VariantModel>?,
-    val vendor: String
 )

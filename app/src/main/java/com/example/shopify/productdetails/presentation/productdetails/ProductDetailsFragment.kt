@@ -28,10 +28,10 @@ class ProductDetailsFragment : Fragment() {
 
     private val args: ProductDetailsFragmentArgs by navArgs()
 
-    val imagesAdapter: ProductImagesAdapter by lazy {
+    private val imagesAdapter: ProductImagesAdapter by lazy {
         ProductImagesAdapter(requireContext())
     }
-    val sizesAdapter: ProductSizesAdapter by lazy {
+    private val sizesAdapter: ProductSizesAdapter by lazy {
         ProductSizesAdapter()
     }
 
@@ -68,11 +68,14 @@ class ProductDetailsFragment : Fragment() {
 
                         binding.progressBar visibleIf state.loading
 
-                        binding.product = state.product
+                        state.product?.run {
 
-                        imagesAdapter.submitList(state.product?.images)
+                            binding.product = this
 
-                        sizesAdapter.submitList(listOf("45", "25", "14"))
+                            imagesAdapter.submitList(images)
+
+                            sizesAdapter.submitList(options?.first()?.values)
+                        }
                     }
                 }
             }

@@ -20,8 +20,10 @@ fun Product.toProductsDetailsModel(): ProductsDetailsModel =
         status = this.status,
         tags = this.tags,
         title = this.title,
+        description = this.body_html,
         variants = this.variants?.toVariantListModel(),
-        vendor = this.vendor
+        vendor = this.vendor,
+        rating = 3.5F
     )
 
 fun ImageX.toImageModel(): ImageModel =
