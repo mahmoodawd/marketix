@@ -68,7 +68,4 @@ interface ShopifyRemoteInterface {
     suspend fun getCustomerOrders(@Query("email") customerEmail: String): OrdersResponse
 
 
-
-    @GET("orders.json")
-    suspend fun getCustomerOrders(@Query("email") customerEmail: String): OrdersResponse
 }
