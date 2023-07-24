@@ -1,4 +1,4 @@
-package com.example.shopify.orders.presentation
+package com.example.shopify.orders.presentation.orders
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopify.databinding.FragmentOrdersBinding
+import com.example.shopify.orders.domain.model.OrderModel
 import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,7 +46,9 @@ class OrdersFragment(
         binding.backImageView.setOnClickListener {
             navController.navigateUp()
         }
-        ordersAdapter = OrdersAdapter()
+        ordersAdapter = OrdersAdapter {
+            goToOrderDetails(it)
+        }
         setOrdersRecycler()
         checkConnection()
         stateObserve()
@@ -100,5 +103,13 @@ class OrdersFragment(
             adapter = ordersAdapter
             layoutManager = ordersLayoutManager
         }
+    }
+
+    private fun goToOrderDetails(orderModel: OrderModel) {
+        navController.navigate(
+            OrdersFragmentDirections.actionOrdersFragmentToOrderDetailsFragment(
+                orderModel
+            )
+        )
     }
 }

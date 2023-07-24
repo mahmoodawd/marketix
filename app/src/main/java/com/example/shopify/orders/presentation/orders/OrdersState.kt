@@ -1,4 +1,4 @@
-package com.example.shopify.orders.presentation
+package com.example.shopify.orders.presentation.orders
 
 import com.example.shopify.orders.domain.model.OrderModel
 

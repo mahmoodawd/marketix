@@ -1,10 +1,8 @@
 package com.example.shopify.orders.data.mappers
 
-import com.example.shopify.orders.data.dto.Customer
 import com.example.shopify.orders.data.dto.LineItem
 import com.example.shopify.orders.data.dto.Order
 import com.example.shopify.orders.data.dto.OrdersResponse
-import com.example.shopify.orders.domain.model.CustomerModel
 import com.example.shopify.orders.domain.model.LineItemModel
 import com.example.shopify.orders.domain.model.OrderModel
 import com.example.shopify.orders.domain.model.OrdersModel
@@ -19,7 +17,6 @@ fun Order.toOrderModel(): OrderModel =
         currentSubtotalPrice = current_subtotal_price,
         currentTotalDiscounts = current_total_discounts,
         currentTotalPrice = current_total_price,
-        customer = customer.toCustomerModel(),
         email = email,
         id = id,
         lineItems = line_items.toLineItemsModel(),
@@ -63,17 +60,4 @@ fun LineItem.toLineItemModel(): LineItemModel =
 
 fun List<LineItem>.toLineItemsModel(): List<LineItemModel> = (this.map { it.toLineItemModel() })
 
-fun Customer.toCustomerModel(): CustomerModel =
-    CustomerModel(
-        createdAt = created_at,
-        currency = currency,
-        email = email,
-        firstName = first_name ?: "",
-        id = id,
-        lastName = last_name ?: "",
-        note = note ?: "",
-        phone = phone ?: "",
-        tags = tags?:"",
-        updatedAt = updated_at,
-        verifiedEmail = verified_email
-    )
+

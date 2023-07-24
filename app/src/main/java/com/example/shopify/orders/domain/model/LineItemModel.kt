@@ -1,7 +1,10 @@
 package com.example.shopify.orders.domain.model
 
+import android.os.Parcelable
 import com.example.shopify.data.dto.PropertiesItem
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class LineItemModel(
      val fulfillableQuantity: Int,
      val fulfillmentService: String,
@@ -22,4 +25,4 @@ data class LineItemModel(
      val variantInventoryManagement: String,
      val variantTitle: String,
      val vendor: String
- )
+ ):Parcelable
