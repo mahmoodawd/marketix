@@ -1,4 +1,4 @@
-package com.example.shopify.productdetails.presentation
+package com.example.shopify.productdetails.presentation.prodouctreviews
 
 import android.os.Bundle
 import android.view.LayoutInflater

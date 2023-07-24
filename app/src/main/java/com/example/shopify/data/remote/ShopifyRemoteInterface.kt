@@ -1,15 +1,12 @@
 package com.example.shopify.data.remote
 
 import com.example.shopify.auth.data.dto.CustomerResponse
-import com.example.shopify.checkout.data.dto.DraftOrder
 import com.example.shopify.checkout.data.dto.DraftOrderById
 import com.example.shopify.checkout.data.dto.product.OneProductResponse
 import com.example.shopify.data.dto.DraftOrderResponse
 import com.example.shopify.home.data.dto.BrandsResponse
 import com.example.shopify.home.data.dto.ProductsResponse
 import com.example.shopify.orders.data.dto.OrdersResponse
-import com.example.shopify.orders.data.dto.post.PostOrder
-import com.example.shopify.orders.data.dto.post.PostOrderResponse
 import com.example.shopify.settings.data.dto.currencies.CurrenciesResponse
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -66,9 +63,18 @@ interface ShopifyRemoteInterface {
     @PUT("draft_orders/{draftOrderId}.json")
     suspend fun updateDraftOrder(@Path("draftOrderId") draftOrderId:String ,@Body draftOrder: DraftOrderById)
 
-
+    
     @GET("orders.json")
     suspend fun getCustomerOrders(@Query("email") customerEmail: String): OrdersResponse
+
+    @GET("price_rules/1396109508887/discount_codes.json")
+    suspend fun getDiscountCodes() : DiscountCodesResponse?
+
+
+
+    @GET("price_rules/1396109508887/discount_codes/{id}.json")
+    suspend fun getDiscountCodeById(id : String) : DiscountCodeResponse?
+
 
     @POST("orders.json")
     suspend fun createOrder(@Body postOrder: PostOrder): PostOrderResponse

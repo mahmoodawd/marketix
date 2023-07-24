@@ -1,4 +1,4 @@
-package com.example.shopify.domain.repository
+package com.example.shopify.favorites.domain.repository
 
 import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
