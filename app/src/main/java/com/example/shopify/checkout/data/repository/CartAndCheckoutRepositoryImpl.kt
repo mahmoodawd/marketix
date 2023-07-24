@@ -1,10 +1,14 @@
 package com.example.shopify.checkout.data.repository
 
+import android.util.Log
+import com.example.shopify.checkout.data.dto.discountcode.DiscountCodeResponse
 import com.example.shopify.checkout.data.mappers.toCartItems
 import com.example.shopify.checkout.data.remote.CartAndCheckOutRemoteDataSource
 import com.example.shopify.checkout.domain.repository.CartAndCheckoutRepository
 import com.example.shopify.data.dto.DraftOrderResponse
 import com.example.shopify.checkout.data.dto.product.Product
+import com.example.shopify.checkout.data.mappers.toDiscountCodeModel
+import com.example.shopify.data.dto.codes.DiscountCode
 import com.example.shopify.home.data.dto.ProductsResponse
 import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
@@ -18,9 +22,11 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(private val remoteDataSo
         return remoteDataSource.getCartItems<T>()
             .map { response ->
                 val limits = mutableListOf<Int>()
+
                 (response.data as DraftOrderResponse).draft_orders.forEach {
                     val productResponse =
                         remoteDataSource.getProductById<Product>(it.line_items.first().product_id.toString()).first()
+                Log.d("cartResponse",productResponse.data.toString())
                     limits.add(productResponse
                         .data!!.variants.first {variant ->
                             variant.id ==
@@ -38,5 +44,13 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(private val remoteDataSo
 
     override suspend fun <T> updateItemFromCart(id: String, quantity: String): Flow<Response<T>> {
         return remoteDataSource.updateItemFromCart(id, quantity)
+    }
+
+    override suspend fun <T> deleteDiscountCodeFromDatabase(code: DiscountCode): Flow<Response<T>> {
+        return remoteDataSource.deleteDiscountCodeFromDatabase(code)
+    }
+
+    override suspend fun <T> getDiscountCodeById(id: String): Flow<Response<T>> {
+       return remoteDataSource.getDiscountCodeById<T>(id).map { Response.Success((it.data as DiscountCodeResponse).toDiscountCodeModel() as T)}
     }
 }

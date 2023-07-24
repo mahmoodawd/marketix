@@ -42,4 +42,18 @@ class ProductsApiClient @Inject constructor(private val remoteInterface: Shopify
             }
         )
     }
+
+    override suspend fun <T> getDiscountCodes(): Flow<Response<T>> {
+        return flowOf(
+            try {
+                Response.Success(
+                    remoteInterface.getDiscountCodes() as T
+                )
+            } catch (e: Exception) {
+                Response.Failure(e.message ?: "UnKnown")
+            }
+        )
+    }
+
+
 }

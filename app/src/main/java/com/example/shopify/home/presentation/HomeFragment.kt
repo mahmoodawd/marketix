@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -24,11 +25,14 @@ import com.example.shopify.databinding.FragmentHomeBinding
 import com.example.shopify.home.domain.model.BrandModel
 import com.example.shopify.home.domain.model.ProductModel
 import com.example.shopify.utils.connectivity.ConnectivityObserver
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.RangeSlider.OnSliderTouchListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.text.NumberFormat
 import java.util.Currency
@@ -67,8 +71,15 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
         brandsAdapter = BrandsAdapter(requireContext()) {
             getProductsByBrand(it)
         }
-        productsAdapter = ProductsAdapter{
+        productsAdapter = ProductsAdapter {
             goToProductsInfo(it)
+        }
+
+
+        binding.addsCardView.setOnClickListener {
+            viewModel.homeState.value.discountCode?.let {
+                    showDiscountCodeDialog(it.code)
+            }
         }
         setProductsRecycler()
         setBrandsRecycler()
@@ -199,9 +210,25 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
                 } else {
                     View.GONE
                 }
+
+
+
             }
         }
 
+    }
+
+    private fun showDiscountCodeDialog(code: String) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setMessage(getString(R.string.free_discount_code)+" "+code)
+            .setNegativeButton(getString(R.string.cancel)){ dialogInterface, _ ->
+                dialogInterface.dismiss()
+                viewModel.initDiscountCodeHomeState()
+            }
+            .setNeutralButton(getString(R.string.save)) { _, _ ->
+                viewModel.insertDiscountCode()
+            }
+            .show()
     }
 
     private fun getProductsByBrand(brandModel: BrandModel) {
