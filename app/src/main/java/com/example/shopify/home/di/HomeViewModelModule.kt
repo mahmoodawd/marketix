@@ -1,5 +1,7 @@
 package com.example.shopify.home.di
 
+import com.example.shopify.home.data.local.HomeLocalDataSource
+import com.example.shopify.home.data.local.HomeLocalDataSourceImpl
 import com.example.shopify.home.data.remote.brands.BrandsApiClient
 import com.example.shopify.home.data.remote.brands.BrandsRemoteSource
 import com.example.shopify.home.data.remote.products.ProductRemoteSource
@@ -11,6 +13,8 @@ import com.example.shopify.home.domain.usecase.FilterProductsUseCase
 import com.example.shopify.home.domain.usecase.GetAllBrandsUseCase
 import com.example.shopify.home.domain.usecase.GetAllProductsUseCase
 import com.example.shopify.home.domain.usecase.GetProductsByBrandUseCase
+import com.example.shopify.home.domain.usecase.discount.GetDiscountCodesUseCase
+import com.example.shopify.home.domain.usecase.discount.InsertDiscountCodesUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -33,6 +37,10 @@ abstract class HomeViewModelModule {
     @Binds
     @ViewModelScoped
     abstract fun bindsProductsApiClient(productsApiClient: ProductsApiClient): ProductRemoteSource
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindsHomeLocalDataSource(homeLocalDataSourceImpl: HomeLocalDataSourceImpl) : HomeLocalDataSource
 
     companion object {
         @Provides
@@ -59,5 +67,13 @@ abstract class HomeViewModelModule {
         @ViewModelScoped
         fun provideFilterByPriceUseCase(): FilterByPriceUseCase =
             FilterByPriceUseCase()
+
+        @Provides
+        @ViewModelScoped
+        fun providesGetDiscountCodesUseCase(repository: HomeRepository) : GetDiscountCodesUseCase = GetDiscountCodesUseCase(repository)
+
+        @Provides
+        @ViewModelScoped
+        fun providesInsertDiscountCodesUseCase(repository: HomeRepository) : InsertDiscountCodesUseCase = InsertDiscountCodesUseCase(repository)
     }
 }

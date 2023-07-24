@@ -19,6 +19,10 @@ class ShopifyApplication : Application() , Configuration.Provider{
         Timber.plant(Timber.DebugTree())
     }
 
+
+
+
+
         override fun getWorkManagerConfiguration() =
             Configuration.Builder()
                 .setWorkerFactory(workerFactory)

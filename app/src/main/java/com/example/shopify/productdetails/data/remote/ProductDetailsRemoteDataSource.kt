@@ -6,9 +6,8 @@ import com.example.shopify.productdetails.data.mappers.toProductsDetailsModel
 import com.example.shopify.utils.response.Response
 import javax.inject.Inject
 
-class ProductDetailsRemoteDataSource @Inject constructor(
-    private val remoteService: ShopifyRemoteInterface
-) :
+class ProductDetailsRemoteDataSource @Inject constructor(private val remoteService: ShopifyRemoteInterface) :
+
     RemoteDataSource {
     override suspend fun <T> getProductById(id: String) =
         try {
