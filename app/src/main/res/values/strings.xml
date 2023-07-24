@@ -178,5 +178,7 @@ Is between 8 and 30 characters long</string>
     <string name="address_hint">Octorber, Cairo 12/8AB</string>
     <string name="free_discount_code">"free discount code : "</string>
     <string name="notificationBuilder">builder</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 </resources>
 

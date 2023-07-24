@@ -13,6 +13,7 @@ import com.example.shopify.data.remote.AuthorizationInterceptor
 import com.example.shopify.data.remote.ExchangeApi
 import com.example.shopify.data.remote.ShopifyRemoteInterface
 import com.example.shopify.data.room.LocationDatabase
+import com.example.shopify.home.data.local.DiscountCodesDao
 import com.example.shopify.settings.data.local.AddressDao
 import com.example.shopify.settings.data.remote.RemoteCountriesInterface
 import com.example.shopify.utils.connectivity.ConnectivityObserver
@@ -134,6 +135,13 @@ object AppModule {
     fun providesAddressesDao(database: LocationDatabase) : AddressDao
     {
         return  database.addressDao
+    }
+
+    @Singleton
+    @Provides
+    fun providesDiscountCodesDao(database: LocationDatabase) : DiscountCodesDao
+    {
+        return  database.discountCodesDao
     }
     @Singleton
     @Provides
