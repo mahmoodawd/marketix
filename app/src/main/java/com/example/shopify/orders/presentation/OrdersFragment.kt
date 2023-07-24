@@ -15,8 +15,10 @@ import com.example.shopify.databinding.FragmentOrdersBinding
 import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class OrdersFragment(
@@ -54,8 +56,16 @@ class OrdersFragment(
             connectivityObserver.observe().collectLatest {
                 when (it) {
                     ConnectivityObserver.Status.Available -> {
-
                         viewModel.getCustomerOrders(firebaseAuth.currentUser?.email as String)
+//                        viewModel.createCustomer(
+//                            PostOrder(
+//                                DraftOrdersItem(
+//                                    email = "mohamedadel2323m@gmail.com", line_items = listOf(
+//                                        LineItem(quantity = 1, variant_id = 45736853176599, applied_discount = null , properties = listOf())
+//                                    ),note_attributes = listOf()
+//                                )
+//                            )
+//                        )
                     }
 
                     else -> {
@@ -67,17 +77,17 @@ class OrdersFragment(
     }
 
     private fun stateObserve() {
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             viewModel.ordersState.collectLatest {
-
-                if (it.orders.isNotEmpty()) {
-                    ordersAdapter.submitList(it.orders)
-                }
-                if (it.loading == true) {
-                    binding.progressBar.visibility = View.VISIBLE
-                } else {
-                    binding.progressBar.visibility = View.GONE
-
+                withContext(Dispatchers.Main) {
+                    if (it.orders.isNotEmpty()) {
+                        ordersAdapter.submitList(it.orders)
+                    }
+                    if (it.loading == true) {
+                        binding.progressBar.visibility = View.VISIBLE
+                    } else {
+                        binding.progressBar.visibility = View.GONE
+                    }
                 }
             }
         }
