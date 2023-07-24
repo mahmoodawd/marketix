@@ -2,6 +2,8 @@ package com.example.shopify.orders.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.shopify.orders.data.dto.post.PostOrder
+import com.example.shopify.orders.domain.usecase.CreateOrderUseCase
 import com.example.shopify.orders.domain.usecase.GetCustomerOrdersUseCase
 import com.example.shopify.utils.hiltanotations.Dispatcher
 import com.example.shopify.utils.hiltanotations.Dispatchers
@@ -13,12 +15,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class OrdersViewModel @Inject constructor(
     @Dispatcher(Dispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
-    private val getCustomerOrdersUseCase: GetCustomerOrdersUseCase
+    private val getCustomerOrdersUseCase: GetCustomerOrdersUseCase,
+    private val createOrderUseCase: CreateOrderUseCase
 ) : ViewModel() {
 
     private val _ordersState: MutableStateFlow<OrdersState> = MutableStateFlow(OrdersState())
@@ -47,6 +51,21 @@ class OrdersViewModel @Inject constructor(
                         _ordersState.update {
                             it.copy(loading = true)
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    fun createCustomer(postOrder: PostOrder){
+        viewModelScope.launch(ioDispatcher) {
+            createOrderUseCase.execute(postOrder).collectLatest {
+                when(it){
+                    is Response.Success ->{
+                        Timber.e(it.data.toString())
+                    }
+                    else->{
+                        Timber.e(it.error)
                     }
                 }
             }

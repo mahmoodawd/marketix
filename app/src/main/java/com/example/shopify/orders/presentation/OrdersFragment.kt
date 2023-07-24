@@ -19,7 +19,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 @AndroidEntryPoint
 class OrdersFragment(
@@ -58,6 +57,15 @@ class OrdersFragment(
                 when (it) {
                     ConnectivityObserver.Status.Available -> {
                         viewModel.getCustomerOrders(firebaseAuth.currentUser?.email as String)
+//                        viewModel.createCustomer(
+//                            PostOrder(
+//                                DraftOrdersItem(
+//                                    email = "mohamedadel2323m@gmail.com", line_items = listOf(
+//                                        LineItem(quantity = 1, variant_id = 45736853176599, applied_discount = null , properties = listOf())
+//                                    ),note_attributes = listOf()
+//                                )
+//                            )
+//                        )
                     }
 
                     else -> {

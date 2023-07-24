@@ -1,5 +1,7 @@
 package com.example.shopify.orders.data.dto
 
+import com.example.shopify.data.dto.PropertiesItem
+
 data class LineItem(
     val admin_graphql_api_id: String,
     val discount_allocations: List<String>,
@@ -14,7 +16,7 @@ data class LineItem(
     val price: String,
     val product_exists: Boolean,
     val product_id: Long,
-    val properties: List<String>?,
+    val properties: List<PropertiesItem>?,
     val quantity: Int,
     val requires_shipping: Boolean,
     val sku: String,

@@ -1,6 +1,8 @@
 package com.example.shopify.orders.data.repository
 
 import com.example.shopify.orders.data.dto.OrdersResponse
+import com.example.shopify.orders.data.dto.post.PostOrder
+import com.example.shopify.orders.data.dto.post.PostOrderResponse
 import com.example.shopify.orders.data.mappers.toOrdersModel
 import com.example.shopify.orders.data.remote.OrdersRemoteSource
 import com.example.shopify.orders.domain.model.OrdersModel
@@ -21,6 +23,14 @@ class OrdersRepositoryImp @Inject constructor(
                 Timber.e(it.data!!.toOrdersModel().toString())
                 Response.Success(it.data!!.toOrdersModel())
             }
+        } catch (e: Exception) {
+            flowOf(Response.Failure(e.message ?: "UnKnown"))
+        }
+    }
+
+    override suspend fun createOrder(postOrder: PostOrder): Flow<Response<PostOrderResponse>> {
+        return try {
+            ordersRemoteSource.createOrder(postOrder)
         } catch (e: Exception) {
             flowOf(Response.Failure(e.message ?: "UnKnown"))
         }
