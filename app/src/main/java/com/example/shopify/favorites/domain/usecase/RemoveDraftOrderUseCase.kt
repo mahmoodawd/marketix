@@ -1,4 +1,4 @@
-package com.example.shopify.domain.usecase
+package com.example.shopify.favorites.domain.usecase
 
 import com.example.shopify.favorites.domain.repository.DraftOrdersRepository
 import javax.inject.Inject

@@ -15,7 +15,7 @@ fun DraftOrdersItem.toFavoriteItem(): FavoriteProductModel =
 
 fun DraftOrderResponse.toFavoritesModel(): FavoritesModel =
     FavoritesModel(products = draft_orders.filter { item ->
-        /*item.email == FirebaseAuth.getInstance().currentUser!!.email &&*/
+        item.email == FirebaseAuth.getInstance().currentUser!!.email &&
                 item.tags == TAG_FAVORITES
     }.map { it.toFavoriteItem() })
 

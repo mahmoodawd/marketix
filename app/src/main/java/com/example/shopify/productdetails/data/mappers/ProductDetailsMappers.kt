@@ -1,9 +1,9 @@
 package com.example.shopify.productdetails.data.mappers
 
-import com.example.shopify.productdetails.data.dto.ImageX
-import com.example.shopify.productdetails.data.dto.Option
-import com.example.shopify.productdetails.data.dto.Product
-import com.example.shopify.productdetails.data.dto.Variant
+import com.example.shopify.productdetails.data.dto.productdetails.ImageX
+import com.example.shopify.productdetails.data.dto.productdetails.Option
+import com.example.shopify.productdetails.data.dto.productdetails.Product
+import com.example.shopify.productdetails.data.dto.productdetails.Variant
 import com.example.shopify.productdetails.domain.model.ImageModel
 import com.example.shopify.productdetails.domain.model.OptionModel
 import com.example.shopify.productdetails.domain.model.ProductsDetailsModel
@@ -14,6 +14,7 @@ fun Product.toProductsDetailsModel(): ProductsDetailsModel =
     ProductsDetailsModel(
         handle = this.handle,
         id = this.id,
+        image = this.image.toImageModel(),
         images = this.images.toImageListModel(),
         options = this.options.toOptionListModel(),
         productType = this.product_type,

@@ -7,6 +7,7 @@ data class ProductsDetailsModel(
     val vendor: String,
     val description: String,
     val rating: Float,
+    val image: ImageModel,
     val images: List<ImageModel>,
     val productType: String,
     val handle: String,

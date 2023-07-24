@@ -1,7 +1,7 @@
 package com.example.shopify.auth.data.repository
 
+import com.example.shopify.auth.data.mappers.toCustomer
 import com.example.shopify.auth.data.remote.RemoteDataSource
-import com.example.shopify.auth.domain.entities.AuthState
 import com.example.shopify.auth.domain.repository.AuthRepository
 import com.example.shopify.utils.response.Response
 import com.google.firebase.auth.FirebaseAuth
@@ -23,7 +23,7 @@ class AuthRepoImpl @Inject constructor(
         try {
             Timber.i("Is User Verified: ${user.isEmailVerified}")
             Response.Success(
-                remoteDataSource.createNewCustomer(user) as T
+                remoteDataSource.createNewCustomer(user.toCustomer()) as T
             )
         } catch (e: Exception) {
             Response.Failure(e.message ?: "UnKnown Exception")
@@ -61,14 +61,14 @@ class AuthRepoImpl @Inject constructor(
     )
 
 
-    override suspend fun <T>resetPassword(email: String): Flow<Response<T>> = flowOf(
+    override suspend fun <T> resetPassword(email: String): Flow<Response<T>> = flowOf(
 
-       try {
-             firebaseAuth.sendPasswordResetEmail(email).await()
+        try {
+            firebaseAuth.sendPasswordResetEmail(email).await()
             Response.Success(email as T)
         } catch (e: Exception) {
-           Response.Failure(e.message ?: "unknownException")
-    }
+            Response.Failure(e.message ?: "unknownException")
+        }
 
     )
 
