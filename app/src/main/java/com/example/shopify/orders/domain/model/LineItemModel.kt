@@ -1,6 +1,8 @@
 package com.example.shopify.orders.domain.model
 
- data class LineItemModel(
+import com.example.shopify.data.dto.PropertiesItem
+
+data class LineItemModel(
      val fulfillableQuantity: Int,
      val fulfillmentService: String,
      val giftCard: Boolean,
@@ -10,7 +12,7 @@ package com.example.shopify.orders.domain.model
      val price: String,
      val productExists: Boolean,
      val productId: Long,
-     val properties: List<Any>,
+     val properties: List<PropertiesItem>,
      val quantity: Int,
      val sku: String,
      val taxable: Boolean,

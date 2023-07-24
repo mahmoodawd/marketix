@@ -9,7 +9,7 @@
         android:id="@+id/favoritesFragment"
         android:name="com.example.shopify.favorites.presentation.FavoritesFragment"
         android:label="fragment_favorites"
-        tools:layout="@layout/fragment_favorites" >
+        tools:layout="@layout/fragment_favorites">
         <action
             android:id="@+id/action_favoritesFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
@@ -18,7 +18,7 @@
         android:id="@+id/productDetailsFragment"
         android:name="com.example.shopify.productdetails.presentation.productdetails.ProductDetailsFragment"
         android:label="fragment_product_details"
-        tools:layout="@layout/fragment_product_details" >
+        tools:layout="@layout/fragment_product_details">
         <action
             android:id="@+id/action_productDetailsFragment_to_reviewsFragment"
             app:destination="@id/reviewsFragment" />

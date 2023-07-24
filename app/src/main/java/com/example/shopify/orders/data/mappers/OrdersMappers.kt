@@ -1,8 +1,10 @@
 package com.example.shopify.orders.data.mappers
 
+import com.example.shopify.orders.data.dto.Customer
 import com.example.shopify.orders.data.dto.LineItem
 import com.example.shopify.orders.data.dto.Order
 import com.example.shopify.orders.data.dto.OrdersResponse
+import com.example.shopify.orders.domain.model.CustomerModel
 import com.example.shopify.orders.domain.model.LineItemModel
 import com.example.shopify.orders.domain.model.OrderModel
 import com.example.shopify.orders.domain.model.OrdersModel
@@ -17,7 +19,7 @@ fun Order.toOrderModel(): OrderModel =
         currentSubtotalPrice = current_subtotal_price,
         currentTotalDiscounts = current_total_discounts,
         currentTotalPrice = current_total_price,
-        customer = customer,
+        customer = customer.toCustomerModel(),
         email = email,
         id = id,
         lineItems = line_items.toLineItemsModel(),
@@ -31,7 +33,7 @@ fun Order.toOrderModel(): OrderModel =
         token = token,
         totalDiscounts = total_discounts,
         totalLineItemsPrice = total_line_items_price,
-        totalOutstanding = total_outstanding,
+        totalOutstanding = total_outstanding?:"",
         totalPrice = total_price,
         totalWeight = total_weight, updatedAt = updated_at
     )
@@ -47,16 +49,31 @@ fun LineItem.toLineItemModel(): LineItemModel =
         price = price,
         productExists = product_exists,
         productId = product_id,
-        properties = properties,
+        properties = properties ?: listOf(),
         quantity = quantity,
         sku = sku,
         taxable = taxable,
         title = title,
         totalDiscount = total_discount,
         variantId = variant_id,
-        variantInventoryManagement = variant_inventory_management,
+        variantInventoryManagement = variant_inventory_management?:"",
         variantTitle = variant_title,
         vendor = vendor
     )
 
 fun List<LineItem>.toLineItemsModel(): List<LineItemModel> = (this.map { it.toLineItemModel() })
+
+fun Customer.toCustomerModel(): CustomerModel =
+    CustomerModel(
+        createdAt = created_at,
+        currency = currency,
+        email = email,
+        firstName = first_name ?: "",
+        id = id,
+        lastName = last_name ?: "",
+        note = note ?: "",
+        phone = phone ?: "",
+        tags = tags?:"",
+        updatedAt = updated_at,
+        verifiedEmail = verified_email
+    )

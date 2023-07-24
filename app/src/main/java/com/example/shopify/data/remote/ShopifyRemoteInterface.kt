@@ -9,7 +9,10 @@ import com.example.shopify.data.dto.codes.DiscountCodesResponse
 import com.example.shopify.home.data.dto.BrandsResponse
 import com.example.shopify.home.data.dto.ProductsResponse
 import com.example.shopify.orders.data.dto.OrdersResponse
-import com.example.shopify.productdetails.data.dto.ProductDetailsResponse
+import com.example.shopify.orders.data.dto.post.PostOrder
+import com.example.shopify.orders.data.dto.post.PostOrderResponse
+import com.example.shopify.productdetails.data.dto.draftorder.DraftOrderRequest
+import com.example.shopify.productdetails.data.dto.productdetails.ProductDetailsResponse
 import com.example.shopify.settings.data.dto.currencies.CurrenciesResponse
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -89,6 +92,9 @@ interface ShopifyRemoteInterface {
 
     @POST("draft_orders.json")
     suspend fun createDraftOrder(@Body draftOrderRequest: DraftOrderRequest):DraftOrderRequest
+
+    @POST("orders.json")
+    suspend fun createOrder(@Body postOrder: PostOrder): PostOrderResponse
 
 
 }
