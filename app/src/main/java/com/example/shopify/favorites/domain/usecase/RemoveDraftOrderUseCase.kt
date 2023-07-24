@@ -1,6 +1,6 @@
 package com.example.shopify.domain.usecase
 
-import com.example.shopify.domain.repository.DraftOrdersRepository
+import com.example.shopify.favorites.domain.repository.DraftOrdersRepository
 import javax.inject.Inject
 
 class RemoveDraftOrderUseCase @Inject constructor(private val draftOrdersRepository: DraftOrdersRepository) {

@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.example.shopify.databinding.FragmentFavoritesBinding
 import com.example.shopify.utils.snackBarObserver
 import com.example.shopify.utils.ui.visibleIf
@@ -27,10 +28,21 @@ class FavoritesFragment : Fragment() {
 
     lateinit var binding: FragmentFavoritesBinding
 
+    private val navController by lazy {
+        this@FavoritesFragment.findNavController()
+    }
+
     private val favoritesAdapter: FavoritesAdapter by lazy {
         FavoritesAdapter(
             listOf(),
-            onItemClick = { Timber.i("Item: $it pressed") },
+            onItemClick = {
+                FavoritesFragmentDirections.actionFavoritesFragmentToProductDetailsFragment(it.toString())
+                    .run {
+
+                        navController.navigate(this)
+                    }
+                Timber.i("Item: $it pressed")
+            },
             onDeleteClick = {
                 showConfirmDeleteDialog(it.toString())
             })

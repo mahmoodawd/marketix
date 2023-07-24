@@ -3,7 +3,7 @@ package com.example.shopify.favorites.data.repository
 import com.example.shopify.favorites.data.local.LocalDataSource
 import com.example.shopify.favorites.data.mappers.toFavoritesModel
 import com.example.shopify.favorites.data.remote.RemoteDataSource
-import com.example.shopify.domain.repository.DraftOrdersRepository
+import com.example.shopify.favorites.domain.repository.DraftOrdersRepository
 import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf

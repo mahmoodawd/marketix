@@ -16,16 +16,19 @@
     </fragment>
     <fragment
         android:id="@+id/productDetailsFragment"
-        android:name="com.example.shopify.productdetails.presentation.ProductDetailsFragment"
+        android:name="com.example.shopify.productdetails.presentation.productdetails.ProductDetailsFragment"
         android:label="fragment_product_details"
         tools:layout="@layout/fragment_product_details" >
         <action
             android:id="@+id/action_productDetailsFragment_to_reviewsFragment"
             app:destination="@id/reviewsFragment" />
+        <argument
+            android:name="product_id"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/reviewsFragment"
-        android:name="com.example.shopify.productdetails.presentation.ReviewsFragment"
+        android:name="com.example.shopify.productdetails.presentation.prodouctreviews.ReviewsFragment"
         android:label="fragment_reviews"
         tools:layout="@layout/fragment_reviews" />
 </navigation>
