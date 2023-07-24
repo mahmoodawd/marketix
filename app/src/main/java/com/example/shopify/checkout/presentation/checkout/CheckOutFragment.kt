@@ -8,7 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.databinding.FragmentCheckOutBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class CheckOutFragment : Fragment() {
 
 

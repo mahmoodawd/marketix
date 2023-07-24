@@ -87,6 +87,7 @@ dependencies {
     implementation("com.google.firebase:firebase-storage-ktx:20.2.1")
     implementation(libs.androidx.work.work.runtime.kts)
     implementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.play.services)
+    implementation(libs.androidx.viewpager2.viewpager2)
     implementation("androidx.startup:startup-runtime:1.1.1")
     ksp(libs.androidx.room.compiler)
     kapt(libs.com.google.dagger.hilt.compiler)

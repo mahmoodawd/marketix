@@ -111,22 +111,21 @@ class CartViewModel @Inject constructor(
         viewModelScope.launch(ioDispatcher) {
             readStringFromDataStoreUseCase.execute<String>("currencyFactor")
                 .combine(readStringFromDataStoreUseCase.execute<String>("currency")) { currencyFactor, currency ->
+                    Log.d("currencyFactor",currencyFactor.data.toString())
                     when (currencyFactor) {
                         is Response.Failure -> {}
                         is Response.Loading -> {}
                         is Response.Success -> {
-                            _state.update { it.copy(currencyFactor = currencyFactor.data!!.toDouble(), currency = currency.data!!) }
+                            _state.update { it.copy(currencyFactor = currencyFactor.data?.toDouble() ?: 1.0, currency = currency.data ?: "EGP") }
                             _state.value.cartItems.forEach { cartItem ->
                                 cartItem.itemPrice = (cartItem.itemPrice.toDouble()
-                                        * currencyFactor.data!!.toDouble()).roundTo(2).toString()
+                                        * _state.value.currencyFactor).roundTo(2).toString()
                                 cartItem.currency = currency.data!!
                             }
                             _state.update { it.copy(cartTotalCost = _state.value.cartItems.sumOf { it.itemPrice.toDouble() }
                                 ?: 0.0 ) }
                         }
                     }
-
-
                 }.collect()
         }
     }

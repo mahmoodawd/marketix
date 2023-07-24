@@ -7,6 +7,8 @@ import com.example.shopify.checkout.domain.repository.CartAndCheckoutRepository
 import com.example.shopify.checkout.domain.usecase.DeleteCartItemUseCase
 import com.example.shopify.checkout.domain.usecase.GetCartItemsUseCase
 import com.example.shopify.checkout.domain.usecase.UpdateCartItemUseCase
+import com.example.shopify.checkout.domain.usecase.discountcode.DeleteDiscountCodeFromDatabaseUseCase
+import com.example.shopify.checkout.domain.usecase.discountcode.GetDiscountCodeByIdUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -54,5 +56,20 @@ abstract class CheckOutViewModelModule {
         {
             return UpdateCartItemUseCase(repository)
         }
+
+        @Provides
+        @ViewModelScoped
+        fun providesDeleteDiscountCodeUseCase(repository: CartAndCheckoutRepository) : DeleteDiscountCodeFromDatabaseUseCase
+        {
+            return DeleteDiscountCodeFromDatabaseUseCase(repository)
+        }
+
+        @Provides
+        @ViewModelScoped
+        fun providesGetDiscountCodeByIdUseCase(repository: CartAndCheckoutRepository) : GetDiscountCodeByIdUseCase
+        {
+            return GetDiscountCodeByIdUseCase(repository)
+        }
+
     }
 }

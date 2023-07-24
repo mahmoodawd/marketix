@@ -10,4 +10,6 @@ interface ProductRemoteSource {
 
     suspend fun <T> filterProducts(category: Long?, productType: String): Flow<Response<T>>
 
+    suspend fun <T> getDiscountCodes() : Flow<Response<T>>
+
 }
