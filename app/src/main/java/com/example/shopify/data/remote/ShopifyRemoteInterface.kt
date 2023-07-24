@@ -9,6 +9,7 @@ import com.example.shopify.data.dto.codes.DiscountCodesResponse
 import com.example.shopify.home.data.dto.BrandsResponse
 import com.example.shopify.home.data.dto.ProductsResponse
 import com.example.shopify.orders.data.dto.OrdersResponse
+import com.example.shopify.productdetails.data.dto.ProductDetailsResponse
 import com.example.shopify.settings.data.dto.currencies.CurrenciesResponse
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -77,6 +78,17 @@ interface ShopifyRemoteInterface {
     @GET("price_rules/1396109508887/discount_codes/{id}.json")
     suspend fun getDiscountCodeById(id : String) : DiscountCodeResponse?
 
+    @GET("products/{productId}.json")
+    suspend fun getProductDetailsById(@Path("productId") productId : String): ProductDetailsResponse
+
+
+    @GET("draft_orders.json")
+    suspend fun getDraftOrders(
+        @Query("fields") fields: String = "",
+    ): DraftOrderResponse
+
+    @POST("draft_orders.json")
+    suspend fun createDraftOrder(@Body draftOrderRequest: DraftOrderRequest):DraftOrderRequest
 
 
 }

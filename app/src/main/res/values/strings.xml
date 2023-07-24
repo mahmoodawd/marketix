@@ -180,5 +180,9 @@ Is between 8 and 30 characters long</string>
     <string name="notificationBuilder">builder</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="to_cart">Add To Cart</string>
+    <string name="to_favorites">Add To Favorites</string>
+    <string name="added_to_favorites">Item Added To Favorites</string>
+    <string name="added_to_cart">Item Added To Cart</string>
 </resources>
 

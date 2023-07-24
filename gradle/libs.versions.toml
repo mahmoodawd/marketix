@@ -47,6 +47,7 @@ fireStore = "24.7.0"
 timber="5.0.1"
 workManager = "2.8.1"
 coroutinesFirebase="1.7.2"
+viewpager2 = "1.0.0"
 
 
 
@@ -90,6 +91,7 @@ com-jakewharton-timber-timber = {group ="com.jakewharton.timber", name = "timber
 com-firebaseui-firebase-ui-auth = {group = "com.firebaseui",name = "firebase-ui-auth",version.ref="firebaseUI"}
 com-google-firebase-firebase-firestore-kts = {group = "com.google.firebase",name = "firebase-firestore-ktx",version.ref = "fireStore"}
 androidx-work-work-runtime-kts = {group = "androidx.work",name="work-runtime-ktx",version.ref = "workManager"}
+androidx-viewpager2-viewpager2 = {group = "androidx.viewpager2",name = "viewpager2",version.ref="viewpager2"}
 
 
 org-jetbrains-kotlinx-kotlinx-coroutines-play-services={group = "org.jetbrains.kotlinx",name="kotlinx-coroutines-play-services",version.ref="coroutinesFirebase"}
