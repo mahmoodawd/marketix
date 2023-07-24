@@ -116,7 +116,7 @@
     <string name="orders">Orders</string>
     <string name="created_at">Created at:</string>
     <string name="order_price">Price:</string>
-    <string name="discount_code">discount code</string>
+    <string name="discount_code">discount code : </string>
     <string name="do_you_have_any_discount_code">do you have any discount code ?</string>
     <string name="dismiss">dismiss</string>
     <string name="successfull_message">data saved successfully</string>
@@ -184,5 +184,16 @@ Is between 8 and 30 characters long</string>
     <string name="to_favorites">Add To Favorites</string>
     <string name="added_to_favorites">Item Added To Favorites</string>
     <string name="added_to_cart">Item Added To Cart</string>
+    <string name="codes">discount codes\n</string>
+    <string name="done">done</string>
+    <string name="choose_your_address_please">choose your address please</string>
+    <string name="please_choose_address" >please choose your address</string>
+    <string name="please_write_your_email">please write your email address</string>
+    <string name="please_write_your_phone_number">please write your phone number\n</string>
+    <string name="have_discount_code"><u>discount code ?</u></string>
+    <string name="phoneType">phoneType</string>
+    <string name="emailType">emailType</string>
+    <string name="discount_not_valid_any_more">discount code not valid any more</string>
+    <string name="no_phone_to_show">no phone to show</string>
 </resources>
 

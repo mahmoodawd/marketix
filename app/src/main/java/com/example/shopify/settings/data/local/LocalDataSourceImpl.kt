@@ -1,11 +1,9 @@
 package com.example.shopify.settings.data.local
 
-import android.util.Log
 import com.example.shopify.data.datastore.DataStoreUserPreferences
 import com.example.shopify.settings.data.dto.location.AddressDto
 import com.example.shopify.settings.data.mappers.toAddressModel
 import com.example.shopify.utils.response.Response
-import com.google.android.play.core.integrity.e
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
@@ -35,7 +33,7 @@ class LocalDataSourceImpl @Inject constructor(
     }
 
     override fun getAllAddressFromDatabase(): Flow<List<AddressDto>> {
-        return addressDao.getAllAlerts()
+        return addressDao.getAllAddress()
     }
 
     override suspend fun <T> updateAddressInDatabase(addressDto: AddressDto): Response<T> {

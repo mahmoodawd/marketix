@@ -4,11 +4,10 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
-import com.example.shopify.checkout.domain.model.CartItem
 import com.example.shopify.checkout.domain.model.CartItems
-import com.example.shopify.checkout.domain.usecase.DeleteCartItemUseCase
-import com.example.shopify.checkout.domain.usecase.GetCartItemsUseCase
-import com.example.shopify.checkout.domain.usecase.UpdateCartItemUseCase
+import com.example.shopify.checkout.domain.usecase.cart.DeleteCartItemUseCase
+import com.example.shopify.checkout.domain.usecase.cart.GetCartItemsUseCase
+import com.example.shopify.checkout.domain.usecase.cart.UpdateCartItemUseCase
 import com.example.shopify.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
 import com.example.shopify.utils.hiltanotations.Dispatcher
 import com.example.shopify.utils.hiltanotations.Dispatchers
@@ -24,7 +23,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

@@ -253,7 +253,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
     private fun setProductsRecycler() {
         val productsLayoutManager = GridLayoutManager(requireContext(), 2)
         productsLayoutManager.orientation = GridLayoutManager.VERTICAL
-        binding.productsRv.apply {
+        binding.productsRv.apply{
             adapter = productsAdapter
             layoutManager = productsLayoutManager
         }

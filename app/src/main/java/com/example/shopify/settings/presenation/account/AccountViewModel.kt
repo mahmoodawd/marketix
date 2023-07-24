@@ -167,7 +167,7 @@ class AccountViewModel @Inject constructor(
         viewModelScope.launch(ioDispatcher) {
             val response = getUserImageUseCase.execute<Uri>()
             if (response is Response.Success) {
-                _state.update { it.copy(imageFromServerUri = response.data!!) }
+                _state.update { it.copy(imageFromServerUri = response.data) }
             } else {
                 _snackBarFlow.emit(R.string.failed_message)
             }

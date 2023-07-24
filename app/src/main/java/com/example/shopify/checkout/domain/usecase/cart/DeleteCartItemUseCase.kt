@@ -1,4 +1,4 @@
-package com.example.shopify.checkout.domain.usecase
+package com.example.shopify.checkout.domain.usecase.cart
 
 import com.example.shopify.checkout.domain.repository.CartAndCheckoutRepository
 import com.example.shopify.utils.response.Response
