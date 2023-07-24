@@ -1,19 +1,14 @@
 package com.example.shopify.productdetails.presentation.productdetails
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.shopify.R
 import com.example.shopify.databinding.ProductImageItemBinding
-import com.example.shopify.favorites.domain.model.FavoriteProductModel
 import com.example.shopify.productdetails.domain.model.ImageModel
 
 class ProductImagesAdapter(
-    val context: Context,
 ) : ListAdapter<ImageModel, RecyclerView.ViewHolder>(ImgDiffUtil()) {
 
 
@@ -22,10 +17,8 @@ class ProductImagesAdapter(
 
         fun bind(item: ImageModel) {
 
-            Glide.with(context)
-                .load(item.src).placeholder(R.drawable.loading_img)
-                .error(R.drawable.ic_broken_image)
-                .into(binding.imageView)
+            binding.image = item
+            binding.textView2.text = item.src
         }
     }
 

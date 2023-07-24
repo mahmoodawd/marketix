@@ -7,6 +7,7 @@ import com.example.shopify.favorites.domain.repository.DraftOrdersRepository
 import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import timber.log.Timber
 import javax.inject.Inject
 
 class FavoritesRepository @Inject constructor(
@@ -16,7 +17,9 @@ class FavoritesRepository @Inject constructor(
 
     override suspend fun <T> getDraftOrders(): Flow<Response<T>> = flowOf(
         try {
-            Response.Success(remoteDataSource.getFavoritesProducts().toFavoritesModel() as T)
+            val favoritesProducts = remoteDataSource.getFavoritesProducts()
+            Timber.i("Fav Repo: Done ->> ${favoritesProducts.draft_orders.size}")
+            Response.Success(favoritesProducts.toFavoritesModel() as T)
         } catch (e: Exception) {
             Response.Failure(e.message ?: "unknownException")
         }

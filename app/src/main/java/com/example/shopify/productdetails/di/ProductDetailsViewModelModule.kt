@@ -4,6 +4,8 @@ import com.example.shopify.productdetails.data.remote.ProductDetailsRemoteDataSo
 import com.example.shopify.productdetails.data.remote.RemoteDataSource
 import com.example.shopify.productdetails.data.repository.ProductDetailsRepoImpl
 import com.example.shopify.productdetails.domain.repository.ProductDetailsRepository
+import com.example.shopify.productdetails.domain.usecase.AddToCartUseCase
+import com.example.shopify.productdetails.domain.usecase.AddToFavoritesUseCase
 import com.example.shopify.productdetails.domain.usecase.GetProductDetailsUseCase
 import dagger.Binds
 import dagger.Module
@@ -30,6 +32,16 @@ abstract class ProductDetailsViewModelModule {
         @ViewModelScoped
         fun provideGetProductDetailsUseCase(productDetailsRepository: ProductDetailsRepository) =
             GetProductDetailsUseCase(productDetailsRepository)
+
+        @Provides
+        @ViewModelScoped
+        fun provideAddToCartUseCase(productDetailsRepository: ProductDetailsRepository) =
+            AddToCartUseCase(productDetailsRepository)
+
+        @Provides
+        @ViewModelScoped
+        fun provideAddToFavoriteUseCase(productDetailsRepository: ProductDetailsRepository) =
+            AddToFavoritesUseCase(productDetailsRepository)
 
 
     }
