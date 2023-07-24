@@ -25,6 +25,9 @@
         <argument
             android:name="product_id"
             app:argType="string" />
+        <argument
+            android:name="draftOrderId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/reviewsFragment"
