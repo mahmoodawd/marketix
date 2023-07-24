@@ -27,6 +27,16 @@ import com.example.shopify.databinding.ActivityMainBinding
 import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.example.shopify.utils.workmanager.discount.DiscountCodesWorker
 import com.example.shopify.utils.workmanager.exchnage.ApiExchangeWorker
+import com.paypal.checkout.approve.OnApprove
+import com.paypal.checkout.cancel.OnCancel
+import com.paypal.checkout.createorder.CreateOrder
+import com.paypal.checkout.createorder.CurrencyCode
+import com.paypal.checkout.createorder.OrderIntent
+import com.paypal.checkout.createorder.UserAction
+import com.paypal.checkout.order.Amount
+import com.paypal.checkout.order.AppContext
+import com.paypal.checkout.order.OrderRequest
+import com.paypal.checkout.order.PurchaseUnit
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -71,6 +81,8 @@ class MainActivity : AppCompatActivity() {
         showNotificationPeriodicTimeRequest()
 
     }
+
+
 
     private fun createNotificationChannel() {
         val importance = NotificationManager.IMPORTANCE_HIGH

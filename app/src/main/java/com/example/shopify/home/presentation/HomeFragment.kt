@@ -223,7 +223,6 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
             .setMessage(getString(R.string.free_discount_code)+" "+code)
             .setNegativeButton(getString(R.string.cancel)){ dialogInterface, _ ->
                 dialogInterface.dismiss()
-                viewModel.initDiscountCodeHomeState()
             }
             .setNeutralButton(getString(R.string.save)) { _, _ ->
                 viewModel.insertDiscountCode()
