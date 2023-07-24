@@ -1,4 +1,4 @@
-package com.example.shopify.productdetails.data.dto
+package com.example.shopify.productdetails.data.dto.productdetails
 
 data class Variant(
     val admin_graphql_api_id: String,

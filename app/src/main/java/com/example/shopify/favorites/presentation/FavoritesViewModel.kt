@@ -3,9 +3,9 @@ package com.example.shopify.favorites.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
-import com.example.shopify.domain.usecase.RemoveDraftOrderUseCase
 import com.example.shopify.favorites.domain.model.FavoritesModel
 import com.example.shopify.favorites.domain.usecase.GetFavoriteProductsUseCase
+import com.example.shopify.favorites.domain.usecase.RemoveDraftOrderUseCase
 import com.example.shopify.utils.hiltanotations.Dispatcher
 import com.example.shopify.utils.hiltanotations.Dispatchers
 import com.example.shopify.utils.response.Response
@@ -40,7 +40,7 @@ class FavoritesViewModel @Inject constructor(
     fun onEvent(intent: FavoritesIntent) {
         when (intent) {
             is FavoritesIntent.GetFavorites -> getFavorites()
-            is FavoritesIntent.RemoveFromFavorites -> removeItem(intent.id)
+            is FavoritesIntent.RemoveFromFavorites -> removeItem(intent.id, intent.itemPosition)
         }
     }
 
@@ -82,15 +82,20 @@ class FavoritesViewModel @Inject constructor(
 
     }
 
-    private fun removeItem(id: String) {
+    private fun removeItem(id: String, itemPosition: Int) {
         viewModelScope.launch(ioDispatcher) {
 
             removeDraftOrderUseCase(id).collectLatest { response ->
                 Timber.i("response: ${response.data}")
                 when (response) {
                     is Response.Success -> {
-                        _snackBarFlow.emit(R.string.successfull_message)
-                        getFavorites()
+                        _state.update {
+                            it.copy(
+                                loading = false,
+                                products = _state.value.products?.drop(itemPosition + 1)
+                            )
+                        }
+
                     }
 
                     is Response.Loading -> _state.update { it.copy(loading = true) }

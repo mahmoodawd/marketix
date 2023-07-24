@@ -6,7 +6,7 @@
 
     <data>
 
-        <import type="kotlin.jvm.functions.Function1" />
+        <import type="kotlin.jvm.functions.Function0" />
 
         <import type="kotlin.Unit" />
 
@@ -17,18 +17,18 @@
 
         <variable
             name="onItemClick"
-            type="Function1&lt;Long, Unit>" />
+            type="Function0&lt;Unit>" />
 
         <variable
             name="onDeleteClick"
-            type="Function1&lt;Long, Unit>" />
+            type="Function0&lt;Unit>" />
 
     </data>
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/_205sdp"
-        android:layout_margin="@dimen/_16sdp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp"
         android:layout_marginStart="0dp"
         android:orientation="vertical">
 
@@ -37,7 +37,7 @@
             android:layout_height="match_parent"
             android:layout_margin="@dimen/_8sdp"
             android:layout_marginStart="0dp"
-            android:onClick="@{() -> onItemClick.invoke(product.id) }">
+            android:onClick="@{() -> onItemClick.invoke() }">
 
 
             <ImageView
@@ -45,6 +45,8 @@
                 loadImage="@{product.imageSrc}"
                 android:layout_width="@dimen/_110sdp"
                 android:layout_height="@dimen/_75sdp"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toTopOf="@+id/vendor_tv"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/shoes" />
@@ -56,6 +58,7 @@
                 android:layout_marginStart="@dimen/_8sdp"
                 android:text="@{product.vendor}"
                 android:textColor="@color/md_theme_light_primary"
+                app:layout_constraintBottom_toTopOf="@+id/item_name_tv"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/itemImageView"
                 tools:text="Vendor" />
@@ -74,6 +77,7 @@
                 android:shadowRadius="4"
                 android:text="@{product.title}"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/item_price_tv"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/vendor_tv"
                 tools:text="title" />
@@ -83,7 +87,6 @@
                 style="@style/p3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:elevation="@dimen/_10sdp"
                 android:shadowColor="@color/md_theme_dark_outline"
@@ -103,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_4sdp"
                 android:background="@android:color/transparent"
-                android:onClick="@{() -> onDeleteClick.invoke(product.draftOrderId) }"
+                android:onClick="@{() -> onDeleteClick.invoke() }"
                 android:src="@drawable/recycle_bin"
                 app:layout_constraintBottom_toBottomOf="@+id/item_price_tv"
                 app:layout_constraintEnd_toEndOf="parent"

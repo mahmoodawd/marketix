@@ -19,7 +19,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 @AndroidEntryPoint
 class FavoritesFragment : Fragment() {
@@ -34,17 +33,18 @@ class FavoritesFragment : Fragment() {
 
     private val favoritesAdapter: FavoritesAdapter by lazy {
         FavoritesAdapter(
-            listOf(),
-            onItemClick = {
-                FavoritesFragmentDirections.actionFavoritesFragmentToProductDetailsFragment(it.toString())
+            onItemClick = { productId, draftOrderId ->
+                FavoritesFragmentDirections
+                    .actionFavoritesFragmentToProductDetailsFragment(
+                        productId,
+                        draftOrderId
+                    )
                     .run {
-
                         navController.navigate(this)
                     }
-                Timber.i("Item: $it pressed")
             },
-            onDeleteClick = {
-                showConfirmDeleteDialog(it.toString())
+            onDeleteClick = { id, position ->
+                showConfirmDeleteDialog(id.toString(), position)
             })
     }
 
@@ -89,14 +89,14 @@ class FavoritesFragment : Fragment() {
 
     }
 
-    private fun showConfirmDeleteDialog(id: String) {
+    private fun showConfirmDeleteDialog(id: String, position: Int) {
         MaterialAlertDialogBuilder(requireContext())
             .setMessage("Are You Sure To Delete")
             .setPositiveButton("No") { _, _ ->
 
             }.setNeutralButton("Yes") { _, _ ->
 
-                viewModel.onEvent(FavoritesIntent.RemoveFromFavorites(id))
+                viewModel.onEvent(FavoritesIntent.RemoveFromFavorites(id, position))
             }
             .show()
     }

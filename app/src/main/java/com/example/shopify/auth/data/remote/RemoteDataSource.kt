@@ -1,9 +1,7 @@
 package com.example.shopify.auth.data.remote
 
-import com.example.shopify.utils.response.Response
-import com.google.firebase.auth.FirebaseUser
-import kotlinx.coroutines.flow.Flow
+import com.example.shopify.auth.data.dto.CustomerResponse
 
 interface RemoteDataSource {
-    suspend fun <T> createNewCustomer(user: FirebaseUser): T
+    suspend fun <T> createNewCustomer(customerResponse: CustomerResponse): T
 }
