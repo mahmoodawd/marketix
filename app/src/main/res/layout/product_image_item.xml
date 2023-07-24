@@ -8,7 +8,7 @@
 
         <variable
             name="image"
-            type="com.example.shopify.productdetails.domain.model.ImageModel" />
+            type="com.example.shopify.productdetails.domain.model.details.ImageModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

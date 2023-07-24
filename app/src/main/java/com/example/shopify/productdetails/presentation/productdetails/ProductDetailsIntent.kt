@@ -1,6 +1,6 @@
 package com.example.shopify.productdetails.presentation.productdetails
 
-import com.example.shopify.productdetails.domain.model.ProductsDetailsModel
+import com.example.shopify.productdetails.domain.model.details.ProductsDetailsModel
 
 sealed interface ProductDetailsIntent {
 

@@ -2,11 +2,10 @@ package com.example.shopify.productdetails.data.repository
 
 import com.example.shopify.data.dto.DraftOrderResponse
 import com.example.shopify.productdetails.data.dto.productdetails.Product
-import com.example.shopify.productdetails.data.dto.productdetails.ProductDetailsResponse
 import com.example.shopify.productdetails.data.mappers.toFavoriteDraftOrderRequest
 import com.example.shopify.productdetails.data.mappers.toProductsDetailsModel
 import com.example.shopify.productdetails.data.remote.RemoteDataSource
-import com.example.shopify.productdetails.domain.model.ProductsDetailsModel
+import com.example.shopify.productdetails.domain.model.details.ProductsDetailsModel
 import com.example.shopify.productdetails.domain.repository.ProductDetailsRepository
 import com.example.shopify.utils.constants.TAG_CART
 import com.example.shopify.utils.constants.TAG_FAVORITES

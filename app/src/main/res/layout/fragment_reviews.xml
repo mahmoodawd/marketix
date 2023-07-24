@@ -1,82 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".productdetails.presentation.prodouctreviews.ReviewsFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/backImageView"
-        android:layout_width="@dimen/_25sdp"
-        android:layout_height="@dimen/_25sdp"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_30sdp"
-        android:src="@drawable/back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:importantForAccessibility="no" />
+    <data>
 
-    <TextView
-        android:id="@+id/pageTitleTextView"
-        style="@style/title_font"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/product_reviews"
-        app:layout_constraintBottom_toBottomOf="@+id/backImageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/backImageView" />
+        <variable
+            name="adapter"
+            type="com.example.shopify.productdetails.presentation.prodouctreviews.ProductReviewsAdapter" />
+    </data>
 
-    <TextView
-        android:id="@+id/reviews_number"
-        style="@style/p2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="112dp"
-        android:elevation="@dimen/_10sdp"
-        android:shadowColor="@color/md_theme_dark_outline"
-        android:shadowDx="1"
-        android:shadowDy="4"
-        android:shadowRadius="1"
-        android:text="300 Reviews"
-        android:textStyle="normal"
-        app:layout_constraintStart_toStartOf="@+id/backImageView"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".productdetails.presentation.prodouctreviews.ReviewsFragment">
 
-    <RatingBar
-        android:id="@+id/total_rating"
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_20sdp"
-        android:layout_margin="@dimen/_8sdp"
-        android:numStars="5"
-        android:rating="4"
-        app:layout_constraintEnd_toEndOf="@+id/reviews_number"
-        app:layout_constraintStart_toStartOf="@+id/reviews_number"
-        app:layout_constraintTop_toBottomOf="@+id/reviews_number" />
+        <ImageView
+            android:id="@+id/backImageView"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/add_review_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="@string/add_review"
-        app:icon="@drawable/edit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/reviews_number" />
+        <TextView
+            android:id="@+id/pageTitleTextView"
+            style="@style/title_font"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/product_reviews"
+            app:layout_constraintBottom_toBottomOf="@+id/backImageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/backImageView" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/product_images_rv"
-        android:layout_width="0dp"
-        android:layout_marginTop="@dimen/_32sdp"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_review_fab"
-        tools:itemCount="10"
-        tools:listitem="@layout/review_item" />
+        <TextView
+            android:id="@+id/reviews_number"
+            style="@style/p2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:elevation="@dimen/_10sdp"
+            android:shadowColor="@color/md_theme_dark_outline"
+            android:shadowDx="1"
+            android:shadowDy="4"
+            android:shadowRadius="1"
+            android:textStyle="normal"
+            app:layout_constraintStart_toStartOf="@+id/backImageView"
+            app:layout_constraintTop_toBottomOf="@id/pageTitleTextView"
+            tools:text="300 Reviews" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <RatingBar
+            android:id="@+id/total_rating"
+            style="@style/Widget.AppCompat.RatingBar.Indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:isIndicator="true"
+            android:numStars="5"
+            app:layout_constraintStart_toStartOf="@+id/reviews_number"
+            app:layout_constraintTop_toBottomOf="@+id/reviews_number" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/add_review_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/add_review"
+            app:icon="@drawable/edit"
+            app:layout_constraintBottom_toBottomOf="@+id/total_rating"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/reviews_number" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/product_images_rv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:adapter="@{adapter}"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/_20sdp"
+            android:paddingBottom="@dimen/_40sdp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_review_fab"
+            tools:itemCount="8"
+            tools:listitem="@layout/review_item" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

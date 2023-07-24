@@ -1,30 +1,30 @@
-package com.example.shopify.productdetails.presentation.productdetails
+package com.example.shopify.productdetails.presentation.prodouctreviews
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shopify.databinding.ProductImageItemBinding
-import com.example.shopify.productdetails.domain.model.details.ImageModel
+import com.example.shopify.databinding.ReviewItemBinding
+import com.example.shopify.productdetails.domain.model.reviews.ReviewModel
 
-class ProductImagesAdapter(
-) : ListAdapter<ImageModel, RecyclerView.ViewHolder>(ImgDiffUtil()) {
+class ProductReviewsAdapter(
+) : ListAdapter<ReviewModel, RecyclerView.ViewHolder>(ReviewDiffUtil()) {
 
 
-    inner class ViewHolder(var binding: ProductImageItemBinding) :
+    inner class ViewHolder(var binding: ReviewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: ImageModel) {
+        fun bind(item: ReviewModel) {
 
-            binding.image = item
-            binding.textView2.text = item.src
+            binding.review = item
+
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding: ProductImageItemBinding = ProductImageItemBinding.inflate(
+        val binding: ReviewItemBinding = ReviewItemBinding.inflate(
             inflater, parent, false
         )
         return ViewHolder(binding)
@@ -38,17 +38,17 @@ class ProductImagesAdapter(
 }
 
 
-class ImgDiffUtil : DiffUtil.ItemCallback<ImageModel>() {
+class ReviewDiffUtil : DiffUtil.ItemCallback<ReviewModel>() {
     override fun areItemsTheSame(
-        oldItem: ImageModel,
-        newItem: ImageModel
+        oldItem: ReviewModel,
+        newItem: ReviewModel
     ): Boolean {
         return oldItem === newItem
     }
 
     override fun areContentsTheSame(
-        oldItem: ImageModel,
-        newItem: ImageModel
+        oldItem: ReviewModel,
+        newItem: ReviewModel
     ): Boolean {
         return oldItem == newItem
     }

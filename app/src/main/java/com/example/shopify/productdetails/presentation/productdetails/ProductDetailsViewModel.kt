@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
 import com.example.shopify.productdetails.data.dto.draftorder.DraftOrderRequest
-import com.example.shopify.productdetails.domain.model.ProductsDetailsModel
+import com.example.shopify.productdetails.domain.model.details.ProductsDetailsModel
 import com.example.shopify.productdetails.domain.usecase.AddToCartUseCase
 import com.example.shopify.productdetails.domain.usecase.AddToFavoritesUseCase
 import com.example.shopify.productdetails.domain.usecase.GetProductDetailsUseCase

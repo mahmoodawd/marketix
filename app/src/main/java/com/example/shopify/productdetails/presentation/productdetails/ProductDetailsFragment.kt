@@ -9,6 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.example.shopify.R
@@ -28,6 +30,10 @@ class ProductDetailsFragment : Fragment() {
     lateinit var binding: FragmentProductDetailsBinding
 
     val viewModel: ProductDetailsViewModel by viewModels()
+
+    val navController: NavController by lazy {
+        this@ProductDetailsFragment.findNavController()
+    }
 
     private val args: ProductDetailsFragmentArgs by navArgs()
 
@@ -49,8 +55,7 @@ class ProductDetailsFragment : Fragment() {
 
         binding = FragmentProductDetailsBinding.inflate(inflater, container, false)
 
-        imagesAdapter = ProductImagesAdapter()
-        binding.imageAdapter = imagesAdapter
+
 
         binding.productImagesViewPager.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
@@ -86,6 +91,20 @@ class ProductDetailsFragment : Fragment() {
             viewModel.onEvent(ProductDetailsIntent.AddToCart(binding.product!!))
         }
 
+        binding.backImageView.setOnClickListener { navController.popBackStack() }
+
+        imagesAdapter = ProductImagesAdapter()
+        binding.imageAdapter = imagesAdapter
+
+        binding.ratingView.apply {
+            ratingBar.rating = 3.5F
+            toReviewsIv.setOnClickListener {
+                navController.navigate(
+                    R.id
+                        .action_productDetailsFragment_to_reviewsFragment
+                )
+            }
+        }
 
         viewModel.onEvent(ProductDetailsIntent.GetDetails(args.productId))
 

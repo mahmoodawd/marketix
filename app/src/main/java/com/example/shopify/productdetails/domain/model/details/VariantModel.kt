@@ -1,4 +1,4 @@
-package com.example.shopify.productdetails.domain.model
+package com.example.shopify.productdetails.domain.model.details
 
 data class VariantModel(
     val fulfillmentService: String,

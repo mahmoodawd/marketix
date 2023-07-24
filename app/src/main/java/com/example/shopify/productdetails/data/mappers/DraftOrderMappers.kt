@@ -4,8 +4,8 @@ import com.example.shopify.productdetails.data.dto.draftorder.DraftOrder
 import com.example.shopify.productdetails.data.dto.draftorder.DraftOrderRequest
 import com.example.shopify.productdetails.data.dto.draftorder.LineItem
 import com.example.shopify.productdetails.data.dto.draftorder.PropertyItem
-import com.example.shopify.productdetails.domain.model.ImageModel
-import com.example.shopify.productdetails.domain.model.ProductsDetailsModel
+import com.example.shopify.productdetails.domain.model.details.ImageModel
+import com.example.shopify.productdetails.domain.model.details.ProductsDetailsModel
 import com.example.shopify.utils.constants.TAG_CART
 import com.example.shopify.utils.constants.TAG_FAVORITES
 import com.google.firebase.auth.FirebaseAuth

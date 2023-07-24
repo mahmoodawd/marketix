@@ -1,6 +1,6 @@
 package com.example.shopify.productdetails.domain.repository
 
-import com.example.shopify.productdetails.domain.model.ProductsDetailsModel
+import com.example.shopify.productdetails.domain.model.details.ProductsDetailsModel
 import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
 
