@@ -184,5 +184,8 @@ Is between 8 and 30 characters long</string>
     <string name="to_favorites">Add To Favorites</string>
     <string name="added_to_favorites">Item Added To Favorites</string>
     <string name="added_to_cart">Item Added To Cart</string>
+    <string name="order_details">Order Details</string>
+    <string name="order_id">Order Id:</string>
+    <string name="items">Items</string>
 </resources>
 

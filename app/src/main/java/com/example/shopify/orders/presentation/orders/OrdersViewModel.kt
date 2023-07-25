@@ -57,7 +57,8 @@ class OrdersViewModel @Inject constructor(
         }
     }
 
-    fun createCustomer(postOrder: PostOrder){
+    fun createOrder(postOrder: PostOrder){
+        Timber.e(postOrder.toString())
         viewModelScope.launch(ioDispatcher) {
             createOrderUseCase.execute(postOrder).collectLatest {
                 when(it){
