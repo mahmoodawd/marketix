@@ -89,6 +89,7 @@ dependencies {
     implementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.play.services)
     implementation(libs.androidx.viewpager2.viewpager2)
     implementation("androidx.startup:startup-runtime:1.1.1")
+    implementation(libs.com.squareup.okhttp3.logging.interceptor)
     ksp(libs.androidx.room.compiler)
     kapt(libs.com.google.dagger.hilt.compiler)
     kapt(libs.androidx.hilt.hilt.compiler)

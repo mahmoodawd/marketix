@@ -27,6 +27,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -78,11 +79,20 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesOkHttpClient(authorizationInterceptor: AuthorizationInterceptor) : OkHttpClient
+    fun providesLoggingInterceptor() : HttpLoggingInterceptor{
+       val logging =  HttpLoggingInterceptor()
+        logging.setLevel(HttpLoggingInterceptor.Level.BASIC)
+        return logging
+    }
+
+    @Singleton
+    @Provides
+    fun providesOkHttpClient(authorizationInterceptor: AuthorizationInterceptor, okHttpLoggingInterceptor: HttpLoggingInterceptor) : OkHttpClient
 
     {
         return OkHttpClient.Builder()
             .addInterceptor(authorizationInterceptor)
+            .addInterceptor(okHttpLoggingInterceptor)
             .build()
     }
 
