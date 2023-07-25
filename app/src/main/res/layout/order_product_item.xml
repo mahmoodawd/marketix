@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="lineItem"
+            type="com.example.shopify.orders.domain.model.LineItemModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_16sdp"
+        app:cardCornerRadius="@dimen/_16sdp">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                loadImage="@{lineItem.properties.get(0).value}"
+                android:id="@+id/productImage"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/shoes"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/productTitle"
+                style="@style/p2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{lineItem.title}"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@id/quantityTv"
+                app:layout_constraintEnd_toStartOf="@id/productImage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/productImage"
+                tools:text="ADIDAS" />
+
+            <TextView
+                android:id="@+id/quantityTv"
+                style="@style/p2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(lineItem.quantity)}"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@id/priceTv"
+                app:layout_constraintEnd_toStartOf="@id/productImage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/productTitle"
+                tools:text="3" />
+
+            <TextView
+                android:id="@+id/priceTv"
+                style="@style/p2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{lineItem.price}"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="@id/productImage"
+                app:layout_constraintEnd_toStartOf="@id/productImage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/quantityTv"
+                tools:text="300 PSD" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

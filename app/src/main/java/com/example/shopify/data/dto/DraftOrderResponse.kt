@@ -1,6 +1,8 @@
 package com.example.shopify.data.dto
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class DraftOrderResponse(
     val draft_orders: List<DraftOrdersItem>
@@ -61,12 +63,12 @@ data class LineItem(
     val grams: Int = 0,
     val properties: List<PropertiesItem>
 )
-
+@Parcelize
 data class PropertiesItem(
     @SerializedName("name")
     val imageUrl: String = "image_url",
     val value: String
-)
+):Parcelable
 
 data class AppliedDiscount(
     val description: String?,

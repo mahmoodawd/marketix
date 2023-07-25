@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentFactory
 import com.example.shopify.auth.presentation.login.LoginFragment
 import com.example.shopify.auth.presentation.signup.SignUpFragment
 import com.example.shopify.home.presentation.HomeFragment
-import com.example.shopify.orders.presentation.OrdersFragment
+import com.example.shopify.orders.presentation.orders.OrdersFragment
 import com.example.shopify.settings.presenation.address.adresses.AllAddressesFragment
 import com.example.shopify.settings.presenation.address.map.MapFragment
 import com.example.shopify.utils.connectivity.ConnectivityObserver
