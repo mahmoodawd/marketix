@@ -11,6 +11,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.shopify.data.dto.PropertiesItem
+import com.example.shopify.databinding.FragmentOrdersBinding
+import com.example.shopify.orders.data.dto.post.Order
+import com.example.shopify.orders.data.dto.post.PostOrder
 import com.example.shopify.databinding.FragmentOrdersBinding
 import com.example.shopify.orders.domain.model.OrderModel
 import com.example.shopify.utils.connectivity.ConnectivityObserver
@@ -60,15 +64,19 @@ class OrdersFragment(
                 when (it) {
                     ConnectivityObserver.Status.Available -> {
                         viewModel.getCustomerOrders(firebaseAuth.currentUser?.email as String)
-//                        viewModel.createCustomer(
-//                            PostOrder(
-//                                DraftOrdersItem(
-//                                    email = "mohamedadel2323m@gmail.com", line_items = listOf(
-//                                        LineItem(quantity = 1, variant_id = 45736853176599, applied_discount = null , properties = listOf())
-//                                    ),note_attributes = listOf()
-//                                )
-//                            )
-//                        )
+                        viewModel.createOrder(
+                            PostOrder(
+                                Order(
+                                    "mohamedadel2323m@gmail.com",
+                                    listOf(
+                                        com.example.shopify.orders.data.dto.post.LineItem(1,45736853176599,
+                                            listOf(PropertiesItem("image_url","https://cdn.shopify.com/s/files/1/0790/0712/1687/products/85cc58608bf138a50036bcfe86a3a362.jpg?v=1689452647"))
+                                        )
+                                    )
+                                )
+                            )
+                        )
+
                     }
 
                     else -> {

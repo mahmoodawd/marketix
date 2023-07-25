@@ -98,5 +98,4 @@ interface ShopifyRemoteInterface {
     @POST("orders.json")
     suspend fun createOrder(@Body postOrder: PostOrder): PostOrderResponse
 
-
 }

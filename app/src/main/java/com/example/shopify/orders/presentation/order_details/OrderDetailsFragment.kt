@@ -47,7 +47,6 @@ class OrderDetailsFragment : Fragment() {
             navController.navigateUp()
         }
     }
-
     private fun goToProductDetails(productId: Long) {
         val uri = Uri.parse("shopify://productDetailsFragment/${productId}")
         navController.navigate(uri)
