@@ -109,7 +109,6 @@ class CartViewModel @Inject constructor(
         viewModelScope.launch(ioDispatcher) {
             readStringFromDataStoreUseCase.execute<String>("currencyFactor")
                 .combine(readStringFromDataStoreUseCase.execute<String>("currency")) { currencyFactor, currency ->
-                    Log.d("currencyFactor",currencyFactor.data.toString())
                     when (currencyFactor) {
                         is Response.Failure -> {}
                         is Response.Loading -> {}
@@ -120,7 +119,7 @@ class CartViewModel @Inject constructor(
                                         * _state.value.currencyFactor).roundTo(2).toString()
                                 cartItem.currency = currency.data!!
                             }
-                            _state.update { it.copy(cartTotalCost = _state.value.cartItems.sumOf { it.itemPrice.toDouble() }
+                            _state.update { it.copy(cartTotalCost = _state.value.cartItems.sumOf { it.itemPrice.toDouble() }.roundTo(2)
                                 ?: 0.0 ) }
                         }
                     }
@@ -153,7 +152,7 @@ class CartViewModel @Inject constructor(
                             it.copy(
                                 loading = false,
                                 cartItems = cartItems,
-                                cartTotalCost =cartItems.sumOf { it.itemPrice.toDouble() }
+                                cartTotalCost =cartItems.sumOf { it.itemPrice.toDouble() }.roundTo(2)
                             )
                         }
                     }

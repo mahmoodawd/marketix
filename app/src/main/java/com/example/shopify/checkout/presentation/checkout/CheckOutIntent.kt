@@ -1,7 +1,9 @@
 package com.example.shopify.checkout.presentation.checkout
 
+import com.example.shopify.checkout.domain.model.CartItems
 import com.example.shopify.home.domain.model.discountcode.DiscountCodeModel
 import com.example.shopify.settings.domain.model.AddressModel
+
 
 sealed interface CheckOutIntent
 {
@@ -23,9 +25,16 @@ sealed interface CheckOutIntent
 
     data class UserEditPhone(val phone : String) : CheckOutIntent
 
+    data class UserSubTotal(val subtotal : String) : CheckOutIntent
+
     object PostOrdersFromCart : CheckOutIntent
 
     object ValidateDiscountCode : CheckOutIntent
+
+    object GetPriceRule : CheckOutIntent
+
+    data class NewCartItems(val cartItems: CartItems) : CheckOutIntent
+
 
 
 }

@@ -188,7 +188,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getDiscountCodes() {
+   private fun getDiscountCodes() {
         viewModelScope.launch(ioDispatcher) {
             getDiscountCodesUseCase.execute<DiscountCodesModel>().collectLatest { response ->
                 when (response) {
@@ -209,6 +209,7 @@ class HomeViewModel @Inject constructor(
 
     fun insertDiscountCode() {
         viewModelScope.launch(ioDispatcher) {
+            Log.d("codeBefore",_homeState.value.discountCode.toString())
             insertDiscountCodesUseCase.execute<String>(_homeState.value.discountCode!!)
                 .collectLatest { response ->
                     initDiscountCodeHomeState()
@@ -218,6 +219,7 @@ class HomeViewModel @Inject constructor(
                         }
                         is Response.Loading -> {}
                         is Response.Success -> {
+
                             _snackBarFlow.emit(R.string.inserted_successfully)
                         }
                     }

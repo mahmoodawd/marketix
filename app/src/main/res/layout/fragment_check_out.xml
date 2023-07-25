@@ -200,18 +200,18 @@
             android:text="@string/subtotal"
             android:textColor="@color/text_grayed"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/shoppingTitleTextView"
-            app:layout_constraintStart_toStartOf="@+id/shoppingTitleTextView" />
+            app:layout_constraintBottom_toTopOf="@+id/discountTitleTextView"
+            app:layout_constraintStart_toStartOf="@+id/discountTitleTextView" />
 
         <TextView
-            android:id="@+id/shoppingTitleTextView"
+            android:id="@+id/discountTitleTextView"
             style="@style/p3"
             android:textColor="@color/text_grayed"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_35sdp"
-            android:text="@string/shopping"
+            android:text="@string/discount"
             app:layout_constraintBottom_toTopOf="@+id/totalCostTitleTextView"
             app:layout_constraintStart_toStartOf="@+id/totalCostTitleTextView" />
 
@@ -224,8 +224,8 @@
             android:text="@string/have_discount_code"
             android:textColor="@color/blue"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/shoppingValueTextView"
-            app:layout_constraintTop_toBottomOf="@+id/shoppingValueTextView" />
+            app:layout_constraintEnd_toEndOf="@+id/discountCodeValueTextView"
+            app:layout_constraintTop_toBottomOf="@+id/discountCodeValueTextView" />
 
 
         <TextView
@@ -275,7 +275,7 @@
 
 
         <TextView
-            android:id="@+id/shoppingValueTextView"
+            android:id="@+id/discountCodeValueTextView"
             style="@style/p2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -286,9 +286,9 @@
             android:shadowRadius="1"
             android:text="$64.95"
             android:textStyle="normal"
-            app:layout_constraintBottom_toBottomOf="@+id/shoppingTitleTextView"
+            app:layout_constraintBottom_toBottomOf="@+id/discountTitleTextView"
             app:layout_constraintEnd_toEndOf="@+id/subtotalValueTextView"
-            app:layout_constraintTop_toTopOf="@+id/shoppingTitleTextView" />
+            app:layout_constraintTop_toTopOf="@+id/discountTitleTextView" />
 
 
         <TextView
@@ -304,7 +304,7 @@
             android:text="$64.95"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="@+id/totalCostTitleTextView"
-            app:layout_constraintEnd_toEndOf="@+id/shoppingValueTextView"
+            app:layout_constraintEnd_toEndOf="@+id/discountCodeValueTextView"
             app:layout_constraintTop_toTopOf="@+id/totalCostTitleTextView" />
 
         <com.paypal.checkout.paymentbutton.PaymentButtonContainer

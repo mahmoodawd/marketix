@@ -1,5 +1,6 @@
 package com.example.shopify.checkout.presentation.checkout
 
+import com.example.shopify.checkout.domain.model.CartItem
 import com.example.shopify.home.domain.model.discountcode.DiscountCodeModel
 import com.example.shopify.settings.domain.model.AddressModel
 
@@ -10,6 +11,10 @@ data class CheckOutState(
     val discountCode: DiscountCodeModel? = null,
     val totalCost: Double = 0.0,
     val subtotal : Double = 0.0,
+    val discountValue :Double =  0.0,
+    val currency : String = "EGP",
+    val currencyFactor : Double = 1.0,
     val addresses : List<AddressModel>  = listOf(),
-    val discountCodes : List<DiscountCodeModel> = listOf()
+    val discountCodes : List<DiscountCodeModel> = listOf(),
+    val cartItems: List<CartItem> = emptyList(),
     )

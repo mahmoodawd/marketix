@@ -195,5 +195,11 @@ Is between 8 and 30 characters long</string>
     <string name="emailType">emailType</string>
     <string name="discount_not_valid_any_more">discount code not valid any more</string>
     <string name="no_phone_to_show">no phone to show</string>
+    <string name="order_details">Order Details</string>
+    <string name="order_id">Order Id:</string>
+    <string name="items">Items</string>
+    <string name="subtotalType">subtotalType</string>
+    <string name="discount">discount\n</string>
+    <string name="cartItems">cartItems</string>
 </resources>
 

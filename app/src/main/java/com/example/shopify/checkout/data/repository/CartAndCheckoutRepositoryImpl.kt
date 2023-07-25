@@ -1,18 +1,17 @@
 package com.example.shopify.checkout.data.repository
 
 import android.util.Log
-import android.util.LogPrinter
 import com.example.shopify.checkout.data.dto.discountcode.DiscountCodeResponse
+import com.example.shopify.checkout.data.dto.pricerule.PriceRules
+import com.example.shopify.checkout.data.dto.product.Product
+import com.example.shopify.checkout.data.local.CartAndCheckOutLocalDataSource
 import com.example.shopify.checkout.data.mappers.toCartItems
+import com.example.shopify.checkout.data.mappers.toDiscountCodeModel
+import com.example.shopify.checkout.data.mappers.toPriceRule
 import com.example.shopify.checkout.data.remote.CartAndCheckOutRemoteDataSource
 import com.example.shopify.checkout.domain.repository.CartAndCheckoutRepository
 import com.example.shopify.data.dto.DraftOrderResponse
-import com.example.shopify.checkout.data.dto.product.Product
-import com.example.shopify.checkout.data.mappers.toDiscountCodeModel
-import com.example.shopify.checkout.data.local.CartAndCheckOutLocalDataSource
 import com.example.shopify.data.dto.codes.DiscountCode
-import com.example.shopify.home.data.dto.ProductsResponse
-import com.example.shopify.home.data.local.HomeLocalDataSource
 import com.example.shopify.home.data.mappers.toDiscountCodeModel
 import com.example.shopify.settings.data.dto.location.AddressDto
 import com.example.shopify.settings.data.mappers.toAddressModel
@@ -83,5 +82,10 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(
 
     override  suspend fun <T> getUserPhone(): Flow<Response<T>> {
       return remoteDataSource.getUserPhone()
+    }
+
+    override suspend fun <T> getPriceRule(id: String): Flow<Response<T>> {
+        Log.d("priceRule","repository")
+        return remoteDataSource.getPriceRule<T>(id).map {   Response.Success((it.data as PriceRules).toPriceRule() as T) }
     }
 }

@@ -121,4 +121,18 @@ class CartAndCheckOutRemoteDataSourceImpl @Inject constructor(
             }
         )
     }
+
+    override suspend fun <T> getPriceRule(id :String): Flow<Response<T>> {
+        return flowOf(
+            try {
+                val remote = remoteInterface.getPriceRule(id)
+                Log.d("remoteRule",remote.toString())
+                Response.Success(remote as T)
+
+            } catch (e: Exception) {
+                Log.d("remoteRule",e.message!!)
+                Response.Failure(e.message ?: "unknownError")
+            }
+        )
+    }
 }

@@ -15,6 +15,7 @@ import com.example.shopify.checkout.domain.usecase.cart.UpdateCartItemUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.DeleteDiscountCodeFromDatabaseUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.GetAllDiscountCodeUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.GetDiscountCodeByIdUseCase
+import com.example.shopify.checkout.domain.usecase.discountcode.GetPriceRuleUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -111,6 +112,14 @@ abstract class CheckOutViewModelModule {
         fun providesGetUserPhoneUseCase(repository: CartAndCheckoutRepository) : GetUserPhoneUseCase
         {
             return GetUserPhoneUseCase(repository)
+        }
+
+
+        @Provides
+        @ViewModelScoped
+        fun providesGetPriceRuleUseCase(repository: CartAndCheckoutRepository) : GetPriceRuleUseCase
+        {
+            return GetPriceRuleUseCase(repository)
         }
 
     }

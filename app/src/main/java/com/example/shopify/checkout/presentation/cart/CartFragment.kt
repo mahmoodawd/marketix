@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopify.R
+import com.example.shopify.checkout.domain.model.CartItems
 import com.example.shopify.databinding.ActivityMainBinding
 import com.example.shopify.databinding.FragmentCartBinding
 import com.example.shopify.settings.presenation.address.adresses.AddressesRecyclerAdapter
@@ -82,7 +83,7 @@ class CartFragment : Fragment() {
         setUpCartRecyclerView()
         stateObserver()
         binding.checkOutButton.setOnClickListener {
-            navController.navigate(CartFragmentDirections.actionCartFragmentToCheckOutFragment())
+            navController.navigate(CartFragmentDirections.actionCartFragmentToCheckOutFragment(viewModel.state.value.cartTotalCost.toString(),CartItems(viewModel.state.value.cartItems)))
         }
 
     }

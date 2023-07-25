@@ -25,4 +25,6 @@ interface CartAndCheckoutRepository {
     suspend fun <T> getUserEmail() : Flow<Response<T>>
 
     suspend fun<T> getUserPhone() : Flow<Response<T>>
+
+    suspend fun <T> getPriceRule(id :String): Flow<Response<T>>
 }

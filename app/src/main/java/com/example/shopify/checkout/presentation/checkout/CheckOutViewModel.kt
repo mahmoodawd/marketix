@@ -4,18 +4,22 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
+import com.example.shopify.checkout.domain.model.PriceRule
 import com.example.shopify.checkout.domain.usecase.account.GetEmailUseCase
 import com.example.shopify.checkout.domain.usecase.address.GetAllAddressUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.GetAllDiscountCodeUseCase
 import com.example.shopify.checkout.domain.usecase.account.GetUserPhoneUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.DeleteDiscountCodeFromDatabaseUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.GetDiscountCodeByIdUseCase
+import com.example.shopify.checkout.domain.usecase.discountcode.GetPriceRuleUseCase
+import com.example.shopify.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
 import com.example.shopify.home.domain.model.discountcode.DiscountCodeModel
 import com.example.shopify.settings.domain.model.AddressModel
 import com.example.shopify.utils.divideToPercent
 import com.example.shopify.utils.hiltanotations.Dispatcher
 import com.example.shopify.utils.hiltanotations.Dispatchers
 import com.example.shopify.utils.response.Response
+import com.example.shopify.utils.rounder.roundTo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -26,6 +30,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.absoluteValue
 
 @HiltViewModel
 class CheckOutViewModel @Inject constructor(
@@ -35,7 +40,9 @@ class CheckOutViewModel @Inject constructor(
     private val getAllAddressUseCase: GetAllAddressUseCase,
     private val getDiscountCodesUseCase: GetAllDiscountCodeUseCase,
     private val getDiscountCodeByIdUseCase: GetDiscountCodeByIdUseCase,
-    private val deleteDiscountCodeFromDatabaseUseCase: DeleteDiscountCodeFromDatabaseUseCase
+    private val deleteDiscountCodeFromDatabaseUseCase: DeleteDiscountCodeFromDatabaseUseCase,
+    private val getPriceRuleUseCase: GetPriceRuleUseCase,
+    private val readStringFromDataStoreUseCase: ReadStringFromDataStoreUseCase
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<CheckOutState> =
@@ -59,7 +66,15 @@ class CheckOutViewModel @Inject constructor(
             is CheckOutIntent.EmitMessage -> { viewModelScope.launch(ioDispatcher) { _snackBarFlow.emit(intent.message) } }
             is CheckOutIntent.UserEditEmail -> _state.update { it.copy(email = intent.email) }
             is CheckOutIntent.UserEditPhone -> _state.update { it.copy(phone = intent.phone) }
+            is CheckOutIntent.UserSubTotal ->{
+                _state.update { it.copy(subtotal = intent.subtotal.toDouble()) }
+                _state.update { it.copy(totalCost = intent.subtotal.toDouble()) }
 
+            }
+            CheckOutIntent.GetPriceRule -> getPriceRule()
+            is CheckOutIntent.NewCartItems -> {
+                _state.update { it.copy(cartItems = intent.cartItems.cartItems) }
+            }
         }
 
     }
@@ -146,7 +161,6 @@ class CheckOutViewModel @Inject constructor(
                     }
 
                     is Response.Success -> {
-                        Log.d("codes", response.data.toString())
                         _state.update { it.copy(discountCodes = response.data!!) }
                     }
                 }
@@ -166,20 +180,70 @@ class CheckOutViewModel @Inject constructor(
                     }
                     is Response.Loading ->{}
                     is Response.Success -> {
-                        deleteDiscountCodeFromDatabaseUseCase.execute<String>(_state.value.discountCodes.first { it.id == _state.value.discountCode?.id })
-                        if (it.data == null || it.data.usageCount < 1)
-                        {
-                            _snackBarFlow.emit(R.string.discount_not_valid_any_more)
-                            return@collectLatest
-                        }
-                        _state.update { it.copy(totalCost = _state.value.totalCost.divideToPercent(15.0)) }
+//                        if (it.data == null || it.data.usageCount < 1)
+//                        {   deleteDiscountCodeFromDatabaseUseCase.execute<String>(_state.value.discountCodes.first { it.id == _state.value.discountCode?.id })
+//                            _snackBarFlow.emit(R.string.discount_not_valid_any_more)
+//
+//                            return@collectLatest
+//                        }else{
+
+                            onEvent(CheckOutIntent.GetPriceRule)
+
+
+//                        }
+
                     }
                 }
 
             }
         }
+    }
+
+    private fun getPriceRule()
+    {
+
+        viewModelScope.launch(ioDispatcher){
+            getPriceRuleUseCase.execute<PriceRule>(_state.value.discountCode!!.priceRuleId).collectLatest { response ->
+
+                when (response){
+                    is Response.Failure -> {
+                        _snackBarFlow.emit(R.string.failed_message)
+                    }
+                    is Response.Loading -> {}
+                    is Response.Success -> {
+                        if (response.data?.type == "percentage"){
+                            _state.update { it.copy(totalCost = (_state.value.subtotal + _state.value.subtotal * response.data.discount.toDouble()/100.0).roundTo(2))}
+                            _state.update { it.copy(discountValue = _state.value.subtotal * response.data.discount.toDouble()/100.0) }
+                        }else{
+                            _state.update { it.copy(totalCost = (_state.value.totalCost + response.data!!.discount.toDouble()).roundTo(2))}
+                            _state.update { it.copy(discountValue =  response.data!!.discount.toDouble().absoluteValue) }
+                        }
+
+                        deleteDiscountCodeFromDatabaseUseCase.execute<String>(_state.value.discountCodes.first { it.id == _state.value.discountCode?.id })
+                    }
+                }
 
 
+            }
+        }
+    }
+
+    private fun getCurrency(id : String,successImplementation : (Response<String>) -> Unit)
+    {
+        viewModelScope.launch(ioDispatcher){
+            readStringFromDataStoreUseCase.execute<String>(id).collectLatest { response->
+                when(response)
+                {
+                    is Response.Failure -> {
+                        _snackBarFlow.emit(R.string.failed_message)
+                    }
+                    is Response.Loading -> TODO()
+                    is Response.Success -> {
+                       successImplementation(response)
+                    }
+                }
+            }
+        }
     }
 
 
@@ -188,6 +252,16 @@ class CheckOutViewModel @Inject constructor(
         onEvent(CheckOutIntent.GetAllDiscountCodes)
         onEvent(CheckOutIntent.GetUserEmail)
         onEvent(CheckOutIntent.GetUserPhone)
+        getCurrency("currency"){ response ->
+            _state.update { it.copy(currency = response.data ?: "EGP") }
+        }
+
+        getCurrency("currencyFactor"){ response ->
+            _state.update { it.copy(currencyFactor = response.data?.toDouble() ?: 1.0) }
+            _state.update { it.copy(subtotal = _state.value.subtotal * _state.value.currencyFactor) }
+            _state.update { it.copy(subtotal = _state.value.discountValue * _state.value.currencyFactor) }
+            _state.update { it.copy(subtotal = _state.value.totalCost * _state.value.currencyFactor) }
+        }
     }
 
 }

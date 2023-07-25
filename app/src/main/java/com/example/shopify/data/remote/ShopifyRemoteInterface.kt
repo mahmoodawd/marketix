@@ -3,6 +3,7 @@ package com.example.shopify.data.remote
 import com.example.shopify.auth.data.dto.CustomerResponse
 import com.example.shopify.checkout.data.dto.DraftOrderById
 import com.example.shopify.checkout.data.dto.discountcode.DiscountCodeResponse
+import com.example.shopify.checkout.data.dto.pricerule.PriceRules
 import com.example.shopify.checkout.data.dto.product.OneProductResponse
 import com.example.shopify.data.dto.DraftOrderResponse
 import com.example.shopify.data.dto.codes.DiscountCodesResponse
@@ -94,6 +95,12 @@ interface ShopifyRemoteInterface {
 
     @POST("draft_orders.json")
     suspend fun createDraftOrder(@Body draftOrderRequest: DraftOrderRequest):DraftOrderRequest
+
+    @GET("price_rules/{id}.json")
+    suspend fun getPriceRule(@Path("id") id : String) : PriceRules
+
+    @POST("draft_orders.json/{id}")
+    suspend fun deleteDraftOrder(@Path("id")id : String)
 
     @POST("orders.json")
     suspend fun createOrder(@Body postOrder: PostOrder): PostOrderResponse

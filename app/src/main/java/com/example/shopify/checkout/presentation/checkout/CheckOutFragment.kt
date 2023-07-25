@@ -1,8 +1,12 @@
 package com.example.shopify.checkout.presentation.checkout
 
+import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -22,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopify.R
+import com.example.shopify.checkout.domain.model.CartItems
 import com.example.shopify.databinding.AddressBottomSheetBinding
 import com.example.shopify.databinding.CodeBottomSheetBinding
 import com.example.shopify.databinding.FragmentCheckOutBinding
@@ -113,11 +118,50 @@ class CheckOutFragment : Fragment() {
         binding.discountCode.setOnClickListener {
             showDiscountCodesSheet()
         }
+
+        binding.mapImageView.setOnClickListener {
+            with(viewModel.state.value.deliveryAddress!!){
+               openInMap(latitude,longitude,address)
+            }
+        }
         dialogBackObserver()
         paypalSetup()
+        getSubTotal()
 
     }
 
+
+    private fun openInMap(latitude: Double, longitude: Double, address: String?) {
+        val intent = Intent(Intent.ACTION_CHOOSER).apply {
+            data = Uri.parse("geo:$latitude,$longitude?q="+ Uri.parse(address))
+        }
+        startActivity(intent)
+
+    }
+
+    private fun getSubTotal()
+    {
+        val subTotal = arguments?.getString(getString(R.string.subtotalType))
+        subTotal?.let {
+        viewModel.onEvent(CheckOutIntent.UserSubTotal(subTotal))
+        }
+
+
+        val cartItems = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getParcelable(getString(R.string.cartItems),CartItems::class.java)
+        } else {
+            arguments?.getParcelable(getString(R.string.cartItems))
+        }
+        cartItems?.let {
+            Log.d("cartItems",cartItems.cartItems.toString())
+            viewModel.onEvent(CheckOutIntent.NewCartItems(cartItems))
+        }
+    }
+
+
+
+
+    @SuppressLint("SetTextI18n")
     private fun stateObserver() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
@@ -127,6 +171,9 @@ class CheckOutFragment : Fragment() {
                     addressesRecyclerAdapter.submitList(state.addresses)
                     binding.emailValueTextView.text = state.email
                     binding.phoneValueTextView.text = state.phone
+                    binding.subtotalValueTextView.text = "${state.subtotal} ${state.currency}"
+                    binding.totalCostValueTextView.text = "${state.totalCost} ${state.currency}"
+                    binding.discountCodeValueTextView.text = "${state.discountValue} ${state.currency}"
                     state.deliveryAddress?.let {
                         binding.addressValueTextView.text = state.deliveryAddress.address
                         binding.addressSection.visibility = View.VISIBLE
@@ -265,7 +312,7 @@ class CheckOutFragment : Fragment() {
             onApprove =
             OnApprove { approval ->
                 approval.orderActions.capture { captureOrderResult ->
-
+                    Log.d("paypalResult", approval.data.orderId.toString())
 
                 }
             },
