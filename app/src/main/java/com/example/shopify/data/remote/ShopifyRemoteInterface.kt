@@ -76,10 +76,12 @@ interface ShopifyRemoteInterface {
     @GET("price_rules/1396109508887/discount_codes.json")
     suspend fun getDiscountCodes() : DiscountCodesResponse?
 
+    @PUT("price_rules/1396109508887/discount_codes/{id}.json")
+    suspend fun updateDiscountCode(@Path("id")id : String)
 
 
     @GET("price_rules/1396109508887/discount_codes/{id}.json")
-    suspend fun getDiscountCodeById(id : String) : DiscountCodeResponse?
+    suspend fun getDiscountCodeById(@Path("id")id : String) : DiscountCodeResponse?
 
     @GET("products/{productId}.json")
     suspend fun getProductDetailsById(@Path("productId") productId : String): ProductDetailsResponse

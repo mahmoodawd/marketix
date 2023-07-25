@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="kotlin.Unit" />
+
+        <import type="kotlin.jvm.functions.Function0" />
+
+        <variable
+            name="discountCodeClickListener"
+            type="Function0&lt;Unit>" />
+
+        <variable
+            name="code"
+            type="com.example.shopify.home.domain.model.discountcode.DiscountCodeModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_75sdp"
+        android:padding="@dimen/_10sdp"
+        android:onClick="@{() -> discountCodeClickListener.invoke()}"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/discountTitleCodeTextView"
+                style="@style/p3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/discount_code"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/discountCodeValueTextView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/discountCodeValueTextView"
+                style="@style/p4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:fontFamily="@font/light"
+                android:textColor="@color/text_grayed"
+                android:text="@{code.code}"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="@+id/discountTitleCodeTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/discountTitleCodeTextView"
+                app:layout_constraintTop_toTopOf="@+id/discountTitleCodeTextView" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -163,8 +163,8 @@ class AllAddressesFragment(
                 if (locationType == getString(com.example.shopify.R.string.map)) {
                     navController.navigate(
                         AllAddressesFragmentDirections.actionAllAddressesFragmentToAddressFragment(
-                            0.0.toString(),
-                            0.0.toString()
+                            viewModel.state.value.latitude.toString(),
+                            viewModel.state.value.longitude.toString()
                         )
                     )
                 } else if (locationType == getString(com.example.shopify.R.string.gps)) {

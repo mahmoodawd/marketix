@@ -223,7 +223,6 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
             .setMessage(getString(R.string.free_discount_code)+" "+code)
             .setNegativeButton(getString(R.string.cancel)){ dialogInterface, _ ->
                 dialogInterface.dismiss()
-                viewModel.initDiscountCodeHomeState()
             }
             .setNeutralButton(getString(R.string.save)) { _, _ ->
                 viewModel.insertDiscountCode()
@@ -254,7 +253,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
     private fun setProductsRecycler() {
         val productsLayoutManager = GridLayoutManager(requireContext(), 2)
         productsLayoutManager.orientation = GridLayoutManager.VERTICAL
-        binding.productsRv.apply {
+        binding.productsRv.apply{
             adapter = productsAdapter
             layoutManager = productsLayoutManager
         }

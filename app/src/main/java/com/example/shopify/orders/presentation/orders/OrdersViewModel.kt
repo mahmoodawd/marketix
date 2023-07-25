@@ -56,7 +56,6 @@ class OrdersViewModel @Inject constructor(
             }
         }
     }
-
     fun createOrder(postOrder: PostOrder){
         Timber.e(postOrder.toString())
         viewModelScope.launch(ioDispatcher) {
