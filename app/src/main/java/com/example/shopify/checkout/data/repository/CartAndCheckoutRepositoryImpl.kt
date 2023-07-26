@@ -39,15 +39,15 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(
                     val email = getUserEmail<String>().first().data!!
                     val myCartItems =
                         (response.data as DraftOrderResponse).draft_orders.filter { it.email == email && it.tags == "cartItem" }
-                    myCartItems.forEach {
+                    myCartItems.forEachIndexed { index,item   ->
                         val productResponse =
-                            remoteDataSource.getProductById<Product>(it.line_items.first().product_id.toString())
+                            remoteDataSource.getProductById<Product>(item.line_items.first().product_id.toString())
                                 .first()
                         limits.add(
                             productResponse
-                                .data!!.variants.firstOrNull { variant ->
+                                .data!!.variants.firstOrNull{ variant ->
                                     variant.id ==
-                                            response.data.draft_orders.first().line_items.first().variant_id
+                                            myCartItems[index].line_items.first().variant_id
                                 }?.inventory_quantity ?: 0
                         )
                     }
