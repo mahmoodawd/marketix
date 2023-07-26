@@ -51,6 +51,21 @@
             tools:itemCount="5"
             tools:listitem="@layout/cart_item" />
 
+
+        <TextView
+            android:id="@+id/emptyCartTextView"
+            style="@style/title_font"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:text="@string/emptyCart"
+            android:textAlignment="center"
+            android:textSize="@dimen/_30ssp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/totalCostTitleTextView"
+            app:layout_constraintEnd_toEndOf="@+id/checkOutButton"
+            app:layout_constraintStart_toStartOf="@+id/checkOutButton" />
+
         <TextView
             android:id="@+id/totalCostTitleTextView"
             style="@style/p3"
@@ -105,6 +120,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/cartEmptyImageView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:src="@drawable/empty_cart"
+            app:layout_constraintBottom_toTopOf="@+id/emptyCartTextView"
+            app:layout_constraintEnd_toEndOf="@+id/checkOutButton"
+            app:layout_constraintStart_toStartOf="@+id/backImageView"
+            app:layout_constraintTop_toBottomOf="@+id/pageTitleTextView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

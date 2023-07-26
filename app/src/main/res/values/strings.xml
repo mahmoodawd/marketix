@@ -205,5 +205,6 @@ Is between 8 and 30 characters long</string>
     <string name="cash_on_delivery">cash on delivery</string>
     <string name="already_in_fav">Already In Favorites</string>
     <string name="already_in_cart">Already InCart</string>
+    <string name="emptyCart">your cart is empty</string>
 </resources>
 
