@@ -24,6 +24,7 @@ import com.example.shopify.settings.presenation.address.adresses.AllAddressesFra
 import com.example.shopify.settings.presenation.address.adresses.AllAddressesIntent
 import com.example.shopify.utils.recycler.swipeRecyclerItemListener
 import com.example.shopify.utils.snackBarObserver
+import com.example.shopify.utils.ui.visibleIf
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -103,7 +104,7 @@ class CartFragment : Fragment() {
                 viewModel.state.collectLatest { state ->
                     cartRecyclerAdapter.submitList(state.cartItems)
                  cartRecyclerAdapter.notifyDataSetChanged()
-
+                    binding.progressBar visibleIf state.loading
                     binding.totalCostValueTextView.text = "${state.cartTotalCost} ${state.currency}"
                 }
             }

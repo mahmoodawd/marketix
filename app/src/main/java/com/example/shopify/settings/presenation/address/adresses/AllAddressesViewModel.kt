@@ -67,7 +67,7 @@ class AllAddressesViewModel @Inject constructor(
                         is Response.Loading -> {}
                         is Response.Success -> {
                             response.data?.let {
-                                _state.update { it.copy(addresses = response.data) }
+                                _state.update { it.copy(addresses = response.data, loading = false) }
                             }
                         }
                     }
@@ -78,7 +78,6 @@ class AllAddressesViewModel @Inject constructor(
 
     private fun deleteAddress(position: Int) {
         viewModelScope.launch(ioDispatcher) {
-            Log.d("deleteAddress",_state.value.customerId+" "+_state.value.addresses[position])
             deleteAddressUseCase.execute<String>(customerId = _state.value.customerId,_state.value.addresses[position]).collectLatest { response ->
                 when (response) {
                     is Response.Failure -> {

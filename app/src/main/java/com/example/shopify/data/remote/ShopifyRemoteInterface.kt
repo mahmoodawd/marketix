@@ -102,7 +102,7 @@ interface ShopifyRemoteInterface {
     @GET("price_rules/{id}.json")
     suspend fun getPriceRule(@Path("id") id : String) : PriceRules
 
-    @POST("draft_orders.json/{id}")
+    @POST("draft_orders/{id}.json")
     suspend fun deleteDraftOrder(@Path("id")id : String)
 
     @POST("orders.json")

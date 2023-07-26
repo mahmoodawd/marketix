@@ -145,4 +145,20 @@ class CartAndCheckOutRemoteDataSourceImpl @Inject constructor(
             Response.Failure(e.message ?: "unknownError")
         })
     }
+
+    override suspend fun <T> deleteDraftOrder(id: String): Flow<Response<T>> {
+        return flowOf(try {
+            Response.Success(remoteInterface.deleteDraftOrder(id) as T)
+        } catch (e: Exception) {
+            Response.Failure(e.message ?: "unknownError")
+        })
+    }
+
+    override suspend fun <T> getCustomerId(): Flow<Response<T>> {
+        return flowOf(try {
+            Response.Success(remoteInterface.getUserWithEmail(firebaseAuth.currentUser!!.email!!).customers.first().id.toString() as T)
+        } catch (e: Exception) {
+            Response.Failure(e.message ?: "unknownError")
+        })
+    }
 }

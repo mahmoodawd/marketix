@@ -40,12 +40,18 @@ class WriteAddressViewModel @Inject constructor(
     val snackBarFlow = _snackBarFlow.asSharedFlow()
 
 
+
+    private val _addressInserted: MutableSharedFlow<Int> =
+        MutableSharedFlow()
+    val addressInserted = _addressInserted.asSharedFlow()
+
+
     fun onEvent(intent: WriteAddressIntent) {
         when (intent) {
             is WriteAddressIntent.SaveAddress -> {
                 if (_state.value.newAddress) {
 
-                    insertNewAddressToDataBase()
+                    insertNewAddress()
                 } else {
 
                 }
@@ -68,7 +74,7 @@ class WriteAddressViewModel @Inject constructor(
         }
     }
 
-    private fun insertNewAddressToDataBase() {
+    private fun insertNewAddress() {
         viewModelScope.launch(ioDispatcher) {
             val address = AddressModel(
                 latitude = _state.value.latitude,
@@ -76,16 +82,20 @@ class WriteAddressViewModel @Inject constructor(
                 address = _state.value.address,
                 city = _state.value.selectedCity
             )
+
+            _state.update { it.copy(loading =  true) }
             insertNewAddressUseCase.execute<String>(_state.value.customerId,address).collectLatest { response ->
                 when (response) {
                     is Response.Failure -> {
                         _snackBarFlow.emit(R.string.failed_message)
+                        _state.update { it.copy(loading = false) }
                     }
 
                     is Response.Loading -> _state.update { it.copy(loading = true) }
                     is Response.Success -> {
+                        _state.update { it.copy(loading = false) }
                         _snackBarFlow.emit(R.string.inserted_successfully)
-
+                        _addressInserted.emit(1)
                     }
                 }
             }
@@ -99,13 +109,14 @@ class WriteAddressViewModel @Inject constructor(
             getCustomerIdUseCase.execute<String>().collectLatest { response ->
                 when (response) {
                     is Response.Failure -> {
-
+                        _snackBarFlow.emit(R.string.failed_message)
+                        _state.update { it.copy(loading = false) }
                     }
 
                     is Response.Loading -> _state.update { it.copy(loading = true) }
                     is Response.Success -> _state.update {
 
-                        it.copy(customerId = response.data!!)
+                        it.copy(customerId = response.data!!, loading = false)
                     }
                 }
             }
