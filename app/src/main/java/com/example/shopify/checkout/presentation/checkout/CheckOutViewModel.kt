@@ -153,7 +153,7 @@ class CheckOutViewModel @Inject constructor(
                         _state.update { it.copy(addresses = response.data ?: emptyList()) }
                         if (_state.value.addresses.isNotEmpty()) _state.update {
                             it.copy(
-                                deliveryAddress = _state.value.addresses.first()
+                                deliveryAddress = _state.value.addresses.first { it.isDefault }
                             )
                         }
                     }

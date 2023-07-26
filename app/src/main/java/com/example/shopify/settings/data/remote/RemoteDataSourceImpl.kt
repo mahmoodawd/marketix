@@ -146,7 +146,17 @@ class RemoteDataSourceImpl @Inject constructor(
         })
     }
 
-
+    override suspend fun <T> makeAddressDefaultForCustomer(
+        customerId: String,
+        addressId: String
+    ): Flow<Response<T>> {
+        return flowOf(try {
+            remoteInterface.makeAddressDefault(customerId,addressId)
+            Response.Success("address is default" as T)
+        } catch (e: Exception) {
+            Response.Failure(e.message ?: "unknownError")
+        })
+    }
 
 
 }

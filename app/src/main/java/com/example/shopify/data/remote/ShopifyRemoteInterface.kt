@@ -118,7 +118,8 @@ interface ShopifyRemoteInterface {
     @GET("/admin/api/2023-07/customers/{customer_id}/addresses.json")
     suspend fun getAddressesForCustomer(@Path("customer_id") customerId: String): AddressResponse
 
-
+    @PUT("/admin/api/2023-07/customers/{customer_id}/addresses/{address_id}/default.json")
+    suspend fun makeAddressDefault(@Path("customer_id") customerId: String, @Path("address_id") addressId: String): AddressResponse
     @DELETE("/admin/api/2023-07/customers/{customer_id}/addresses/{address_id}.json")
     suspend fun deleteAddressForCustomer(@Path("customer_id") customerId: String, @Path("address_id") addressId: String)
 

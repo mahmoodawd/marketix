@@ -24,8 +24,10 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.shopify.R
 import com.example.shopify.databinding.FragmentAllAddressesBinding
 import com.example.shopify.utils.connectivity.ConnectivityObserver
+import com.example.shopify.utils.recycler.moveRecyclerItemListener
 import com.example.shopify.utils.recycler.swipeRecyclerItemListener
 import com.example.shopify.utils.snackBarObserver
 import com.example.shopify.utils.ui.visibleIf
@@ -38,6 +40,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.Collections
 
 
 @AndroidEntryPoint
@@ -128,16 +131,26 @@ class AllAddressesFragment(
     private fun setUpAddressesRecyclerView() {
         val linearLayoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-        binding.addressesRecyclerView.swipeRecyclerItemListener { viewHolder ->
+        binding.addressesRecyclerView.apply {
+
+       swipeRecyclerItemListener { viewHolder ->
             if (viewModel.state.value.addresses[viewHolder.adapterPosition].isDefault) {
             binding.addressesRecyclerView.adapter!!.notifyItemChanged(viewHolder.adapterPosition)
+                Toast.makeText(requireContext(), getString(R.string.you_can_t_delete_the_default_address), Toast.LENGTH_SHORT).show()
             return@swipeRecyclerItemListener
             }
             viewModel.onEvent(AllAddressesIntent.DeleteAddress(viewHolder.adapterPosition))
             viewModel.onEvent(AllAddressesIntent.GetAllAddresses)
         }
-        binding.addressesRecyclerView.layoutManager = linearLayoutManager
-        binding.addressesRecyclerView.adapter = addressesRecyclerAdapter
+
+            moveRecyclerItemListener { draggedIndex, targetIndex ->
+                viewModel.onEvent(AllAddressesIntent.ItemIsDragged(draggedIndex,targetIndex))
+                 binding.addressesRecyclerView.adapter!!.notifyItemMoved(draggedIndex,targetIndex)
+
+            }
+        layoutManager = linearLayoutManager
+        adapter = addressesRecyclerAdapter
+        }
     }
 
     private fun stateObserver() {

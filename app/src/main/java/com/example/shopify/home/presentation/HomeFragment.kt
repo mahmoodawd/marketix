@@ -59,7 +59,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
             showBottomDialog()
         }
         binding.cartImageButton.setOnClickListener {
-            navController.navigate(getString(R.string.cartFragmentDeepLink).toUri())
+            navController.navigate(HomeFragmentDirections.actionHomeFragmentToCartFragment())
         }
         binding.ordersImageButton.setOnClickListener {
             navController.navigate(HomeFragmentDirections.actionHomeFragmentToOrdersFragment())
