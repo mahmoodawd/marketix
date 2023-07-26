@@ -206,6 +206,6 @@ Is between 8 and 30 characters long</string>
     <string name="already_in_fav">Already In Favorites</string>
     <string name="already_in_cart">Already InCart</string>
     <string name="emptyCart">your cart is empty</string>
-    <string name="you_can_t_delete_the_default_address">you can\'t delete the default address</string>
+    <string name="total_price">Total Price:</string>
 </resources>
 

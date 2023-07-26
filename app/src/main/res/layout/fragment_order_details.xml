@@ -8,6 +8,12 @@
         <variable
             name="order"
             type="com.example.shopify.orders.domain.model.OrderModel" />
+        <variable
+            name="exchangeRate"
+            type="Double" />
+        <variable
+            name="currency"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -72,7 +78,7 @@
                     style="@style/p2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/order_price"
+                    android:text="@string/total_price"
                     app:layout_constraintStart_toStartOf="@id/idTv"
                     app:layout_constraintTop_toBottomOf="@id/creationDateTv" />
 
@@ -116,7 +122,9 @@
                     style="@style/p3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@{order.totalPrice}"
+                    app:price2="@{order.totalPrice}"
+                    app:currency2="@{currency}"
+                    app:rate2="@{exchangeRate}"
                     android:textAlignment="center"
                     app:layout_constraintBottom_toBottomOf="@id/priceTv"
                     app:layout_constraintEnd_toEndOf="parent"
