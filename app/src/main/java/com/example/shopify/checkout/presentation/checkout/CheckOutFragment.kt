@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -26,7 +27,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopify.R
+import com.example.shopify.checkout.data.dto.post.LineItem
+import com.example.shopify.checkout.data.dto.post.Order
+import com.example.shopify.checkout.data.dto.post.PostOrder
 import com.example.shopify.checkout.domain.model.CartItems
+import com.example.shopify.data.dto.PropertiesItem
 import com.example.shopify.databinding.AddressBottomSheetBinding
 import com.example.shopify.databinding.CodeBottomSheetBinding
 import com.example.shopify.databinding.FragmentCheckOutBinding
@@ -120,8 +125,8 @@ class CheckOutFragment : Fragment() {
         }
 
         binding.mapImageView.setOnClickListener {
-            with(viewModel.state.value.deliveryAddress!!){
-               openInMap(latitude,longitude,address)
+            with(viewModel.state.value.deliveryAddress!!) {
+                openInMap(latitude, longitude, address)
             }
         }
         dialogBackObserver()
@@ -133,32 +138,29 @@ class CheckOutFragment : Fragment() {
 
     private fun openInMap(latitude: Double, longitude: Double, address: String?) {
         val intent = Intent(Intent.ACTION_CHOOSER).apply {
-            data = Uri.parse("geo:$latitude,$longitude?q="+ Uri.parse(address))
+            data = Uri.parse("geo:$latitude,$longitude?q=" + Uri.parse(address))
         }
         startActivity(intent)
 
     }
 
-    private fun getSubTotal()
-    {
+    private fun getSubTotal() {
         val subTotal = arguments?.getString(getString(R.string.subtotalType))
         subTotal?.let {
-        viewModel.onEvent(CheckOutIntent.UserSubTotal(subTotal))
+            viewModel.onEvent(CheckOutIntent.UserSubTotal(subTotal))
         }
 
 
         val cartItems = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arguments?.getParcelable(getString(R.string.cartItems),CartItems::class.java)
+            arguments?.getParcelable(getString(R.string.cartItems), CartItems::class.java)
         } else {
             arguments?.getParcelable(getString(R.string.cartItems))
         }
         cartItems?.let {
-            Log.d("cartItems",cartItems.cartItems.toString())
+            Log.d("cartItems", cartItems.cartItems.toString())
             viewModel.onEvent(CheckOutIntent.NewCartItems(cartItems))
         }
     }
-
-
 
 
     @SuppressLint("SetTextI18n")
@@ -173,14 +175,36 @@ class CheckOutFragment : Fragment() {
                     binding.phoneValueTextView.text = state.phone
                     binding.subtotalValueTextView.text = "${state.subtotal} ${state.currency}"
                     binding.totalCostValueTextView.text = "${state.totalCost} ${state.currency}"
-                    binding.discountCodeValueTextView.text = "${state.discountValue} ${state.currency}"
+                    binding.discountCodeValueTextView.text =
+                        "${state.discountValue} ${state.currency}"
                     state.deliveryAddress?.let {
                         binding.addressValueTextView.text = state.deliveryAddress.address
                         binding.addressSection.visibility = View.VISIBLE
                     } ?: kotlin.run {
-                          binding.addressSection.visibility = View.GONE
+                        binding.addressSection.visibility = View.GONE
                     }
-
+                    var lineItems = listOf<LineItem>()
+                    if (state.cartItems.isNotEmpty()) {
+                        for (item in state.cartItems) {
+                            lineItems.plus(
+                                LineItem(
+                                    item.quantity.toInt(), 2365131, listOf(
+                                        PropertiesItem(value = item.imageUrl)
+                                    )
+                                )
+                            )
+                        }
+                        viewModel.onEvent(
+                            CheckOutIntent.CreateOrder(
+                                PostOrder(
+                                    Order(
+                                        state.email,
+                                        lineItems
+                                    )
+                                )
+                            )
+                        )
+                    }
                 }
             }
         }

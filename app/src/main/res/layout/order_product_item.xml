@@ -8,6 +8,12 @@
         <variable
             name="lineItem"
             type="com.example.shopify.orders.domain.model.LineItemModel" />
+        <variable
+            name="exchangeRate"
+            type="Double" />
+        <variable
+            name="currency"
+            type="String" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -63,7 +69,9 @@
                 style="@style/p2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{lineItem.price}"
+                app:currency2="@{currency}"
+                app:price2="@{lineItem.price}"
+                app:rate2="@{exchangeRate}"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="@id/productImage"
                 app:layout_constraintEnd_toStartOf="@id/productImage"

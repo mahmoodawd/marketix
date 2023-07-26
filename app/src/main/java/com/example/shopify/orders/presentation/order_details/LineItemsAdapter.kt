@@ -10,7 +10,10 @@ import com.example.shopify.R
 import com.example.shopify.databinding.OrderProductItemBinding
 import com.example.shopify.orders.domain.model.LineItemModel
 
-class LineItemsAdapter(private val goToProduct: (productId: Long) -> Unit) :
+class LineItemsAdapter(
+    var currency: String = "EGP",
+    var exchangeRate: Double = 1.0, private val goToProduct: (productId: Long) -> Unit
+) :
     ListAdapter<LineItemModel, LineItemsViewHolder>(LineItemDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LineItemsViewHolder {
         val binding = DataBindingUtil.inflate<OrderProductItemBinding>(
@@ -27,14 +30,16 @@ class LineItemsAdapter(private val goToProduct: (productId: Long) -> Unit) :
         holder.binding.root.setOnClickListener {
             goToProduct(lineItem.productId)
         }
-        holder.bind(lineItem)
+        holder.bind(lineItem, currency, exchangeRate)
     }
 
 }
 
 class LineItemsViewHolder(val binding: OrderProductItemBinding) : ViewHolder(binding.root) {
-    fun bind(lineItem: LineItemModel) {
+    fun bind(lineItem: LineItemModel, currency: String, exchangeRate: Double) {
         binding.lineItem = lineItem
+        binding.currency = currency
+        binding.exchangeRate = exchangeRate
         binding.executePendingBindings()
     }
 }

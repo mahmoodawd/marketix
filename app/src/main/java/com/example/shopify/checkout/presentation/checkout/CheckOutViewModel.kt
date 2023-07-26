@@ -12,8 +12,10 @@ import com.example.shopify.checkout.domain.usecase.account.GetUserPhoneUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.DeleteDiscountCodeFromDatabaseUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.GetDiscountCodeByIdUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.GetPriceRuleUseCase
+import com.example.shopify.checkout.domain.usecase.order.CreateOrderUseCase
 import com.example.shopify.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
 import com.example.shopify.home.domain.model.discountcode.DiscountCodeModel
+import com.example.shopify.orders.data.dto.post.PostOrder
 import com.example.shopify.settings.domain.model.AddressModel
 import com.example.shopify.utils.divideToPercent
 import com.example.shopify.utils.hiltanotations.Dispatcher
@@ -29,6 +31,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.absoluteValue
 
@@ -42,7 +45,8 @@ class CheckOutViewModel @Inject constructor(
     private val getDiscountCodeByIdUseCase: GetDiscountCodeByIdUseCase,
     private val deleteDiscountCodeFromDatabaseUseCase: DeleteDiscountCodeFromDatabaseUseCase,
     private val getPriceRuleUseCase: GetPriceRuleUseCase,
-    private val readStringFromDataStoreUseCase: ReadStringFromDataStoreUseCase
+    private val readStringFromDataStoreUseCase: ReadStringFromDataStoreUseCase,
+    private val createOrderUseCase: CreateOrderUseCase
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<CheckOutState> =
@@ -74,6 +78,9 @@ class CheckOutViewModel @Inject constructor(
             CheckOutIntent.GetPriceRule -> getPriceRule()
             is CheckOutIntent.NewCartItems -> {
                 _state.update { it.copy(cartItems = intent.cartItems.cartItems) }
+            }
+            is CheckOutIntent.CreateOrder ->{
+
             }
         }
 
@@ -240,6 +247,22 @@ class CheckOutViewModel @Inject constructor(
                     is Response.Loading -> TODO()
                     is Response.Success -> {
                        successImplementation(response)
+                    }
+                }
+            }
+        }
+    }
+
+    fun createOrder(postOrder: PostOrder){
+        Timber.e(postOrder.toString())
+        viewModelScope.launch(ioDispatcher) {
+            createOrderUseCase.execute(postOrder).collectLatest {
+                when(it){
+                    is Response.Success ->{
+                        Timber.e(it.data.toString())
+                    }
+                    else->{
+                        Timber.e(it.error)
                     }
                 }
             }

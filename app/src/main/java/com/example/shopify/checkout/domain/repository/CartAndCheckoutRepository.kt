@@ -1,6 +1,8 @@
 package com.example.shopify.checkout.domain.repository
 
 import com.example.shopify.data.dto.codes.DiscountCode
+import com.example.shopify.orders.data.dto.post.PostOrder
+import com.example.shopify.orders.data.dto.post.PostOrderResponse
 import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
 
@@ -27,4 +29,7 @@ interface CartAndCheckoutRepository {
     suspend fun<T> getUserPhone() : Flow<Response<T>>
 
     suspend fun <T> getPriceRule(id :String): Flow<Response<T>>
+
+    suspend fun  createOrder(postOrder: PostOrder): Flow<Response<PostOrderResponse>>
+
 }

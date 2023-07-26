@@ -2,6 +2,7 @@ package com.example.shopify.checkout.data.remote
 
 import com.example.shopify.data.dto.codes.DiscountCode
 import com.example.shopify.home.domain.model.discountcode.DiscountCodeModel
+import com.example.shopify.orders.data.dto.post.PostOrder
 import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
 
@@ -29,6 +30,8 @@ interface CartAndCheckOutRemoteDataSource {
 
     suspend fun <T> getPriceRule(id :String): Flow<Response<T>>
 
+
+    suspend fun <T> createOrder(postOrder: PostOrder): Flow<Response<T>>
 
 
 

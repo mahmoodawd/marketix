@@ -13,11 +13,14 @@ import com.example.shopify.checkout.domain.repository.CartAndCheckoutRepository
 import com.example.shopify.data.dto.DraftOrderResponse
 import com.example.shopify.data.dto.codes.DiscountCode
 import com.example.shopify.home.data.mappers.toDiscountCodeModel
+import com.example.shopify.orders.data.dto.post.PostOrder
+import com.example.shopify.orders.data.dto.post.PostOrderResponse
 import com.example.shopify.settings.data.dto.location.AddressDto
 import com.example.shopify.settings.data.mappers.toAddressModel
 import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -87,5 +90,13 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(
     override suspend fun <T> getPriceRule(id: String): Flow<Response<T>> {
         Log.d("priceRule","repository")
         return remoteDataSource.getPriceRule<T>(id).map {   Response.Success((it.data as PriceRules).toPriceRule() as T) }
+    }
+
+    override suspend fun createOrder(postOrder: PostOrder): Flow<Response<PostOrderResponse>> {
+        return try {
+            remoteDataSource.createOrder(postOrder)
+        } catch (e: Exception) {
+            flowOf(Response.Failure(e.message ?: "UnKnown"))
+        }
     }
 }

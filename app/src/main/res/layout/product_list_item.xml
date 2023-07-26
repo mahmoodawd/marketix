@@ -8,6 +8,12 @@
         <variable
             name="product"
             type="com.example.shopify.home.domain.model.ProductModel" />
+        <variable
+            name="exchangeRate"
+            type="Double" />
+        <variable
+            name="currency"
+            type="String" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -61,7 +67,9 @@
                 android:shadowDx="1"
                 android:shadowDy="4"
                 android:shadowRadius="5"
-                android:text="@{product.variants.get(0).price}"
+                app:currency2="@{currency}"
+                app:price2="@{product.variants.get(0).price}"
+                app:rate2="@{exchangeRate}"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@id/startGuideline"

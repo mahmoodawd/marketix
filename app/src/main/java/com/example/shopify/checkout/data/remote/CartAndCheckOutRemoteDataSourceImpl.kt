@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.shopify.data.dto.codes.DiscountCode
 import com.example.shopify.data.remote.ShopifyRemoteInterface
 import com.example.shopify.home.data.local.DiscountCodesDao
+import com.example.shopify.orders.data.dto.post.PostOrder
 import com.example.shopify.settings.data.local.AddressDao
 import com.example.shopify.utils.response.Response
 import com.google.firebase.auth.FirebaseAuth
@@ -132,6 +133,16 @@ class CartAndCheckOutRemoteDataSourceImpl @Inject constructor(
             } catch (e: Exception) {
                 Log.d("remoteRule",e.message!!)
                 Response.Failure(e.message ?: "unknownError")
+            }
+        )
+    }
+
+    override suspend fun <T> createOrder(postOrder: PostOrder): Flow<Response<T>> {
+        return flowOf(
+            try {
+                Response.Success(remoteInterface.createOrder(postOrder) as T)
+            } catch (e: Exception) {
+                Response.Failure(e.message ?: "UnKnown")
             }
         )
     }

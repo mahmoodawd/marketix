@@ -5,7 +5,6 @@ import com.example.shopify.orders.data.remote.OrdersApiClient
 import com.example.shopify.orders.data.remote.OrdersRemoteSource
 import com.example.shopify.orders.data.repository.OrdersRepositoryImp
 import com.example.shopify.orders.domain.repository.OrdersRepository
-import com.example.shopify.orders.domain.usecase.CreateOrderUseCase
 import com.example.shopify.orders.domain.usecase.GetCustomerOrdersUseCase
 import dagger.Binds
 import dagger.Module
@@ -32,9 +31,9 @@ abstract class OrdersViewModelModule {
         fun provideGetCustomerOrdersUseCase(ordersRepository: OrdersRepository): GetCustomerOrdersUseCase =
             GetCustomerOrdersUseCase(ordersRepository)
 
-        @Provides
-        @ViewModelScoped
-        fun provideCreateOrderUseCase(ordersRepository: OrdersRepository): CreateOrderUseCase =
-            CreateOrderUseCase(ordersRepository)
+//        @Provides
+//        @ViewModelScoped
+//        fun provideCreateOrderUseCase(ordersRepository: OrdersRepository): CreateOrderUseCase =
+//            CreateOrderUseCase(ordersRepository)
     }
 }

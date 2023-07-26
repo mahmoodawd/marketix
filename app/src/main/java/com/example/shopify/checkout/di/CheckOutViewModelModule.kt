@@ -16,6 +16,7 @@ import com.example.shopify.checkout.domain.usecase.discountcode.DeleteDiscountCo
 import com.example.shopify.checkout.domain.usecase.discountcode.GetAllDiscountCodeUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.GetDiscountCodeByIdUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.GetPriceRuleUseCase
+import com.example.shopify.checkout.domain.usecase.order.CreateOrderUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -121,6 +122,11 @@ abstract class CheckOutViewModelModule {
         {
             return GetPriceRuleUseCase(repository)
         }
+
+        @Provides
+        @ViewModelScoped
+        fun provideCreateOrderUseCase(repository: CartAndCheckoutRepository): CreateOrderUseCase =
+            CreateOrderUseCase(repository)
 
     }
 }

@@ -11,7 +11,10 @@ import com.example.shopify.databinding.OrderListItemBinding
 import com.example.shopify.orders.domain.model.LineItemModel
 import com.example.shopify.orders.domain.model.OrderModel
 
-class OrdersAdapter(private val gotToOrderDetails: (OrderModel) -> Unit) :
+class OrdersAdapter(
+    var currency: String = "EGP",
+    var exchangeRate: Double = 1.0, private val gotToOrderDetails: (OrderModel) -> Unit
+) :
     ListAdapter<OrderModel, OrderViewHolder>(OrderDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
         val binding = DataBindingUtil.inflate<OrderListItemBinding>(
@@ -25,13 +28,15 @@ class OrdersAdapter(private val gotToOrderDetails: (OrderModel) -> Unit) :
         holder.binding.root.setOnClickListener {
             gotToOrderDetails(order)
         }
-        holder.bind(order)
+        holder.bind(order, currency, exchangeRate)
     }
 }
 
 class OrderViewHolder(val binding: OrderListItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(order: OrderModel) {
+    fun bind(order: OrderModel, currency: String, exchangeRate: Double) {
+        binding.exchangeRate = exchangeRate
+        binding.currency = currency
         binding.order = order
         binding.executePendingBindings()
     }

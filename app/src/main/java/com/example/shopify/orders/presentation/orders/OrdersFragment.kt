@@ -15,7 +15,6 @@ import com.example.shopify.data.dto.PropertiesItem
 import com.example.shopify.databinding.FragmentOrdersBinding
 import com.example.shopify.orders.data.dto.post.Order
 import com.example.shopify.orders.data.dto.post.PostOrder
-import com.example.shopify.databinding.FragmentOrdersBinding
 import com.example.shopify.orders.domain.model.OrderModel
 import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.google.firebase.auth.FirebaseAuth
@@ -34,6 +33,8 @@ class OrdersFragment(
     lateinit var binding: FragmentOrdersBinding
     private lateinit var navController: NavController
     private lateinit var ordersAdapter: OrdersAdapter
+    private var currency = "EGP"
+    private var exchangeRate: Double = 1.0
     private val viewModel: OrdersViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,19 +64,20 @@ class OrdersFragment(
             connectivityObserver.observe().collectLatest {
                 when (it) {
                     ConnectivityObserver.Status.Available -> {
+                        viewModel.readCurrencyFactorFromDataStore()
                         viewModel.getCustomerOrders(firebaseAuth.currentUser?.email as String)
-                        viewModel.createOrder(
-                            PostOrder(
-                                Order(
-                                    "mohamedadel2323m@gmail.com",
-                                    listOf(
-                                        com.example.shopify.orders.data.dto.post.LineItem(1,45736853176599,
-                                            listOf(PropertiesItem("image_url","https://cdn.shopify.com/s/files/1/0790/0712/1687/products/85cc58608bf138a50036bcfe86a3a362.jpg?v=1689452647"))
-                                        )
-                                    )
-                                )
-                            )
-                        )
+//                        viewModel.createOrder(
+//                            PostOrder(
+//                                Order(
+//                                    "mohamedadel2323m@gmail.com",
+//                                    listOf(
+//                                        com.example.shopify.orders.data.dto.post.LineItem(1,45736853176599,
+//                                            listOf(PropertiesItem("image_url","https://cdn.shopify.com/s/files/1/0790/0712/1687/products/85cc58608bf138a50036bcfe86a3a362.jpg?v=1689452647"))
+//                                        )
+//                                    )
+//                                )
+//                            )
+//                        )
 
                     }
 
@@ -99,6 +101,12 @@ class OrdersFragment(
                     } else {
                         binding.progressBar.visibility = View.GONE
                     }
+                    if (it.currency != "EGP") {
+                        exchangeRate = it.exchangeRate
+                        currency = it.currency
+                        ordersAdapter.exchangeRate = it.exchangeRate
+                        ordersAdapter.currency = it.currency
+                    }
                 }
             }
         }
@@ -116,7 +124,7 @@ class OrdersFragment(
     private fun goToOrderDetails(orderModel: OrderModel) {
         navController.navigate(
             OrdersFragmentDirections.actionOrdersFragmentToOrderDetailsFragment(
-                orderModel
+                orderModel, currency, exchangeRate.toString()
             )
         )
     }
