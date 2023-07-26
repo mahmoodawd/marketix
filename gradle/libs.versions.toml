@@ -1,8 +1,10 @@
 [versions]
 
 # application versions section
+androidSdk = "0.112.2"
 javaVersion = "17"
 minSDK = "26"
+scrollingpagerindicator = "1.2.5"
 targetSDK = "33"
 compileSDK = "33"
 codeVersion = "1"
@@ -56,6 +58,7 @@ firebaseStorage = "20.2.1"
 
 
 [libraries]
+android-sdk = { module = "com.paypal.checkout:android-sdk", version.ref = "androidSdk" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidXCore" }
 androidx-appcompat-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidXAppCompat" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidxConstraintlayout" }
@@ -109,6 +112,7 @@ org-hamcrest-hamcrest = { group = "org.hamcrest", name = "hamcrest", version.ref
 org-hamcrest-hamcrest-library = { group = "org.hamcrest", name = "hamcrest-library", version.ref = "hamcrest" }
 org-mockito-kotlin-mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlin" }
 org-robolectric-robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
+scrollingpagerindicator = { module = "ru.tinkoff.scrollingpagerindicator:scrollingpagerindicator", version.ref = "scrollingpagerindicator" }
 
 
 [bundles]
