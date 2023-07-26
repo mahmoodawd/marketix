@@ -287,13 +287,17 @@ class CheckOutViewModel @Inject constructor(
     fun createOrder(postOrder: PostOrder){
         Timber.e(postOrder.toString())
         viewModelScope.launch(ioDispatcher) {
-            createOrderUseCase.execute(postOrder).collectLatest {
-                when(it){
+            createOrderUseCase.execute(postOrder).collectLatest { postOrderResponse ->
+                when(postOrderResponse){
                     is Response.Success ->{
-                        Timber.e(it.data.toString())
+                        postOrderResponse.data?.let{
+                            it.order.line_items.forEach { line_item ->
+                                deleteDraftOrderUseCase.execute<String>(line_item.id.toString())
+                            }
+                        }
                     }
                     else->{
-                        Timber.e(it.error)
+                        Timber.e(postOrderResponse.error)
                     }
                 }
             }
