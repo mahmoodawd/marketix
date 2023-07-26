@@ -39,7 +39,7 @@ sealed interface CheckOutIntent
 
     data class NewCartItems(val cartItems: CartItems) : CheckOutIntent
 
-    data class CreateOrder(val postOrder: PostOrder): CheckOutIntent
+    data class CreateOrder(val postOrder: PostOrder, val draftItemsIds : List<Long>): CheckOutIntent
 
 
 

@@ -3,7 +3,6 @@ package com.example.shopify.orders.presentation.orders
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
-import com.example.shopify.orders.data.dto.post.PostOrder
 import com.example.shopify.orders.domain.usecase.GetCustomerOrdersUseCase
 import com.example.shopify.utils.hiltanotations.Dispatcher
 import com.example.shopify.utils.hiltanotations.Dispatchers
@@ -17,14 +16,12 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class OrdersViewModel @Inject constructor(
     @Dispatcher(Dispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     private val getCustomerOrdersUseCase: GetCustomerOrdersUseCase,
-//    private val createOrderUseCase: CreateOrderUseCase
     private val readStringFromDataStoreUseCase: ReadStringFromDataStoreUseCase
 ) : ViewModel() {
 

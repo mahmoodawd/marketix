@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.Toast
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -59,9 +58,6 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
         navController = findNavController()
         binding.filterImageButton.setOnClickListener {
             showBottomDialog()
-        }
-        binding.cartImageButton.setOnClickListener {
-            navController.navigate(getString(R.string.cartFragmentDeepLink).toUri())
         }
         binding.ordersImageButton.setOnClickListener {
             navController.navigate(HomeFragmentDirections.actionHomeFragmentToOrdersFragment())

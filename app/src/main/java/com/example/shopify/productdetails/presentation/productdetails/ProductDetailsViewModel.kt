@@ -175,7 +175,7 @@ class ProductDetailsViewModel @Inject constructor(
                             _state.value.product?.variants?.first()?.price =
                                 (_state.value.product?.variants?.first()?.price?.toDouble()
                                     ?.times(_state.value.currencyFactor))?.roundTo(2).toString()
-                            _state.value.product?.currency = currency.data!!
+                            _state.value.product?.currency = currency.data?:"EGP"
 
                         }
                     }

@@ -2,6 +2,8 @@ package com.example.shopify.checkout.data.repository
 
 import android.util.Log
 import com.example.shopify.checkout.data.dto.discountcode.DiscountCodeResponse
+import com.example.shopify.checkout.data.dto.post.PostOrder
+import com.example.shopify.checkout.data.dto.post.PostOrderResponse
 import com.example.shopify.checkout.data.dto.pricerule.PriceRules
 import com.example.shopify.checkout.data.dto.product.Product
 import com.example.shopify.checkout.data.local.CartAndCheckOutLocalDataSource
@@ -14,8 +16,6 @@ import com.example.shopify.checkout.domain.repository.CartAndCheckoutRepository
 import com.example.shopify.data.dto.DraftOrderResponse
 import com.example.shopify.data.dto.codes.DiscountCode
 import com.example.shopify.home.data.mappers.toDiscountCodeModel
-import com.example.shopify.orders.data.dto.post.PostOrder
-import com.example.shopify.orders.data.dto.post.PostOrderResponse
 import com.example.shopify.settings.data.dto.address.AddressResponse
 import com.example.shopify.settings.data.dto.location.AddressDto
 import com.example.shopify.settings.data.mappers.toAddressModel

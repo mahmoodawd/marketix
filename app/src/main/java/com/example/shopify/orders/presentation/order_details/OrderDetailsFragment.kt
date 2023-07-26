@@ -6,12 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.shopify.R
 import com.example.shopify.databinding.FragmentOrderDetailsBinding
 
 class OrderDetailsFragment : Fragment() {
@@ -33,7 +31,8 @@ class OrderDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         navController = findNavController()
-
+        binding.currency = args.currency
+        binding.exchangeRate = args.rate.toDouble()
         lineItemsAdapter = LineItemsAdapter(currency = args.currency, exchangeRate = args.rate.toDouble()) {
             goToProductDetails(it)
         }
