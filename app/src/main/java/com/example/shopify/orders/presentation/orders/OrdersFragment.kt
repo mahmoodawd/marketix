@@ -11,10 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.shopify.data.dto.PropertiesItem
 import com.example.shopify.databinding.FragmentOrdersBinding
-import com.example.shopify.orders.data.dto.post.Order
-import com.example.shopify.orders.data.dto.post.PostOrder
 import com.example.shopify.orders.domain.model.OrderModel
 import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.google.firebase.auth.FirebaseAuth
@@ -66,19 +63,6 @@ class OrdersFragment(
                     ConnectivityObserver.Status.Available -> {
                         viewModel.readCurrencyFactorFromDataStore()
                         viewModel.getCustomerOrders(firebaseAuth.currentUser?.email as String)
-//                        viewModel.createOrder(
-//                            PostOrder(
-//                                Order(
-//                                    "mohamedadel2323m@gmail.com",
-//                                    listOf(
-//                                        com.example.shopify.orders.data.dto.post.LineItem(1,45736853176599,
-//                                            listOf(PropertiesItem("image_url","https://cdn.shopify.com/s/files/1/0790/0712/1687/products/85cc58608bf138a50036bcfe86a3a362.jpg?v=1689452647"))
-//                                        )
-//                                    )
-//                                )
-//                            )
-//                        )
-
                     }
 
                     else -> {

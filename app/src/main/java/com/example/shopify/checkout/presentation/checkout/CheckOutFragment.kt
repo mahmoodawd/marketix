@@ -30,6 +30,7 @@ import com.example.shopify.R
 import com.example.shopify.checkout.data.dto.post.LineItem
 import com.example.shopify.checkout.data.dto.post.Order
 import com.example.shopify.checkout.data.dto.post.PostOrder
+import com.example.shopify.checkout.domain.model.CartItem
 import com.example.shopify.checkout.domain.model.CartItems
 import com.example.shopify.data.dto.PropertiesItem
 import com.example.shopify.databinding.AddressBottomSheetBinding
@@ -52,6 +53,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -64,6 +66,8 @@ class CheckOutFragment : Fragment() {
     private lateinit var navController: NavController
 
     private val viewModel: CheckOutViewModel by viewModels()
+
+    private var cartItems: CartItems? = null
 
     private val addressesRecyclerAdapter by lazy {
         AddressesRecyclerAdapter { address ->
@@ -112,7 +116,8 @@ class CheckOutFragment : Fragment() {
         }
 
         binding.checkOutButton.setOnClickListener {
-            navController.navigate(CheckOutFragmentDirections.actionCheckOutFragmentToDiscountFragment())
+            createOrder(cartItems as CartItems)
+//            navController.navigate(CheckOutFragmentDirections.actionCheckOutFragmentToDiscountFragment())
         }
 
 
@@ -132,6 +137,7 @@ class CheckOutFragment : Fragment() {
         dialogBackObserver()
         paypalSetup()
         getSubTotal()
+        checkOutCompletedObserver()
 
     }
 
@@ -151,14 +157,14 @@ class CheckOutFragment : Fragment() {
         }
 
 
-        val cartItems = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        cartItems = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelable(getString(R.string.cartItems), CartItems::class.java)
         } else {
             arguments?.getParcelable(getString(R.string.cartItems))
         }
         cartItems?.let {
-            Log.d("cartItems", cartItems.cartItems.toString())
-            viewModel.onEvent(CheckOutIntent.NewCartItems(cartItems))
+            Log.d("cartItems", cartItems!!.cartItems.toString())
+            viewModel.onEvent(CheckOutIntent.NewCartItems(cartItems as CartItems))
         }
     }
 
@@ -182,10 +188,6 @@ class CheckOutFragment : Fragment() {
                         binding.addressSection.visibility = View.VISIBLE
                     } ?: kotlin.run {
                         binding.addressSection.visibility = View.GONE
-                    }
-                    val lineItems = listOf<LineItem>()
-                    if (state.cartItems.isNotEmpty()) {
-
                     }
                 }
             }
@@ -317,7 +319,7 @@ class CheckOutFragment : Fragment() {
             },
             onApprove =
             OnApprove { approval ->
-                createOrder()
+                createOrder(cartItems as CartItems)
             },
 
             onCancel = OnCancel {
@@ -326,19 +328,23 @@ class CheckOutFragment : Fragment() {
         )
     }
 
-    private fun createOrder() {
-        val lineItems = listOf<LineItem>()
+    private fun createOrder(cartItems: CartItems) {
+        val lineItems = mutableListOf<LineItem>()
+        val draftOrdersIds = mutableListOf<Long>()
         val carItems = viewModel.state.value.cartItems
         val email = viewModel.state.value.email
+        Timber.e(carItems.toString())
         for (item in carItems) {
-            lineItems.plus(
+            lineItems.add(
                 LineItem(
                     item.quantity.toInt(), item.variantId.toLong(), listOf(
                         PropertiesItem(value = item.imageUrl)
                     )
                 )
             )
+            draftOrdersIds.add(item.itemId)
         }
+        Timber.e(lineItems.toString())
         viewModel.onEvent(
             CheckOutIntent.CreateOrder(
                 PostOrder(
@@ -346,8 +352,19 @@ class CheckOutFragment : Fragment() {
                         email,
                         lineItems
                     )
-                )
+                ), draftOrdersIds
             )
         )
+    }
+
+
+    private fun checkOutCompletedObserver(){
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.checkOutCompletedFlow.collectLatest {
+                    navController.popBackStack(R.id.homeFragment, false)
+                }
+            }
+        }
     }
 }

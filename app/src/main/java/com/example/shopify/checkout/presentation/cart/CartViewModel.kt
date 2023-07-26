@@ -117,7 +117,7 @@ class CartViewModel @Inject constructor(
                             _state.value.cartItems.forEach { cartItem ->
                                 cartItem.itemPrice = (cartItem.itemPrice.toDouble()
                                         * _state.value.currencyFactor).roundTo(2).toString()
-                                cartItem.currency = currency.data!!
+                                cartItem.currency = currency.data?:"EGP"
                             }
                             _state.update { it.copy(cartTotalCost = _state.value.cartItems.sumOf { it.itemPrice.toDouble() }.roundTo(2)
                                 ?: 0.0 ) }

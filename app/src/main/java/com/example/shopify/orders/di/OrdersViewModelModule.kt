@@ -30,10 +30,5 @@ abstract class OrdersViewModelModule {
         @ViewModelScoped
         fun provideGetCustomerOrdersUseCase(ordersRepository: OrdersRepository): GetCustomerOrdersUseCase =
             GetCustomerOrdersUseCase(ordersRepository)
-
-//        @Provides
-//        @ViewModelScoped
-//        fun provideCreateOrderUseCase(ordersRepository: OrdersRepository): CreateOrderUseCase =
-//            CreateOrderUseCase(ordersRepository)
     }
 }
