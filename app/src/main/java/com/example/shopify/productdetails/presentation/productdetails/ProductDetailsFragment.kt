@@ -143,7 +143,7 @@ class ProductDetailsFragment : Fragment() {
 
         observeState()
 
-        snackBarObserver(viewModel.snackBarFlow)
+        requireActivity().snackBarObserver(viewModel.snackBarFlow)
     }
 
 

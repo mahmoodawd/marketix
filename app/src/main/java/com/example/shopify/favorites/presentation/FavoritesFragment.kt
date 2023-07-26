@@ -63,7 +63,7 @@ class FavoritesFragment : Fragment() {
 
         viewModel.onEvent(FavoritesIntent.GetFavorites)
 
-        snackBarObserver(viewModel.snackBarFlow)
+        requireActivity().snackBarObserver(viewModel.snackBarFlow)
 
         observeState()
     }

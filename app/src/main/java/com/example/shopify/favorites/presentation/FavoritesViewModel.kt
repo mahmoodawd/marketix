@@ -6,6 +6,8 @@ import com.example.shopify.R
 import com.example.shopify.favorites.domain.model.FavoritesModel
 import com.example.shopify.favorites.domain.usecase.GetFavoriteProductsUseCase
 import com.example.shopify.favorites.domain.usecase.RemoveDraftOrderUseCase
+import com.example.shopify.home.data.dto.Product
+import com.example.shopify.search.domain.usecase.SearchProductUseCase
 import com.example.shopify.utils.hiltanotations.Dispatcher
 import com.example.shopify.utils.hiltanotations.Dispatchers
 import com.example.shopify.utils.response.Response
@@ -25,7 +27,8 @@ import javax.inject.Inject
 class FavoritesViewModel @Inject constructor(
     @Dispatcher(Dispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     private val getFavoritesUseCase: GetFavoriteProductsUseCase,
-    private val removeDraftOrderUseCase: RemoveDraftOrderUseCase
+    private val removeDraftOrderUseCase: RemoveDraftOrderUseCase,
+    private val searchProductUseCase: SearchProductUseCase,
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<FavoritesState> =
@@ -101,6 +104,17 @@ class FavoritesViewModel @Inject constructor(
                     is Response.Loading -> _state.update { it.copy(loading = true) }
                     is Response.Failure -> _snackBarFlow.emit(R.string.failed_message)
                 }
+            }
+        }
+    }
+
+    private fun search(keyword: String) {
+        viewModelScope.launch {
+
+            searchProductUseCase<Product>(keyword).collectLatest { response ->
+                /* when (response) {
+                     is Success ->{}
+                     else()*/
             }
         }
     }
