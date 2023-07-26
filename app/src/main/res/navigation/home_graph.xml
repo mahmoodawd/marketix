@@ -35,5 +35,11 @@
         <argument
             android:name="order"
             app:argType="com.example.shopify.orders.domain.model.OrderModel" />
+        <argument
+            android:name="currency"
+            app:argType="string" />
+        <argument
+            android:name="rate"
+            app:argType="string" />
     </fragment>
 </navigation>

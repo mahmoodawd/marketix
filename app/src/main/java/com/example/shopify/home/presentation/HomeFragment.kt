@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -29,11 +28,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.RangeSlider.OnSliderTouchListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import timber.log.Timber
 import java.text.NumberFormat
 import java.util.Currency
 
@@ -78,7 +74,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
 
         binding.addsCardView.setOnClickListener {
             viewModel.homeState.value.discountCode?.let {
-                    showDiscountCodeDialog(it.code)
+                showDiscountCodeDialog(it.code)
             }
         }
         setProductsRecycler()
@@ -146,8 +142,6 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
                 }
 
                 override fun onStopTrackingTouch(slider: RangeSlider) {
-                    Timber.e(slider.values.max().toString())
-                    Timber.e(slider.values.min().toString())
                     max = slider.values.max().toDouble()
                     min = slider.values.min().toDouble()
                 }
@@ -157,8 +151,6 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
 
             bottomSheet.applyBtn.setOnClickListener {
                 if (selectedCategory != null || selectedType.isNotEmpty() || max != Double.MAX_VALUE || min != Double.MIN_VALUE) {
-                    Timber.e(max.toString())
-                    Timber.e(min.toString())
                     viewModel.filterProducts(selectedCategory, selectedType, max, min)
                     brandsAdapter.clearSelection()
                 }
@@ -180,6 +172,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
             connectivityObserver.observe().collectLatest {
                 when (it) {
                     ConnectivityObserver.Status.Available -> {
+                        viewModel.readCurrencyFactorFromDataStore()
                         viewModel.getAllProducts()
                         viewModel.getAllBrands()
                     }
@@ -201,7 +194,6 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
                 }
                 if (it.products.isNotEmpty()) {
                     productsAdapter.submitList(it.products)
-                    Timber.e(it.products.count().toString())
                 } else {
                     productsAdapter.submitList(listOf())
                 }
@@ -210,7 +202,10 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
                 } else {
                     View.GONE
                 }
-
+                if (it.currency != "EGP") {
+                    productsAdapter.exchangeRate = it.exchangeRate
+                    productsAdapter.currency = it.currency
+                }
 
 
             }
@@ -220,12 +215,12 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
 
     private fun showDiscountCodeDialog(code: String) {
         MaterialAlertDialogBuilder(requireContext())
-            .setMessage(getString(R.string.free_discount_code)+" "+code)
-            .setNegativeButton(getString(R.string.cancel)){ dialogInterface, _ ->
+            .setMessage(getString(R.string.free_discount_code) + " " + code)
+            .setNegativeButton(getString(R.string.cancel)) { dialogInterface, _ ->
                 dialogInterface.dismiss()
             }
             .setNeutralButton(getString(R.string.save)) { _, _ ->
-                viewModel.insertDiscountCode()
+//                viewModel.insertDiscountCode()
             }
             .show()
     }
@@ -253,7 +248,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
     private fun setProductsRecycler() {
         val productsLayoutManager = GridLayoutManager(requireContext(), 2)
         productsLayoutManager.orientation = GridLayoutManager.VERTICAL
-        binding.productsRv.apply{
+        binding.productsRv.apply {
             adapter = productsAdapter
             layoutManager = productsLayoutManager
         }

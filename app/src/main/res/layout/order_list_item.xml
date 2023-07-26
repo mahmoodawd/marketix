@@ -7,6 +7,12 @@
         <variable
             name="order"
             type="com.example.shopify.orders.domain.model.OrderModel" />
+        <variable
+            name="exchangeRate"
+            type="Double" />
+        <variable
+            name="currency"
+            type="String" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -58,7 +64,9 @@
             <TextView
                 android:id="@+id/priceValueTv"
                 style="@style/p4"
-                android:text="@{order.totalPrice}"
+                app:currency2="@{currency}"
+                app:price2="@{order.totalPrice}"
+                app:rate2="@{exchangeRate}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@id/priceTv"
