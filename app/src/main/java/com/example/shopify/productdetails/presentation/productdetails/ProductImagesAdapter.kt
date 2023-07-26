@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopify.databinding.ProductImageItemBinding
-import com.example.shopify.productdetails.domain.model.ImageModel
+import com.example.shopify.productdetails.domain.model.details.ImageModel
 
 class ProductImagesAdapter(
 ) : ListAdapter<ImageModel, RecyclerView.ViewHolder>(ImgDiffUtil()) {
@@ -18,7 +18,6 @@ class ProductImagesAdapter(
         fun bind(item: ImageModel) {
 
             binding.image = item
-            binding.textView2.text = item.src
         }
     }
 

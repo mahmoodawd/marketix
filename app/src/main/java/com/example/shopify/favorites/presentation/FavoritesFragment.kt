@@ -33,18 +33,17 @@ class FavoritesFragment : Fragment() {
 
     private val favoritesAdapter: FavoritesAdapter by lazy {
         FavoritesAdapter(
-            onItemClick = { productId, draftOrderId ->
+            onItemClick = { productId ->
                 FavoritesFragmentDirections
                     .actionFavoritesFragmentToProductDetailsFragment(
-                        productId,
-                        draftOrderId
+                        productId
                     )
                     .run {
                         navController.navigate(this)
                     }
             },
             onDeleteClick = { id, position ->
-                showConfirmDeleteDialog(id.toString(), position)
+                showConfirmDeleteDialog(id, position)
             })
     }
 

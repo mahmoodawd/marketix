@@ -4,10 +4,10 @@ import com.example.shopify.productdetails.data.dto.productdetails.ImageX
 import com.example.shopify.productdetails.data.dto.productdetails.Option
 import com.example.shopify.productdetails.data.dto.productdetails.Product
 import com.example.shopify.productdetails.data.dto.productdetails.Variant
-import com.example.shopify.productdetails.domain.model.ImageModel
-import com.example.shopify.productdetails.domain.model.OptionModel
-import com.example.shopify.productdetails.domain.model.ProductsDetailsModel
-import com.example.shopify.productdetails.domain.model.VariantModel
+import com.example.shopify.productdetails.domain.model.details.ImageModel
+import com.example.shopify.productdetails.domain.model.details.OptionModel
+import com.example.shopify.productdetails.domain.model.details.ProductsDetailsModel
+import com.example.shopify.productdetails.domain.model.details.VariantModel
 
 
 fun Product.toProductsDetailsModel(): ProductsDetailsModel =

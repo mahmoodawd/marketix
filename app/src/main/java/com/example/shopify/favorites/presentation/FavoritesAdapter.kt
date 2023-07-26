@@ -9,7 +9,7 @@ import com.example.shopify.databinding.ProductItemBinding
 import com.example.shopify.favorites.domain.model.FavoriteProductModel
 
 class FavoritesAdapter(
-    private val onItemClick: (String, String) -> Unit,
+    private val onItemClick: (String) -> Unit,
     private val onDeleteClick: (String, Int) -> Unit,
 
     ) : ListAdapter<FavoriteProductModel, RecyclerView.ViewHolder>(FavDiffUtil()) {
@@ -22,7 +22,7 @@ class FavoritesAdapter(
 
             binding.product = item
             binding.onItemClick =
-                { onItemClick.invoke(item.id.toString(), item.draftOrderId.toString()) }
+                { onItemClick.invoke(item.id.toString()) }
             binding.onDeleteClick = {
                 onDeleteClick.invoke(item.draftOrderId.toString(), adapterPosition)
                 binding.executePendingBindings()

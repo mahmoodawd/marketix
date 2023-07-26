@@ -2,11 +2,11 @@ package com.example.shopify.productdetails.data.repository
 
 import com.example.shopify.data.dto.DraftOrderResponse
 import com.example.shopify.productdetails.data.dto.productdetails.Product
-import com.example.shopify.productdetails.data.dto.productdetails.ProductDetailsResponse
+import com.example.shopify.productdetails.data.mappers.toCartDraftOrderRequest
 import com.example.shopify.productdetails.data.mappers.toFavoriteDraftOrderRequest
 import com.example.shopify.productdetails.data.mappers.toProductsDetailsModel
 import com.example.shopify.productdetails.data.remote.RemoteDataSource
-import com.example.shopify.productdetails.domain.model.ProductsDetailsModel
+import com.example.shopify.productdetails.domain.model.details.ProductsDetailsModel
 import com.example.shopify.productdetails.domain.repository.ProductDetailsRepository
 import com.example.shopify.utils.constants.TAG_CART
 import com.example.shopify.utils.constants.TAG_FAVORITES
@@ -14,6 +14,7 @@ import com.example.shopify.utils.response.Response
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import timber.log.Timber
 import javax.inject.Inject
 
 class ProductDetailsRepoImpl @Inject constructor(
@@ -55,15 +56,24 @@ class ProductDetailsRepoImpl @Inject constructor(
     }
 
     override suspend
-    fun <T> createCartDraftOrder(productsDetailsModel: ProductsDetailsModel): Flow<Response<T>> {
+    fun <T> createCartDraftOrder(
+        variantId: Long?,
+        productsDetailsModel: ProductsDetailsModel
+    ): Flow<Response<T>> {
         //Handle if the item is already added so ignore it
         val draftOrders =
             remoteDataSource.getDraftOrders<DraftOrderResponse>().data!!.draft_orders
+        Timber.i("variantId: $variantId ")
         val itemExist = draftOrders.any {
             it.tags == TAG_CART &&
                     it.email == auth.currentUser?.email &&
-                    it.line_items.first().variant_id == productsDetailsModel.variants?.first()?.id
+                    it.line_items.any { lineItem -> lineItem.variant_id == variantId }
+
+
         }
+
+
+
 
         return flowOf(
             if (itemExist) {
@@ -71,7 +81,11 @@ class ProductDetailsRepoImpl @Inject constructor(
                 Response.Failure("itemAlreadyExistException")
 
             } else {
-                remoteDataSource.addDraftOrder(productsDetailsModel.toFavoriteDraftOrderRequest())
+                remoteDataSource.addDraftOrder(
+                    productsDetailsModel.toCartDraftOrderRequest(
+                        variantId
+                    )
+                )
 
             }
         )

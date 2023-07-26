@@ -12,6 +12,8 @@ import com.example.shopify.databinding.ProductListItemBinding
 import com.example.shopify.home.domain.model.ProductModel
 
 class ProductsAdapter(
+    var currency: String = "EGP",
+    var exchangeRate: Double = 1.0,
     private val selectProduct: (ProductModel) -> Unit
 ) : ListAdapter<ProductModel, ProductViewHolder>(ProductDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
@@ -23,7 +25,7 @@ class ProductsAdapter(
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = getItem(position)
-        holder.bind(product)
+        holder.bind(product,exchangeRate,currency)
 
         holder.binding.root.setOnClickListener {
             selectProduct(product)
@@ -33,8 +35,10 @@ class ProductsAdapter(
 
 class ProductViewHolder(val binding: ProductListItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(product: ProductModel) {
+    fun bind(product: ProductModel, exchangeRate: Double, currency: String) {
         binding.product = product
+        binding.exchangeRate = exchangeRate
+        binding.currency = currency
         binding.executePendingBindings()
     }
 }
