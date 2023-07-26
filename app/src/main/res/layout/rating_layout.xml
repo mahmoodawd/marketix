@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="@dimen/_16sdp"
     android:background="@drawable/rounded_corner_blue">
 
@@ -31,7 +32,7 @@
         android:shadowDx="1"
         android:shadowDy="4"
         android:shadowRadius="5"
-        android:text="3.5"
+        tools:text="3.5"
         android:textStyle="bold"
         android:textColor="@color/md_theme_dark_onBackground"
         app:layout_constraintEnd_toStartOf="@+id/to_reviews_iv"

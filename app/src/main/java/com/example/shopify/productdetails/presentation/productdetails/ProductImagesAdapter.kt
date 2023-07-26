@@ -18,7 +18,6 @@ class ProductImagesAdapter(
         fun bind(item: ImageModel) {
 
             binding.image = item
-            binding.textView2.text = item.src
         }
     }
 

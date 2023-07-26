@@ -16,9 +16,9 @@ fun ProductsDetailsModel.toFavoriteDraftOrderRequest() =
     )
 
 
-fun ProductsDetailsModel.toCartDraftOrderRequest() =
+fun ProductsDetailsModel.toCartDraftOrderRequest(variantId: Long?) =
     DraftOrderRequest(
-        draft_order = this.toCartDraftOrder()
+        draft_order = this.toCartDraftOrder(variantId)
     )
 
 
@@ -26,20 +26,22 @@ fun ProductsDetailsModel.toFavoriteDraftOrder() =
     DraftOrder(
         email = FirebaseAuth.getInstance().currentUser?.email ?: "",
         tags = TAG_FAVORITES,
-        line_items = listOf(this.toLineItem()),
+        line_items = listOf(this.toLineItem(variants?.first()?.id)),
     )
 
-fun ProductsDetailsModel.toCartDraftOrder() =
+fun ProductsDetailsModel.toCartDraftOrder(variantId: Long?) =
     DraftOrder(
         email = FirebaseAuth.getInstance().currentUser?.email ?: "",
         tags = TAG_CART,
-        line_items = listOf(this.toLineItem()),
+        line_items = listOf(this.toLineItem(variantId)),
     )
 
 
-fun ProductsDetailsModel.toLineItem() =
+fun ProductsDetailsModel.toLineItem(
+    variantId: Long?
+) =
     LineItem(
-        variant_id = variants?.first()!!.id,
+        variant_id = variantId ?: variants?.first()?.id!!,
         quantity = 1,
         properties = listOf(image.toPropertyItem())
     )

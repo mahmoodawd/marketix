@@ -16,191 +16,182 @@
             type="com.example.shopify.productdetails.presentation.productdetails.ProductImagesAdapter" />
 
         <variable
-            name="sizesAdapter"
-            type="com.example.shopify.productdetails.presentation.productdetails.ProductSizesAdapter" />
+            name="optionAdapter"
+            type="com.example.shopify.productdetails.presentation.productdetails.options.OptionAdapter" />
 
     </data>
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toStartOf="@+id/product_images_view_pager"
-        app:layout_constraintStart_toStartOf="@+id/product_images_view_pager"
-        tools:context=".productdetails.presentation.productdetails.ProductDetailsFragment">
+        android:layout_height="wrap_content">
 
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_150sdp"
-            android:elevation="@dimen/_50sdp"
-            android:indeterminateTint="@color/seed"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/backImageView"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_25sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:importantForAccessibility="no"
-            android:src="@drawable/back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/product_images_view_pager"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_150sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:adapter="@{imageAdapter}"
-            android:background="@color/md_theme_light_primaryContainer"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/backImageView"
-            tools:listitem="@layout/product_image_item" />
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/_32sdp"
+            app:layout_constraintEnd_toStartOf="@+id/product_images_view_pager"
+            app:layout_constraintStart_toStartOf="@+id/product_images_view_pager"
+            tools:context=".productdetails.presentation.productdetails.ProductDetailsFragment">
 
-        <TextView
-            android:id="@+id/productTypeTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:text="@{product.productType}"
-            android:textColor="@color/md_theme_light_primary"
-            app:layout_constraintStart_toStartOf="@+id/item_name_tv"
-            app:layout_constraintTop_toBottomOf="@+id/product_images_view_pager"
-            tools:text="Best Seller" />
 
-        <TextView
-            android:id="@+id/item_name_tv"
-            style="@style/p3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_16sdp"
-            android:elevation="@dimen/_10sdp"
-            android:minLines="2"
-            android:shadowColor="@color/md_theme_dark_outline"
-            android:shadowDx="1"
-            android:shadowDy="4"
-            android:shadowRadius="5"
-            android:text="@{product.title}"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/productTypeTv"
-            tools:text="Nike Club Max" />
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_150sdp"
+                android:elevation="@dimen/_50sdp"
+                android:indeterminateTint="@color/seed"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/new_price_tv"
-            style="@style/p2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:elevation="@dimen/_10sdp"
-            android:shadowColor="@color/md_theme_dark_outline"
-            android:shadowDx="1"
-            android:shadowDy="4"
-            android:shadowRadius="5"
-            android:text="@{product.variants.get(0).price}"
-            android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@+id/item_name_tv"
-            app:layout_constraintEnd_toEndOf="@+id/add_to_cart_fab"
-            tools:text="new price" />
+            <ImageView
+                android:id="@+id/backImageView"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <include
-            android:id="@+id/rating_view"
-            layout="@layout/rating_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_16sdp"
-            android:layout_marginStart="@dimen/_16sdp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_name_tv"
-            app:layout_constraintEnd_toEndOf="parent"/>
-        <TextView
-            android:id="@+id/description_tv"
-            style="@style/p1"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_150sdp"
-            android:layout_margin="@dimen/_8sdp"
-            android:padding="@dimen/_4sdp"
-            android:text="@{product.description}"
-            android:textAlignment="center"
-            android:textColor="@color/md_theme_light_outline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rating_view"
-            tools:text="@string/lorem_ipsum" />
 
-        <TextView
-            android:id="@+id/size_tv"
-            style="@style/p2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_margin="@dimen/_8sdp"
-            android:elevation="@dimen/_10sdp"
-            android:shadowColor="@color/md_theme_dark_outline"
-            android:shadowDx="1"
-            android:shadowDy="4"
-            android:shadowRadius="5"
-            android:text="@string/size"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/item_name_tv"
-            app:layout_constraintTop_toBottomOf="@+id/description_tv" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/product_images_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:adapter="@{imageAdapter}"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/backImageView"
+                tools:listitem="@layout/product_image_item" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/product_sizes_rv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_16sdp"
-            android:adapter="@{sizesAdapter}"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@id/size_tv"
-            app:layout_constraintTop_toBottomOf="@+id/size_tv"
-            tools:listitem="@layout/size_item" />
+            <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
+                android:id="@+id/indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/product_images_view_pager"
+                app:layout_constraintStart_toStartOf="@id/product_images_view_pager"
+                app:layout_constraintTop_toBottomOf="@id/product_images_view_pager"
+                app:spi_dotSelectedColor="@color/md_theme_light_primary" />
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/add_to_cart_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/to_cart"
-            app:icon="@drawable/cart_icon"
-            app:layout_constraintBottom_toBottomOf="@+id/add_to_fav_fab"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/add_to_fav_fab"
-            app:layout_constraintTop_toTopOf="@+id/add_to_fav_fab" />
+            <TextView
+                android:id="@+id/productTypeTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:text="@{product.vendor}"
+                android:textColor="@color/md_theme_light_primary"
+                app:layout_constraintStart_toStartOf="@+id/item_name_tv"
+                app:layout_constraintTop_toBottomOf="@+id/product_images_view_pager"
+                tools:text="Best Seller" />
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/add_to_fav_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/to_favorites"
-            app:icon="@drawable/heart_icon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/add_to_cart_fab"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/product_sizes_rv" />
+            <TextView
+                android:id="@+id/item_name_tv"
+                style="@style/p3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:elevation="@dimen/_10sdp"
+                android:minLines="2"
+                android:shadowColor="@color/md_theme_dark_outline"
+                android:shadowDx="1"
+                android:shadowDy="4"
+                android:shadowRadius="5"
+                android:text="@{product.handle}"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/productTypeTv"
+                tools:text=" Nike Club Max" />
 
-        <!-- <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/parent_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_24sdp"
-            android:layout_marginBottom="@dimen/_16sdp"
-            android:src="@drawable/add_icon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />-->
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/new_price_tv"
+                style="@style/p2"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:elevation="@dimen/_10sdp"
+                android:shadowColor="@color/md_theme_dark_outline"
+                android:shadowDx="1"
+                android:shadowDy="4"
+                android:shadowRadius="5"
+                android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="@+id/item_name_tv"
+                app:layout_constraintEnd_toEndOf="@+id/add_to_cart_fab"
+                tools:text="new price" />
+
+            <include
+                android:id="@+id/rating_view"
+                layout="@layout/rating_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginEnd="@dimen/_16sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_name_tv" />
+
+            <TextView
+                android:id="@+id/description_tv"
+                style="@style/p1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_8sdp"
+                android:padding="@dimen/_4sdp"
+                android:text="@{product.description}"
+                android:textAlignment="center"
+                android:textColor="@color/md_theme_light_outline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rating_view"
+                tools:text="@string/lorem_ipsum" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/optionsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adapter="@{optionAdapter}"
+                android:nestedScrollingEnabled="false"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintStart_toStartOf="@+id/item_name_tv"
+                app:layout_constraintTop_toBottomOf="@+id/description_tv"
+                tools:itemCount="3"
+                tools:listitem="@layout/product_options_layout" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/add_to_cart_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/to_cart"
+                app:icon="@drawable/cart_icon"
+                app:layout_constraintBottom_toBottomOf="@+id/add_to_fav_fab"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/add_to_fav_fab"
+                app:layout_constraintTop_toTopOf="@+id/add_to_fav_fab" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/add_to_fav_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:text="@string/to_favorites"
+                app:icon="@drawable/heart_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/add_to_cart_fab"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/optionsRecyclerView" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

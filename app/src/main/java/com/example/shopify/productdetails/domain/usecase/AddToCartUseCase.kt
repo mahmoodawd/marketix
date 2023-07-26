@@ -7,6 +7,6 @@ import javax.inject.Inject
 class AddToCartUseCase @Inject constructor(
     private val productDetailsRepository: ProductDetailsRepository
 ) {
-    suspend operator fun <T> invoke(productsDetailsModel: ProductsDetailsModel) =
-        productDetailsRepository.createCartDraftOrder<T>(productsDetailsModel)
+    suspend operator fun <T> invoke(variantId: Long?, product: ProductsDetailsModel) =
+        productDetailsRepository.createCartDraftOrder<T>(variantId, product)
 }

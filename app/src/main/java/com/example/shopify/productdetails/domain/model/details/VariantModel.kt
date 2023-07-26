@@ -13,7 +13,7 @@ data class VariantModel(
     val option2: String?,
     val option3: String?,
     val position: Int,
-    val price: String,
+    var price: String,
     val productId: Long,
     val sku: String,
     val taxable: Boolean,

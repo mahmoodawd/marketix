@@ -8,5 +8,5 @@ interface ProductDetailsRepository {
     suspend fun <T> getProductById(id: String): Flow<Response<T>>
 
     suspend fun <T> createFavoriteDraftOrder(productsDetailsModel: ProductsDetailsModel): Flow<Response<T>>
-    suspend fun <T> createCartDraftOrder(productsDetailsModel: ProductsDetailsModel): Flow<Response<T>>
+    suspend fun <T> createCartDraftOrder(variantId: Long?, productsDetailsModel: ProductsDetailsModel): Flow<Response<T>>
 }
