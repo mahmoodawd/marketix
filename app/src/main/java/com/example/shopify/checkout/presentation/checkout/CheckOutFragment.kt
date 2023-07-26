@@ -183,27 +183,9 @@ class CheckOutFragment : Fragment() {
                     } ?: kotlin.run {
                         binding.addressSection.visibility = View.GONE
                     }
-                    var lineItems = listOf<LineItem>()
+                    val lineItems = listOf<LineItem>()
                     if (state.cartItems.isNotEmpty()) {
-                        for (item in state.cartItems) {
-                            lineItems.plus(
-                                LineItem(
-                                    item.quantity.toInt(), 2365131, listOf(
-                                        PropertiesItem(value = item.imageUrl)
-                                    )
-                                )
-                            )
-                        }
-                        viewModel.onEvent(
-                            CheckOutIntent.CreateOrder(
-                                PostOrder(
-                                    Order(
-                                        state.email,
-                                        lineItems
-                                    )
-                                )
-                            )
-                        )
+
                     }
                 }
             }
@@ -335,10 +317,7 @@ class CheckOutFragment : Fragment() {
             },
             onApprove =
             OnApprove { approval ->
-                approval.orderActions.capture { captureOrderResult ->
-                    Log.d("paypalResult", approval.data.orderId.toString())
-
-                }
+                createOrder()
             },
 
             onCancel = OnCancel {
@@ -347,5 +326,28 @@ class CheckOutFragment : Fragment() {
         )
     }
 
-
+    private fun createOrder() {
+        val lineItems = listOf<LineItem>()
+        val carItems = viewModel.state.value.cartItems
+        val email = viewModel.state.value.email
+        for (item in carItems) {
+            lineItems.plus(
+                LineItem(
+                    item.quantity.toInt(), item.variantId.toLong(), listOf(
+                        PropertiesItem(value = item.imageUrl)
+                    )
+                )
+            )
+        }
+        viewModel.onEvent(
+            CheckOutIntent.CreateOrder(
+                PostOrder(
+                    Order(
+                        email,
+                        lineItems
+                    )
+                )
+            )
+        )
+    }
 }

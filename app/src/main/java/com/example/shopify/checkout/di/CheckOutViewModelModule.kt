@@ -16,7 +16,9 @@ import com.example.shopify.checkout.domain.usecase.discountcode.DeleteDiscountCo
 import com.example.shopify.checkout.domain.usecase.discountcode.GetAllDiscountCodeUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.GetDiscountCodeByIdUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.GetPriceRuleUseCase
+import com.example.shopify.checkout.domain.usecase.order.CreateOrderUseCase
 import com.example.shopify.settings.domain.repository.SettingsRepository
+import com.example.shopify.settings.domain.usecase.customer.GetCustomerIdUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

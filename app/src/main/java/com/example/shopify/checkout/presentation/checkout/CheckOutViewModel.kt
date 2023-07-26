@@ -33,6 +33,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.absoluteValue
 
@@ -47,7 +48,8 @@ class CheckOutViewModel @Inject constructor(
     private val deleteDiscountCodeFromDatabaseUseCase: DeleteDiscountCodeFromDatabaseUseCase,
     private val getPriceRuleUseCase: GetPriceRuleUseCase,
     private val readStringFromDataStoreUseCase: ReadStringFromDataStoreUseCase,
-    private val getCustomerIdUseCase: GetCustomerIdUseCase
+    private val getCustomerIdUseCase: GetCustomerIdUseCase,
+    private val createOrderUseCase: CreateOrderUseCase
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<CheckOutState> =
