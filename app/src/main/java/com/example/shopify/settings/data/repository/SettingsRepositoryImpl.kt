@@ -89,7 +89,5 @@ class SettingsRepositoryImpl @Inject constructor(
         return remoteDataSource.deleteAddressForCustomer(customerId, addressId)
     }
 
-    override suspend fun <T> getCustomerId(): Flow<Response<T>> {
-       return remoteDataSource.getCustomerId()
-    }
+
 }

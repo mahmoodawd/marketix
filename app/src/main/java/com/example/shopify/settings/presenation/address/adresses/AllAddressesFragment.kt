@@ -28,11 +28,13 @@ import com.example.shopify.databinding.FragmentAllAddressesBinding
 import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.example.shopify.utils.recycler.swipeRecyclerItemListener
 import com.example.shopify.utils.snackBarObserver
+import com.example.shopify.utils.ui.visibleIf
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -127,8 +129,12 @@ class AllAddressesFragment(
         val linearLayoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         binding.addressesRecyclerView.swipeRecyclerItemListener { viewHolder ->
-            viewModel.onEvent(AllAddressesIntent.DeleteAddress(viewHolder.adapterPosition))
+            if (viewModel.state.value.addresses[viewHolder.adapterPosition].isDefault) {
             binding.addressesRecyclerView.adapter!!.notifyItemChanged(viewHolder.adapterPosition)
+            return@swipeRecyclerItemListener
+            }
+            viewModel.onEvent(AllAddressesIntent.DeleteAddress(viewHolder.adapterPosition))
+            viewModel.onEvent(AllAddressesIntent.GetAllAddresses)
         }
         binding.addressesRecyclerView.layoutManager = linearLayoutManager
         binding.addressesRecyclerView.adapter = addressesRecyclerAdapter
@@ -141,6 +147,8 @@ class AllAddressesFragment(
                     if (state.addresses.isNotEmpty()) {
                         addressesRecyclerAdapter.submitList(state.addresses)
                     }
+                        binding.progressBar visibleIf state.loading
+
                 }
             }
         }
@@ -167,20 +175,24 @@ class AllAddressesFragment(
                     )
                 } else if (locationType == getString(com.example.shopify.R.string.gps)) {
 
-                    if (!isLocationEnabled()){
+                    if (!isLocationEnabled()) {
                         startLocationPage()
                         return@collectLatest
                     }
-                    if (checkPermission()){
-                    navController.navigate(
-                        AllAddressesFragmentDirections.actionAllAddressesFragmentToWriteAddressFragment(
-                            viewModel.state.value.latitude.toString(),
-                            viewModel.state.value.longitude.toString()
+                    if (checkPermission()) {
+                        navController.navigate(
+                            AllAddressesFragmentDirections.actionAllAddressesFragmentToWriteAddressFragment(
+                                viewModel.state.value.latitude.toString(),
+                                viewModel.state.value.longitude.toString()
+                            )
                         )
-                    )
-                    }else{
+                    } else {
 
-                        Toast.makeText(requireContext(), getString(com.example.shopify.R.string.please_we_need_location_permission), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            getString(com.example.shopify.R.string.please_we_need_location_permission),
+                            Toast.LENGTH_SHORT
+                        ).show()
                         openPermissionsPage()
                     }
                 } else {
@@ -270,6 +282,14 @@ class AllAddressesFragment(
     private fun isLocationEnabled(): Boolean {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
                 locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        if (viewModel.state.value.customerId.isNotEmpty()) {
+            viewModel.onEvent(AllAddressesIntent.GetAllAddresses)
+        }
     }
 
 }

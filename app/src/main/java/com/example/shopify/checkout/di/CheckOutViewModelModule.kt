@@ -10,6 +10,7 @@ import com.example.shopify.checkout.domain.usecase.account.GetEmailUseCase
 import com.example.shopify.checkout.domain.usecase.account.GetUserPhoneUseCase
 import com.example.shopify.checkout.domain.usecase.address.GetAllAddressUseCase
 import com.example.shopify.checkout.domain.usecase.cart.DeleteCartItemUseCase
+import com.example.shopify.checkout.domain.usecase.cart.DeleteDraftOrderUseCase
 import com.example.shopify.checkout.domain.usecase.cart.GetCartItemsUseCase
 import com.example.shopify.checkout.domain.usecase.cart.UpdateCartItemUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.DeleteDiscountCodeFromDatabaseUseCase
@@ -128,15 +129,26 @@ abstract class CheckOutViewModelModule {
 
         @Provides
         @ViewModelScoped
-        fun providesGetCustomerIdUseCase(repository: SettingsRepository) : GetCustomerIdUseCase
+        fun providesGetCustomerIdUseCase(repository: CartAndCheckoutRepository) : GetCustomerIdUseCase
         {
             return  GetCustomerIdUseCase(repository)
         }
+
 
         @Provides
         @ViewModelScoped
         fun provideCreateOrderUseCase(repository: CartAndCheckoutRepository): CreateOrderUseCase =
             CreateOrderUseCase(repository)
+
+
+        @Provides
+        @ViewModelScoped
+        fun providesDeleteDraftOrderUseCase(repository: CartAndCheckoutRepository) : DeleteDraftOrderUseCase
+        {
+            return  DeleteDraftOrderUseCase(repository)
+        }
+
+
 
     }
 }

@@ -8,7 +8,12 @@ import com.example.shopify.settings.domain.model.AddressModel
 
 fun AddressDto.toAddressModel() : AddressModel
 {
-    return AddressModel(addressId =  id.toString(),address2!!.split(" ").first().toDouble(), address2!!.split(" ")[1].toDouble(), city!!, address1!! )
+    return AddressModel(addressId =  id.toString()
+        ,address2!!.split(" ").first().toDouble()
+        , address2.split(" ")[1].toDouble()
+        , city!!, address1!!,
+        isDefault = default!!
+        )
 }
 
 

@@ -9,6 +9,7 @@ import com.example.shopify.checkout.domain.usecase.account.GetEmailUseCase
 import com.example.shopify.checkout.domain.usecase.address.GetAllAddressUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.GetAllDiscountCodeUseCase
 import com.example.shopify.checkout.domain.usecase.account.GetUserPhoneUseCase
+import com.example.shopify.checkout.domain.usecase.cart.DeleteDraftOrderUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.DeleteDiscountCodeFromDatabaseUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.GetDiscountCodeByIdUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.GetPriceRuleUseCase
@@ -49,7 +50,8 @@ class CheckOutViewModel @Inject constructor(
     private val getPriceRuleUseCase: GetPriceRuleUseCase,
     private val readStringFromDataStoreUseCase: ReadStringFromDataStoreUseCase,
     private val getCustomerIdUseCase: GetCustomerIdUseCase,
-    private val createOrderUseCase: CreateOrderUseCase
+    private val createOrderUseCase: CreateOrderUseCase,
+    private val deleteDraftOrderUseCase : DeleteDraftOrderUseCase
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<CheckOutState> =
@@ -109,6 +111,7 @@ class CheckOutViewModel @Inject constructor(
                     }
                 }
             }
+
 
         }
     }

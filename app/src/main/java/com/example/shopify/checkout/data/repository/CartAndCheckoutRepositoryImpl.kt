@@ -93,11 +93,21 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(
         return remoteDataSource.getPriceRule<T>(id).map {   Response.Success((it.data as PriceRules).toPriceRule() as T) }
     }
 
+
     override suspend fun createOrder(postOrder: PostOrder): Flow<Response<PostOrderResponse>> {
         return try {
             remoteDataSource.createOrder(postOrder)
         } catch (e: Exception) {
             flowOf(Response.Failure(e.message ?: "UnKnown"))
         }
+
+    override suspend fun <T> deleteDraftOrder(id: String): Flow<Response<T>> {
+        return remoteDataSource.deleteDraftOrder(id)
+    }
+
+
+    override suspend fun <T> getCustomerId(): Flow<Response<T>> {
+        return remoteDataSource.getCustomerId()
+
     }
 }

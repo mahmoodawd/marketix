@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -18,9 +19,13 @@ import com.example.shopify.R
 import com.example.shopify.databinding.FragmentWriteAddressBinding
 import com.example.shopify.utils.snackBarObserver
 import com.example.shopify.utils.ui.changeFlow
+import com.example.shopify.utils.ui.visibleIf
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -50,6 +55,7 @@ class WriteAddressFragment : Fragment() {
         setLatLongArguments()
         stateObserver()
         changeAddressListener()
+        navigateWhenAddressInserted()
         snackBarObserver(viewModel.snackBarFlow)
         binding.citiesSpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
@@ -73,6 +79,15 @@ class WriteAddressFragment : Fragment() {
         }
 
 
+    }
+
+    private fun navigateWhenAddressInserted()
+    {
+        lifecycleScope.launch {
+            viewModel.addressInserted.shareIn(lifecycleScope, SharingStarted.Eagerly,0).collectLatest { resourceId ->
+                navController.popBackStack(R.id.allAddressesFragment,false)
+            }
+        }
     }
 
 
@@ -101,6 +116,7 @@ class WriteAddressFragment : Fragment() {
                     withContext(Dispatchers.Main) {
                         spinnerSetup(state.cities, state.selectedCity)
                         binding.addressTextInputLayout.editText!!.setText(state.address)
+                        binding.progressBar visibleIf state.loading
                     }
                 }
             }
@@ -117,5 +133,8 @@ class WriteAddressFragment : Fragment() {
         binding.citiesSpinner.adapter = adapter
         binding.citiesSpinner.setSelection(arraySpinner.indexOfFirst { it == selectedItem })
     }
+
+
+
 
 }

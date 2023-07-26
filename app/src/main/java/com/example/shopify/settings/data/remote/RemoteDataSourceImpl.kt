@@ -146,13 +146,7 @@ class RemoteDataSourceImpl @Inject constructor(
         })
     }
 
-    override suspend fun <T> getCustomerId(): Flow<Response<T>> {
-        return flowOf(try {
-            Response.Success(remoteInterface.getUserWithEmail(firebaseAuth.currentUser!!.email!!).customers.first().id.toString() as T)
-        } catch (e: Exception) {
-            Response.Failure(e.message ?: "unknownError")
-        })
-    }
+
 
 
 }
