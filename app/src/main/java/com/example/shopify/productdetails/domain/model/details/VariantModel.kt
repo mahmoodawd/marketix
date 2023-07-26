@@ -1,4 +1,4 @@
-package com.example.shopify.productdetails.domain.model
+package com.example.shopify.productdetails.domain.model.details
 
 data class VariantModel(
     val fulfillmentService: String,
@@ -13,7 +13,7 @@ data class VariantModel(
     val option2: String?,
     val option3: String?,
     val position: Int,
-    val price: String,
+    var price: String,
     val productId: Long,
     val sku: String,
     val taxable: Boolean,
