@@ -1,9 +1,9 @@
 package com.example.shopify.home.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
+import com.example.shopify.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
 import com.example.shopify.home.domain.model.discountcode.DiscountCodesModel
 import com.example.shopify.home.domain.usecase.FilterByPriceUseCase
 import com.example.shopify.home.domain.usecase.FilterProductsUseCase
@@ -21,10 +21,11 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,7 +37,8 @@ class HomeViewModel @Inject constructor(
     private val filterProductsUseCase: FilterProductsUseCase,
     private val filerByPriceUseCase: FilterByPriceUseCase,
     private val getDiscountCodesUseCase: GetDiscountCodesUseCase,
-    private val insertDiscountCodesUseCase: InsertDiscountCodesUseCase
+    private val insertDiscountCodesUseCase: InsertDiscountCodesUseCase,
+    private val readStringFromDataStoreUseCase: ReadStringFromDataStoreUseCase
 ) : ViewModel() {
 
     private val _homeState: MutableStateFlow<HomeState.Display> =
@@ -63,7 +65,6 @@ class HomeViewModel @Inject constructor(
                     }
 
                     is Response.Failure -> {
-                        Timber.e(response.error)
                         _homeState.update {
                             it.copy(error = response.error, loading = false)
                         }
@@ -80,13 +81,11 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getAllProducts() {
-        Timber.e("getAllProducts")
         viewModelScope.launch(ioDispatcher) {
             _homeState.update { it.copy(loading = true) }
             getAllProductsUseCase.execute().collectLatest { response ->
                 when (response) {
                     is Response.Success -> {
-                        Timber.e("success")
                         response.data?.let {
                             _homeState.update {
                                 it.copy(products = response.data.products, loading = false)
@@ -95,7 +94,6 @@ class HomeViewModel @Inject constructor(
                     }
 
                     is Response.Failure -> {
-                        Timber.e("fail")
                         _homeState.update {
                             it.copy(error = response.error, loading = false)
                         }
@@ -112,13 +110,11 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getProductsByBrand(brand: String) {
-        Timber.e("getAllProducts")
         viewModelScope.launch(ioDispatcher) {
             _homeState.update { it.copy(loading = true) }
             getProductsByBrandUseCase.execute(brand).collectLatest { response ->
                 when (response) {
                     is Response.Success -> {
-                        Timber.e("success")
                         response.data?.let {
                             _homeState.update {
                                 it.copy(products = response.data.products, loading = false)
@@ -127,7 +123,6 @@ class HomeViewModel @Inject constructor(
                     }
 
                     is Response.Failure -> {
-                        Timber.e("fail")
                         _homeState.update {
                             it.copy(error = response.error, loading = false)
                         }
@@ -149,14 +144,12 @@ class HomeViewModel @Inject constructor(
         max: Double,
         min: Double
     ) {
-        Timber.e("getProductsByType")
         viewModelScope.launch(ioDispatcher) {
             _homeState.update { it.copy(loading = true) }
             filterProductsUseCase.execute(category, productType)
                 .collectLatest { response ->
                     when (response) {
                         is Response.Success -> {
-                            Timber.e("success")
                             response.data?.let {
                                 _homeState.update {
                                     it.copy(
@@ -171,8 +164,6 @@ class HomeViewModel @Inject constructor(
                         }
 
                         is Response.Failure -> {
-                            Timber.e("fail")
-                            Timber.e(response.error)
                             _homeState.update {
                                 it.copy(error = response.error, loading = false)
                             }
@@ -188,7 +179,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-   private fun getDiscountCodes() {
+    private fun getDiscountCodes() {
         viewModelScope.launch(ioDispatcher) {
             getDiscountCodesUseCase.execute<DiscountCodesModel>().collectLatest { response ->
                 when (response) {
@@ -209,14 +200,14 @@ class HomeViewModel @Inject constructor(
 
     fun insertDiscountCode() {
         viewModelScope.launch(ioDispatcher) {
-            Log.d("codeBefore",_homeState.value.discountCode.toString())
             insertDiscountCodesUseCase.execute<String>(_homeState.value.discountCode!!)
                 .collectLatest { response ->
                     initDiscountCodeHomeState()
-                    when(response){
+                    when (response) {
                         is Response.Failure -> {
                             _snackBarFlow.emit(R.string.failed_message)
                         }
+
                         is Response.Loading -> {}
                         is Response.Success -> {
 
@@ -228,12 +219,32 @@ class HomeViewModel @Inject constructor(
 
     }
 
-    fun initDiscountCodeHomeState()
-    {
+    fun initDiscountCodeHomeState() {
         _homeState.update { it.copy(discountCode = null) }
     }
 
     init {
         getDiscountCodes()
+    }
+
+    fun readCurrencyFactorFromDataStore() {
+        viewModelScope.launch(ioDispatcher) {
+            readStringFromDataStoreUseCase.execute<String>("currencyFactor")
+                .combine(readStringFromDataStoreUseCase.execute<String>("currency")) { currentExchangeRate, currency ->
+                    when (currentExchangeRate) {
+                        is Response.Success -> {
+                            _homeState.update {
+                                it.copy(
+                                    exchangeRate = currentExchangeRate.data?.toDouble() ?: 1.0,
+                                    currency = currency.data ?: "EGP"
+                                )
+                            }
+                        }
+
+                        else -> {}
+                    }
+
+                }.collect()
+        }
     }
 }

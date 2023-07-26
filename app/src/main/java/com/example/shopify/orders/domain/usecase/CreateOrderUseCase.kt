@@ -7,8 +7,8 @@ import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class CreateOrderUseCase @Inject constructor(private val ordersRepository: OrdersRepository){
-    suspend fun execute(postOrder: PostOrder): Flow<Response<PostOrderResponse>> {
-        return ordersRepository.createOrder(postOrder)
-    }
-}
+//class CreateOrderUseCase @Inject constructor(private val settingsRepository: OrdersRepository){
+//    suspend fun execute(postOrder: PostOrder): Flow<Response<PostOrderResponse>> {
+//        return settingsRepository.createOrder(postOrder)
+//    }
+//}

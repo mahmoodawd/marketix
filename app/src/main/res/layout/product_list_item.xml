@@ -8,6 +8,12 @@
         <variable
             name="product"
             type="com.example.shopify.home.domain.model.ProductModel" />
+        <variable
+            name="exchangeRate"
+            type="Double" />
+        <variable
+            name="currency"
+            type="String" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -40,13 +46,13 @@
                 android:elevation="@dimen/_10sdp"
                 android:ellipsize="end"
                 android:maxLines="1"
+                app:layout_constraintEnd_toEndOf="@id/endGuideline"
                 android:shadowColor="@color/md_theme_dark_outline"
                 android:shadowDx="1"
                 android:shadowDy="4"
                 android:shadowRadius="5"
                 android:text="@{product.title}"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@id/productAddIb"
                 app:layout_constraintStart_toStartOf="@id/startGuideline"
                 app:layout_constraintTop_toBottomOf="@id/productIv"
                 tools:text="Nike Jordon" />
@@ -61,20 +67,14 @@
                 android:shadowDx="1"
                 android:shadowDy="4"
                 android:shadowRadius="5"
-                android:text="@{product.variants.get(0).price}"
+                app:currency2="@{currency}"
+                app:price2="@{product.variants.get(0).price}"
+                app:rate2="@{exchangeRate}"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@id/startGuideline"
                 app:layout_constraintTop_toBottomOf="@id/productNameTv"
                 tools:text="$493.00" />
-
-            <ImageButton
-                android:id="@+id/productAddIb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/product_plus"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/startGuideline"

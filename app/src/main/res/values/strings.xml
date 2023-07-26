@@ -202,5 +202,6 @@ Is between 8 and 30 characters long</string>
     <string name="discount">discount\n</string>
     <string name="cartItems">cartItems</string>
     <string name="make_this_address_default">make this address default</string>
+    <string name="cash_on_delivery">cash on delivery</string>
 </resources>
 

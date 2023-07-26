@@ -2,8 +2,8 @@ package com.example.shopify.orders.presentation.orders
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.shopify.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
 import com.example.shopify.orders.data.dto.post.PostOrder
-import com.example.shopify.orders.domain.usecase.CreateOrderUseCase
 import com.example.shopify.orders.domain.usecase.GetCustomerOrdersUseCase
 import com.example.shopify.utils.hiltanotations.Dispatcher
 import com.example.shopify.utils.hiltanotations.Dispatchers
@@ -12,7 +12,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -22,7 +24,8 @@ import javax.inject.Inject
 class OrdersViewModel @Inject constructor(
     @Dispatcher(Dispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     private val getCustomerOrdersUseCase: GetCustomerOrdersUseCase,
-    private val createOrderUseCase: CreateOrderUseCase
+//    private val createOrderUseCase: CreateOrderUseCase
+    private val readStringFromDataStoreUseCase: ReadStringFromDataStoreUseCase
 ) : ViewModel() {
 
     private val _ordersState: MutableStateFlow<OrdersState> = MutableStateFlow(OrdersState())
@@ -56,19 +59,41 @@ class OrdersViewModel @Inject constructor(
             }
         }
     }
-    fun createOrder(postOrder: PostOrder){
-        Timber.e(postOrder.toString())
+//    fun createOrder(postOrder: PostOrder){
+//        Timber.e(postOrder.toString())
+//        viewModelScope.launch(ioDispatcher) {
+//            createOrderUseCase.execute(postOrder).collectLatest {
+//                when(it){
+//                    is Response.Success ->{
+//                        Timber.e(it.data.toString())
+//                    }
+//                    else->{
+//                        Timber.e(it.error)
+//                    }
+//                }
+//            }
+//        }
+//    }
+
+
+    fun readCurrencyFactorFromDataStore() {
         viewModelScope.launch(ioDispatcher) {
-            createOrderUseCase.execute(postOrder).collectLatest {
-                when(it){
-                    is Response.Success ->{
-                        Timber.e(it.data.toString())
+            readStringFromDataStoreUseCase.execute<String>("currencyFactor")
+                .combine(readStringFromDataStoreUseCase.execute<String>("currency")) { currentExchangeRate, currency ->
+                    when (currentExchangeRate) {
+                        is Response.Success -> {
+                            _ordersState.update {
+                                it.copy(
+                                    exchangeRate = currentExchangeRate.data?.toDouble() ?: 1.0,
+                                    currency = currency.data ?: "EGP"
+                                )
+                            }
+                        }
+
+                        else -> {}
                     }
-                    else->{
-                        Timber.e(it.error)
-                    }
-                }
-            }
+
+                }.collect()
         }
     }
 }

@@ -231,28 +231,27 @@
         <TextView
             android:id="@+id/totalCostTitleTextView"
             style="@style/p3"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_20sdp"
             android:text="@string/total_cost"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/checkOutButton"
-            app:layout_constraintStart_toStartOf="@+id/checkOutButton" />
+            app:layout_constraintStart_toStartOf="@+id/addressSection" />
 
         <Button
             android:id="@+id/checkOutButton"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/_120sdp"
             android:layout_height="@dimen/_45sdp"
-            android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:text="@string/payment"
-            android:textAppearance="@style/p3"
-            android:textColor="@color/md_theme_light_onPrimary"
             android:layout_marginBottom="@dimen/_30sdp"
             android:background="@drawable/rounded_corner_blue"
+            android:text="@string/cash_on_delivery"
+            android:textAppearance="@style/p4"
+            android:textColor="@color/md_theme_light_onPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/payment_button_container" />
 
 
         <TextView
@@ -309,12 +308,13 @@
 
         <com.paypal.checkout.paymentbutton.PaymentButtonContainer
             android:id="@+id/payment_button_container"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/_120sdp"
             android:layout_height="0dp"
+            android:layout_marginEnd="20dp"
             android:elevation="5dp"
             app:layout_constraintBottom_toBottomOf="@+id/checkOutButton"
-            app:layout_constraintEnd_toEndOf="@+id/checkOutButton"
-            app:layout_constraintStart_toStartOf="@+id/checkOutButton"
+            app:layout_constraintEnd_toStartOf="@+id/checkOutButton"
+            app:layout_constraintStart_toStartOf="@+id/addressSection"
             app:layout_constraintTop_toTopOf="@+id/checkOutButton"
             app:paypal_button_color="silver"
             app:paypal_button_enabled="true"

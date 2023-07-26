@@ -34,7 +34,7 @@ class OrderDetailsFragment : Fragment() {
 
         navController = findNavController()
 
-        lineItemsAdapter = LineItemsAdapter {
+        lineItemsAdapter = LineItemsAdapter(currency = args.currency, exchangeRate = args.rate.toDouble()) {
             goToProductDetails(it)
         }
         setProductsRecycler()

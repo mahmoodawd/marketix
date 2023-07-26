@@ -13,11 +13,15 @@ import com.example.shopify.checkout.domain.repository.CartAndCheckoutRepository
 import com.example.shopify.data.dto.DraftOrderResponse
 import com.example.shopify.data.dto.codes.DiscountCode
 import com.example.shopify.home.data.mappers.toDiscountCodeModel
+import com.example.shopify.orders.data.dto.post.PostOrder
+import com.example.shopify.orders.data.dto.post.PostOrderResponse
 import com.example.shopify.settings.data.dto.address.AddressResponse
+import com.example.shopify.settings.data.dto.location.AddressDto
 import com.example.shopify.settings.data.mappers.toAddressModel
 import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -34,6 +38,7 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(
                 (response.data as DraftOrderResponse).draft_orders.forEach {
                     val productResponse =
                         remoteDataSource.getProductById<Product>(it.line_items.first().product_id.toString()).first()
+                Log.d("cartResponse",productResponse.data.toString())
                     limits.add(productResponse
                         .data!!.variants.first {variant ->
                             variant.id ==
@@ -83,10 +88,26 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(
       return remoteDataSource.getUserPhone()
     }
 
-
-
     override suspend fun <T> getPriceRule(id: String): Flow<Response<T>> {
         Log.d("priceRule","repository")
         return remoteDataSource.getPriceRule<T>(id).map {   Response.Success((it.data as PriceRules).toPriceRule() as T) }
+    }
+
+
+    override suspend fun createOrder(postOrder: PostOrder): Flow<Response<PostOrderResponse>> {
+        return try {
+            remoteDataSource.createOrder(postOrder)
+        } catch (e: Exception) {
+            flowOf(Response.Failure(e.message ?: "UnKnown"))
+        }
+
+    override suspend fun <T> deleteDraftOrder(id: String): Flow<Response<T>> {
+        return remoteDataSource.deleteDraftOrder(id)
+    }
+
+
+    override suspend fun <T> getCustomerId(): Flow<Response<T>> {
+        return remoteDataSource.getCustomerId()
+
     }
 }

@@ -1,5 +1,6 @@
 package com.example.shopify.checkout.presentation.checkout
 
+import com.example.shopify.checkout.data.dto.post.PostOrder
 import com.example.shopify.checkout.domain.model.CartItems
 import com.example.shopify.home.domain.model.discountcode.DiscountCodeModel
 import com.example.shopify.settings.domain.model.AddressModel
@@ -37,6 +38,8 @@ sealed interface CheckOutIntent
     object GetPriceRule : CheckOutIntent
 
     data class NewCartItems(val cartItems: CartItems) : CheckOutIntent
+
+    data class CreateOrder(val postOrder: PostOrder): CheckOutIntent
 
 
 

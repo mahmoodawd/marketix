@@ -30,7 +30,7 @@ interface RemoteDataSource {
 
     suspend fun <T> deleteAddressForCustomer(customerId: String , addressId : String) : Flow<Response<T>>
 
-    suspend fun <T> getCustomerId()  : Flow<Response<T>>
+
 
 
 }

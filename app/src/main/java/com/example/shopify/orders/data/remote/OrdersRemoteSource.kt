@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface OrdersRemoteSource {
     suspend fun <T> getCustomerOrders(customerEmail: String): Flow<Response<T>>
 
-    suspend fun <T> createOrder(postOrder: PostOrder): Flow<Response<T>>
+//    suspend fun <T> createOrder(postOrder: PostOrder): Flow<Response<T>>
 }
