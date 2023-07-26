@@ -45,10 +45,10 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(
                                 .first()
                         limits.add(
                             productResponse
-                                .data!!.variants.first { variant ->
+                                .data!!.variants.firstOrNull { variant ->
                                     variant.id ==
                                             response.data.draft_orders.first().line_items.first().variant_id
-                                }.inventory_quantity
+                                }?.inventory_quantity ?: 0
                         )
                     }
                     Response.Success(myCartItems.toCartItems(limits) as T)
