@@ -17,6 +17,8 @@ import com.example.shopify.domain.usecase.dataStore.ReadStringFromDataStoreUseCa
 import com.example.shopify.home.domain.model.discountcode.DiscountCodeModel
 import com.example.shopify.orders.data.dto.post.PostOrder
 import com.example.shopify.settings.domain.model.AddressModel
+import com.example.shopify.settings.domain.usecase.customer.GetCustomerIdUseCase
+import com.example.shopify.settings.presenation.address.adresses.AllAddressesIntent
 import com.example.shopify.utils.divideToPercent
 import com.example.shopify.utils.hiltanotations.Dispatcher
 import com.example.shopify.utils.hiltanotations.Dispatchers
@@ -31,7 +33,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.absoluteValue
 
@@ -46,7 +47,7 @@ class CheckOutViewModel @Inject constructor(
     private val deleteDiscountCodeFromDatabaseUseCase: DeleteDiscountCodeFromDatabaseUseCase,
     private val getPriceRuleUseCase: GetPriceRuleUseCase,
     private val readStringFromDataStoreUseCase: ReadStringFromDataStoreUseCase,
-    private val createOrderUseCase: CreateOrderUseCase
+    private val getCustomerIdUseCase: GetCustomerIdUseCase
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<CheckOutState> =
@@ -82,6 +83,8 @@ class CheckOutViewModel @Inject constructor(
             is CheckOutIntent.CreateOrder ->{
 
             }
+
+            CheckOutIntent.GetUserId -> {getCustomerIdWithEmail()}
         }
 
     }
@@ -130,7 +133,7 @@ class CheckOutViewModel @Inject constructor(
 
     private fun getAllAddress() {
         viewModelScope.launch(ioDispatcher) {
-            getAllAddressUseCase.execute<List<AddressModel>>().collectLatest { response ->
+            getAllAddressUseCase.execute<List<AddressModel>>(_state.value.customerId).collectLatest { response ->
                 when (response) {
                     is Response.Failure -> {
                         _snackBarFlow.emit(R.string.failed_message)
@@ -151,6 +154,29 @@ class CheckOutViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+
+
+    private fun getCustomerIdWithEmail()
+    {
+        viewModelScope.launch(ioDispatcher) {
+            getCustomerIdUseCase.execute<String>().collectLatest { response ->
+                when (response) {
+                    is Response.Failure -> {
+
+                    }
+
+                    is Response.Loading -> {}
+                    is Response.Success -> _state.update {
+                        Log.d("customerId",response.data.toString())
+                        it.copy(customerId = response.data!!)
+                    }
+                }
+            }
+        }.invokeOnCompletion {
+            onEvent(CheckOutIntent.GetAllAddress)
         }
     }
 
@@ -271,7 +297,8 @@ class CheckOutViewModel @Inject constructor(
 
 
     init {
-        onEvent(CheckOutIntent.GetAllAddress)
+        onEvent(CheckOutIntent.GetUserId)
+
         onEvent(CheckOutIntent.GetAllDiscountCodes)
         onEvent(CheckOutIntent.GetUserEmail)
         onEvent(CheckOutIntent.GetUserPhone)

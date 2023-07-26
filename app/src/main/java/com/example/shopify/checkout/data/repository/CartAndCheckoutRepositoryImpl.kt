@@ -45,7 +45,7 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(
                         }.inventory_quantity
                     )
                 }
-                Response.Success((response.data as DraftOrderResponse).toCartItems(limits) as T)
+                Response.Success((response.data as DraftOrderResponse).toCartItems(limits,getUserEmail<String>().first().data!!) as T)
             }
     }
 
@@ -65,12 +65,12 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(
        return remoteDataSource.getDiscountCodeById<T>(id).map { Response.Success((it.data as DiscountCodeResponse).toDiscountCodeModel() as T)}
     }
 
-    override suspend fun <T> getAllAddress(): Flow<Response<T>> {
-        return  localDataSource.getAllAddress<T>().map {
-            Log.d("repository","repository")
-           Response.Success((it.data  as List<AddressDto>).map { it.toAddressModel() } as T)
+    override suspend fun <T> getAllCustomerAddress(customerId: String): Flow<Response<T>> {
+        return remoteDataSource.getAllCustomerAddress<T>(customerId).map {
+            Response.Success((it.data as AddressResponse).addresses.map { it.toAddressModel() } as T)
         }
     }
+
 
     override suspend fun <T> getAllDiscountCodes(): Flow<Response<T>> {
         Log.d("repository","repository")

@@ -16,15 +16,6 @@ interface LocalDataSource {
     suspend fun <T> getStringFromDataStore(key : String) : Flow<Response<T>>
 
 
-     fun getAllAddressFromDatabase() :Flow<List<AddressDto>>
-
-    suspend fun <T> updateAddressInDatabase(addressDto: AddressDto) : Response<T>
-
-    suspend fun <T> insertNewAddressInDatabase(addressDto: AddressDto) : Response<T>
-
-    suspend fun <T> selectAddressByLatLong(latitude : Double ,longitude : Double)  : Response<T>
-
-    suspend fun <T> deleteAddressFromDatabase(latitude : Double , longitude : Double) : Response<T>
 
 
 }

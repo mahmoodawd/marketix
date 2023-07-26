@@ -19,7 +19,7 @@ interface CartAndCheckoutRepository {
 
     suspend fun <T> getDiscountCodeById(id : String) : Flow<Response<T>>
 
-    suspend fun <T> getAllAddress() : Flow<Response<T>>
+    suspend fun <T> getAllCustomerAddress(customerId : String) : Flow<Response<T>>
 
     suspend fun <T> getAllDiscountCodes() : Flow<Response<T>>
 

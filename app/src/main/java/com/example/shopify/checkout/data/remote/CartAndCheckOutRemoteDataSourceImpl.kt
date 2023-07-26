@@ -137,6 +137,17 @@ class CartAndCheckOutRemoteDataSourceImpl @Inject constructor(
         )
     }
 
+    override suspend fun <T> getAllCustomerAddress(
+        customerId: String,
+
+        ): Flow<Response<T>> {
+        return flowOf(try {
+            Response.Success(remoteInterface.getAddressesForCustomer(customerId) as T)
+        } catch (e: Exception) {
+            Response.Failure(e.message ?: "unknownError")
+        })
+    }
+
     override suspend fun <T> createOrder(postOrder: PostOrder): Flow<Response<T>> {
         return flowOf(
             try {

@@ -6,6 +6,7 @@ import com.example.shopify.checkout.data.dto.discountcode.DiscountCodeResponse
 import com.example.shopify.checkout.data.dto.pricerule.PriceRules
 import com.example.shopify.checkout.data.dto.product.OneProductResponse
 import com.example.shopify.data.dto.DraftOrderResponse
+import com.example.shopify.data.dto.Users
 import com.example.shopify.data.dto.codes.DiscountCodesResponse
 import com.example.shopify.home.data.dto.BrandsResponse
 import com.example.shopify.home.data.dto.ProductsResponse
@@ -14,6 +15,8 @@ import com.example.shopify.orders.data.dto.post.PostOrder
 import com.example.shopify.orders.data.dto.post.PostOrderResponse
 import com.example.shopify.productdetails.data.dto.draftorder.DraftOrderRequest
 import com.example.shopify.productdetails.data.dto.productdetails.ProductDetailsResponse
+import com.example.shopify.settings.data.dto.address.AddressResponse
+import com.example.shopify.settings.data.dto.address.SendAddressDTO
 import com.example.shopify.settings.data.dto.currencies.CurrenciesResponse
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -104,5 +107,19 @@ interface ShopifyRemoteInterface {
 
     @POST("orders.json")
     suspend fun createOrder(@Body postOrder: PostOrder): PostOrderResponse
+
+
+    @GET("customers.json")
+    suspend fun getUserWithEmail(@Query(value = "email") email:String):Users
+
+    @POST("/admin/api/2023-07/customers/{customer_id}/addresses.json")
+    suspend fun createAddressForCustomer(@Path("customer_id") customerId: String, @Body customerAddress: SendAddressDTO): AddressResponse
+
+    @GET("/admin/api/2023-07/customers/{customer_id}/addresses.json")
+    suspend fun getAddressesForCustomer(@Path("customer_id") customerId: String): AddressResponse
+
+
+    @DELETE("/admin/api/2023-07/customers/{customer_id}/addresses/{address_id}.json")
+    suspend fun deleteAddressForCustomer(@Path("customer_id") customerId: String, @Path("address_id") addressId: String)
 
 }

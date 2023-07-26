@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetAllAddressUseCase @Inject constructor(private val repository: CartAndCheckoutRepository) {
-    suspend fun <T> execute() : Flow<Response<T>>
+    suspend fun <T> execute(customerId : String) : Flow<Response<T>>
     {
-        return repository.getAllAddress()
+        return repository.getAllCustomerAddress(customerId)
     }
 }
