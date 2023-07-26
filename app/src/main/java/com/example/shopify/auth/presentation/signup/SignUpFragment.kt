@@ -71,7 +71,7 @@ class SignUpFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
 
         listenToSignUpStatus()
 
-        snackBarObserver(viewModel.snackBarFlow)
+        requireActivity().snackBarObserver(viewModel.snackBarFlow)
 
     }
 

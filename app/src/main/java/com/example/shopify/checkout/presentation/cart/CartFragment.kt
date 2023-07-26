@@ -79,7 +79,7 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
-        snackBarObserver(viewModel.snackBarFlow)
+        requireActivity().snackBarObserver(viewModel.snackBarFlow)
         viewModel.onEvent(CartIntent.GetAllCartItems)
         setUpCartRecyclerView()
         stateObserver()

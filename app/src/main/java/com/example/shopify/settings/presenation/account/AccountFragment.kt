@@ -54,7 +54,7 @@ class AccountFragment() : Fragment() {
         binding.cameraImageview.setOnClickListener {
             imagePicker.launch("image/*")
         }
-        snackBarObserver(viewModel.snackBarFlow)
+        requireActivity().snackBarObserver(viewModel.snackBarFlow)
         stateObserver()
         changeUserNameListener()
         changePhoneListener()

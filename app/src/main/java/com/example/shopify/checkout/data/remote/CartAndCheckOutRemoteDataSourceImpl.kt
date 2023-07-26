@@ -5,7 +5,6 @@ import com.example.shopify.data.dto.codes.DiscountCode
 import com.example.shopify.data.remote.ShopifyRemoteInterface
 import com.example.shopify.home.data.local.DiscountCodesDao
 import com.example.shopify.orders.data.dto.post.PostOrder
-import com.example.shopify.settings.data.local.AddressDao
 import com.example.shopify.utils.response.Response
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -157,6 +156,7 @@ class CartAndCheckOutRemoteDataSourceImpl @Inject constructor(
                 Response.Failure(e.message ?: "UnKnown")
             }
         )
+    }
 
     override suspend fun <T> deleteDraftOrder(id: String): Flow<Response<T>> {
         return flowOf(try {
@@ -167,11 +167,12 @@ class CartAndCheckOutRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun <T> getCustomerId(): Flow<Response<T>> {
-        return flowOf(try {
-            Response.Success(remoteInterface.getUserWithEmail(firebaseAuth.currentUser!!.email!!).customers.first().id.toString() as T)
-        } catch (e: Exception) {
-            Response.Failure(e.message ?: "unknownError")
-        })
-
+        return flowOf(
+            try {
+                Response.Success(remoteInterface.getUserWithEmail(firebaseAuth.currentUser!!.email!!).customers.first().id.toString() as T)
+            } catch (e: Exception) {
+                Response.Failure(e.message ?: "unknownError")
+            }
+        )
     }
-}
+    }
