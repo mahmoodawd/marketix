@@ -105,7 +105,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_30sdp"
-            android:text="+88-692 -764-269"
+            android:text="@string/no_phone_to_show"
             android:textStyle="normal"
             app:layout_constraintBottom_toTopOf="@+id/phoneIconImageView"
             app:layout_constraintStart_toEndOf="@+id/phoneIconImageView" />
@@ -132,107 +132,63 @@
             app:layout_constraintEnd_toEndOf="@+id/editEmailIconImageView"
             app:layout_constraintTop_toTopOf="@+id/phoneIconImageView" />
 
-        <TextView
-            android:id="@+id/addressInfoTextView"
-            style="@style/p2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:text="@string/address"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/backImageView"
-            app:layout_constraintTop_toBottomOf="@+id/phoneIconImageView" />
 
-
-        <TextView
-            android:id="@+id/addressValueTextView"
-            style="@style/p4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:fontFamily="@font/light"
-            android:text="Newahall St 36, London, 12908 - UK"
-            android:textColor="@color/text_grayed"
-            android:textStyle="normal"
-            app:layout_constraintStart_toStartOf="@+id/addressInfoTextView"
-            app:layout_constraintTop_toBottomOf="@+id/addressInfoTextView" />
-
-        <ImageView
-            android:id="@+id/addressDownImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/down"
-            app:layout_constraintBottom_toBottomOf="@+id/addressValueTextView"
-            app:layout_constraintEnd_toEndOf="@+id/editPhoneIconImageView"
-            app:layout_constraintTop_toTopOf="@+id/addressValueTextView" />
-
-        <ImageView
-            android:id="@+id/mapImageView"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/addressSection"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:layout_marginEnd="@dimen/_15sdp"
-            android:scaleType="fitXY"
-            android:src="@drawable/map"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addressDownImageView" />
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="@+id/editEmailIconImageView"
+            app:layout_constraintStart_toStartOf="@+id/emailIconImageView"
+            app:layout_constraintTop_toBottomOf="@+id/phoneTitleTextView">
 
 
-        <TextView
-            android:id="@+id/paymentMethodTextView"
-            style="@style/p2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:text="@string/payment_method"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/mapImageView"
-            app:layout_constraintTop_toBottomOf="@+id/mapImageView" />
-
-        <ImageView
-            android:id="@+id/paypalImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:src="@drawable/paypal"
-            app:layout_constraintStart_toStartOf="@+id/paymentMethodTextView"
-            app:layout_constraintTop_toBottomOf="@+id/paymentMethodTextView" />
-
-        <TextView
-            android:id="@+id/paymentTitleTextView"
-            style="@style/p3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:text="Paypal Card"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/paypalImageView"
-            app:layout_constraintTop_toTopOf="@+id/paypalImageView" />
-
-        <TextView
-            android:id="@+id/paymentCardNumberTextView"
-            style="@style/p4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:fontFamily="@font/light"
-            android:text="**** **** 0696 4629"
-            android:textColor="@color/text_grayed"
-            android:textStyle="normal"
-            app:layout_constraintStart_toStartOf="@+id/paymentTitleTextView"
-            app:layout_constraintTop_toBottomOf="@+id/paymentTitleTextView" />
+            <TextView
+                android:id="@+id/addressInfoTextView"
+                style="@style/p2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/address"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-        <ImageView
-            android:id="@+id/paymentMethodDownImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/down"
-            app:layout_constraintBottom_toBottomOf="@+id/paymentCardNumberTextView"
-            app:layout_constraintEnd_toEndOf="@+id/mapImageView"
-            app:layout_constraintTop_toTopOf="@+id/paymentTitleTextView" />
+            <TextView
+                android:id="@+id/addressValueTextView"
+                style="@style/p4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/light"
+                android:text="Newahall St 36, London, 12908 - UK"
+                android:textColor="@color/text_grayed"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="@+id/addressInfoTextView"
+                app:layout_constraintTop_toBottomOf="@+id/addressInfoTextView" />
+
+            <ImageView
+                android:id="@+id/addressDownImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/down"
+                app:layout_constraintBottom_toBottomOf="@+id/addressValueTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/addressValueTextView" />
+
+            <ImageView
+                android:id="@+id/mapImageView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:scaleType="fitXY"
+                android:src="@drawable/map"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addressDownImageView" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <TextView
@@ -240,26 +196,37 @@
             style="@style/p3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_40sdp"
             android:layout_marginBottom="@dimen/_15sdp"
             android:text="@string/subtotal"
             android:textColor="@color/text_grayed"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/shoppingTitleTextView"
-            app:layout_constraintStart_toStartOf="@+id/shoppingTitleTextView"
-            app:layout_constraintTop_toBottomOf="@+id/paymentCardNumberTextView" />
+            app:layout_constraintBottom_toTopOf="@+id/discountTitleTextView"
+            app:layout_constraintStart_toStartOf="@+id/discountTitleTextView" />
 
         <TextView
-            android:id="@+id/shoppingTitleTextView"
+            android:id="@+id/discountTitleTextView"
             style="@style/p3"
             android:textColor="@color/text_grayed"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_35sdp"
-            android:text="@string/shopping"
+            android:text="@string/discount"
             app:layout_constraintBottom_toTopOf="@+id/totalCostTitleTextView"
             app:layout_constraintStart_toStartOf="@+id/totalCostTitleTextView" />
+
+        <TextView
+            android:id="@+id/discount_code"
+            style="@style/p3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/have_discount_code"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/discountCodeValueTextView"
+            app:layout_constraintTop_toBottomOf="@+id/discountCodeValueTextView" />
+
 
         <TextView
             android:id="@+id/totalCostTitleTextView"
@@ -294,6 +261,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
             android:elevation="@dimen/_10sdp"
             android:shadowColor="@color/md_theme_dark_outline"
             android:shadowDx="1"
@@ -302,12 +270,12 @@
             android:text="$64.95"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="@+id/subTotalTitleTextView"
-            app:layout_constraintEnd_toEndOf="@+id/paymentMethodDownImageView"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/subTotalTitleTextView" />
 
 
         <TextView
-            android:id="@+id/shoppingValueTextView"
+            android:id="@+id/discountCodeValueTextView"
             style="@style/p2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -318,9 +286,9 @@
             android:shadowRadius="1"
             android:text="$64.95"
             android:textStyle="normal"
-            app:layout_constraintBottom_toBottomOf="@+id/shoppingTitleTextView"
+            app:layout_constraintBottom_toBottomOf="@+id/discountTitleTextView"
             app:layout_constraintEnd_toEndOf="@+id/subtotalValueTextView"
-            app:layout_constraintTop_toTopOf="@+id/shoppingTitleTextView" />
+            app:layout_constraintTop_toTopOf="@+id/discountTitleTextView" />
 
 
         <TextView
@@ -336,9 +304,23 @@
             android:text="$64.95"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="@+id/totalCostTitleTextView"
-            app:layout_constraintEnd_toEndOf="@+id/shoppingValueTextView"
+            app:layout_constraintEnd_toEndOf="@+id/discountCodeValueTextView"
             app:layout_constraintTop_toTopOf="@+id/totalCostTitleTextView" />
 
+        <com.paypal.checkout.paymentbutton.PaymentButtonContainer
+            android:id="@+id/payment_button_container"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:elevation="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/checkOutButton"
+            app:layout_constraintEnd_toEndOf="@+id/checkOutButton"
+            app:layout_constraintStart_toStartOf="@+id/checkOutButton"
+            app:layout_constraintTop_toTopOf="@+id/checkOutButton"
+            app:paypal_button_color="silver"
+            app:paypal_button_enabled="true"
+            app:paypal_button_label="pay"
+            app:paypal_button_shape="rectangle"
+            app:paypal_button_size="large" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

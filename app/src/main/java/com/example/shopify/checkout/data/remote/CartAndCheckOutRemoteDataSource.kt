@@ -20,4 +20,18 @@ interface CartAndCheckOutRemoteDataSource {
     suspend fun <T> deleteDiscountCodeFromDatabase(code : DiscountCode) : Flow<Response<T>>
 
     suspend fun <T> getDiscountCodeById(id : String) : Flow<Response<T>>
+
+
+    suspend fun <T> getUserEmail() : Flow<Response<T>>
+
+    suspend  fun<T> getUserPhone() : Flow<Response<T>>
+
+
+    suspend fun <T> getPriceRule(id :String): Flow<Response<T>>
+
+    suspend fun <T> getAllCustomerAddress(customerId : String) : Flow<Response<T>>
+
+
+
+
 }

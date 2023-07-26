@@ -104,7 +104,8 @@ class ProductDetailsViewModel @Inject constructor(
 
                         when (response.error) {
                             "itemAlreadyExistException" -> {
-                                _snackBarFlow.emit(R.string.already_in_fav)
+                                _snackBarFlow.emit(R.string.
+                                already_in_fav)
                                 _state.update { it.copy(isFavorite = true) }
                             }
 

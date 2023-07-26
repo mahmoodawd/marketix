@@ -2,21 +2,29 @@ package com.example.shopify.checkout.data.repository
 
 import android.util.Log
 import com.example.shopify.checkout.data.dto.discountcode.DiscountCodeResponse
+import com.example.shopify.checkout.data.dto.pricerule.PriceRules
+import com.example.shopify.checkout.data.dto.product.Product
+import com.example.shopify.checkout.data.local.CartAndCheckOutLocalDataSource
 import com.example.shopify.checkout.data.mappers.toCartItems
+import com.example.shopify.checkout.data.mappers.toDiscountCodeModel
+import com.example.shopify.checkout.data.mappers.toPriceRule
 import com.example.shopify.checkout.data.remote.CartAndCheckOutRemoteDataSource
 import com.example.shopify.checkout.domain.repository.CartAndCheckoutRepository
 import com.example.shopify.data.dto.DraftOrderResponse
-import com.example.shopify.checkout.data.dto.product.Product
-import com.example.shopify.checkout.data.mappers.toDiscountCodeModel
 import com.example.shopify.data.dto.codes.DiscountCode
-import com.example.shopify.home.data.dto.ProductsResponse
+import com.example.shopify.home.data.mappers.toDiscountCodeModel
+import com.example.shopify.settings.data.dto.address.AddressResponse
+import com.example.shopify.settings.data.mappers.toAddressModel
 import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class CartAndCheckoutRepositoryImpl @Inject constructor(private val remoteDataSource: CartAndCheckOutRemoteDataSource) :
+class CartAndCheckoutRepositoryImpl @Inject constructor(
+    private val remoteDataSource: CartAndCheckOutRemoteDataSource,
+    private val localDataSource: CartAndCheckOutLocalDataSource
+    ) :
     CartAndCheckoutRepository {
     override suspend fun <T> getCartItems(): Flow<Response<T>> {
         return remoteDataSource.getCartItems<T>()
@@ -26,7 +34,6 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(private val remoteDataSo
                 (response.data as DraftOrderResponse).draft_orders.forEach {
                     val productResponse =
                         remoteDataSource.getProductById<Product>(it.line_items.first().product_id.toString()).first()
-                Log.d("cartResponse",productResponse.data.toString())
                     limits.add(productResponse
                         .data!!.variants.first {variant ->
                             variant.id ==
@@ -34,7 +41,7 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(private val remoteDataSo
                         }.inventory_quantity
                     )
                 }
-                Response.Success((response.data as DraftOrderResponse).toCartItems(limits) as T)
+                Response.Success((response.data as DraftOrderResponse).toCartItems(limits,getUserEmail<String>().first().data!!) as T)
             }
     }
 
@@ -52,5 +59,34 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(private val remoteDataSo
 
     override suspend fun <T> getDiscountCodeById(id: String): Flow<Response<T>> {
        return remoteDataSource.getDiscountCodeById<T>(id).map { Response.Success((it.data as DiscountCodeResponse).toDiscountCodeModel() as T)}
+    }
+
+    override suspend fun <T> getAllCustomerAddress(customerId: String): Flow<Response<T>> {
+        return remoteDataSource.getAllCustomerAddress<T>(customerId).map {
+            Response.Success((it.data as AddressResponse).addresses.map { it.toAddressModel() } as T)
+        }
+    }
+
+
+    override suspend fun <T> getAllDiscountCodes(): Flow<Response<T>> {
+        Log.d("repository","repository")
+        return  localDataSource.getAllDiscountCodes<T>().map {
+            Response.Success((it.data  as List<DiscountCode>).map { it.toDiscountCodeModel() } as T)
+        }
+    }
+
+    override suspend fun <T> getUserEmail(): Flow<Response<T>> {
+        return remoteDataSource.getUserEmail()
+    }
+
+    override  suspend fun <T> getUserPhone(): Flow<Response<T>> {
+      return remoteDataSource.getUserPhone()
+    }
+
+
+
+    override suspend fun <T> getPriceRule(id: String): Flow<Response<T>> {
+        Log.d("priceRule","repository")
+        return remoteDataSource.getPriceRule<T>(id).map {   Response.Success((it.data as PriceRules).toPriceRule() as T) }
     }
 }

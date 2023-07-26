@@ -24,5 +24,5 @@ interface AddressDao {
     suspend fun update(alert: AddressDto)
 
     @Query("SELECT * FROM AddressDto")
-    fun  getAllAlerts() : Flow<List<AddressDto>>
+    fun  getAllAddress() : Flow<List<AddressDto>>
 }

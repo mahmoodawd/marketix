@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
 import com.example.shopify.databinding.FragmentPhoneBinding
@@ -31,7 +32,13 @@ class PhoneDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = findNavController()
+       navController =  NavHostFragment.findNavController(this)
+
+        binding.confirmButton.setOnClickListener {
+            navController.previousBackStackEntry!!.savedStateHandle[getString(R.string.phoneType)] =
+                binding.phoneInputLayout.editText!!.text.toString()
+            dismiss()
+        }
     }
 
 

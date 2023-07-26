@@ -6,6 +6,7 @@ plugins {
     id("androidx.navigation.safeargs")
     id("com.google.gms.google-services")
     id("com.google.devtools.ksp")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -75,7 +76,7 @@ dependencies {
     implementation(libs.androidx.navigation.navigation.ui.kts)
     implementation(libs.androidx.core.core.splashscreen)
     implementation(libs.hdodenhof.circleimageview)
-    implementation ("com.jakewharton.timber:timber:5.0.1")
+    implementation(libs.com.jakewharton.timber.timber)
     implementation("com.google.android.gms:play-services-wallet:19.2.0")
     implementation(libs.com.google.android.gms.play.services.pay)
     implementation(libs.com.jakewharton.timber.timber)
@@ -84,11 +85,14 @@ dependencies {
     implementation(libs.com.google.android.gms.play.services.auth)
     implementation(libs.com.firebaseui.firebase.ui.auth)
     implementation(libs.com.google.firebase.firebase.firestore.kts)
-    implementation("com.google.firebase:firebase-storage-ktx:20.2.1")
+    implementation(libs.com.google.firebase.firebase.storage.kts)
     implementation(libs.androidx.work.work.runtime.kts)
     implementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.play.services)
     implementation(libs.androidx.viewpager2.viewpager2)
     implementation("androidx.startup:startup-runtime:1.1.1")
+    implementation(libs.com.squareup.okhttp3.logging.interceptor)
+    implementation(libs.androidx.startup.startup.runtime)
+    implementation("com.paypal.checkout:android-sdk:0.112.2")
     ksp(libs.androidx.room.compiler)
     kapt(libs.com.google.dagger.hilt.compiler)
     kapt(libs.androidx.hilt.hilt.compiler)
@@ -104,6 +108,7 @@ dependencies {
     implementation(libs.bundles.data.store)
     implementation(libs.bundles.room)
     implementation(libs.bundles.location.maps)
+  //  implementation(libs.bundles.braintree)
 
 
     //testing

@@ -70,6 +70,8 @@ class OptionAdapter(
     fun resetSelections() {
 
         adapter.clearSelection()
+        notifyDataSetChanged()
+//        adapter.notifyDataSetChanged()
 
         selectedOptions.clear()
     }

@@ -1,14 +1,23 @@
 package com.example.shopify.checkout.di
 
+import com.example.shopify.checkout.data.local.CartAndCheckOutLocalDataSource
+import com.example.shopify.checkout.data.local.CartAndCheckOutLocalDataSourceImpl
 import com.example.shopify.checkout.data.remote.CartAndCheckOutRemoteDataSource
 import com.example.shopify.checkout.data.remote.CartAndCheckOutRemoteDataSourceImpl
 import com.example.shopify.checkout.data.repository.CartAndCheckoutRepositoryImpl
 import com.example.shopify.checkout.domain.repository.CartAndCheckoutRepository
-import com.example.shopify.checkout.domain.usecase.DeleteCartItemUseCase
-import com.example.shopify.checkout.domain.usecase.GetCartItemsUseCase
-import com.example.shopify.checkout.domain.usecase.UpdateCartItemUseCase
+import com.example.shopify.checkout.domain.usecase.account.GetEmailUseCase
+import com.example.shopify.checkout.domain.usecase.account.GetUserPhoneUseCase
+import com.example.shopify.checkout.domain.usecase.address.GetAllAddressUseCase
+import com.example.shopify.checkout.domain.usecase.cart.DeleteCartItemUseCase
+import com.example.shopify.checkout.domain.usecase.cart.GetCartItemsUseCase
+import com.example.shopify.checkout.domain.usecase.cart.UpdateCartItemUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.DeleteDiscountCodeFromDatabaseUseCase
+import com.example.shopify.checkout.domain.usecase.discountcode.GetAllDiscountCodeUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.GetDiscountCodeByIdUseCase
+import com.example.shopify.checkout.domain.usecase.discountcode.GetPriceRuleUseCase
+import com.example.shopify.settings.domain.repository.SettingsRepository
+import com.example.shopify.settings.domain.usecase.customer.GetCustomerIdUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -26,6 +35,11 @@ abstract class CheckOutViewModelModule {
     @Binds
     @ViewModelScoped
     abstract fun bindsRemoteDataSource(cartAndCheckOutRemoteDataSourceImpl: CartAndCheckOutRemoteDataSourceImpl) : CartAndCheckOutRemoteDataSource
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindsLocalDataSource(cartAndCheckOutLocalDataSourceImpl: CartAndCheckOutLocalDataSourceImpl) : CartAndCheckOutLocalDataSource
+
 
     @Binds
     @ViewModelScoped
@@ -69,6 +83,53 @@ abstract class CheckOutViewModelModule {
         fun providesGetDiscountCodeByIdUseCase(repository: CartAndCheckoutRepository) : GetDiscountCodeByIdUseCase
         {
             return GetDiscountCodeByIdUseCase(repository)
+        }
+
+
+        @Provides
+        @ViewModelScoped
+        fun providesGetAllDiscountCodeUseCase(repository: CartAndCheckoutRepository) : GetAllDiscountCodeUseCase
+        {
+            return GetAllDiscountCodeUseCase(repository)
+        }
+
+
+        @Provides
+        @ViewModelScoped
+        fun providesGetAllAddressUseCase(repository: CartAndCheckoutRepository) : GetAllAddressUseCase
+        {
+            return GetAllAddressUseCase(repository)
+        }
+
+
+        @Provides
+        @ViewModelScoped
+        fun providesGetEmailUseCase(repository: CartAndCheckoutRepository) : GetEmailUseCase
+        {
+            return GetEmailUseCase(repository)
+        }
+
+        @Provides
+        @ViewModelScoped
+        fun providesGetUserPhoneUseCase(repository: CartAndCheckoutRepository) : GetUserPhoneUseCase
+        {
+            return GetUserPhoneUseCase(repository)
+        }
+
+
+        @Provides
+        @ViewModelScoped
+        fun providesGetPriceRuleUseCase(repository: CartAndCheckoutRepository) : GetPriceRuleUseCase
+        {
+            return GetPriceRuleUseCase(repository)
+        }
+
+
+        @Provides
+        @ViewModelScoped
+        fun providesGetCustomerIdUseCase(repository: SettingsRepository) : GetCustomerIdUseCase
+        {
+            return  GetCustomerIdUseCase(repository)
         }
 
     }

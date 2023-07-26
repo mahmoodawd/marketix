@@ -1,11 +1,7 @@
 package com.example.shopify.settings.data.local
 
-import android.util.Log
 import com.example.shopify.data.datastore.DataStoreUserPreferences
-import com.example.shopify.settings.data.dto.location.AddressDto
-import com.example.shopify.settings.data.mappers.toAddressModel
 import com.example.shopify.utils.response.Response
-import com.google.android.play.core.integrity.e
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
@@ -31,59 +27,6 @@ class LocalDataSourceImpl @Inject constructor(
             return dataStore.getString(key)
         } catch (e: Exception) {
             flowOf(Response.Failure(e.message ?: "unknown error"))
-        }
-    }
-
-    override fun getAllAddressFromDatabase(): Flow<List<AddressDto>> {
-        return addressDao.getAllAlerts()
-    }
-
-    override suspend fun <T> updateAddressInDatabase(addressDto: AddressDto): Response<T> {
-        return try {
-            val addressesFromDatabase = addressDao.getAddressByLatLong(addressDto.latitude,addressDto.longitude)
-           with(addressDto){ addressDao.update(addressesFromDatabase.first().copy(latitude = latitude, longitude = longitude, address = address, city = city))}
-            Response.Success("successful update" as T)
-        } catch (e: Exception) {
-            Response.Failure(e.message ?: "unknown error")
-        }
-    }
-
-
-    override suspend fun <T> insertNewAddressInDatabase(addressDto: AddressDto): Response<T> {
-        return try {
-            addressDao.insert(addressDto)
-            Response.Success("successful insert" as T)
-        } catch (e: Exception) {
-            Response.Failure(e.message ?: "unknown error")
-        }
-    }
-
-    override suspend fun <T> selectAddressByLatLong(
-        latitude: Double,
-        longitude: Double
-    ): Response<T> {
-        return try {
-           val address =  addressDao.getAddressByLatLong(latitude, longitude)
-            if (address.isNotEmpty()){
-
-            Response.Success(address.first().toAddressModel() as T)
-            }else{
-                Response.Failure( "new address")
-            }
-        } catch (e: Exception) {
-            Response.Failure(e.message ?: "unknown error")
-        }
-    }
-
-    override suspend fun <T> deleteAddressFromDatabase(
-        latitude: Double,
-        longitude: Double
-    ): Response<T> {
-        return try {
-            addressDao.delete(latitude, longitude)
-            Response.Success("successful delete" as T)
-        } catch (e: Exception) {
-            Response.Failure(e.message ?: "unknown error")
         }
     }
 

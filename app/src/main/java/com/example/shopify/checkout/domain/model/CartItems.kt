@@ -1,3 +1,8 @@
 package com.example.shopify.checkout.domain.model
 
-data class CartItems(val cartItems : List<CartItem>)
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+
+@Parcelize
+data class CartItems(val cartItems : List<CartItem>) : Parcelable

@@ -13,6 +13,4 @@ data class CustomerResponseInfo(
     val password: String? = null,
     var verified_email: Boolean? = false,
     var password_confirmation: String? = null
-
-
 )

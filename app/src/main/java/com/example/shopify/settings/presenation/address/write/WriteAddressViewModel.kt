@@ -4,12 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
 import com.example.shopify.settings.domain.model.AddressModel
-import com.example.shopify.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
-import com.example.shopify.domain.usecase.dataStore.SaveStringToDataStoreUseCase
+import com.example.shopify.settings.domain.usecase.customer.GetCustomerIdUseCase
 import com.example.shopify.settings.domain.usecase.location.GetAllCitiesUseCase
 import com.example.shopify.settings.domain.usecase.location.InsertNewAddressUseCase
-import com.example.shopify.settings.domain.usecase.location.SelectAddressByLatLongUseCase
-import com.example.shopify.settings.domain.usecase.location.UpdateAddressUseCase
 import com.example.shopify.utils.hiltanotations.Dispatcher
 import com.example.shopify.utils.hiltanotations.Dispatchers
 import com.example.shopify.utils.response.Response
@@ -29,8 +26,7 @@ class WriteAddressViewModel @Inject constructor(
     @Dispatcher(Dispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     private val getAllCitiesUseCase: GetAllCitiesUseCase,
     private val insertNewAddressUseCase: InsertNewAddressUseCase,
-    private val selectAddressByLatLongUseCase: SelectAddressByLatLongUseCase,
-    private val updateAddressUseCase: UpdateAddressUseCase
+    private val getCustomerIdUseCase: GetCustomerIdUseCase
 ) : ViewModel() {
 
 
@@ -51,7 +47,7 @@ class WriteAddressViewModel @Inject constructor(
 
                     insertNewAddressToDataBase()
                 } else {
-                    updateAddress()
+
                 }
             }
 
@@ -64,7 +60,11 @@ class WriteAddressViewModel @Inject constructor(
                 _state.update { it.copy(latitude = intent.latitude, longitude = intent.longitude) }
                 onEvent(WriteAddressIntent.ReadAddressFromDatabase)
             }
-            WriteAddressIntent.ReadAddressFromDatabase -> getAddressByLatLong()
+            WriteAddressIntent.ReadAddressFromDatabase -> {
+
+            }
+
+            WriteAddressIntent.GetUserId -> {getCustomerIdWithEmail()}
         }
     }
 
@@ -76,67 +76,40 @@ class WriteAddressViewModel @Inject constructor(
                 address = _state.value.address,
                 city = _state.value.selectedCity
             )
-            val insertResult = insertNewAddressUseCase.execute<String>(address)
-            if (insertResult is Response.Success) {
-                _snackBarFlow.emit(R.string.inserted_successfully)
-            } else {
-                _snackBarFlow.emit(R.string.failed_message)
+            insertNewAddressUseCase.execute<String>(_state.value.customerId,address).collectLatest { response ->
+                when (response) {
+                    is Response.Failure -> {
+                        _snackBarFlow.emit(R.string.failed_message)
+                    }
 
+                    is Response.Loading -> _state.update { it.copy(loading = true) }
+                    is Response.Success -> {
+                        _snackBarFlow.emit(R.string.inserted_successfully)
+
+                    }
+                }
             }
-
         }
 
     }
 
 
-    private fun updateAddress() {
+    private fun getCustomerIdWithEmail() {
         viewModelScope.launch(ioDispatcher) {
-            with(_state.value) {
-                val updateResult = updateAddressUseCase.execute<String>(
-                    AddressModel(
-                        latitude = latitude,
-                        longitude = longitude,
-                        city = selectedCity,
-                        address = address
-                    )
-                )
+            getCustomerIdUseCase.execute<String>().collectLatest { response ->
+                when (response) {
+                    is Response.Failure -> {
 
-                if (updateResult is Response.Success){
-                    _snackBarFlow.emit(R.string.account_updated_successfully)
-                }
-            }
-        }
-    }
-
-
-    private fun getAddressByLatLong() {
-
-        with(_state.value) {
-            viewModelScope.launch(ioDispatcher) {
-                val addressResponse =
-                    selectAddressByLatLongUseCase.execute<AddressModel>(latitude, longitude)
-                if (addressResponse is Response.Success) {
-                    _state.update {
-                        it.copy(
-                            address = addressResponse.data!!.address,
-                            selectedCity = addressResponse.data.city,
-                            latitude = addressResponse.data.latitude,
-                            longitude = addressResponse.data.longitude,
-                            newAddress = false
-                        )
                     }
-                } else {
-                    _state.update {
-                        it.copy(
-                            newAddress = true
-                        )
+
+                    is Response.Loading -> _state.update { it.copy(loading = true) }
+                    is Response.Success -> _state.update {
+
+                        it.copy(customerId = response.data!!)
                     }
                 }
             }
-
         }
-
-
     }
 
 
@@ -151,7 +124,7 @@ class WriteAddressViewModel @Inject constructor(
 
                     is Response.Loading -> _state.update { it.copy(loading = true) }
                     is Response.Success -> {
-                        _state.update { it.copy(response.data!!, loading = false) }
+                        _state.update { it.copy(cities = response.data!!, loading = false) }
                     }
                 }
             }
@@ -160,6 +133,7 @@ class WriteAddressViewModel @Inject constructor(
 
 
     init {
+        onEvent(WriteAddressIntent.GetUserId)
         getAllCities()
     }
 

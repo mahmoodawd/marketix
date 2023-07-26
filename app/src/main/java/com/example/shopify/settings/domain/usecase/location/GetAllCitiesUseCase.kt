@@ -9,7 +9,7 @@ class GetAllCitiesUseCase @Inject constructor(private val repository : SettingsR
 
     suspend fun <T> execute() : Flow<Response<T>>
     {
-        return repository.getAllCities<T>()
+        return repository.getAllCities()
     }
 
 }

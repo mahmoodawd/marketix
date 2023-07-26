@@ -1,4 +1,4 @@
-package com.example.shopify.orders.presentation
+package com.example.shopify.orders.presentation.orders
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -56,8 +56,8 @@ class OrdersViewModel @Inject constructor(
             }
         }
     }
-
-    fun createCustomer(postOrder: PostOrder){
+    fun createOrder(postOrder: PostOrder){
+        Timber.e(postOrder.toString())
         viewModelScope.launch(ioDispatcher) {
             createOrderUseCase.execute(postOrder).collectLatest {
                 when(it){

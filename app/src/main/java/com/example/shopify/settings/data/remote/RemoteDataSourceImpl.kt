@@ -1,7 +1,9 @@
 package com.example.shopify.settings.data.remote
 
 import android.net.Uri
+import android.util.Log
 import com.example.shopify.data.remote.ShopifyRemoteInterface
+import com.example.shopify.settings.data.dto.address.SendAddressDTO
 import com.example.shopify.settings.data.dto.location.CitiesPostRequest
 import com.example.shopify.settings.data.mappers.toCities
 import com.example.shopify.settings.data.mappers.toCurrenciesModel
@@ -110,4 +112,47 @@ class RemoteDataSourceImpl @Inject constructor(
             Response.Failure(e.message ?: "unknownError")
         }
     }
+
+    override suspend fun <T> getAllCustomerAddress(
+        customerId: String,
+
+    ): Flow<Response<T>> {
+        return flowOf(try {
+            Response.Success(remoteInterface.getAddressesForCustomer(customerId) as T)
+        } catch (e: Exception) {
+            Response.Failure(e.message ?: "unknownError")
+        })
+    }
+
+    override suspend fun <T> createAddressForCustomer(customerId: String, customerAddress: SendAddressDTO): Flow<Response<T>> {
+        return flowOf(try {
+            Log.d("createAddress",customerId)
+            remoteInterface.createAddressForCustomer(customerId,customerAddress)
+            Response.Success("createdSuccessFully" as T)
+        } catch (e: Exception) {
+            Log.d("createAddress",e.message ?: "")
+            Response.Failure(e.message ?: "unknownError")
+        })
+    }
+
+    override suspend fun <T> deleteAddressForCustomer(
+        customerId: String,
+        addressId: String
+    ): Flow<Response<T>> {
+        return flowOf(try {
+            Response.Success(remoteInterface.deleteAddressForCustomer(customerId,addressId) as T)
+        } catch (e: Exception) {
+            Response.Failure(e.message ?: "unknownError")
+        })
+    }
+
+    override suspend fun <T> getCustomerId(): Flow<Response<T>> {
+        return flowOf(try {
+            Response.Success(remoteInterface.getUserWithEmail(firebaseAuth.currentUser!!.email!!).customers.first().id.toString() as T)
+        } catch (e: Exception) {
+            Response.Failure(e.message ?: "unknownError")
+        })
+    }
+
+
 }

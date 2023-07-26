@@ -13,15 +13,9 @@ import com.example.shopify.settings.domain.usecase.account.GetUserPhoneUseCase
 import com.example.shopify.settings.domain.usecase.account.UpdateUserImageUseCase
 import com.example.shopify.settings.domain.usecase.account.UpdateUserNameUseCase
 import com.example.shopify.settings.domain.usecase.account.UpdateUserPhoneUseCase
-import com.example.shopify.domain.usecase.dataStore.ReadBooleanDataStoreUseCase
-import com.example.shopify.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
-import com.example.shopify.domain.usecase.dataStore.SaveBooleanToDataStoreUseCase
-import com.example.shopify.domain.usecase.dataStore.SaveStringToDataStoreUseCase
 import com.example.shopify.settings.domain.usecase.location.DeleteAddressUseCase
 import com.example.shopify.settings.domain.usecase.location.GetAllAddressesUseCase
 import com.example.shopify.settings.domain.usecase.location.InsertNewAddressUseCase
-import com.example.shopify.settings.domain.usecase.location.SelectAddressByLatLongUseCase
-import com.example.shopify.settings.domain.usecase.location.UpdateAddressUseCase
 import com.example.shopify.settings.domain.usecase.validation.ValidatePasswordUseCase
 import com.example.shopify.settings.domain.usecase.validation.ValidatePhoneUseCase
 import com.example.shopify.settings.domain.usecase.validation.ValidateUserNameUseCase
@@ -138,12 +132,7 @@ abstract class SettingsViewModelModule {
             return  DeleteAddressUseCase(repository)
         }
 
-        @Provides
-        @ViewModelScoped
-        fun providesUpdateAddressUseCase(repository: SettingsRepository) : UpdateAddressUseCase
-        {
-            return  UpdateAddressUseCase(repository)
-        }
+
         @Provides
         @ViewModelScoped
         fun providesGetAllAddressesUseCase(repository: SettingsRepository) : GetAllAddressesUseCase
@@ -152,12 +141,12 @@ abstract class SettingsViewModelModule {
         }
 
 
-        @Provides
-        @ViewModelScoped
-        fun providesSelectAddressByLatLong(repository: SettingsRepository) : SelectAddressByLatLongUseCase
-        {
-            return  SelectAddressByLatLongUseCase(repository)
-        }
+//        @Provides
+//        @ViewModelScoped
+//        fun providesGetCustomerIdUseCase(repository: SettingsRepository) : GetCustomerIdUseCase
+//        {
+//          return  GetCustomerIdUseCase(repository)
+//        }
 
 
 

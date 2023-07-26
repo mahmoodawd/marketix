@@ -35,6 +35,12 @@
         <action
             android:id="@+id/action_checkOutFragment_to_discountFragment"
             app:destination="@id/discountFragment" />
+        <argument
+            android:name="subtotalType"
+            app:argType="string" />
+        <argument
+            android:name="cartItems"
+            app:argType="com.example.shopify.checkout.domain.model.CartItems" />
     </fragment>
 
     <dialog

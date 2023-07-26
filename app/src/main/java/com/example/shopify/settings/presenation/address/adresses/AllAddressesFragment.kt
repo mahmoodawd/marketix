@@ -1,7 +1,6 @@
 package com.example.shopify.settings.presenation.address.adresses
 
 import android.Manifest
-import android.R
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
@@ -9,7 +8,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +17,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavBackStackEntry
@@ -30,16 +27,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.shopify.databinding.FragmentAllAddressesBinding
 import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.example.shopify.utils.recycler.swipeRecyclerItemListener
+import com.example.shopify.utils.snackBarObserver
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.util.function.Function
 
 
 @AndroidEntryPoint
@@ -117,6 +113,7 @@ class AllAddressesFragment(
         gpsLocationCallback()
         setUpAddressesRecyclerView()
         stateObserver()
+        snackBarObserver(viewModel.snackBarFlow)
         locationTypeObserver()
 
         binding.fabPlusButton.setOnClickListener {
@@ -131,6 +128,7 @@ class AllAddressesFragment(
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         binding.addressesRecyclerView.swipeRecyclerItemListener { viewHolder ->
             viewModel.onEvent(AllAddressesIntent.DeleteAddress(viewHolder.adapterPosition))
+            binding.addressesRecyclerView.adapter!!.notifyItemChanged(viewHolder.adapterPosition)
         }
         binding.addressesRecyclerView.layoutManager = linearLayoutManager
         binding.addressesRecyclerView.adapter = addressesRecyclerAdapter
@@ -163,8 +161,8 @@ class AllAddressesFragment(
                 if (locationType == getString(com.example.shopify.R.string.map)) {
                     navController.navigate(
                         AllAddressesFragmentDirections.actionAllAddressesFragmentToAddressFragment(
-                            0.0.toString(),
-                            0.0.toString()
+                            viewModel.state.value.latitude.toString(),
+                            viewModel.state.value.longitude.toString()
                         )
                     )
                 } else if (locationType == getString(com.example.shopify.R.string.gps)) {
