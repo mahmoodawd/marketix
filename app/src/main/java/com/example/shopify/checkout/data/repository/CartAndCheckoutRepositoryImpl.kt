@@ -13,7 +13,7 @@ import com.example.shopify.checkout.domain.repository.CartAndCheckoutRepository
 import com.example.shopify.data.dto.DraftOrderResponse
 import com.example.shopify.data.dto.codes.DiscountCode
 import com.example.shopify.home.data.mappers.toDiscountCodeModel
-import com.example.shopify.settings.data.dto.location.AddressDto
+import com.example.shopify.settings.data.dto.address.AddressResponse
 import com.example.shopify.settings.data.mappers.toAddressModel
 import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
@@ -62,12 +62,12 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(
        return remoteDataSource.getDiscountCodeById<T>(id).map { Response.Success((it.data as DiscountCodeResponse).toDiscountCodeModel() as T)}
     }
 
-    override suspend fun <T> getAllAddress(): Flow<Response<T>> {
-        return  localDataSource.getAllAddress<T>().map {
-            Log.d("repository","repository")
-           Response.Success((it.data  as List<AddressDto>).map { it.toAddressModel() } as T)
+    override suspend fun <T> getAllCustomerAddress(customerId: String): Flow<Response<T>> {
+        return remoteDataSource.getAllCustomerAddress<T>(customerId).map {
+            Response.Success((it.data as AddressResponse).addresses.map { it.toAddressModel() } as T)
         }
     }
+
 
     override suspend fun <T> getAllDiscountCodes(): Flow<Response<T>> {
         Log.d("repository","repository")
@@ -83,6 +83,8 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(
     override  suspend fun <T> getUserPhone(): Flow<Response<T>> {
       return remoteDataSource.getUserPhone()
     }
+
+
 
     override suspend fun <T> getPriceRule(id: String): Flow<Response<T>> {
         Log.d("priceRule","repository")

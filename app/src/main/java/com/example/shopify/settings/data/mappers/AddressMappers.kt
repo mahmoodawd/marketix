@@ -1,17 +1,24 @@
 package com.example.shopify.settings.data.mappers
 
-import android.location.Address
-import com.example.shopify.settings.data.dto.location.AddressDto
+import com.example.shopify.settings.data.dto.address.AddressDto
+import com.example.shopify.settings.data.dto.address.SendAddress
+import com.example.shopify.settings.data.dto.address.SendAddressDTO
 import com.example.shopify.settings.domain.model.AddressModel
 
 
 fun AddressDto.toAddressModel() : AddressModel
 {
-    return AddressModel(latitude, longitude, city, address)
+    return AddressModel(addressId =  id.toString(),address2!!.split(" ").first().toDouble(), address2!!.split(" ")[1].toDouble(), city!!, address1!! )
 }
 
 
 fun AddressModel.toAddressDto() : AddressDto
 {
-    return  AddressDto(latitude = latitude, longitude =  longitude,city =  city, address = address)
+    return  AddressDto(city =  city, address1 = address, address2 ="$latitude $longitude",id = addressId!!.toLong())
+}
+
+
+fun AddressModel.toSendAddressDto() : SendAddressDTO
+{
+    return  SendAddressDTO(customer_address = SendAddress(address1 = address , address2 = "$latitude $longitude",city))
 }

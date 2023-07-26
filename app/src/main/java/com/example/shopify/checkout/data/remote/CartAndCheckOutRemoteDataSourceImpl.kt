@@ -4,7 +4,6 @@ import android.util.Log
 import com.example.shopify.data.dto.codes.DiscountCode
 import com.example.shopify.data.remote.ShopifyRemoteInterface
 import com.example.shopify.home.data.local.DiscountCodesDao
-import com.example.shopify.settings.data.local.AddressDao
 import com.example.shopify.utils.response.Response
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -134,5 +133,16 @@ class CartAndCheckOutRemoteDataSourceImpl @Inject constructor(
                 Response.Failure(e.message ?: "unknownError")
             }
         )
+    }
+
+    override suspend fun <T> getAllCustomerAddress(
+        customerId: String,
+
+        ): Flow<Response<T>> {
+        return flowOf(try {
+            Response.Success(remoteInterface.getAddressesForCustomer(customerId) as T)
+        } catch (e: Exception) {
+            Response.Failure(e.message ?: "unknownError")
+        })
     }
 }

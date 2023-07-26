@@ -201,5 +201,6 @@ Is between 8 and 30 characters long</string>
     <string name="subtotalType">subtotalType</string>
     <string name="discount">discount\n</string>
     <string name="cartItems">cartItems</string>
+    <string name="make_this_address_default">make this address default</string>
 </resources>
 

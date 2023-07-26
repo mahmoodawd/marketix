@@ -3,17 +3,20 @@ package com.example.shopify.checkout.presentation.checkout
 import com.example.shopify.checkout.domain.model.CartItems
 import com.example.shopify.home.domain.model.discountcode.DiscountCodeModel
 import com.example.shopify.settings.domain.model.AddressModel
+import com.example.shopify.settings.presenation.address.adresses.AllAddressesIntent
 
 
 sealed interface CheckOutIntent
 {
-    object GetUserEmail : CheckOutIntent
+    data object GetUserEmail : CheckOutIntent
 
-    object GetUserPhone : CheckOutIntent
+    data object GetUserPhone : CheckOutIntent
 
-    object GetAllAddress : CheckOutIntent
+    data object GetAllAddress : CheckOutIntent
 
-    object GetAllDiscountCodes : CheckOutIntent
+    data object GetAllDiscountCodes : CheckOutIntent
+
+    data object GetUserId : CheckOutIntent
 
     data class ChooseAddress(val Address :AddressModel) : CheckOutIntent
 

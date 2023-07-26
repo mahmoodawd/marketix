@@ -1,11 +1,11 @@
 package com.example.shopify.orders.presentation.orders
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -15,7 +15,6 @@ import com.example.shopify.data.dto.PropertiesItem
 import com.example.shopify.databinding.FragmentOrdersBinding
 import com.example.shopify.orders.data.dto.post.Order
 import com.example.shopify.orders.data.dto.post.PostOrder
-import com.example.shopify.databinding.FragmentOrdersBinding
 import com.example.shopify.orders.domain.model.OrderModel
 import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.google.firebase.auth.FirebaseAuth

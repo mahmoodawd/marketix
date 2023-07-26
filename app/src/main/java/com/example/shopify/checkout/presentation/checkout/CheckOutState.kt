@@ -5,6 +5,7 @@ import com.example.shopify.home.domain.model.discountcode.DiscountCodeModel
 import com.example.shopify.settings.domain.model.AddressModel
 
 data class CheckOutState(
+    val customerId : String = "",
     val email: String = "",
     val phone: String = "",
     val deliveryAddress: AddressModel? = null,

@@ -1,6 +1,7 @@
 package com.example.shopify.settings.presenation.address.write
 
 data class WriteAddressState(
+    val customerId : String = "",
     val cities: List<String> = emptyList(),
     val loading: Boolean = true,
     val address: String = "",

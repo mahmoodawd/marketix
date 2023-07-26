@@ -29,6 +29,8 @@ interface CartAndCheckOutRemoteDataSource {
 
     suspend fun <T> getPriceRule(id :String): Flow<Response<T>>
 
+    suspend fun <T> getAllCustomerAddress(customerId : String) : Flow<Response<T>>
+
 
 
 

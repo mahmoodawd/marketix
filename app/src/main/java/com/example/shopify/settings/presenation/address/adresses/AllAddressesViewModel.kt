@@ -6,10 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
 import com.example.shopify.settings.domain.model.AddressModel
 import com.example.shopify.domain.usecase.dataStore.ReadBooleanDataStoreUseCase
+import com.example.shopify.settings.domain.usecase.customer.GetCustomerIdUseCase
 import com.example.shopify.settings.domain.usecase.location.DeleteAddressUseCase
 import com.example.shopify.settings.domain.usecase.location.GetAllAddressesUseCase
-import com.example.shopify.settings.domain.usecase.location.UpdateAddressUseCase
-import com.example.shopify.settings.presenation.settings.SettingsState
 import com.example.shopify.utils.hiltanotations.Dispatcher
 import com.example.shopify.utils.hiltanotations.Dispatchers
 import com.example.shopify.utils.response.Response
@@ -30,7 +29,8 @@ class AllAddressesViewModel @Inject constructor(
     private val getAllAddressesUseCase: GetAllAddressesUseCase,
     private val deleteAddressUseCase: DeleteAddressUseCase,
     private val readBooleanFromDataStoreUseCase: ReadBooleanDataStoreUseCase,
-): ViewModel() {
+    private val getCustomerIdUseCase: GetCustomerIdUseCase
+) : ViewModel() {
 
     private val _state: MutableStateFlow<AllAddressState> =
         MutableStateFlow(AllAddressState())
@@ -42,34 +42,56 @@ class AllAddressesViewModel @Inject constructor(
     val snackBarFlow = _snackBarFlow.asSharedFlow()
 
 
-    fun onEvent(intent : AllAddressesIntent)
-    {
-        when(intent)
-        {
+    fun onEvent(intent: AllAddressesIntent) {
+        when (intent) {
             is AllAddressesIntent.DeleteAddress -> deleteAddress(intent.position)
             AllAddressesIntent.GetAllAddresses -> getAllAddress()
-            is AllAddressesIntent.LatLongFromGPS ->{
-
-                 Log.d("newLatLong",intent.latitude.toString())
-            _state.update { it.copy(latitude = intent.latitude, longitude = intent.longitude) }
+            is AllAddressesIntent.LatLongFromGPS -> {
+                _state.update { it.copy(latitude = intent.latitude, longitude = intent.longitude) }
             }
+
+            AllAddressesIntent.GetUserId -> getCustomerIdWithEmail()
         }
     }
 
 
-   private fun getAllAddress()
-    {
-        viewModelScope.launch(ioDispatcher){
-            getAllAddressesUseCase.execute<AddressModel>().collectLatest { response ->
-                     _state.update { it.copy(addresses =  response) }
-            }
+    private fun getAllAddress() {
+        viewModelScope.launch(ioDispatcher) {
+            getAllAddressesUseCase.execute<List<AddressModel>>(_state.value.customerId)
+                .collectLatest { response ->
+
+                    when (response) {
+                        is Response.Failure -> {
+                            _snackBarFlow.emit(R.string.failed_message)
+                        }
+                        is Response.Loading -> {}
+                        is Response.Success -> {
+                            response.data?.let {
+                                _state.update { it.copy(addresses = response.data) }
+                            }
+                        }
+                    }
+
+                }
         }
     }
 
-    private  fun deleteAddress(position : Int)
-    {
-        viewModelScope.launch(ioDispatcher){
-            deleteAddressUseCase.execute<String>(addressModel = _state.value.addresses[position])
+    private fun deleteAddress(position: Int) {
+        viewModelScope.launch(ioDispatcher) {
+            Log.d("deleteAddress",_state.value.customerId+" "+_state.value.addresses[position])
+            deleteAddressUseCase.execute<String>(customerId = _state.value.customerId,_state.value.addresses[position]).collectLatest { response ->
+                when (response) {
+                    is Response.Failure -> {
+                        _snackBarFlow.emit(R.string.failed_message)
+
+                    }
+                    is Response.Loading -> {}
+                    is Response.Success -> {
+                            _snackBarFlow.emit(R.string.item_deleted_successfully)
+                    }
+                }
+
+            }
         }
     }
 
@@ -83,6 +105,7 @@ class AllAddressesViewModel @Inject constructor(
                     is Response.Failure -> {
                         _snackBarFlow.emit(R.string.failed_message)
                     }
+
                     is Response.Loading -> _state.update { it.copy(loading = true) }
                     is Response.Success -> _state.update {
                         val newState = _state.value.copy()
@@ -95,12 +118,32 @@ class AllAddressesViewModel @Inject constructor(
         }
     }
 
+    private fun getCustomerIdWithEmail()
+    {
+        viewModelScope.launch(ioDispatcher) {
+            getCustomerIdUseCase.execute<String>().collectLatest { response ->
+                when (response) {
+                    is Response.Failure -> {
 
-    init {
-        onEvent(AllAddressesIntent.GetAllAddresses)
-        readBooleanPrefFromDataStore("LocationService")
+                    }
+
+                    is Response.Loading -> _state.update { it.copy(loading = true) }
+                    is Response.Success -> _state.update {
+                        Log.d("customerId",response.data.toString())
+                        it.copy(customerId = response.data!!)
+                    }
+            }
+            }
+        }.invokeOnCompletion {
+            onEvent(AllAddressesIntent.GetAllAddresses)
+        }
     }
 
+
+    init {
+        onEvent(AllAddressesIntent.GetUserId)
+        readBooleanPrefFromDataStore("LocationService")
+    }
 
 
 }

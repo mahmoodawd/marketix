@@ -1,9 +1,12 @@
 package com.example.shopify.settings.presenation.address.write
 
+import com.example.shopify.settings.presenation.address.adresses.AllAddressesIntent
+
 sealed interface WriteAddressIntent
 {
 
-    object ReadAddressFromDatabase : WriteAddressIntent
+    data object GetUserId : WriteAddressIntent
+    data object ReadAddressFromDatabase : WriteAddressIntent
     data class SaveAddress(val key : String) : WriteAddressIntent
 
 
