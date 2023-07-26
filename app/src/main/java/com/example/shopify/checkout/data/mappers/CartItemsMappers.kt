@@ -10,9 +10,9 @@ import com.example.shopify.data.dto.PropertiesItem
 import com.example.shopify.utils.rounder.roundTo
 
 
-fun DraftOrderResponse.toCartItems(limits : List<Int>) : CartItems
+fun DraftOrderResponse.toCartItems(limits : List<Int>,email : String) : CartItems
 {
-    return CartItems(cartItems = draft_orders.filter { it.tags == "cartItem" }.mapIndexed { index, draftOrdersItem ->
+    return CartItems(cartItems = draft_orders.filter { it.email == email && it.tags == "cartItem" }.mapIndexed { index, draftOrdersItem ->
         draftOrdersItem.toCartItem( if (limits.isNotEmpty()) limits[index] else 0)
     })
 }
@@ -26,6 +26,8 @@ fun DraftOrdersItem.toCartItem(limit : Int): CartItem {
         imageUrl = line_items.first().properties.first().value,
         upperLimit = limit,
         oneItemPrice = (total_price.toDouble()/line_items.first().quantity).roundTo(2).toString(),
+        variantId = line_items.first().variant_id.toString(),
+
     )
 }
 

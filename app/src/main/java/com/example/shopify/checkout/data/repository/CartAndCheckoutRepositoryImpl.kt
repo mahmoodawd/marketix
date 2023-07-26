@@ -34,7 +34,6 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(
                 (response.data as DraftOrderResponse).draft_orders.forEach {
                     val productResponse =
                         remoteDataSource.getProductById<Product>(it.line_items.first().product_id.toString()).first()
-                Log.d("cartResponse",productResponse.data.toString())
                     limits.add(productResponse
                         .data!!.variants.first {variant ->
                             variant.id ==
@@ -42,7 +41,7 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(
                         }.inventory_quantity
                     )
                 }
-                Response.Success((response.data as DraftOrderResponse).toCartItems(limits) as T)
+                Response.Success((response.data as DraftOrderResponse).toCartItems(limits,getUserEmail<String>().first().data!!) as T)
             }
     }
 
