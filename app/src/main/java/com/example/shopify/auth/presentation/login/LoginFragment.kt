@@ -135,7 +135,7 @@ class LoginFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
                             if (state.loading == true) View.VISIBLE else View.GONE
 
                         if (state.success == true) {
-                            navController.navigate(getString(R.string.homeFragmentDeepLink).toUri())                        }
+                            navController.navigate(R.id.action_loginFragment_to_homeFragment)                        }
                         if (state.unVerified == true) showDialog()
                     }
                 }
