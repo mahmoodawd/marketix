@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopify.R
+import com.example.shopify.checkout.data.dto.post.DiscountCode
 import com.example.shopify.checkout.data.dto.post.LineItem
 import com.example.shopify.checkout.data.dto.post.Order
 import com.example.shopify.checkout.data.dto.post.PostOrder
@@ -333,6 +334,9 @@ class CheckOutFragment : Fragment() {
         val draftOrdersIds = mutableListOf<Long>()
         val carItems = viewModel.state.value.cartItems
         val email = viewModel.state.value.email
+        val priceRule = viewModel.state.value.
+        val discountCode = viewModel.state.value.discountCodes.first()
+        val discountCodes = mutableListOf(DiscountCode(discountCode.code,discountCode.))
         Timber.e(carItems.toString())
         for (item in carItems) {
             lineItems.add(
@@ -350,7 +354,8 @@ class CheckOutFragment : Fragment() {
                 PostOrder(
                     Order(
                         email,
-                        lineItems
+                        lineItems,
+                        discountCodes
                     )
                 ), draftOrdersIds
             )
