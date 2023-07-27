@@ -2,6 +2,7 @@ package com.example.shopify.utils.navigation
 
 import android.location.Geocoder
 import android.location.LocationManager
+import android.provider.Settings
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import com.example.shopify.auth.presentation.login.LoginFragment
@@ -10,6 +11,7 @@ import com.example.shopify.home.presentation.HomeFragment
 import com.example.shopify.orders.presentation.orders.OrdersFragment
 import com.example.shopify.settings.presenation.address.adresses.AllAddressesFragment
 import com.example.shopify.settings.presenation.address.map.MapFragment
+import com.example.shopify.settings.presenation.settings.SettingsFragment
 import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
@@ -57,6 +59,11 @@ class FragmentFactory  @Inject constructor(
 
             AllAddressesFragment::class.java.name ->{
                 AllAddressesFragment(locationClient, locationRequest, locationManager, connectivityObserver)
+            }
+
+
+            SettingsFragment::class.java.name ->{
+                SettingsFragment(firebaseAuth)
             }
             else -> return super.instantiate(classLoader, className)
         }

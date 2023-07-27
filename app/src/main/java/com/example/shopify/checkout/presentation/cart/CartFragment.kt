@@ -2,11 +2,10 @@ package com.example.shopify.checkout.presentation.cart
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -15,14 +14,8 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shopify.R
 import com.example.shopify.checkout.domain.model.CartItems
-import com.example.shopify.databinding.ActivityMainBinding
 import com.example.shopify.databinding.FragmentCartBinding
-import com.example.shopify.settings.presenation.address.adresses.AddressesRecyclerAdapter
-import com.example.shopify.settings.presenation.address.adresses.AllAddressesFragmentDirections
-import com.example.shopify.settings.presenation.address.adresses.AllAddressesIntent
-import com.example.shopify.utils.recycler.swipeRecyclerItemListener
 import com.example.shopify.utils.snackBarObserver
 import com.example.shopify.utils.ui.visibleIf
 import dagger.hilt.android.AndroidEntryPoint
@@ -85,6 +78,11 @@ class CartFragment : Fragment() {
         stateObserver()
         binding.checkOutButton.setOnClickListener {
             navController.navigate(CartFragmentDirections.actionCartFragmentToCheckOutFragment(viewModel.state.value.cartTotalCost.toString(),CartItems(viewModel.state.value.cartItems)))
+        }
+
+
+        binding.backImageView.setOnClickListener {
+            navController.popBackStack()
         }
 
     }

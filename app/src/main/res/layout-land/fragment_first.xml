@@ -83,15 +83,17 @@
             android:id="@+id/forwardImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_20sdp"
             android:layout_marginBottom="@dimen/_15sdp"
-            android:paddingTop="@dimen/_20sdp"
             android:background="@drawable/circle_shape_blue"
             android:elevation="@dimen/_5sdp"
             android:padding="@dimen/_15sdp"
+            android:paddingTop="@dimen/_20sdp"
             android:scaleX="-1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/progressBar"
             app:srcCompat="@drawable/onboarding_forward" />
 
         <ImageView

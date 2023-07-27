@@ -212,6 +212,10 @@ Is between 8 and 30 characters long</string>
     <string name="taxTotal">tax total</string>
     <string name="there_is_no_discount_codes_now_please_try_again_letter">there is no discount codes now please try again letter</string>
     <string name="guest">Continue As a Guest</string>
+    <string name="skip">skip</string>
+    <string name="let_s_get_started">let\'s get started</string>
+    <string name="follow_latest_style_shoes">Follow Latest Style Shoes</string>
+    <string name="there_are_many_beautiful_and_attractive_plants_to_your_room">There Are Many Beautiful And Attractive Plants To Your Room</string>
 
 </resources>
 

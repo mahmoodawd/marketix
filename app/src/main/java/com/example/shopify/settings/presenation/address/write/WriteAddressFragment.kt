@@ -79,6 +79,10 @@ class WriteAddressFragment : Fragment() {
         }
 
 
+        binding.backImageView.setOnClickListener {
+            navController.popBackStack()
+        }
+
     }
 
     private fun navigateWhenAddressInserted()

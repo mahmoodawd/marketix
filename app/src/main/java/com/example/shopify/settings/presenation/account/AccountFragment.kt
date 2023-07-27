@@ -62,6 +62,10 @@ class AccountFragment() : Fragment() {
         binding.confirmButton.setOnClickListener {
             viewModel.onEvent(AccountIntent.ConfirmUpdate)
         }
+
+        binding.backImageView.setOnClickListener {
+            navController.popBackStack()
+        }
     }
 
 

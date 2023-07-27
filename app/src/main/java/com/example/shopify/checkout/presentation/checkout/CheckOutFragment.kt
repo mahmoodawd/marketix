@@ -13,11 +13,8 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.widget.AdapterView
-import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -39,8 +36,6 @@ import com.example.shopify.databinding.AddressBottomSheetBinding
 import com.example.shopify.databinding.CodeBottomSheetBinding
 import com.example.shopify.databinding.FragmentCheckOutBinding
 import com.example.shopify.home.domain.model.discountcode.DiscountCodeModel
-import com.example.shopify.settings.domain.model.CurrencyModel
-import com.example.shopify.settings.presenation.settings.SettingsIntent
 import com.example.shopify.utils.snackBarObserver
 import com.example.shopify.utils.ui.visibleIf
 import com.paypal.checkout.approve.OnApprove
@@ -120,6 +115,11 @@ class CheckOutFragment : Fragment() {
         }
 
 
+        binding.backImageView.setOnClickListener {
+            navController.popBackStack()
+        }
+
+
 
         binding.mapImageView.setOnClickListener {
             with(viewModel.state.value.deliveryAddress!!) {
@@ -130,12 +130,11 @@ class CheckOutFragment : Fragment() {
         paypalSetup()
         getSubTotal()
         checkOutCompletedObserver()
-        spinnerSetup(null,null)
+        spinnerSetup(null, null)
         codeSelector()
     }
 
-    private fun codeSelector()
-    {
+    private fun codeSelector() {
         binding.codesSpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
@@ -152,22 +151,25 @@ class CheckOutFragment : Fragment() {
             }
     }
 
-    private fun spinnerSetup(arraySpinner: List<DiscountCodeModel>?,selectedItem : DiscountCodeModel?) {
+    private fun spinnerSetup(
+        arraySpinner: List<DiscountCodeModel>?,
+        selectedItem: DiscountCodeModel?
+    ) {
 
 
         val adapter = ArrayAdapter(requireContext(),
             android.R.layout.simple_spinner_item, arraySpinner?.map { it.code } ?: mutableListOf())
         binding.codesSpinner.adapter = adapter
 
-            binding.codesSpinner.setSelection(0)
+        binding.codesSpinner.setSelection(0)
 //
     }
 
 
-
     private fun openInMap(latitude: Double, longitude: Double, address: String?) {
-        val intent = Intent(Intent.ACTION_CHOOSER).apply {
-            data = Uri.parse("geo:$latitude,$longitude?q=" + Uri.parse(address))
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            Log.d("latLong", "$latitude $longitude")
+            data = Uri.parse("geo:$latitude,$longitude?z=10f")
         }
         startActivity(intent)
 
@@ -209,7 +211,7 @@ class CheckOutFragment : Fragment() {
                     } ?: kotlin.run {
                         binding.addressSection.visibility = View.GONE
                     }
-                    spinnerSetup(state.discountCodes,state.discountCode)
+                    spinnerSetup(state.discountCodes, state.discountCode)
                     binding.discountInputLayout.editText!!.setText(state.discountCode?.code)
                     binding.codesSpinner visibleIf state.discountCodes.isNotEmpty()
                     binding.discountInputLayout visibleIf state.discountCodes.isNotEmpty()
@@ -259,7 +261,7 @@ class CheckOutFragment : Fragment() {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
-         //   setUpRecyclerView(bottomSheetBinding.codesRecycler, discountCodesRecyclerAdapter)
+            //   setUpRecyclerView(bottomSheetBinding.codesRecycler, discountCodesRecyclerAdapter)
 
             bottomSheetBinding.done.setOnClickListener {
                 dismiss()
@@ -335,7 +337,10 @@ class CheckOutFragment : Fragment() {
                         listOf(
                             PurchaseUnit(
                                 amount =
-                                Amount(currencyCode = CurrencyCode.USD, value = viewModel.state.value.totalCost.toString())
+                                Amount(
+                                    currencyCode = CurrencyCode.USD,
+                                    value = viewModel.state.value.totalCost.toString()
+                                )
                             )
                         )
                     )
@@ -382,7 +387,7 @@ class CheckOutFragment : Fragment() {
     }
 
 
-    private fun checkOutCompletedObserver(){
+    private fun checkOutCompletedObserver() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.checkOutCompletedFlow.collectLatest {

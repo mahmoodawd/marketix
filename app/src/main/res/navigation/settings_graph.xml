@@ -18,6 +18,13 @@
         <action
             android:id="@+id/action_settingsFragment_to_allAddressesFragment"
             app:destination="@id/allAddressesFragment" />
+
+
+        <action
+            android:id="@+id/action_settingsFragment_to_authentication_graph"
+            app:popUpTo="@id/settingsFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/auth_nav_graph" />
     </fragment>
     <fragment
         android:id="@+id/addressFragment"

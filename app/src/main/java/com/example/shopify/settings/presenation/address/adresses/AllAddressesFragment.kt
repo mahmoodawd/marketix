@@ -126,6 +126,11 @@ class AllAddressesFragment(
                 AllAddressesFragmentDirections.actionAllAddressesFragmentToLocationTypeDialog()
             )
         }
+
+
+        binding.backImageView.setOnClickListener {
+            navController.popBackStack()
+        }
     }
 
     private fun setUpAddressesRecyclerView() {

@@ -49,9 +49,9 @@
                 android:layout_height="match_parent"
                 android:transitionName="orangeProgress"
                 app:cardBackgroundColor="@color/seed"
-                app:cardCornerRadius="20dp"
+                app:cardCornerRadius="@dimen/_20sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/vGuideline0.33percent"
+                app:layout_constraintEnd_toStartOf="@+id/vGuideline1percent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -83,15 +83,16 @@
             android:id="@+id/forwardImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_20sdp"
             android:layout_marginBottom="@dimen/_15sdp"
-            android:paddingTop="@dimen/_20sdp"
             android:background="@drawable/circle_shape_blue"
             android:elevation="@dimen/_5sdp"
             android:padding="@dimen/_15sdp"
             android:scaleX="-1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/progressBar"
             app:srcCompat="@drawable/onboarding_forward" />
 
         <ImageView
