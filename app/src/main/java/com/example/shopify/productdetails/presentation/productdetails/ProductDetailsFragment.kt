@@ -181,6 +181,12 @@ class ProductDetailsFragment : Fragment() {
                         isFav = state.isFavorite
                         isCartItem = state.isCartItem
                         setFabsColors(favorite = state.isFavorite, cart = state.isCartItem)
+                        binding.newPriceTv.text = StringBuilder().append(
+                            state.product?.variants?.first()?.price,
+                            " ",
+                            state.currency
+                        )
+
                         state.product?.run {
 
                             binding.product = this

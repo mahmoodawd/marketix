@@ -3,6 +3,7 @@ package com.example.shopify.favorites.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
+import com.example.shopify.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
 import com.example.shopify.favorites.domain.model.FavoritesModel
 import com.example.shopify.favorites.domain.usecase.GetFavoriteProductsUseCase
 import com.example.shopify.favorites.domain.usecase.RemoveDraftOrderUseCase
@@ -11,13 +12,16 @@ import com.example.shopify.search.domain.usecase.GetSearchResultUseCase
 import com.example.shopify.utils.hiltanotations.Dispatcher
 import com.example.shopify.utils.hiltanotations.Dispatchers
 import com.example.shopify.utils.response.Response
+import com.example.shopify.utils.rounder.roundTo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -29,6 +33,8 @@ class FavoritesViewModel @Inject constructor(
     private val getFavoritesUseCase: GetFavoriteProductsUseCase,
     private val removeDraftOrderUseCase: RemoveDraftOrderUseCase,
     private val getSearchResultUseCase: GetSearchResultUseCase,
+    private val readStringFromDataStoreUseCase: ReadStringFromDataStoreUseCase
+
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<FavoritesState> =
@@ -78,6 +84,8 @@ class FavoritesViewModel @Inject constructor(
 
 
                         }
+
+                        readCurrencyFactorFromDataStore()
                     }
 
                 }
@@ -106,6 +114,32 @@ class FavoritesViewModel @Inject constructor(
                     is Response.Failure -> _snackBarFlow.emit(R.string.failed_message)
                 }
             }
+        }
+    }
+
+    private fun readCurrencyFactorFromDataStore() {
+        viewModelScope.launch(ioDispatcher) {
+            readStringFromDataStoreUseCase.execute<String>("currencyFactor")
+                .combine(readStringFromDataStoreUseCase.execute<String>("currency")) { currencyFactor, currency ->
+                    when (currencyFactor) {
+                        is Response.Failure -> {}
+                        is Response.Loading -> {}
+                        is Response.Success -> {
+                            _state.update {
+                                it.copy(
+                                    currencyFactor = currencyFactor.data?.toDouble() ?: 1.0,
+                                    currency = currency.data ?: "EGP"
+                                )
+                            }
+                            _state.value.products?.forEach { product ->
+                                product.price = ((product.price.toDouble())
+                                        * _state.value.currencyFactor).roundTo(2).toString()
+
+                                product.currency = currency.data ?: "EGP"
+                            }
+                        }
+                    }
+                }.collect()
         }
     }
 
