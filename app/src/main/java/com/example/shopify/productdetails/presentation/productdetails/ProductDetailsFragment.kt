@@ -64,11 +64,11 @@ class ProductDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.imageAdapter = imagesAdapter
         binding.optionAdapter = optionAdapter
 
-        binding.indicator.attachToRecyclerView(binding.productImagesViewPager)
+        binding.productImagesRv.adapter = imagesAdapter
+        binding.indicator.attachToRecyclerView(binding.productImagesRv)
 
         binding.backImageView.setOnClickListener { navController.popBackStack() }
 

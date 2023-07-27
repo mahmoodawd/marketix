@@ -76,7 +76,7 @@
             app:layout_constraintTop_toTopOf="@+id/reviews_number" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/product_images_rv"
+            android:id="@+id/product_reviews_rv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:adapter="@{adapter}"
