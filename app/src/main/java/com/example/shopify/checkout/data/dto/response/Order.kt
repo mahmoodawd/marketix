@@ -1,9 +1,10 @@
-package com.example.shopify.orders.data.dto
+package com.example.shopify.checkout.data.dto.response
 
 data class Order(
     val admin_graphql_api_id: String,
     val app_id: Long,
-    val browser_ip: Any?,
+    val billing_address: Any,
+    val browser_ip: Any,
     val buyer_accepts_marketing: Boolean,
     val cancel_reason: String?,
     val cancelled_at: String?,
@@ -22,12 +23,12 @@ data class Order(
     val current_subtotal_price_set: CurrentSubtotalPriceSet,
     val current_total_additional_fees_set: String?,
     val current_total_discounts: String,
-    val current_total_discounts_set: CurrentSubtotalPriceSet,
-    val current_total_duties_set: Any?,
+    val current_total_discounts_set: CurrentTotalDiscountsSet,
+    val current_total_duties_set: Any,
     val current_total_price: String,
-    val current_total_price_set: CurrentSubtotalPriceSet,
+    val current_total_price_set: CurrentTotalDiscountsSet,
     val current_total_tax: String,
-    val current_total_tax_set: CurrentSubtotalPriceSet,
+    val current_total_tax_set: CurrentTotalDiscountsSet,
     val customer: Customer,
     val customer_locale: Any,
     val device_id: Any,

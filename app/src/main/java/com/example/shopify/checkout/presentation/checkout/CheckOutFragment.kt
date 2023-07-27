@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopify.R
+import com.example.shopify.checkout.data.dto.post.DiscountCode
 import com.example.shopify.checkout.data.dto.post.LineItem
 import com.example.shopify.checkout.data.dto.post.Order
 import com.example.shopify.checkout.data.dto.post.PostOrder
@@ -52,6 +53,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import kotlin.math.absoluteValue
 
 
 @AndroidEntryPoint
@@ -65,7 +67,7 @@ class CheckOutFragment : Fragment() {
 
     private val viewModel: CheckOutViewModel by viewModels()
 
-    private var cartItems: CartItems? = null
+    private var mCartItems: CartItems? = null
 
     private val addressesRecyclerAdapter by lazy {
         AddressesRecyclerAdapter { address ->
@@ -114,8 +116,7 @@ class CheckOutFragment : Fragment() {
         }
 
         binding.checkOutButton.setOnClickListener {
-            createOrder(cartItems as CartItems)
-//            navController.navigate(CheckOutFragmentDirections.actionCheckOutFragmentToDiscountFragment())
+            createOrder(mCartItems as CartItems)
         }
 
 
@@ -155,13 +156,13 @@ class CheckOutFragment : Fragment() {
         }
 
 
-        cartItems = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        mCartItems = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelable(getString(R.string.cartItems), CartItems::class.java)
         } else {
             arguments?.getParcelable(getString(R.string.cartItems))
         }
-        cartItems?.let {
-            viewModel.onEvent(CheckOutIntent.NewCartItems(cartItems as CartItems))
+        mCartItems?.let {
+            viewModel.onEvent(CheckOutIntent.NewCartItems(mCartItems as CartItems))
         }
     }
 
@@ -307,7 +308,10 @@ class CheckOutFragment : Fragment() {
                         listOf(
                             PurchaseUnit(
                                 amount =
-                                Amount(currencyCode = CurrencyCode.USD, value = viewModel.state.value.totalCost.toString())
+                                Amount(
+                                    currencyCode = CurrencyCode.USD,
+                                    value = viewModel.state.value.totalCost.toString()
+                                )
                             )
                         )
                     )
@@ -315,7 +319,7 @@ class CheckOutFragment : Fragment() {
             },
             onApprove =
             OnApprove { approval ->
-                createOrder(cartItems as CartItems)
+                createOrder(mCartItems as CartItems)
             },
 
             onCancel = OnCancel {
@@ -329,9 +333,15 @@ class CheckOutFragment : Fragment() {
         val draftOrdersIds = mutableListOf<Long>()
         val carItems = viewModel.state.value.cartItems
         val email = viewModel.state.value.email
-        val priceRule = viewModel.state.value.
-        val discountCode = viewModel.state.value.discountCodes.first()
-        val discountCodes = mutableListOf(DiscountCode(discountCode.code,discountCode.))
+        val priceRule = viewModel.state.value.priceRule
+        val discountCode = viewModel.state.value.discountCodes.firstOrNull()
+        Timber.e(viewModel.state.value.priceRule?.discount ?: "no value")
+        Timber.e(viewModel.state.value.priceRule?.type ?: "no value")
+        val amountCheck = priceRule?.discount?.toDouble()?.absoluteValue.toString()
+        val amount = if (amountCheck == "null") "" else amountCheck
+
+        val discountCodes =
+            mutableListOf(DiscountCode(discountCode?.code ?: "", amount, priceRule?.type ?: ""))
         Timber.e(carItems.toString())
         for (item in carItems) {
             lineItems.add(
@@ -358,10 +368,11 @@ class CheckOutFragment : Fragment() {
     }
 
 
-    private fun checkOutCompletedObserver(){
+    private fun checkOutCompletedObserver() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.checkOutCompletedFlow.collectLatest {
+                    navController.setGraph(R.navigation.nav_graph)
                     navController.popBackStack(R.id.homeFragment, false)
                 }
             }

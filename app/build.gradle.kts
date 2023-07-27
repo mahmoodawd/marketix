@@ -94,6 +94,7 @@ dependencies {
     implementation(libs.androidx.startup.startup.runtime)
     implementation(libs.android.sdk)
     implementation(libs.scrollingpagerindicator)
+    implementation(libs.com.airbnb.android.lottie)
     ksp(libs.androidx.room.compiler)
     kapt(libs.com.google.dagger.hilt.compiler)
     kapt(libs.androidx.hilt.hilt.compiler)
