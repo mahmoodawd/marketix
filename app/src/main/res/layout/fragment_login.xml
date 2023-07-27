@@ -16,6 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="@dimen/_50sdp"
+            android:visibility="gone"
             android:indeterminateTint="@color/seed"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -150,14 +151,14 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/guestBtn"
-            android:textColor="@color/md_theme_dark_primaryContainer"
-            android:backgroundTint="@color/md_theme_dark_primary"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_54sdp"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
             android:text="@string/guest"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
-
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/nav_to_register_btn" />
 

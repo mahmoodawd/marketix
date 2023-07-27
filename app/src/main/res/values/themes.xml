@@ -1,5 +1,5 @@
-
 <resources>
+
     <style name="Theme.Shopify" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/seed</item>
         <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
@@ -28,11 +28,15 @@
         <item name="colorOnSurfaceVariant">@color/md_theme_light_onSurfaceVariant</item>
         <item name="colorPrimaryInverse">@color/md_theme_light_inversePrimary</item>
     </style>
+
     <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/slide_in_animation</item>
         <item name="android:windowExitAnimation">@anim/slide_out_animation</item>
     </style>
 
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlActivated">@color/md_theme_dark_onPrimaryContainer</item>
+    </style>
 
 
 </resources>

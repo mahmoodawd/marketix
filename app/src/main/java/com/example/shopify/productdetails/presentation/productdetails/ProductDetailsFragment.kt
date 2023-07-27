@@ -101,7 +101,7 @@ class ProductDetailsFragment : Fragment() {
                 } catch (e: NoSuchElementException) {
                     Toast.makeText(
                         requireContext(),
-                        "Sorry!, No variants match $title",
+                        "Sorry!, No variants available match Selections",
                         Toast.LENGTH_SHORT
                     ).show()
                     0L

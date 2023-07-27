@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="@dimen/_16sdp"
     android:background="@drawable/rounded_corner_blue">
 
@@ -15,6 +15,8 @@
         android:layout_height="wrap_content"
         android:isIndicator="true"
         android:numStars="5"
+        android:rating="3.5"
+        android:theme="@style/RatingBar"
         app:layout_constraintEnd_toStartOf="@+id/rating_value_tv"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,13 +34,13 @@
         android:shadowDx="1"
         android:shadowDy="4"
         android:shadowRadius="5"
-        tools:text="3.5"
-        android:textStyle="bold"
         android:textColor="@color/md_theme_dark_onBackground"
+        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/to_reviews_iv"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/ratingBar"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="3.5" />
 
     <ImageView
         android:id="@+id/to_reviews_iv"

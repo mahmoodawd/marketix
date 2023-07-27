@@ -70,6 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:text="@string/add_review"
+            android:visibility="gone"
             app:icon="@drawable/edit"
             app:layout_constraintBottom_toBottomOf="@+id/total_rating"
             app:layout_constraintEnd_toEndOf="parent"
