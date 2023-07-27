@@ -9,6 +9,7 @@ import com.example.shopify.domain.usecase.dataStore.ReadBooleanDataStoreUseCase
 import com.example.shopify.settings.domain.usecase.customer.GetCustomerIdUseCase
 import com.example.shopify.settings.domain.usecase.location.DeleteAddressUseCase
 import com.example.shopify.settings.domain.usecase.location.GetAllAddressesUseCase
+import com.example.shopify.settings.domain.usecase.location.MakeAddressDefaultUseCase
 import com.example.shopify.utils.hiltanotations.Dispatcher
 import com.example.shopify.utils.hiltanotations.Dispatchers
 import com.example.shopify.utils.response.Response
@@ -21,6 +22,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.Collections
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,7 +31,8 @@ class AllAddressesViewModel @Inject constructor(
     private val getAllAddressesUseCase: GetAllAddressesUseCase,
     private val deleteAddressUseCase: DeleteAddressUseCase,
     private val readBooleanFromDataStoreUseCase: ReadBooleanDataStoreUseCase,
-    private val getCustomerIdUseCase: GetCustomerIdUseCase
+    private val getCustomerIdUseCase: GetCustomerIdUseCase,
+    private val makeAddressDefaultUseCase: MakeAddressDefaultUseCase
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<AllAddressState> =
@@ -42,6 +45,11 @@ class AllAddressesViewModel @Inject constructor(
     val snackBarFlow = _snackBarFlow.asSharedFlow()
 
 
+    private val _itemsSwapped: MutableSharedFlow<Int> =
+        MutableSharedFlow()
+    val itemsSwapped = _itemsSwapped.asSharedFlow()
+
+
     fun onEvent(intent: AllAddressesIntent) {
         when (intent) {
             is AllAddressesIntent.DeleteAddress -> deleteAddress(intent.position)
@@ -51,12 +59,16 @@ class AllAddressesViewModel @Inject constructor(
             }
 
             AllAddressesIntent.GetUserId -> getCustomerIdWithEmail()
+            is AllAddressesIntent.ItemIsDragged -> {
+                makeAddressDefault(draggedPosition = intent.draggedPosition, targetPosition = intent.targetPosition)
+            }
         }
     }
 
 
     private fun getAllAddress() {
         viewModelScope.launch(ioDispatcher) {
+
             getAllAddressesUseCase.execute<List<AddressModel>>(_state.value.customerId)
                 .collectLatest { response ->
 
@@ -67,7 +79,7 @@ class AllAddressesViewModel @Inject constructor(
                         is Response.Loading -> {}
                         is Response.Success -> {
                             response.data?.let {
-                                _state.update { it.copy(addresses = response.data, loading = false) }
+                                _state.update { it.copy(addresses = response.data.sortedBy { address -> !address.isDefault }, loading = false) }
                             }
                         }
                     }
@@ -111,6 +123,29 @@ class AllAddressesViewModel @Inject constructor(
                         property.set(newState, response.data ?: true)
                         _state.update { newState }
                         it.copy()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun makeAddressDefault(draggedPosition : Int , targetPosition: Int)
+    {
+        viewModelScope.launch(ioDispatcher) {
+            _state.update { it.copy(loading = true) }
+            makeAddressDefaultUseCase.execute<String>(_state.value.customerId,_state.value.addresses[draggedPosition].addressId!!).collectLatest { response ->
+                when (response) {
+                    is Response.Failure -> {
+                        _snackBarFlow.emit(R.string.failed_message)
+                        _state.update { it.copy(loading = false) }
+                    }
+                    is Response.Loading -> {
+                        _state.update { it.copy(loading = true) }
+
+                    }
+                    is Response.Success ->{
+                        Collections.swap(_state.value.addresses,draggedPosition,targetPosition)
+                        _state.update { it.copy(loading = false) }
                     }
                 }
             }

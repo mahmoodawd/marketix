@@ -21,11 +21,14 @@ fun DraftOrdersItem.toCartItem(limit : Int): CartItem {
         itemId = id,
         itemName = line_items.first().name,
         currency = currency,
-        itemPrice = total_price,
+        subtotalPrice = subtotal_price ,
+        totalTax = total_tax,
+        total = total_price,
         quantity = line_items.first().quantity.toString(),
         imageUrl = line_items.first().properties.first().value,
         upperLimit = limit,
-        oneItemPrice = (total_price.toDouble()/line_items.first().quantity).roundTo(2).toString(),
+        oneItemPrice = (subtotal_price.toDouble()/line_items.first().quantity).roundTo(2).toString(),
+        oneItemTax = (total_tax.toDouble()/line_items.first().quantity).roundTo(2).toString(),
         variantId = line_items.first().variant_id.toString(),
 
     )

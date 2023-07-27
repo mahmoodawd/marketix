@@ -157,7 +157,7 @@ class CheckOutViewModel @Inject constructor(
                         _state.update { it.copy(addresses = response.data ?: emptyList()) }
                         if (_state.value.addresses.isNotEmpty()) _state.update {
                             it.copy(
-                                deliveryAddress = _state.value.addresses.first()
+                                deliveryAddress = _state.value.addresses.first { it.isDefault }
                             )
                         }
                     }
@@ -253,6 +253,7 @@ class CheckOutViewModel @Inject constructor(
                     }
                     is Response.Loading -> {}
                     is Response.Success -> {
+                        _state.update { it.copy(priceRule = response.data) }
                         if (response.data?.type == "percentage"){
                             _state.update { it.copy(totalCost = (_state.value.subtotal + _state.value.subtotal * response.data.discount.toDouble()/100.0).roundTo(2))}
                             _state.update { it.copy(discountValue = _state.value.subtotal * response.data.discount.toDouble()/100.0) }
@@ -260,7 +261,6 @@ class CheckOutViewModel @Inject constructor(
                             _state.update { it.copy(totalCost = (_state.value.totalCost + response.data!!.discount.toDouble()).roundTo(2))}
                             _state.update { it.copy(discountValue =  response.data!!.discount.toDouble().absoluteValue) }
                         }
-
                         deleteDiscountCodeFromDatabaseUseCase.execute<String>(_state.value.discountCodes.first { it.id == _state.value.discountCode?.id })
                     }
                 }
@@ -288,7 +288,7 @@ class CheckOutViewModel @Inject constructor(
         }
     }
 
-    fun createOrder(postOrder: PostOrder, draftItemIds: List<Long>){
+  private  fun createOrder(postOrder: PostOrder, draftItemIds: List<Long>){
         Timber.e(postOrder.toString())
         viewModelScope.launch(ioDispatcher) {
             createOrderUseCase.execute(postOrder).collectLatest { postOrderResponse ->
