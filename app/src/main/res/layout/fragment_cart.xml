@@ -40,7 +40,7 @@
             android:layout_height="0dp"
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_30sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/totalCostTitleTextView"
@@ -50,6 +50,23 @@
             app:layout_constraintTop_toBottomOf="@+id/pageTitleTextView"
             tools:itemCount="5"
             tools:listitem="@layout/cart_item" />
+
+
+        <TextView
+            android:id="@+id/emptyCartTextView"
+            style="@style/title_font"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_50sdp"
+            android:text="@string/emptyCart"
+
+            android:textAlignment="center"
+            android:textSize="@dimen/_30ssp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/cartEmptyImageView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/cartEmptyImageView" />
 
         <TextView
             android:id="@+id/totalCostTitleTextView"
@@ -62,20 +79,7 @@
             app:layout_constraintBottom_toTopOf="@+id/checkOutButton"
             app:layout_constraintStart_toStartOf="@+id/checkOutButton" />
 
-        <Button
-            android:id="@+id/checkOutButton"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_45sdp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginEnd="@dimen/_15sdp"
-            android:text="@string/checkout"
-           android:textAppearance="@style/p3"
-            android:textColor="@color/md_theme_light_onPrimary"
-            android:layout_marginBottom="@dimen/_30sdp"
-            android:background="@drawable/rounded_corner_blue"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+
 
 
         <TextView
@@ -95,6 +99,22 @@
             app:layout_constraintTop_toTopOf="@+id/totalCostTitleTextView" />
 
 
+        <Button
+            android:id="@+id/checkOutButton"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:text="@string/checkout"
+            android:textAppearance="@style/p3"
+            android:textColor="@color/md_theme_light_onPrimary"
+            android:layout_marginBottom="@dimen/_30sdp"
+            android:background="@drawable/rounded_corner_blue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
@@ -105,6 +125,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/cartEmptyImageView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_50sdp"
+            android:src="@drawable/empty_cart"
+            app:layout_constraintBottom_toTopOf="@+id/emptyCartTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/backImageView"
+            app:layout_constraintTop_toBottomOf="@+id/pageTitleTextView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -19,12 +19,13 @@
         android:name="com.example.shopify.productdetails.presentation.productdetails.ProductDetailsFragment"
         android:label="fragment_product_details"
         tools:layout="@layout/fragment_product_details">
-        <action
-            android:id="@+id/action_productDetailsFragment_to_reviewsFragment"
-            app:destination="@id/reviewsFragment" />
         <argument
             android:name="product_id"
             app:argType="string" />
+        <deepLink app:uri="shopify://productDetailsFragment/{product_id}" />
+        <action
+            android:id="@+id/action_productDetailsFragment_to_reviewsFragment"
+            app:destination="@id/reviewsFragment" />
     </fragment>
     <fragment
         android:id="@+id/reviewsFragment"

@@ -13,8 +13,11 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.widget.Toast
+import android.view.ViewTreeObserver
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemClickListener
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -35,9 +38,11 @@ import com.example.shopify.data.dto.PropertiesItem
 import com.example.shopify.databinding.AddressBottomSheetBinding
 import com.example.shopify.databinding.CodeBottomSheetBinding
 import com.example.shopify.databinding.FragmentCheckOutBinding
+import com.example.shopify.home.domain.model.discountcode.DiscountCodeModel
+import com.example.shopify.settings.domain.model.CurrencyModel
+import com.example.shopify.settings.presenation.settings.SettingsIntent
 import com.example.shopify.utils.snackBarObserver
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.example.shopify.utils.ui.visibleIf
 import com.paypal.checkout.approve.OnApprove
 import com.paypal.checkout.cancel.OnCancel
 import com.paypal.checkout.createorder.CreateOrder
@@ -49,9 +54,9 @@ import com.paypal.checkout.order.AppContext
 import com.paypal.checkout.order.OrderRequest
 import com.paypal.checkout.order.PurchaseUnit
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -64,6 +69,8 @@ class CheckOutFragment : Fragment() {
     private lateinit var navController: NavController
 
     private val viewModel: CheckOutViewModel by viewModels()
+
+    private var cartItems: CartItems? = null
 
     private val addressesRecyclerAdapter by lazy {
         AddressesRecyclerAdapter { address ->
@@ -78,14 +85,6 @@ class CheckOutFragment : Fragment() {
 
     private val discountDialog by lazy {
         Dialog(requireContext())
-    }
-
-    private val discountCodesRecyclerAdapter by lazy {
-        DiscountCodesRecyclerAdapter { code ->
-            viewModel.onEvent(CheckOutIntent.ChooseDiscountCode(code))
-            viewModel.onEvent(CheckOutIntent.ValidateDiscountCode)
-            discountDialog.dismiss()
-        }
     }
 
 
@@ -112,7 +111,7 @@ class CheckOutFragment : Fragment() {
         }
 
         binding.checkOutButton.setOnClickListener {
-            navController.navigate(CheckOutFragmentDirections.actionCheckOutFragmentToDiscountFragment())
+            createOrder(cartItems as CartItems)
         }
 
 
@@ -120,9 +119,7 @@ class CheckOutFragment : Fragment() {
             showAddressSheet()
         }
 
-        binding.discountCode.setOnClickListener {
-            showDiscountCodesSheet()
-        }
+
 
         binding.mapImageView.setOnClickListener {
             with(viewModel.state.value.deliveryAddress!!) {
@@ -132,8 +129,40 @@ class CheckOutFragment : Fragment() {
         dialogBackObserver()
         paypalSetup()
         getSubTotal()
-
+        checkOutCompletedObserver()
+        spinnerSetup(null,null)
+        codeSelector()
     }
+
+    private fun codeSelector()
+    {
+        binding.codesSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                    viewModel.onEvent(CheckOutIntent.ChooseDiscountCode(position))
+                    viewModel.onEvent(CheckOutIntent.ValidateDiscountCode)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
+    }
+
+    private fun spinnerSetup(arraySpinner: List<DiscountCodeModel>?,selectedItem : DiscountCodeModel?) {
+
+
+        val adapter = ArrayAdapter(requireContext(),
+            android.R.layout.simple_spinner_item, arraySpinner?.map { it.code } ?: mutableListOf())
+        binding.codesSpinner.adapter = adapter
+
+            binding.codesSpinner.setSelection(0)
+//
+    }
+
 
 
     private fun openInMap(latitude: Double, longitude: Double, address: String?) {
@@ -151,14 +180,13 @@ class CheckOutFragment : Fragment() {
         }
 
 
-        val cartItems = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        cartItems = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelable(getString(R.string.cartItems), CartItems::class.java)
         } else {
             arguments?.getParcelable(getString(R.string.cartItems))
         }
         cartItems?.let {
-            Log.d("cartItems", cartItems.cartItems.toString())
-            viewModel.onEvent(CheckOutIntent.NewCartItems(cartItems))
+            viewModel.onEvent(CheckOutIntent.NewCartItems(cartItems as CartItems))
         }
     }
 
@@ -168,8 +196,6 @@ class CheckOutFragment : Fragment() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.state.collectLatest { state ->
-
-                    discountCodesRecyclerAdapter.submitList(state.discountCodes)
                     addressesRecyclerAdapter.submitList(state.addresses)
                     binding.emailValueTextView.text = state.email
                     binding.phoneValueTextView.text = state.phone
@@ -183,10 +209,11 @@ class CheckOutFragment : Fragment() {
                     } ?: kotlin.run {
                         binding.addressSection.visibility = View.GONE
                     }
-                    val lineItems = listOf<LineItem>()
-                    if (state.cartItems.isNotEmpty()) {
-
-                    }
+                    spinnerSetup(state.discountCodes,state.discountCode)
+                    binding.discountInputLayout.editText!!.setText(state.discountCode?.code)
+                    binding.codesSpinner visibleIf state.discountCodes.isNotEmpty()
+                    binding.discountInputLayout visibleIf state.discountCodes.isNotEmpty()
+                    binding.dropDownCodesImageView visibleIf state.discountCodes.isNotEmpty()
                 }
             }
         }
@@ -232,7 +259,7 @@ class CheckOutFragment : Fragment() {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
-            setUpRecyclerView(bottomSheetBinding.codesRecycler, discountCodesRecyclerAdapter)
+         //   setUpRecyclerView(bottomSheetBinding.codesRecycler, discountCodesRecyclerAdapter)
 
             bottomSheetBinding.done.setOnClickListener {
                 dismiss()
@@ -244,7 +271,6 @@ class CheckOutFragment : Fragment() {
 
         }.show()
     }
-
 
     private fun showAddressSheet() {
         val bottomSheetBinding = AddressBottomSheetBinding.inflate(layoutInflater)
@@ -309,7 +335,7 @@ class CheckOutFragment : Fragment() {
                         listOf(
                             PurchaseUnit(
                                 amount =
-                                Amount(currencyCode = CurrencyCode.USD, value = "100.00")
+                                Amount(currencyCode = CurrencyCode.USD, value = viewModel.state.value.totalCost.toString())
                             )
                         )
                     )
@@ -317,7 +343,7 @@ class CheckOutFragment : Fragment() {
             },
             onApprove =
             OnApprove { approval ->
-                createOrder()
+                createOrder(cartItems as CartItems)
             },
 
             onCancel = OnCancel {
@@ -326,28 +352,43 @@ class CheckOutFragment : Fragment() {
         )
     }
 
-    private fun createOrder() {
-        val lineItems = listOf<LineItem>()
+    private fun createOrder(cartItems: CartItems) {
+        val lineItems = mutableListOf<LineItem>()
+        val draftOrdersIds = mutableListOf<Long>()
         val carItems = viewModel.state.value.cartItems
         val email = viewModel.state.value.email
+        Timber.e(carItems.toString())
         for (item in carItems) {
-            lineItems.plus(
+            lineItems.add(
                 LineItem(
                     item.quantity.toInt(), item.variantId.toLong(), listOf(
                         PropertiesItem(value = item.imageUrl)
                     )
                 )
             )
+            draftOrdersIds.add(item.itemId)
         }
+        Timber.e(lineItems.toString())
         viewModel.onEvent(
             CheckOutIntent.CreateOrder(
                 PostOrder(
                     Order(
                         email,
-                        lineItems
+                        lineItems,
                     )
-                )
+                ), draftOrdersIds
             )
         )
+    }
+
+
+    private fun checkOutCompletedObserver(){
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.checkOutCompletedFlow.collectLatest {
+                    navController.popBackStack(R.id.homeFragment, false)
+                }
+            }
+        }
     }
 }

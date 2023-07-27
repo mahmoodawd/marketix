@@ -1,8 +1,8 @@
 package com.example.shopify.checkout.data.remote
 
+import com.example.shopify.checkout.data.dto.post.PostOrder
 import com.example.shopify.data.dto.codes.DiscountCode
 import com.example.shopify.home.domain.model.discountcode.DiscountCodeModel
-import com.example.shopify.orders.data.dto.post.PostOrder
 import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
 

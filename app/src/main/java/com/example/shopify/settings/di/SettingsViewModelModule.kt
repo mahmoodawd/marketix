@@ -16,6 +16,7 @@ import com.example.shopify.settings.domain.usecase.account.UpdateUserPhoneUseCas
 import com.example.shopify.settings.domain.usecase.location.DeleteAddressUseCase
 import com.example.shopify.settings.domain.usecase.location.GetAllAddressesUseCase
 import com.example.shopify.settings.domain.usecase.location.InsertNewAddressUseCase
+import com.example.shopify.settings.domain.usecase.location.MakeAddressDefaultUseCase
 import com.example.shopify.settings.domain.usecase.validation.ValidatePasswordUseCase
 import com.example.shopify.settings.domain.usecase.validation.ValidatePhoneUseCase
 import com.example.shopify.settings.domain.usecase.validation.ValidateUserNameUseCase
@@ -140,6 +141,13 @@ abstract class SettingsViewModelModule {
             return  GetAllAddressesUseCase(repository)
         }
 
+
+        @Provides
+        @ViewModelScoped
+        fun providesMakeAddressDefaultUseCase(repository: SettingsRepository) : MakeAddressDefaultUseCase
+        {
+            return  MakeAddressDefaultUseCase(repository)
+        }
 
 //        @Provides
 //        @ViewModelScoped

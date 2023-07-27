@@ -2,9 +2,12 @@ package com.example.shopify.checkout.data.repository
 
 import android.util.Log
 import com.example.shopify.checkout.data.dto.discountcode.DiscountCodeResponse
+import com.example.shopify.checkout.data.dto.post.PostOrder
+import com.example.shopify.checkout.data.dto.post.PostOrderResponse
 import com.example.shopify.checkout.data.dto.pricerule.PriceRules
 import com.example.shopify.checkout.data.dto.product.Product
 import com.example.shopify.checkout.data.local.CartAndCheckOutLocalDataSource
+import com.example.shopify.checkout.data.mappers.toCartItem
 import com.example.shopify.checkout.data.mappers.toCartItems
 import com.example.shopify.checkout.data.mappers.toDiscountCodeModel
 import com.example.shopify.checkout.data.mappers.toPriceRule
@@ -13,8 +16,6 @@ import com.example.shopify.checkout.domain.repository.CartAndCheckoutRepository
 import com.example.shopify.data.dto.DraftOrderResponse
 import com.example.shopify.data.dto.codes.DiscountCode
 import com.example.shopify.home.data.mappers.toDiscountCodeModel
-import com.example.shopify.orders.data.dto.post.PostOrder
-import com.example.shopify.orders.data.dto.post.PostOrderResponse
 import com.example.shopify.settings.data.dto.address.AddressResponse
 import com.example.shopify.settings.data.dto.location.AddressDto
 import com.example.shopify.settings.data.mappers.toAddressModel
@@ -31,23 +32,31 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(
     ) :
     CartAndCheckoutRepository {
     override suspend fun <T> getCartItems(): Flow<Response<T>> {
-        return remoteDataSource.getCartItems<T>()
-            .map { response ->
-                val limits = mutableListOf<Int>()
-
-                (response.data as DraftOrderResponse).draft_orders.forEach {
-                    val productResponse =
-                        remoteDataSource.getProductById<Product>(it.line_items.first().product_id.toString()).first()
-                Log.d("cartResponse",productResponse.data.toString())
-                    limits.add(productResponse
-                        .data!!.variants.first {variant ->
-                            variant.id ==
-                         response.data.draft_orders.first().line_items.first().variant_id
-                        }.inventory_quantity
-                    )
+        return try {
+            remoteDataSource.getCartItems<T>()
+                .map { response ->
+                    val limits = mutableListOf<Int>()
+                    val email = getUserEmail<String>().first().data!!
+                    val myCartItems =
+                        (response.data as DraftOrderResponse).draft_orders.filter { it.email == email && it.tags == "cartItem" }
+                    myCartItems.forEachIndexed { index,item   ->
+                        val productResponse =
+                            remoteDataSource.getProductById<Product>(item.line_items.first().product_id.toString())
+                                .first()
+                        limits.add(
+                            productResponse
+                                .data!!.variants.firstOrNull{ variant ->
+                                    variant.id ==
+                                            myCartItems[index].line_items.first().variant_id
+                                }?.inventory_quantity ?: 0
+                        )
+                    }
+                    Response.Success(myCartItems.toCartItems(limits) as T)
                 }
-                Response.Success((response.data as DraftOrderResponse).toCartItems(limits,getUserEmail<String>().first().data!!) as T)
-            }
+        }
+       catch (e:Exception){
+            flowOf( Response.Failure("error"))
+        }
     }
 
     override suspend fun <T> deleteItemFromCart(id: String): Flow<Response<T>> {
@@ -101,6 +110,7 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(
             flowOf(Response.Failure(e.message ?: "UnKnown"))
         }
     }
+
     override suspend fun <T> deleteDraftOrder(id: String): Flow<Response<T>> {
         return remoteDataSource.deleteDraftOrder(id)
     }

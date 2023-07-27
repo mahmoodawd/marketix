@@ -199,6 +199,7 @@
             app:layout_constraintStart_toStartOf="@+id/locationTextView" />
 
 
+
         <Spinner
             android:id="@+id/currencySpinner"
             style="@style/SpinnerTheme"

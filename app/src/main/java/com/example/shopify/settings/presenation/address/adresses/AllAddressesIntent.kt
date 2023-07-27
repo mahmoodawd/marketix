@@ -1,8 +1,12 @@
 package com.example.shopify.settings.presenation.address.adresses
 
+import java.text.FieldPosition
+
 sealed interface AllAddressesIntent{
 
     data object GetUserId : AllAddressesIntent
+
+    data class ItemIsDragged(val draggedPosition : Int , val targetPosition: Int) : AllAddressesIntent
 
     data object GetAllAddresses :  AllAddressesIntent
 

@@ -44,6 +44,7 @@ interface SettingsRepository {
 
     suspend fun <T> deleteAddressForCustomer(customerId: String , addressId : String) : Flow<Response<T>>
 
+    suspend fun <T> makeAddressDefaultForCustomer(customerId: String , addressId : String) : Flow<Response<T>>
 
 
 
