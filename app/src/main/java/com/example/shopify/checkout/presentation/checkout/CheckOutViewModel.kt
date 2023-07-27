@@ -294,9 +294,20 @@ class CheckOutViewModel @Inject constructor(
             createOrderUseCase.execute(postOrder).collectLatest { postOrderResponse ->
                 when(postOrderResponse){
                     is Response.Success ->{
+                        Timber.e("postOrderSuccess")
                         postOrderResponse.data?.let{
+
                             draftItemIds.forEach { id ->
-                                deleteDraftOrderUseCase.execute<String>(id.toString())
+                                deleteDraftOrderUseCase.execute<String>(id.toString()).collectLatest {
+                                    when (it){
+                                        is Response.Failure->{
+                                            Timber.tag("here ${it.error}")
+                                        }
+                                        else->{
+                                            Timber.e("success")
+                                        }
+                                    }
+                                }
                             }
                             _checkOutCompletedFlow.emit(1)
                         }
