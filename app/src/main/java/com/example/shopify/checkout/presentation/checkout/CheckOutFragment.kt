@@ -13,8 +13,8 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.widget.Toast
+import android.widget.AdapterView.OnItemClickListener
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -30,15 +30,14 @@ import com.example.shopify.R
 import com.example.shopify.checkout.data.dto.post.LineItem
 import com.example.shopify.checkout.data.dto.post.Order
 import com.example.shopify.checkout.data.dto.post.PostOrder
-import com.example.shopify.checkout.domain.model.CartItem
 import com.example.shopify.checkout.domain.model.CartItems
 import com.example.shopify.data.dto.PropertiesItem
 import com.example.shopify.databinding.AddressBottomSheetBinding
 import com.example.shopify.databinding.CodeBottomSheetBinding
 import com.example.shopify.databinding.FragmentCheckOutBinding
+import com.example.shopify.home.domain.model.discountcode.DiscountCodeModel
+import com.example.shopify.settings.domain.model.CurrencyModel
 import com.example.shopify.utils.snackBarObserver
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.paypal.checkout.approve.OnApprove
 import com.paypal.checkout.cancel.OnCancel
 import com.paypal.checkout.createorder.CreateOrder
@@ -50,7 +49,6 @@ import com.paypal.checkout.order.AppContext
 import com.paypal.checkout.order.OrderRequest
 import com.paypal.checkout.order.PurchaseUnit
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -163,7 +161,6 @@ class CheckOutFragment : Fragment() {
             arguments?.getParcelable(getString(R.string.cartItems))
         }
         cartItems?.let {
-            Log.d("cartItems", cartItems!!.cartItems.toString())
             viewModel.onEvent(CheckOutIntent.NewCartItems(cartItems as CartItems))
         }
     }
@@ -247,7 +244,6 @@ class CheckOutFragment : Fragment() {
         }.show()
     }
 
-
     private fun showAddressSheet() {
         val bottomSheetBinding = AddressBottomSheetBinding.inflate(layoutInflater)
 
@@ -311,7 +307,7 @@ class CheckOutFragment : Fragment() {
                         listOf(
                             PurchaseUnit(
                                 amount =
-                                Amount(currencyCode = CurrencyCode.USD, value = "100.00")
+                                Amount(currencyCode = CurrencyCode.USD, value = viewModel.state.value.totalCost.toString())
                             )
                         )
                     )
@@ -350,7 +346,7 @@ class CheckOutFragment : Fragment() {
                 PostOrder(
                     Order(
                         email,
-                        lineItems
+                        lineItems,
                     )
                 ), draftOrdersIds
             )

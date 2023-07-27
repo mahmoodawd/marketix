@@ -1,6 +1,5 @@
 package com.example.shopify.checkout.presentation.cart
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
@@ -115,12 +114,12 @@ class CartViewModel @Inject constructor(
                         is Response.Success -> {
                             _state.update { it.copy(currencyFactor = currencyFactor.data?.toDouble() ?: 1.0, currency = currency.data ?: "EGP") }
                             _state.value.cartItems.forEach { cartItem ->
-                                cartItem.itemPrice = (cartItem.itemPrice.toDouble()
+                                cartItem.total = ((cartItem.subtotalPrice.toDouble())
                                         * _state.value.currencyFactor).roundTo(2).toString()
+
                                 cartItem.currency = currency.data?:"EGP"
                             }
-                            _state.update { it.copy(cartTotalCost = _state.value.cartItems.sumOf { it.itemPrice.toDouble() }.roundTo(2)
-                                ?: 0.0 ) }
+                            _state.update { it.copy(cartTotalCost = _state.value.cartItems.sumOf { it.total.toDouble() }.roundTo(2)) }
                         }
                     }
                 }.collect()
@@ -134,7 +133,6 @@ class CartViewModel @Inject constructor(
                 _snackBarFlow.emit(R.string.the_max_mount_item)
                 return@launch
             }
-            _state.update { it.copy(loading = true) }
             updateCartItemUseCase.execute<String>(id, quantity).collectLatest { response ->
                 when (response) {
                     is Response.Failure -> _snackBarFlow.emit(R.string.failed_message)
@@ -144,7 +142,7 @@ class CartViewModel @Inject constructor(
                         val cartItems = _state.value.cartItems
                         (cartItems as MutableList)[itemPosition] =
                             cartItems[itemPosition].copy(quantity = quantity,
-                                itemPrice =  (cartItems[itemPosition].oneItemPrice.toDouble()
+                                subtotalPrice =  (cartItems[itemPosition].oneItemPrice.toDouble()
                                         * quantity.toDouble()
                                         * _state.value.currencyFactor
                                         ).roundTo(2).toString())
@@ -152,7 +150,7 @@ class CartViewModel @Inject constructor(
                             it.copy(
                                 loading = false,
                                 cartItems = cartItems,
-                                cartTotalCost =cartItems.sumOf { it.itemPrice.toDouble() }.roundTo(2)
+                                cartTotalCost =cartItems.sumOf { it.total.toDouble() }.roundTo(2),
                             )
                         }
                     }

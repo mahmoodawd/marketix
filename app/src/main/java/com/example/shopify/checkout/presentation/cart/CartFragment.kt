@@ -107,6 +107,7 @@ class CartFragment : Fragment() {
                     binding.progressBar visibleIf state.loading
                     binding.totalCostValueTextView visibleIf (state.cartItems.isNotEmpty() && !state.loading)
                     binding.totalCostTitleTextView visibleIf (state.cartItems.isNotEmpty() && !state.loading)
+                    binding.checkOutButton visibleIf (state.cartItems.isNotEmpty() && !state.loading)
                     binding.cartRecyclerView visibleIf (state.cartItems.isNotEmpty() && !state.loading)
                     binding.cartEmptyImageView visibleIf (state.cartItems.isEmpty() && !state.loading)
                     binding.emptyCartTextView visibleIf (state.cartItems.isEmpty() && !state.loading)

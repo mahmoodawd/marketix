@@ -22,7 +22,7 @@ data class Order(
     val current_subtotal_price_set: CurrentSubtotalPriceSet,
     val current_total_additional_fees_set: String?,
     val current_total_discounts: String,
-    val current_total_duties_set: String?,
+    val current_total_dutties_set: String?,
     val current_total_price: String,
     val current_total_tax: String,
     val customer: Customer,
