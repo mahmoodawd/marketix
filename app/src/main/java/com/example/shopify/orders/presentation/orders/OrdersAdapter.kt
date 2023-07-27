@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopify.R
 import com.example.shopify.databinding.OrderListItemBinding
-import com.example.shopify.orders.domain.model.LineItemModel
 import com.example.shopify.orders.domain.model.OrderModel
 
 class OrdersAdapter(

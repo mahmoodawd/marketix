@@ -31,15 +31,16 @@ sealed interface CheckOutIntent
 
     data class UserSubTotal(val subtotal : String) : CheckOutIntent
 
-    object PostOrdersFromCart : CheckOutIntent
+    data object PostOrdersFromCart : CheckOutIntent
 
-    object ValidateDiscountCode : CheckOutIntent
+    data object ValidateDiscountCode : CheckOutIntent
 
-    object GetPriceRule : CheckOutIntent
+    data object GetPriceRule : CheckOutIntent
+
 
     data class NewCartItems(val cartItems: CartItems) : CheckOutIntent
 
-    data class CreateOrder(val postOrder: PostOrder): CheckOutIntent
+    data class CreateOrder(val postOrder: PostOrder, val draftItemsIds : List<Long>): CheckOutIntent
 
 
 

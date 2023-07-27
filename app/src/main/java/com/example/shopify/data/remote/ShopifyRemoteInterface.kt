@@ -3,6 +3,8 @@ package com.example.shopify.data.remote
 import com.example.shopify.auth.data.dto.CustomerResponse
 import com.example.shopify.checkout.data.dto.DraftOrderById
 import com.example.shopify.checkout.data.dto.discountcode.DiscountCodeResponse
+import com.example.shopify.checkout.data.dto.post.PostOrder
+import com.example.shopify.checkout.data.dto.post.PostOrderResponse
 import com.example.shopify.checkout.data.dto.pricerule.PriceRules
 import com.example.shopify.checkout.data.dto.product.OneProductResponse
 import com.example.shopify.data.dto.DraftOrderResponse
@@ -11,8 +13,6 @@ import com.example.shopify.data.dto.codes.DiscountCodesResponse
 import com.example.shopify.home.data.dto.BrandsResponse
 import com.example.shopify.home.data.dto.ProductsResponse
 import com.example.shopify.orders.data.dto.OrdersResponse
-import com.example.shopify.orders.data.dto.post.PostOrder
-import com.example.shopify.orders.data.dto.post.PostOrderResponse
 import com.example.shopify.productdetails.data.dto.draftorder.DraftOrderRequest
 import com.example.shopify.productdetails.data.dto.productdetails.ProductDetailsResponse
 import com.example.shopify.settings.data.dto.address.AddressResponse
@@ -102,7 +102,7 @@ interface ShopifyRemoteInterface {
     @GET("price_rules/{id}.json")
     suspend fun getPriceRule(@Path("id") id : String) : PriceRules
 
-    @POST("draft_orders/{id}.json")
+    @DELETE("draft_orders/{id}.json")
     suspend fun deleteDraftOrder(@Path("id")id : String)
 
     @POST("orders.json")
@@ -118,7 +118,8 @@ interface ShopifyRemoteInterface {
     @GET("/admin/api/2023-07/customers/{customer_id}/addresses.json")
     suspend fun getAddressesForCustomer(@Path("customer_id") customerId: String): AddressResponse
 
-
+    @PUT("/admin/api/2023-07/customers/{customer_id}/addresses/{address_id}/default.json")
+    suspend fun makeAddressDefault(@Path("customer_id") customerId: String, @Path("address_id") addressId: String): AddressResponse
     @DELETE("/admin/api/2023-07/customers/{customer_id}/addresses/{address_id}.json")
     suspend fun deleteAddressForCustomer(@Path("customer_id") customerId: String, @Path("address_id") addressId: String)
 

@@ -3,6 +3,7 @@ package com.example.shopify.home.presentation
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -10,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.Toast
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -44,6 +44,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
     private lateinit var brandsAdapter: BrandsAdapter
     private lateinit var productsAdapter: ProductsAdapter
     private var vendor: String = ""
+    private var currency:String = "EGP"
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,9 +59,6 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
         navController = findNavController()
         binding.filterImageButton.setOnClickListener {
             showBottomDialog()
-        }
-        binding.cartImageButton.setOnClickListener {
-            navController.navigate(getString(R.string.cartFragmentDeepLink).toUri())
         }
         binding.ordersImageButton.setOnClickListener {
             navController.navigate(HomeFragmentDirections.actionHomeFragmentToOrdersFragment())
@@ -134,10 +132,9 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
             bottomSheet.priceRangeSlider.setLabelFormatter {
                 val format = NumberFormat.getCurrencyInstance()
                 format.maximumFractionDigits = 0
-                format.currency = Currency.getInstance("EGP")
+                format.currency = Currency.getInstance(currency)
                 format.format(it.toDouble())
             }
-
             bottomSheet.priceRangeSlider.addOnSliderTouchListener(object : OnSliderTouchListener {
                 override fun onStartTrackingTouch(slider: RangeSlider) {
                 }
@@ -205,6 +202,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
                     View.GONE
                 }
                 if (it.currency != "EGP") {
+                    currency = it.currency
                     productsAdapter.exchangeRate = it.exchangeRate
                     productsAdapter.currency = it.currency
                 }
@@ -222,7 +220,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
                 dialogInterface.dismiss()
             }
             .setNeutralButton(getString(R.string.save)) { _, _ ->
-//                viewModel.insertDiscountCode()
+                viewModel.insertDiscountCode()
             }
             .show()
     }
@@ -235,7 +233,8 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
     }
 
     private fun goToProductsInfo(product: ProductModel) {
-        Toast.makeText(requireContext(), product.title, Toast.LENGTH_SHORT).show()
+        val uri = Uri.parse("shopify://productDetailsFragment/${product.id}")
+        navController.navigate(uri)
     }
 
     private fun setBrandsRecycler() {

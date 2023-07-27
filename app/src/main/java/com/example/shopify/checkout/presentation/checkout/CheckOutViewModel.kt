@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
+import com.example.shopify.checkout.data.dto.post.PostOrder
 import com.example.shopify.checkout.domain.model.PriceRule
 import com.example.shopify.checkout.domain.usecase.account.GetEmailUseCase
 import com.example.shopify.checkout.domain.usecase.address.GetAllAddressUseCase
@@ -16,7 +17,6 @@ import com.example.shopify.checkout.domain.usecase.discountcode.GetPriceRuleUseC
 import com.example.shopify.checkout.domain.usecase.order.CreateOrderUseCase
 import com.example.shopify.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
 import com.example.shopify.home.domain.model.discountcode.DiscountCodeModel
-import com.example.shopify.orders.data.dto.post.PostOrder
 import com.example.shopify.settings.domain.model.AddressModel
 import com.example.shopify.settings.domain.usecase.customer.GetCustomerIdUseCase
 import com.example.shopify.settings.presenation.address.adresses.AllAddressesIntent
@@ -62,6 +62,10 @@ class CheckOutViewModel @Inject constructor(
         MutableSharedFlow()
     val snackBarFlow = _snackBarFlow.asSharedFlow()
 
+    private val _checkOutCompletedFlow: MutableSharedFlow<Int> =
+        MutableSharedFlow()
+    val checkOutCompletedFlow = _checkOutCompletedFlow.asSharedFlow()
+
     fun onEvent(intent: CheckOutIntent) {
         when (intent) {
             CheckOutIntent.GetAllAddress -> getAllAddress()
@@ -85,7 +89,7 @@ class CheckOutViewModel @Inject constructor(
                 _state.update { it.copy(cartItems = intent.cartItems.cartItems) }
             }
             is CheckOutIntent.CreateOrder ->{
-
+                createOrder(intent.postOrder, intent.draftItemsIds)
             }
 
             CheckOutIntent.GetUserId -> {getCustomerIdWithEmail()}
@@ -153,7 +157,7 @@ class CheckOutViewModel @Inject constructor(
                         _state.update { it.copy(addresses = response.data ?: emptyList()) }
                         if (_state.value.addresses.isNotEmpty()) _state.update {
                             it.copy(
-                                deliveryAddress = _state.value.addresses.first()
+                                deliveryAddress = _state.value.addresses.first { it.isDefault }
                             )
                         }
                     }
@@ -249,6 +253,7 @@ class CheckOutViewModel @Inject constructor(
                     }
                     is Response.Loading -> {}
                     is Response.Success -> {
+                        _state.update { it.copy(priceRule = response.data) }
                         if (response.data?.type == "percentage"){
                             _state.update { it.copy(totalCost = (_state.value.subtotal + _state.value.subtotal * response.data.discount.toDouble()/100.0).roundTo(2))}
                             _state.update { it.copy(discountValue = _state.value.subtotal * response.data.discount.toDouble()/100.0) }
@@ -256,7 +261,6 @@ class CheckOutViewModel @Inject constructor(
                             _state.update { it.copy(totalCost = (_state.value.totalCost + response.data!!.discount.toDouble()).roundTo(2))}
                             _state.update { it.copy(discountValue =  response.data!!.discount.toDouble().absoluteValue) }
                         }
-
                         deleteDiscountCodeFromDatabaseUseCase.execute<String>(_state.value.discountCodes.first { it.id == _state.value.discountCode?.id })
                     }
                 }
@@ -284,16 +288,21 @@ class CheckOutViewModel @Inject constructor(
         }
     }
 
-    fun createOrder(postOrder: PostOrder){
+  private  fun createOrder(postOrder: PostOrder, draftItemIds: List<Long>){
         Timber.e(postOrder.toString())
         viewModelScope.launch(ioDispatcher) {
-            createOrderUseCase.execute(postOrder).collectLatest {
-                when(it){
+            createOrderUseCase.execute(postOrder).collectLatest { postOrderResponse ->
+                when(postOrderResponse){
                     is Response.Success ->{
-                        Timber.e(it.data.toString())
+                        postOrderResponse.data?.let{
+                            draftItemIds.forEach { id ->
+                                deleteDraftOrderUseCase.execute<String>(id.toString())
+                            }
+                            _checkOutCompletedFlow.emit(1)
+                        }
                     }
                     else->{
-                        Timber.e(it.error)
+                        Timber.e(postOrderResponse.error)
                     }
                 }
             }
