@@ -8,6 +8,8 @@ data class FavoritesState(
     val products: List<FavoriteProductModel>? = emptyList(),
     val loading: Boolean = true,
     val empty: Boolean = true,
-    val searchResult: List<SearchProductModel> = emptyList()
+    val searchResult: List<SearchProductModel> = emptyList(),
+    val currency: String = "EGP",
+    val currencyFactor: Double = 0.0
 
 )

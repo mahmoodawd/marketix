@@ -162,7 +162,6 @@ class ProductDetailsViewModel @Inject constructor(
         viewModelScope.launch(ioDispatcher) {
             readStringFromDataStoreUseCase.execute<String>("currencyFactor")
                 .combine(readStringFromDataStoreUseCase.execute<String>("currency")) { currencyFactor, currency ->
-                    Log.d("currencyFactor", currencyFactor.data.toString())
                     when (currencyFactor) {
                         is Response.Failure -> {}
                         is Response.Loading -> {}

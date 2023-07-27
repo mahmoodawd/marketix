@@ -123,12 +123,13 @@ class FavoritesFragment : Fragment() {
 
                     withContext(Dispatchers.Main) {
 
-                        binding.noFavsView visibleIf state.products.isNullOrEmpty()
+                        binding.noFavsView visibleIf (state.products.isNullOrEmpty() && !state.loading)
 
                         binding.favoritesProgressBar visibleIf state.loading
 
                         favoritesAdapter.submitList(state.products)
-
+                        println("Prices: ")
+                        state.products?.forEach { println(it.price) }
                         if (state.searchResult.isNotEmpty()) {
                             searchAdapter.submitList(state.searchResult)
                         }
