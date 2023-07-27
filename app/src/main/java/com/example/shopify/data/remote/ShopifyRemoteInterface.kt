@@ -15,6 +15,7 @@ import com.example.shopify.home.data.dto.ProductsResponse
 import com.example.shopify.orders.data.dto.OrdersResponse
 import com.example.shopify.productdetails.data.dto.draftorder.DraftOrderRequest
 import com.example.shopify.productdetails.data.dto.productdetails.ProductDetailsResponse
+import com.example.shopify.search.data.dto.SearchProductsResponse
 import com.example.shopify.settings.data.dto.address.AddressResponse
 import com.example.shopify.settings.data.dto.address.SendAddressDTO
 import com.example.shopify.settings.data.dto.currencies.CurrenciesResponse
@@ -123,4 +124,8 @@ interface ShopifyRemoteInterface {
     @DELETE("/admin/api/2023-07/customers/{customer_id}/addresses/{address_id}.json")
     suspend fun deleteAddressForCustomer(@Path("customer_id") customerId: String, @Path("address_id") addressId: String)
 
+    @GET("products.json")
+    suspend fun searchProducts(
+        @Query("fields") fields: String = "id,image,title"
+    ): SearchProductsResponse
 }
