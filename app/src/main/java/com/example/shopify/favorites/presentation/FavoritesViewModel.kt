@@ -6,8 +6,8 @@ import com.example.shopify.R
 import com.example.shopify.favorites.domain.model.FavoritesModel
 import com.example.shopify.favorites.domain.usecase.GetFavoriteProductsUseCase
 import com.example.shopify.favorites.domain.usecase.RemoveDraftOrderUseCase
-import com.example.shopify.home.data.dto.Product
-import com.example.shopify.search.domain.usecase.SearchProductUseCase
+import com.example.shopify.search.domain.model.SearchProductsModel
+import com.example.shopify.search.domain.usecase.GetSearchResultUseCase
 import com.example.shopify.utils.hiltanotations.Dispatcher
 import com.example.shopify.utils.hiltanotations.Dispatchers
 import com.example.shopify.utils.response.Response
@@ -28,7 +28,7 @@ class FavoritesViewModel @Inject constructor(
     @Dispatcher(Dispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     private val getFavoritesUseCase: GetFavoriteProductsUseCase,
     private val removeDraftOrderUseCase: RemoveDraftOrderUseCase,
-    private val searchProductUseCase: SearchProductUseCase,
+    private val getSearchResultUseCase: GetSearchResultUseCase,
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<FavoritesState> =
@@ -44,6 +44,7 @@ class FavoritesViewModel @Inject constructor(
         when (intent) {
             is FavoritesIntent.GetFavorites -> getFavorites()
             is FavoritesIntent.RemoveFromFavorites -> removeItem(intent.id, intent.itemPosition)
+            is FavoritesIntent.Search -> search(intent.keyword)
         }
     }
 
@@ -111,10 +112,27 @@ class FavoritesViewModel @Inject constructor(
     private fun search(keyword: String) {
         viewModelScope.launch {
 
-            searchProductUseCase<Product>(keyword).collectLatest { response ->
-                /* when (response) {
-                     is Success ->{}
-                     else()*/
+            getSearchResultUseCase<SearchProductsModel>(keyword).collectLatest { response ->
+                when (response) {
+                    is Response.Success -> {
+                        response.data!!.products.filter { product ->
+                            product.title.contains(keyword, true)
+                        }.let {
+                            _state.update { uiState ->
+                                uiState.copy(searchResult = it, loading = false)
+                            }
+
+                            Timber.i("Search Results: ${it}\n_________")
+                        }
+
+                    }
+
+                    is Response.Failure -> {
+                        Timber.i("ERROR: ${response.error}")
+                    }
+
+                    is Response.Loading -> {}
+                }
             }
         }
     }

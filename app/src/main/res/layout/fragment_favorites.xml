@@ -8,6 +8,10 @@
         <variable
             name="adapter"
             type="com.example.shopify.favorites.presentation.FavoritesAdapter" />
+
+        <variable
+            name="searchAdapter"
+            type="com.example.shopify.search.presentation.SearchItemsAdapter" />
     </data>
 
 
@@ -15,25 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".favorites.presentation.FavoritesFragment">
-
-
-        <TextView
-            android:id="@+id/no_favs_view"
-            style="@style/title_font"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_250sdp"
-            android:elevation="@dimen/_10sdp"
-            android:shadowColor="@color/md_theme_dark_outline"
-            android:shadowDx="1"
-            android:shadowDy="4"
-            android:shadowRadius="5"
-            android:text="@string/no_favorites"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/searchEditText" />
 
 
         <ProgressBar
@@ -49,6 +34,25 @@
             app:layout_constraintTop_toBottomOf="@id/searchEditText" />
 
         <TextView
+            android:id="@+id/no_favs_view"
+            style="@style/title_font"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_250sdp"
+            android:elevation="@dimen/_10sdp"
+            android:shadowColor="@color/md_theme_dark_outline"
+            android:shadowDx="1"
+            android:shadowDy="4"
+            android:shadowRadius="5"
+            android:text="@string/no_favorites"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchEditText" />
+
+
+        <TextView
             android:id="@+id/fav_title_tv"
             style="@style/title_two"
             android:layout_width="0dp"
@@ -61,32 +65,36 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="TextSizeCheck" />
 
-
-        <EditText
+        <SearchView
             android:id="@+id/searchEditText"
+            android:searchIcon="@drawable/search_icon"
             style="@style/p3"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_50sdp"
             android:layout_margin="@dimen/_16sdp"
             android:background="@drawable/text_view_back"
-            android:drawableStart="@drawable/search_icon"
             android:drawablePadding="@dimen/_15sdp"
-            android:hint="@string/looking_for_products"
             android:inputType="text"
             android:isScrollContainer="false"
             android:padding="@dimen/_10sdp"
             android:textColorHint="@color/md_theme_light_outline"
+            android:queryHint="@string/looking_for_products"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fav_title_tv"
             tools:ignore="Autofill,TextSizeCheck,TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchResultRv"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:adapter="@{searchAdapter}"
+            android:background="@drawable/dialog_back"
             android:elevation="@dimen/_5sdp"
             android:orientation="vertical"
             android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -101,6 +109,7 @@
             android:adapter="@{adapter}"
             android:clipToPadding="false"
             android:orientation="vertical"
+            android:paddingBottom="@dimen/_100sdp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -109,7 +118,6 @@
             app:layout_constraintVertical_bias="0.492"
             app:spanCount="2"
             tools:itemCount="4"
-            android:paddingBottom="@dimen/_100sdp"
             tools:listitem="@layout/product_item" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
