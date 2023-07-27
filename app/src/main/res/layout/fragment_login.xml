@@ -108,7 +108,6 @@
             android:layout_height="@dimen/_54sdp"
             android:layout_marginTop="@dimen/_16sdp"
             android:text="@string/sign_in"
-            app:layout_constraintBottom_toTopOf="@id/google_btn_view"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/forget_password_btn" />
@@ -118,13 +117,11 @@
             layout="@layout/google_button"
             android:layout_width="0dp"
             android:layout_height="@dimen/_54sdp"
-            app:layout_constraintBottom_toTopOf="@+id/nav_to_register_btn"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/sign_in_btn"
             app:layout_constraintVertical_bias="0.275" />
-
 
         <TextView
             android:id="@+id/nav_to_register_tv"
@@ -143,14 +140,26 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_2sdp"
-            android:layout_marginBottom="@dimen/_50sdp"
+            android:layout_marginTop="@dimen/_4sdp"
             android:fontFamily="@font/bold"
             android:text="@string/sign_up"
             android:textColor="@color/md_theme_light_onSurface"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toEndOf="@+id/nav_to_register_tv"
             app:layout_constraintTop_toBottomOf="@id/google_btn_view" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/guestBtn"
+            android:textColor="@color/md_theme_dark_primaryContainer"
+            android:backgroundTint="@color/md_theme_dark_primary"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_54sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:text="@string/guest"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/nav_to_register_btn" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"

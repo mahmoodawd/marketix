@@ -211,5 +211,7 @@ Is between 8 and 30 characters long</string>
     <string name="subtotalCost">subtotal</string>
     <string name="taxTotal">tax total</string>
     <string name="there_is_no_discount_codes_now_please_try_again_letter">there is no discount codes now please try again letter</string>
+    <string name="guest">Continue As a Guest</string>
+
 </resources>
 

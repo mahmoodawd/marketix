@@ -30,8 +30,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingBottom="@dimen/_32sdp"
-            app:layout_constraintEnd_toStartOf="@+id/product_images_view_pager"
-            app:layout_constraintStart_toStartOf="@+id/product_images_view_pager"
+            app:layout_constraintEnd_toStartOf="@+id/product_images_rv"
+            app:layout_constraintStart_toStartOf="@+id/product_images_rv"
             tools:context=".productdetails.presentation.productdetails.ProductDetailsFragment">
 
 
@@ -60,7 +60,7 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/product_images_view_pager"
+                android:id="@+id/product_images_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
@@ -76,9 +76,9 @@
                 android:id="@+id/indicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@id/product_images_view_pager"
-                app:layout_constraintStart_toStartOf="@id/product_images_view_pager"
-                app:layout_constraintTop_toBottomOf="@id/product_images_view_pager"
+                app:layout_constraintEnd_toEndOf="@id/product_images_rv"
+                app:layout_constraintStart_toStartOf="@id/product_images_rv"
+                app:layout_constraintTop_toBottomOf="@id/product_images_rv"
                 app:spi_dotSelectedColor="@color/md_theme_light_primary"
                 app:spi_looped="true" />
 
@@ -90,7 +90,7 @@
                 android:text="@{product.vendor}"
                 android:textColor="@color/md_theme_light_primary"
                 app:layout_constraintStart_toStartOf="@+id/item_name_tv"
-                app:layout_constraintTop_toBottomOf="@+id/product_images_view_pager"
+                app:layout_constraintTop_toBottomOf="@+id/product_images_rv"
                 tools:text="Best Seller" />
 
             <TextView
