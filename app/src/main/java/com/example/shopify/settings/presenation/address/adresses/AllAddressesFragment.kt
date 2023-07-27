@@ -118,7 +118,7 @@ class AllAddressesFragment(
         gpsLocationCallback()
         setUpAddressesRecyclerView()
         stateObserver()
-        snackBarObserver(viewModel.snackBarFlow)
+        requireActivity().snackBarObserver(viewModel.snackBarFlow)
         locationTypeObserver()
 
         binding.fabPlusButton.setOnClickListener {

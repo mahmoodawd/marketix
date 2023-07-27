@@ -56,7 +56,7 @@ class WriteAddressFragment : Fragment() {
         stateObserver()
         changeAddressListener()
         navigateWhenAddressInserted()
-        snackBarObserver(viewModel.snackBarFlow)
+        requireActivity().snackBarObserver(viewModel.snackBarFlow)
         binding.citiesSpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
