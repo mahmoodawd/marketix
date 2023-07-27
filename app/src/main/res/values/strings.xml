@@ -210,5 +210,6 @@ Is between 8 and 30 characters long</string>
     <string name="you_can_t_delete_the_default_address">you can\'t delete the default address</string>
     <string name="subtotalCost">subtotal</string>
     <string name="taxTotal">tax total</string>
+    <string name="there_is_no_discount_codes_now_please_try_again_letter">there is no discount codes now please try again letter</string>
 </resources>
 

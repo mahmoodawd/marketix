@@ -196,8 +196,6 @@ class CheckOutFragment : Fragment() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.state.collectLatest { state ->
-
-                    //discountCodesRecyclerAdapter.submitList(state.discountCodes)
                     addressesRecyclerAdapter.submitList(state.addresses)
                     binding.emailValueTextView.text = state.email
                     binding.phoneValueTextView.text = state.phone
