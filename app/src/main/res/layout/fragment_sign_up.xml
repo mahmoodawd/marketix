@@ -155,14 +155,25 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_2sdp"
             android:layout_marginTop="@dimen/_32sdp"
-            android:layout_marginBottom="@dimen/_32sdp"
             android:fontFamily="@font/bold"
             android:text="@string/sign_in"
             android:textColor="@color/md_theme_light_onSurface"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toEndOf="@+id/nav_to_login_tv"
             app:layout_constraintTop_toBottomOf="@id/google_btn_view" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/guestBtn"
+            android:textColor="@color/md_theme_dark_primaryContainer"
+            android:backgroundTint="@color/md_theme_dark_primary"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_54sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:text="@string/guest"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/nav_to_login_tv" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"

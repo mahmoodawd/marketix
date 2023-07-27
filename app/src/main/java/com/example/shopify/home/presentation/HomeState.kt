@@ -11,7 +11,7 @@ sealed interface HomeState {
         val products: List<ProductModel> = listOf(),
         val discountCode : DiscountCodeModel? = null,
         val error: String? = null,
-        val loading: Boolean? = null,
+        val loading: Boolean = true,
         val currency: String = "EGP",
         val exchangeRate :Double = 1.0
     ) : HomeState

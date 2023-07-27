@@ -24,10 +24,12 @@ import com.example.shopify.databinding.FragmentHomeBinding
 import com.example.shopify.home.domain.model.BrandModel
 import com.example.shopify.home.domain.model.ProductModel
 import com.example.shopify.utils.connectivity.ConnectivityObserver
+import com.example.shopify.utils.ui.visibleIf
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.RangeSlider.OnSliderTouchListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
@@ -167,6 +169,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
     private fun checkConnection() {
         lifecycleScope.launch {
             connectivityObserver.observe().collectLatest {
+                delay(200)
                 when (it) {
                     ConnectivityObserver.Status.Available -> {
                         viewModel.readCurrencyFactorFromDataStore()
@@ -194,17 +197,14 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
                 } else {
                     productsAdapter.submitList(listOf())
                 }
-                binding.progressBar.visibility = if (it.loading == true) {
-                    View.VISIBLE
-                } else {
-                    View.GONE
-                }
+                binding.progressBar visibleIf it.loading
                 if (it.currency != "EGP") {
                     currency = it.currency
                     productsAdapter.exchangeRate = it.exchangeRate
                     productsAdapter.currency = it.currency
                 }
 
+                binding.addsCardView visibleIf (it.discountCode != null)
 
             }
         }

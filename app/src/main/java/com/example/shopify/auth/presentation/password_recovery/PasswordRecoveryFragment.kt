@@ -56,7 +56,7 @@ class PasswordRecoveryFragment : Fragment() {
 
         listenToEmailSendingStatus()
 
-        snackBarObserver(viewModel.snackBarFlow)
+        requireActivity().snackBarObserver(viewModel.snackBarFlow)
     }
 
 

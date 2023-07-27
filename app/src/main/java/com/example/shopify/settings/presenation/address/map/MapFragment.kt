@@ -66,7 +66,7 @@ class MapFragment(private val englishGeoCoder: Geocoder) : Fragment() {
                 }
             }
         }
-        snackBarObserver(viewModel.snackBarFlow)
+        requireActivity().snackBarObserver(viewModel.snackBarFlow)
     }
 
 

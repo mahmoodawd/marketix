@@ -196,36 +196,71 @@
             style="@style/p3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
             android:text="@string/subtotal"
             android:textColor="@color/text_grayed"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/discountTitleTextView"
+            app:layout_constraintBottom_toTopOf="@+id/discountInputLayout"
             app:layout_constraintStart_toStartOf="@+id/discountTitleTextView" />
 
         <TextView
             android:id="@+id/discountTitleTextView"
             style="@style/p3"
-            android:textColor="@color/text_grayed"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_35sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
             android:text="@string/discount"
+            android:textColor="@color/text_grayed"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/totalCostTitleTextView"
             app:layout_constraintStart_toStartOf="@+id/totalCostTitleTextView" />
 
-        <TextView
-            android:id="@+id/discount_code"
-            style="@style/p3"
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/discountInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            app:boxStrokeWidthFocused="0dp"
+            app:hintEnabled="false"
+            app:hintTextColor="@color/text_grayed"
+            app:layout_constraintBottom_toTopOf="@+id/discountTitleTextView"
+            app:layout_constraintEnd_toEndOf="@+id/editEmailIconImageView"
+            app:layout_constraintStart_toStartOf="@+id/totalCostTitleTextView">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:hint="@string/discount_code"
+                android:inputType="text"
+                android:paddingStart="0dp"
+                android:textColor="@color/colorBlack"
+                android:paddingEnd="@dimen/_15sdp"
+                android:textAppearance="@style/p3" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Spinner
+            android:id="@+id/codesSpinner"
+            style="@style/mySpinnerItemStyle"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="0dp"
+            android:textAlignment="center"
+            android:background="@null"
+            app:layout_constraintBottom_toBottomOf="@+id/discountInputLayout"
+            app:layout_constraintEnd_toEndOf="@+id/discountInputLayout"
+            app:layout_constraintTop_toTopOf="@+id/discountInputLayout" />
+
+
+        <ImageView
+            android:id="@+id/dropDownCodesImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:text="@string/have_discount_code"
-            android:textColor="@color/blue"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/discountCodeValueTextView"
-            app:layout_constraintTop_toBottomOf="@+id/discountCodeValueTextView" />
+            android:elevation="5dp"
+            android:src="@drawable/down"
+            app:layout_constraintBottom_toBottomOf="@+id/codesSpinner"
+            app:layout_constraintEnd_toEndOf="@+id/codesSpinner"
+            app:layout_constraintTop_toTopOf="@+id/codesSpinner" />
 
 
         <TextView
@@ -237,7 +272,7 @@
             android:text="@string/total_cost"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/checkOutButton"
-            app:layout_constraintStart_toStartOf="@+id/addressSection" />
+            app:layout_constraintStart_toStartOf="@+id/emailIconImageView" />
 
         <Button
             android:id="@+id/checkOutButton"
