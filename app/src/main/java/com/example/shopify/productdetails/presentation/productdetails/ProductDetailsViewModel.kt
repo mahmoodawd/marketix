@@ -104,8 +104,9 @@ class ProductDetailsViewModel @Inject constructor(
 
                         when (response.error) {
                             "itemAlreadyExistException" -> {
-                                _snackBarFlow.emit(R.string.
-                                already_in_fav)
+                                _snackBarFlow.emit(
+                                    R.string.already_in_fav
+                                )
                                 _state.update { it.copy(isFavorite = true) }
                             }
 
@@ -175,7 +176,7 @@ class ProductDetailsViewModel @Inject constructor(
                             _state.value.product?.variants?.first()?.price =
                                 (_state.value.product?.variants?.first()?.price?.toDouble()
                                     ?.times(_state.value.currencyFactor))?.roundTo(2).toString()
-                            _state.value.product?.currency = currency.data?:"EGP"
+                            _state.value.product?.currency = currency.data ?: "EGP"
 
                         }
                     }

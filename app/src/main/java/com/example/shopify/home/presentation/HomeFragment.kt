@@ -28,6 +28,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.RangeSlider.OnSliderTouchListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
@@ -167,6 +168,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
     private fun checkConnection() {
         lifecycleScope.launch {
             connectivityObserver.observe().collectLatest {
+                delay(200)
                 when (it) {
                     ConnectivityObserver.Status.Available -> {
                         viewModel.readCurrencyFactorFromDataStore()

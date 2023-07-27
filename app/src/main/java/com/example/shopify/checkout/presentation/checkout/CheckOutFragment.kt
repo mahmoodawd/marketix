@@ -101,7 +101,7 @@ class CheckOutFragment : Fragment() {
 
         navController = findNavController()
         stateObserver()
-        snackBarObserver(viewModel.snackBarFlow)
+        requireActivity().snackBarObserver(viewModel.snackBarFlow)
         binding.editEmailIconImageView.setOnClickListener {
             navController.navigate(CheckOutFragmentDirections.actionCheckOutFragmentToEmailDialogFragment())
         }

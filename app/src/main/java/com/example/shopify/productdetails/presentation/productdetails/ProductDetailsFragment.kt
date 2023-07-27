@@ -65,19 +65,20 @@ class ProductDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.imageAdapter = imagesAdapter
+        binding.optionAdapter = optionAdapter
+
+        binding.indicator.attachToRecyclerView(binding.productImagesViewPager)
+
         binding.backImageView.setOnClickListener { navController.popBackStack() }
 
         binding.addToFavFab.setOnClickListener {
 
             viewModel.onEvent(ProductDetailsIntent.AddToFavorite(binding.product!!))
         }
-        binding.productImagesViewPager.adapter = imagesAdapter
-        binding.indicator.attachToRecyclerView(binding.productImagesViewPager);
 
 
         binding.addToCartFab.setOnClickListener {
-
-
             var title = ""
             optionAdapter.selectedOptions.forEachIndexed { index, option ->
                 title = title.plus(option)
@@ -124,12 +125,6 @@ class ProductDetailsFragment : Fragment() {
         }
 
 
-
-        binding.imageAdapter = imagesAdapter
-        binding.optionAdapter = optionAdapter
-
-
-
         binding.ratingView.apply {
             ratingBar.rating = 3.5F
             toReviewsIv.setOnClickListener {
@@ -141,9 +136,9 @@ class ProductDetailsFragment : Fragment() {
 
         viewModel.onEvent(ProductDetailsIntent.GetDetails(args.productId))
 
-        observeState()
+        requireActivity().snackBarObserver(viewModel.snackBarFlow)
 
-        snackBarObserver(viewModel.snackBarFlow)
+        observeState()
     }
 
 

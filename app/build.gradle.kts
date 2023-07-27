@@ -15,13 +15,13 @@ android {
 
     defaultConfig {
         applicationId = libs.versions.applicationId.get()
-        minSdk =  libs.versions.minSDK.get().toInt()
-        targetSdk =  libs.versions.targetSDK.get().toInt()
-        versionCode =  libs.versions.codeVersion.get().toInt()
-        versionName =  libs.versions.compileSDK.get()
+        minSdk = libs.versions.minSDK.get().toInt()
+        targetSdk = libs.versions.targetSDK.get().toInt()
+        versionCode = libs.versions.codeVersion.get().toInt()
+        versionName = libs.versions.compileSDK.get()
 
-        resourceConfigurations.addAll(listOf("en","ar"))
-        testInstrumentationRunner  = "com.example.weatherpilot.HiltTestRunner"
+        resourceConfigurations.addAll(listOf("en", "ar"))
+        testInstrumentationRunner = "com.example.weatherpilot.HiltTestRunner"
     }
 
 
@@ -44,13 +44,25 @@ android {
         }
 
         forEach {
-            it.buildConfigField("String","API_KEY","\"6aaa8200ce048ed2bee45a85dc8ce851\"")
-            it.buildConfigField("String","API_TOKEN","\"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\"")
-            it.buildConfigField("String","API_SECRET","\"4c9701e1037c46aebb8e81bc4b1c26ee\"")
-            it.buildConfigField("String","API_BASE","\"https://itp-sv-and5.myshopify.com/admin/api/2023-07/\"")
-            it.buildConfigField("String","COUNTRIES_API","\"https://countriesnow.space/api/v0.1/\"")
-            it.buildConfigField("String","EXCHANGE_API","\"https://api.apilayer.com/exchangerates_data/\"")
-            it.buildConfigField("String","EXCHANGE_TOKEN","\"fbnsZOKUdbSKjI3VMe2GTWqoVrQR0Lue\"")
+            it.buildConfigField("String", "API_KEY", "\"6aaa8200ce048ed2bee45a85dc8ce851\"")
+            it.buildConfigField("String", "API_TOKEN", "\"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\"")
+            it.buildConfigField("String", "API_SECRET", "\"4c9701e1037c46aebb8e81bc4b1c26ee\"")
+            it.buildConfigField(
+                "String",
+                "API_BASE",
+                "\"https://itp-sv-and5.myshopify.com/admin/api/2023-07/\""
+            )
+            it.buildConfigField(
+                "String",
+                "COUNTRIES_API",
+                "\"https://countriesnow.space/api/v0.1/\""
+            )
+            it.buildConfigField(
+                "String",
+                "EXCHANGE_API",
+                "\"https://api.apilayer.com/exchangerates_data/\""
+            )
+            it.buildConfigField("String", "EXCHANGE_TOKEN", "\"fbnsZOKUdbSKjI3VMe2GTWqoVrQR0Lue\"")
         }
     }
     compileOptions {
@@ -96,8 +108,8 @@ dependencies {
     implementation(libs.scrollingpagerindicator)
     ksp(libs.androidx.room.compiler)
     kapt(libs.com.google.dagger.hilt.compiler)
+    implementation("ru.tinkoff.scrollingpagerindicator:scrollingpagerindicator:1.2.5")
     kapt(libs.androidx.hilt.hilt.compiler)
-
 
 
     //bundles
@@ -109,7 +121,7 @@ dependencies {
     implementation(libs.bundles.data.store)
     implementation(libs.bundles.room)
     implementation(libs.bundles.location.maps)
-  //  implementation(libs.bundles.braintree)
+    //  implementation(libs.bundles.braintree)
 
 
     //testing

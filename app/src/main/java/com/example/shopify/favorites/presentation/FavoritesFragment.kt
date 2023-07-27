@@ -1,9 +1,11 @@
 package com.example.shopify.favorites.presentation
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -11,7 +13,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.databinding.FragmentFavoritesBinding
+import com.example.shopify.search.presentation.SearchItemsAdapter
 import com.example.shopify.utils.snackBarObserver
+import com.example.shopify.utils.ui.gone
+import com.example.shopify.utils.ui.visible
 import com.example.shopify.utils.ui.visibleIf
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,17 +39,22 @@ class FavoritesFragment : Fragment() {
     private val favoritesAdapter: FavoritesAdapter by lazy {
         FavoritesAdapter(
             onItemClick = { productId ->
-                FavoritesFragmentDirections
-                    .actionFavoritesFragmentToProductDetailsFragment(
-                        productId
-                    )
-                    .run {
-                        navController.navigate(this)
-                    }
+                navToDetails(productId)
             },
             onDeleteClick = { id, position ->
                 showConfirmDeleteDialog(id, position)
             })
+    }
+
+    private val searchAdapter: SearchItemsAdapter by lazy {
+        SearchItemsAdapter { productId ->
+            navToDetails(productId)
+        }
+    }
+
+    private fun navToDetails(productId: String) {
+        val uri = Uri.parse("shopify://productDetailsFragment/${productId}")
+        navController.navigate(uri)
     }
 
     override fun onCreateView(
@@ -54,6 +64,7 @@ class FavoritesFragment : Fragment() {
         binding = FragmentFavoritesBinding.inflate(inflater, container, false)
 
         binding.adapter = favoritesAdapter
+        binding.searchAdapter = searchAdapter
 
         return binding.root
     }
@@ -63,9 +74,46 @@ class FavoritesFragment : Fragment() {
 
         viewModel.onEvent(FavoritesIntent.GetFavorites)
 
-        snackBarObserver(viewModel.snackBarFlow)
+
+        requireActivity().snackBarObserver(viewModel.snackBarFlow)
+
+        binding.searchEditText.apply {
+
+            setOnCloseListener {
+                binding.searchResultRv.gone()
+                false
+            }
+
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    //Should take the first element of the result list and go to it's details
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    binding.searchResultRv.visible()
+                    binding.noFavsView.gone()
+                    search(newText)
+
+
+                    return false
+                }
+            }
+            )
+        }
 
         observeState()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.searchResultRv.gone()
+
+    }
+
+    private fun search(keyword: String?) {
+        viewModel.onEvent(FavoritesIntent.Search(keyword ?: ""))
+//        searchAdapter.submitList(searchResultList)
     }
 
     private fun observeState() {
@@ -80,6 +128,10 @@ class FavoritesFragment : Fragment() {
                         binding.favoritesProgressBar visibleIf state.loading
 
                         favoritesAdapter.submitList(state.products)
+
+                        if (state.searchResult.isNotEmpty()) {
+                            searchAdapter.submitList(state.searchResult)
+                        }
 
                     }
                 }

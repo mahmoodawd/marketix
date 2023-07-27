@@ -6,4 +6,6 @@ sealed interface FavoritesIntent {
 
     data class RemoveFromFavorites(val id: String, val itemPosition: Int) : FavoritesIntent
 
+    data class Search(val keyword: String) : FavoritesIntent
+
 }

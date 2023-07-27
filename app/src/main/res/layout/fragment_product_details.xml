@@ -79,7 +79,8 @@
                 app:layout_constraintEnd_toEndOf="@id/product_images_view_pager"
                 app:layout_constraintStart_toStartOf="@id/product_images_view_pager"
                 app:layout_constraintTop_toBottomOf="@id/product_images_view_pager"
-                app:spi_dotSelectedColor="@color/md_theme_light_primary" />
+                app:spi_dotSelectedColor="@color/md_theme_light_primary"
+                app:spi_looped="true" />
 
             <TextView
                 android:id="@+id/productTypeTv"
