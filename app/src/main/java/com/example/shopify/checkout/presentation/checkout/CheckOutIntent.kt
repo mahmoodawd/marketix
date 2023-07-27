@@ -21,7 +21,7 @@ sealed interface CheckOutIntent
 
     data class ChooseAddress(val Address :AddressModel) : CheckOutIntent
 
-    data class ChooseDiscountCode(val discountCode:DiscountCodeModel) : CheckOutIntent
+    data class ChooseDiscountCode(val discountCodeIndex:Int) : CheckOutIntent
 
     data class EmitMessage(val message : Int) : CheckOutIntent
 

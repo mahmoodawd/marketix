@@ -13,8 +13,11 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -37,7 +40,9 @@ import com.example.shopify.databinding.CodeBottomSheetBinding
 import com.example.shopify.databinding.FragmentCheckOutBinding
 import com.example.shopify.home.domain.model.discountcode.DiscountCodeModel
 import com.example.shopify.settings.domain.model.CurrencyModel
+import com.example.shopify.settings.presenation.settings.SettingsIntent
 import com.example.shopify.utils.snackBarObserver
+import com.example.shopify.utils.ui.visibleIf
 import com.paypal.checkout.approve.OnApprove
 import com.paypal.checkout.cancel.OnCancel
 import com.paypal.checkout.createorder.CreateOrder
@@ -82,14 +87,6 @@ class CheckOutFragment : Fragment() {
         Dialog(requireContext())
     }
 
-    private val discountCodesRecyclerAdapter by lazy {
-        DiscountCodesRecyclerAdapter { code ->
-            viewModel.onEvent(CheckOutIntent.ChooseDiscountCode(code))
-            viewModel.onEvent(CheckOutIntent.ValidateDiscountCode)
-            discountDialog.dismiss()
-        }
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -115,7 +112,6 @@ class CheckOutFragment : Fragment() {
 
         binding.checkOutButton.setOnClickListener {
             createOrder(cartItems as CartItems)
-//            navController.navigate(CheckOutFragmentDirections.actionCheckOutFragmentToDiscountFragment())
         }
 
 
@@ -123,9 +119,7 @@ class CheckOutFragment : Fragment() {
             showAddressSheet()
         }
 
-        binding.discountCode.setOnClickListener {
-            showDiscountCodesSheet()
-        }
+
 
         binding.mapImageView.setOnClickListener {
             with(viewModel.state.value.deliveryAddress!!) {
@@ -136,8 +130,39 @@ class CheckOutFragment : Fragment() {
         paypalSetup()
         getSubTotal()
         checkOutCompletedObserver()
-
+        spinnerSetup(null,null)
+        codeSelector()
     }
+
+    private fun codeSelector()
+    {
+        binding.codesSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                    viewModel.onEvent(CheckOutIntent.ChooseDiscountCode(position))
+                    viewModel.onEvent(CheckOutIntent.ValidateDiscountCode)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
+    }
+
+    private fun spinnerSetup(arraySpinner: List<DiscountCodeModel>?,selectedItem : DiscountCodeModel?) {
+
+
+        val adapter = ArrayAdapter(requireContext(),
+            android.R.layout.simple_spinner_item, arraySpinner?.map { it.code } ?: mutableListOf())
+        binding.codesSpinner.adapter = adapter
+
+            binding.codesSpinner.setSelection(0)
+//
+    }
+
 
 
     private fun openInMap(latitude: Double, longitude: Double, address: String?) {
@@ -172,7 +197,7 @@ class CheckOutFragment : Fragment() {
             lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.state.collectLatest { state ->
 
-                    discountCodesRecyclerAdapter.submitList(state.discountCodes)
+                    //discountCodesRecyclerAdapter.submitList(state.discountCodes)
                     addressesRecyclerAdapter.submitList(state.addresses)
                     binding.emailValueTextView.text = state.email
                     binding.phoneValueTextView.text = state.phone
@@ -186,6 +211,11 @@ class CheckOutFragment : Fragment() {
                     } ?: kotlin.run {
                         binding.addressSection.visibility = View.GONE
                     }
+                    spinnerSetup(state.discountCodes,state.discountCode)
+                    binding.discountInputLayout.editText!!.setText(state.discountCode?.code)
+                    binding.codesSpinner visibleIf state.discountCodes.isNotEmpty()
+                    binding.discountInputLayout visibleIf state.discountCodes.isNotEmpty()
+                    binding.dropDownCodesImageView visibleIf state.discountCodes.isNotEmpty()
                 }
             }
         }
@@ -231,7 +261,7 @@ class CheckOutFragment : Fragment() {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
-            setUpRecyclerView(bottomSheetBinding.codesRecycler, discountCodesRecyclerAdapter)
+         //   setUpRecyclerView(bottomSheetBinding.codesRecycler, discountCodesRecyclerAdapter)
 
             bottomSheetBinding.done.setOnClickListener {
                 dismiss()

@@ -75,7 +75,7 @@ class CheckOutViewModel @Inject constructor(
             CheckOutIntent.PostOrdersFromCart -> {}
             CheckOutIntent.ValidateDiscountCode -> {validateDiscountCode()}
             is CheckOutIntent.ChooseAddress -> _state.update { it.copy(deliveryAddress = intent.Address) }
-            is CheckOutIntent.ChooseDiscountCode -> _state.update { it.copy(discountCode = intent.discountCode) }
+            is CheckOutIntent.ChooseDiscountCode -> _state.update { it.copy(discountCode = state.value.discountCodes[intent.discountCodeIndex]) }
             is CheckOutIntent.EmitMessage -> { viewModelScope.launch(ioDispatcher) { _snackBarFlow.emit(intent.message) } }
             is CheckOutIntent.UserEditEmail -> _state.update { it.copy(email = intent.email) }
             is CheckOutIntent.UserEditPhone -> _state.update { it.copy(phone = intent.phone) }
