@@ -58,6 +58,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import kotlin.math.absoluteValue
 
 
 @AndroidEntryPoint
@@ -112,7 +113,7 @@ class CheckOutFragment : Fragment() {
         }
 
         binding.checkOutButton.setOnClickListener {
-            createOrder(cartItems as CartItems)
+            createOrder(mCartItems as CartItems)
         }
 
 
