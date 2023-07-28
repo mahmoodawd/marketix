@@ -2,13 +2,14 @@ package com.example.shopify.utils.navigation
 
 import android.location.Geocoder
 import android.location.LocationManager
-import android.provider.Settings
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import com.example.shopify.auth.presentation.login.LoginFragment
 import com.example.shopify.auth.presentation.signup.SignUpFragment
+import com.example.shopify.favorites.presentation.FavoritesFragment
 import com.example.shopify.home.presentation.HomeFragment
 import com.example.shopify.orders.presentation.orders.OrdersFragment
+import com.example.shopify.productdetails.presentation.productdetails.ProductDetailsFragment
 import com.example.shopify.settings.presenation.address.adresses.AllAddressesFragment
 import com.example.shopify.settings.presenation.address.map.MapFragment
 import com.example.shopify.settings.presenation.settings.SettingsFragment
@@ -21,31 +22,31 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import javax.inject.Inject
 
-class FragmentFactory  @Inject constructor(
+class FragmentFactory @Inject constructor(
     private val connectivityObserver: ConnectivityObserver,
     private val englishGeoCoder: Geocoder,
-    private val locationClient : FusedLocationProviderClient,
+    private val locationClient: FusedLocationProviderClient,
     private val locationManager: LocationManager,
     private val locationRequest: LocationRequest,
     private val firebaseAuth: FirebaseAuth,
     private val firebaseStorage: FirebaseStorage,
     private val firebaseFirestore: FirebaseFirestore
 
-    ): FragmentFactory() {
+) : FragmentFactory() {
 
     override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
-        return when(className){
+        return when (className) {
 
 
-            HomeFragment::class.java.name ->{
+            HomeFragment::class.java.name -> {
                 HomeFragment(connectivityObserver)
             }
 
-            OrdersFragment::class.java.name ->{
+            OrdersFragment::class.java.name -> {
                 OrdersFragment(connectivityObserver, firebaseAuth)
             }
 
-            MapFragment::class.java.name ->{
+            MapFragment::class.java.name -> {
                 MapFragment(englishGeoCoder)
             }
 
@@ -58,14 +59,27 @@ class FragmentFactory  @Inject constructor(
                 SignUpFragment(firebaseAuth)
             }
 
-            AllAddressesFragment::class.java.name ->{
-                AllAddressesFragment(locationClient, locationRequest, locationManager, connectivityObserver)
+            AllAddressesFragment::class.java.name -> {
+                AllAddressesFragment(
+                    locationClient,
+                    locationRequest,
+                    locationManager,
+                    connectivityObserver
+                )
             }
 
-
-            SettingsFragment::class.java.name ->{
+            SettingsFragment::class.java.name -> {
                 SettingsFragment(firebaseAuth)
             }
+
+            FavoritesFragment::class.java.name -> {
+                FavoritesFragment(connectivityObserver)
+            }
+
+            ProductDetailsFragment::class.java.name -> {
+                ProductDetailsFragment(connectivityObserver)
+            }
+
 
             SplashFragment::class.java.name->{
                 SplashFragment(firebaseAuth)

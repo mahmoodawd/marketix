@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,8 +16,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="@dimen/_50sdp"
-            android:visibility="gone"
             android:indeterminateTint="@color/seed"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -25,44 +25,30 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5" />
 
-        <ImageView
-            android:id="@+id/backImageView"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_25sdp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:importantForAccessibility="no"
-            android:src="@drawable/back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/welcome_header_tv"
             style="@style/title_font"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_32sdp"
             android:layout_marginEnd="4dp"
             android:text="@string/hello_again"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/backImageView" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/welcome_msg_tv"
             style="@style/p3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="88dp"
             android:text="@string/welcome_back_msg"
             android:textColor="@color/md_theme_light_onSurfaceVariant"
-            app:layout_constraintBottom_toTopOf="@+id/email_field"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/welcome_header_tv"
-            app:layout_constraintVertical_bias="0.478" />
+            app:layout_constraintTop_toBottomOf="@+id/welcome_header_tv" />
 
 
         <include
@@ -70,8 +56,8 @@
             layout="@layout/email_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
             android:padding="@dimen/_8sdp"
-            app:layout_constraintBottom_toTopOf="@+id/password_field"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -85,7 +71,6 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/_8sdp"
             app:endIconMode="password_toggle"
-            app:layout_constraintBottom_toTopOf="@+id/forget_password_btn"
             app:layout_constraintEnd_toStartOf="@id/guideline_end"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -99,7 +84,6 @@
             android:layout_height="wrap_content"
             android:text="@string/forget_password"
             android:textColor="@color/md_theme_light_onSurfaceVariant"
-            app:layout_constraintBottom_toTopOf="@+id/sign_in_btn"
             app:layout_constraintEnd_toEndOf="@+id/guideline_end"
             app:layout_constraintTop_toBottomOf="@+id/password_field" />
 
@@ -118,11 +102,41 @@
             layout="@layout/google_button"
             android:layout_width="0dp"
             android:layout_height="@dimen/_54sdp"
+            android:layout_marginTop="@dimen/_8sdp"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/sign_in_btn"
             app:layout_constraintVertical_bias="0.275" />
+
+
+        <com.google.android.material.button.MaterialButton
+
+            android:id="@+id/guestBtn"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:text="@string/guest"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/google_btn_view" />
+
+        <TextView
+            android:id="@+id/nav_to_register_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_4sdp"
+            android:fontFamily="@font/bold"
+            android:text="@string/sign_up"
+            android:textColor="@color/md_theme_light_onSurface"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toEndOf="@+id/nav_to_register_tv"
+            app:layout_constraintTop_toBottomOf="@id/guestBtn" />
 
         <TextView
             android:id="@+id/nav_to_register_tv"
@@ -135,32 +149,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.333"
             app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/nav_to_register_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_2sdp"
-            android:layout_marginTop="@dimen/_4sdp"
-            android:fontFamily="@font/bold"
-            android:text="@string/sign_up"
-            android:textColor="@color/md_theme_light_onSurface"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintStart_toEndOf="@+id/nav_to_register_tv"
-            app:layout_constraintTop_toBottomOf="@id/google_btn_view" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/guestBtn"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:layout_marginBottom="@dimen/_8sdp"
-            android:text="@string/guest"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/nav_to_register_btn" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"

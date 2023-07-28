@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import com.example.shopify.R
 import com.example.shopify.databinding.FragmentFirstBinding
 
 class FirstFragment : Fragment() {
@@ -39,8 +40,9 @@ class FirstFragment : Fragment() {
                FragmentNavigatorExtras()
             }
             controller.navigate(
-                FirstFragmentDirections.actionCategoriesFragmentToFavouritesFragment(), extras
+                FirstFragmentDirections.actionFirstFragmentToSecondFragment(), extras
             )
+
         }
 
         binding.skipTextView.setOnClickListener {

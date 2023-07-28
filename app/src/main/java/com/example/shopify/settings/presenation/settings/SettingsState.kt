@@ -8,4 +8,5 @@ data class SettingsState(
     val notification: Boolean = true,
     val LocationService: Boolean = true,
     val loading : Boolean = true,
+    val userIsGuest : Boolean= true,
     )

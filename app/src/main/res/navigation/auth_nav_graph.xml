@@ -12,7 +12,8 @@
     <action
         android:id="@+id/action_to_homeFragment_as_guest"
         app:destination="@id/home_graph"
-        app:popUpToInclusive="false" />
+        app:popUpTo="@id/loginFragment"
+        app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.shopify.auth.presentation.login.LoginFragment"

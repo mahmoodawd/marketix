@@ -2,6 +2,7 @@ package com.example.shopify.checkout.presentation.cart
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.shopify.NavGraphDirections
 import com.example.shopify.checkout.domain.model.CartItems
 import com.example.shopify.databinding.FragmentCartBinding
 import com.example.shopify.utils.snackBarObserver
@@ -73,11 +75,21 @@ class CartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
         requireActivity().snackBarObserver(viewModel.snackBarFlow)
-        viewModel.onEvent(CartIntent.GetAllCartItems)
+        getAllCartItems()
         setUpCartRecyclerView()
         stateObserver()
         binding.checkOutButton.setOnClickListener {
-            navController.navigate(CartFragmentDirections.actionCartFragmentToCheckOutFragment(viewModel.state.value.cartTotalCost.toString(),CartItems(viewModel.state.value.cartItems)))
+            navController.navigate(
+                CartFragmentDirections.actionCartFragmentToCheckOutFragment(
+                    viewModel.state.value.cartTotalCost.toString(),
+                    CartItems(viewModel.state.value.cartItems)
+                )
+            )
+        }
+
+
+        binding.guestView.navToAuthBtn.setOnClickListener {
+            navController.navigate(NavGraphDirections.actionToAuthenticationGraph())
         }
 
 
@@ -85,6 +97,13 @@ class CartFragment : Fragment() {
             navController.popBackStack()
         }
 
+    }
+
+    private fun getAllCartItems() {
+        if (!viewModel.state.value.userIsGuest) {
+           Log.d("userIsGuest","user")
+            viewModel.onEvent(CartIntent.GetAllCartItems)
+        }
     }
 
 
@@ -101,15 +120,17 @@ class CartFragment : Fragment() {
             lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.state.collectLatest { state ->
                     cartRecyclerAdapter.submitList(state.cartItems)
-                 cartRecyclerAdapter.notifyDataSetChanged()
+                    cartRecyclerAdapter.notifyDataSetChanged()
                     binding.progressBar visibleIf state.loading
                     binding.totalCostValueTextView visibleIf (state.cartItems.isNotEmpty() && !state.loading)
                     binding.totalCostTitleTextView visibleIf (state.cartItems.isNotEmpty() && !state.loading)
                     binding.checkOutButton visibleIf (state.cartItems.isNotEmpty() && !state.loading)
                     binding.cartRecyclerView visibleIf (state.cartItems.isNotEmpty() && !state.loading)
-                    binding.cartEmptyImageView visibleIf (state.cartItems.isEmpty() && !state.loading)
-                    binding.emptyCartTextView visibleIf (state.cartItems.isEmpty() && !state.loading)
+                    binding.cartEmptyImageView visibleIf (state.cartItems.isEmpty() && !state.loading&& !state.userIsGuest)
+                    binding.emptyCartTextView visibleIf (state.cartItems.isEmpty() && !state.loading && !state.userIsGuest)
                     binding.totalCostValueTextView.text = "${state.cartTotalCost} ${state.currency}"
+                    binding.guestView.root visibleIf state.userIsGuest
+
                 }
             }
         }

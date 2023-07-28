@@ -10,8 +10,8 @@ import com.google.firebase.auth.FirebaseAuth
 
 fun DraftOrdersItem.toFavoriteItem(): FavoriteProductModel =
     line_items[0].toProduct().also {
-        it.draftOrderId = this.id
-        it.currency = this.currency
+        it.draftOrderId = this@toFavoriteItem.id
+        it.currency = this@toFavoriteItem.currency
     }
 
 fun DraftOrderResponse.toFavoritesModel(): FavoritesModel =
