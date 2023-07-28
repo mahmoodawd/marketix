@@ -4,6 +4,12 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/onboarding_graph">
 
+    <action
+        android:id="@+id/action_to_authentication_graph"
+        app:destination="@id/auth_nav_graph"
+        app:enterAnim="@anim/transitionin"
+        app:exitAnim="@anim/transitionout"
+        />
 
     <include app:graph="@navigation/settings_graph"/>
     <include app:graph="@navigation/auth_nav_graph"/>

@@ -14,6 +14,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.example.shopify.NavGraphDirections
 import com.example.shopify.R
 import com.example.shopify.databinding.FragmentFavoritesBinding
 import com.example.shopify.search.presentation.SearchItemsAdapter
@@ -70,7 +71,7 @@ class FavoritesFragment : Fragment() {
         binding.adapter = favoritesAdapter
         binding.searchAdapter = searchAdapter
         binding.guestView.navToAuthBtn.setOnClickListener {
-            navController.navigate(getString(R.string.authFragmentDeepLink).toUri())
+            navController.navigate(NavGraphDirections.actionToAuthenticationGraph())
         }
 
 
