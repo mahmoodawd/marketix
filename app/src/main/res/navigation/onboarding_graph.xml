@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/onboarding_graph"
+    app:startDestination="@id/categoriesFragment">
+
+
+    <fragment
+        android:id="@+id/categoriesFragment"
+        android:name="com.example.shopify.boarding.presentation.FirstFragment"
+        android:label="CategoriesFragment"
+        tools:layout="@layout/fragment_first">
+        <action
+            android:id="@+id/action_categoriesFragment_to_favouritesFragment"
+            app:destination="@id/favouritesFragment"
+            app:enterAnim="@anim/transitionin"
+            app:exitAnim="@anim/transitionout"
+            />
+
+
+        <action
+            android:id="@+id/action_to_authentication_graph"
+            app:destination="@id/auth_nav_graph"
+            app:enterAnim="@anim/transitionin"
+            app:exitAnim="@anim/transitionout"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.example.shopify.boarding.presentation.SecondFragment"
+        android:label="FavouritesFragment"
+        tools:layout="@layout/fragment_second">
+        <action
+            android:id="@+id/action_favouritesFragment_to_allergiesFragment"
+            app:destination="@id/allergiesFragment"
+            app:enterAnim="@anim/transitionin"
+            app:exitAnim="@anim/transitionout"
+            />
+
+
+        <action
+            android:id="@+id/action_to_authentication_graph"
+            app:destination="@id/auth_nav_graph"
+            app:enterAnim="@anim/transitionin"
+            app:exitAnim="@anim/transitionout"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/allergiesFragment"
+        android:name="com.example.shopify.boarding.presentation.ThirdFragment"
+        android:label="AllergiesFragment"
+        tools:layout="@layout/fragment_third" >
+
+        <action
+            android:id="@+id/action_to_authentication_graph"
+            app:destination="@id/auth_nav_graph"
+            app:enterAnim="@anim/transitionin"
+            app:exitAnim="@anim/transitionout"
+            />
+
+    </fragment>
+</navigation>

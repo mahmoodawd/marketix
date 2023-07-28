@@ -9,6 +9,7 @@ import com.example.shopify.utils.response.Response
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import javax.inject.Inject
 
 class OrdersRepositoryImp @Inject constructor(
@@ -20,6 +21,7 @@ class OrdersRepositoryImp @Inject constructor(
                 Response.Success(it.data!!.toOrdersModel())
             }
         } catch (e: Exception) {
+            Timber.e(e.message)
             flowOf(Response.Failure(e.message ?: "UnKnown"))
         }
     }

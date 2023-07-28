@@ -14,8 +14,6 @@ fun Order.toOrderModel(): OrderModel =
     OrderModel(
         contactEmail = contact_email,
         createdAt = created_at,
-        currentSubtotalPrice = current_subtotal_price,
-        currentTotalDiscounts = current_total_discounts,
         currentTotalPrice = current_total_price,
         email = email,
         id = id,
@@ -23,37 +21,24 @@ fun Order.toOrderModel(): OrderModel =
         name = name,
         number = number,
         orderNumber = order_number,
-        orderStatusUrl = order_status_url,
         subtotalPrice = subtotal_price,
         tags = tags,
         test = test,
-        token = token,
-        totalDiscounts = total_discounts,
         totalLineItemsPrice = total_line_items_price,
-        totalOutstanding = total_outstanding?:"",
         totalPrice = total_price,
-        totalWeight = total_weight, updatedAt = updated_at
     )
 
 fun LineItem.toLineItemModel(): LineItemModel =
     LineItemModel(
-        fulfillableQuantity = fulfillable_quantity,
-        fulfillmentService = fulfillment_service,
-        giftCard = gift_card,
-        grams = grams,
+
         id = id,
         name = name,
         price = price,
-        productExists = product_exists,
         productId = product_id,
         properties = properties ?: listOf(),
         quantity = quantity,
-        sku = sku,
-        taxable = taxable,
         title = title,
-        totalDiscount = total_discount,
         variantId = variant_id,
-        variantInventoryManagement = variant_inventory_management?:"",
         variantTitle = variant_title,
         vendor = vendor
     )

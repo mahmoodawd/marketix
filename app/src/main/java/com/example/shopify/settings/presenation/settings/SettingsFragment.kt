@@ -7,30 +7,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.databinding.FragmentSettingsBinding
 import com.example.shopify.settings.domain.model.CurrencyModel
-import com.example.shopify.settings.presenation.address.adresses.AllAddressesFragmentDirections
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
 @AndroidEntryPoint
-class SettingsFragment(
-
-) : Fragment() {
+class SettingsFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
 
@@ -59,13 +54,23 @@ class SettingsFragment(
             navController.navigate(SettingsFragmentDirections.actionSettingsFragmentToAccountFragment())
         }
 
-        binding.notificationSwitch.setOnCheckedChangeListener { compoundButton, checked ->
+        binding.notificationSwitch.setOnCheckedChangeListener { _, checked ->
             viewModel.onEvent(SettingsIntent.SaveNotificationPref(getString(com.example.shopify.R.string.notification),checked))
         }
 
 
-        binding.locationSwitch.setOnCheckedChangeListener { compoundButton, checked ->
+        binding.locationSwitch.setOnCheckedChangeListener { _, checked ->
             viewModel.onEvent(SettingsIntent.SaveLocationPref(getString(com.example.shopify.R.string.locationservice),checked))
+        }
+
+
+        binding.backImageView.setOnClickListener {
+            navController.popBackStack()
+        }
+
+        binding.logoutTextView.setOnClickListener {
+            firebaseAuth.signOut()
+           navController.navigate(SettingsFragmentDirections.actionSettingsFragmentToAuthenticationGraph())
         }
 
 

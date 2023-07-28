@@ -1,35 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SecondFragment">
+    android:fillViewport="true"
+    tools:ignore="SpeakableTextPresentCheck"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_height="wrap_content"
+        tools:context=".registration.LoginActivity">
 
-        <Button
-            android:id="@+id/button_second"
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/vGuideline2.5percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/previous"
-            app:layout_constraintBottom_toTopOf="@id/textview_second"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.025" />
 
         <TextView
-            android:id="@+id/textview_second"
+            android:id="@+id/skipTextView"
+            style="@style/p3"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/lorem_ipsum"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:text="@string/skip"
+            android:textColor="@color/seed"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/progressBar"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            app:layout_constraintEnd_toEndOf="@+id/skipTextView"
+            app:layout_constraintStart_toStartOf="@+id/vGuideline2.5percent"
+            app:layout_constraintTop_toBottomOf="@+id/descriptionTextView">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardProgress"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:transitionName="orangeProgress"
+                app:cardBackgroundColor="@color/seed"
+                app:cardCornerRadius="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/vGuideline0.66percent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/vGuideline0.33percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.33" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/vGuideline0.66percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.66" />
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/vGuideline1percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="1" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/forwardImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:background="@drawable/circle_shape_blue"
+            android:elevation="@dimen/_5sdp"
+            android:padding="@dimen/_15sdp"
+            android:scaleX="-1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_second" />
+            app:srcCompat="@drawable/onboarding_forward" />
+
+        <ImageView
+            android:id="@+id/nikeImageView"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_250sdp"
+            android:layout_marginTop="@dimen/_50sdp"
+            app:layout_constraintEnd_toEndOf="@+id/skipTextView"
+            app:layout_constraintStart_toStartOf="@+id/vGuideline2.5percent"
+            app:layout_constraintTop_toBottomOf="@+id/skipTextView"
+            app:srcCompat="@drawable/nike" />
+
+
+        <TextView
+            android:id="@+id/followLatestStyles"
+            style="@style/title_font"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/follow_latest_style_shoes"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_30ssp"
+            app:layout_constraintEnd_toEndOf="@+id/nikeImageView"
+            app:layout_constraintStart_toStartOf="@+id/vGuideline2.5percent"
+            app:layout_constraintTop_toBottomOf="@+id/nikeImageView" />
+
+
+        <TextView
+            android:id="@+id/descriptionTextView"
+            style="@style/p2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/there_are_many_beautiful_and_attractive_plants_to_your_room"
+            android:textColor="@color/text_grayed"
+            app:layout_constraintEnd_toEndOf="@+id/nikeImageView"
+            app:layout_constraintStart_toStartOf="@+id/vGuideline2.5percent"
+            app:layout_constraintTop_toBottomOf="@+id/followLatestStyles" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+</ScrollView>

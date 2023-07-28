@@ -352,10 +352,11 @@
             app:layout_constraintEnd_toStartOf="@+id/checkOutButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/checkOutButton"
-            app:paypal_button_color="silver"
+            app:paypal_button_color="blue"
+
             app:paypal_button_enabled="true"
-            app:paypal_button_label="pay"
-            app:paypal_button_shape="rectangle"
+            app:paypal_button_label="paypal"
+            app:paypal_button_shape="pill"
             app:paypal_button_size="large" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
