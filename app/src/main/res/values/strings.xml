@@ -143,8 +143,8 @@ Is between 8 and 30 characters long</string>
     <string name="userPhone_isUpdated">your phone number updated successfully</string>
     <string name="account_updated_successfully"> your account is updated successfully</string>
     <string name="location_database">locationDatabase\n</string>
-    <string name="city_colon">city : </string>
-    <string name="address_colon">address : </string>
+    <string name="city_colon">City : </string>
+    <string name="address_colon">Address : </string>
     <string name="latitudeType">latitude</string>
     <string name="longitude">longitude</string>
     <string name="inserted_successfully">address inserted successfully</string>
