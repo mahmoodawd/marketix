@@ -17,20 +17,25 @@ import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
 import com.example.shopify.databinding.FragmentFavoritesBinding
 import com.example.shopify.search.presentation.SearchItemsAdapter
+import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.example.shopify.utils.snackBarObserver
 import com.example.shopify.utils.ui.gone
 import com.example.shopify.utils.ui.goneIf
 import com.example.shopify.utils.ui.visible
 import com.example.shopify.utils.ui.visibleIf
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
-class FavoritesFragment : Fragment() {
+class FavoritesFragment(
+    private val connectivityObserver: ConnectivityObserver
+) : Fragment() {
 
     private val viewModel: FavoritesViewModel by viewModels()
 
@@ -80,7 +85,6 @@ class FavoritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.onEvent(FavoritesIntent.GetFavorites)
 
 
         requireActivity().snackBarObserver(viewModel.snackBarFlow)
@@ -113,7 +117,7 @@ class FavoritesFragment : Fragment() {
             }
             )
         }
-
+        checkConnection()
         observeState()
     }
 
@@ -140,6 +144,7 @@ class FavoritesFragment : Fragment() {
                         binding.guestView.root visibleIf (state.guest && !state.loading)
                         binding.searchEditText goneIf state.guest
                         binding.favoritesProgressBar visibleIf state.loading
+                        binding.favItemsRv goneIf state.guest
 
                         favoritesAdapter.submitList(state.products)
                         println("Prices: ")
@@ -162,5 +167,27 @@ class FavoritesFragment : Fragment() {
                 viewModel.onEvent(FavoritesIntent.RemoveFromFavorites(id, position))
             }.setNegativeButton("No") { _, _ -> }
             .show()
+    }
+
+    private fun checkConnection() {
+        val connectivitySnackBar = Snackbar.make(
+            binding.root, getString(com.firebase.ui.auth.R.string.fui_no_internet),
+            Snackbar.LENGTH_INDEFINITE
+        )
+        lifecycleScope.launch {
+            connectivityObserver.observe().collectLatest {
+                delay(200)
+                when (it) {
+                    ConnectivityObserver.Status.Available -> {
+                        connectivitySnackBar.dismiss()
+                        viewModel.onEvent(FavoritesIntent.GetFavorites)
+                    }
+
+                    else -> {
+                        connectivitySnackBar.show()
+                    }
+                }
+            }
+        }
     }
 }

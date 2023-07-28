@@ -62,7 +62,8 @@ class FavoritesViewModel @Inject constructor(
         viewModelScope.launch(ioDispatcher) {
             if (checkGuestStatusUseCase()) {
                 _state.update { it.copy(loading = false, guest = true) }
-            } else
+            } else {
+                _state.update { it.copy(guest = false) }
                 getFavoritesUseCase<FavoritesModel>().collectLatest { response ->
                     Timber.i(" RESPONSE: ${response.data?.products?.size}")
                     when (response) {
@@ -96,6 +97,7 @@ class FavoritesViewModel @Inject constructor(
 
                     }
                 }
+            }
         }
 
     }
