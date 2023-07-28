@@ -26,12 +26,10 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.UserProfileChangeRequest
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
@@ -70,11 +68,13 @@ class LoginFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
         }
 
         binding.forgetPasswordBtn.setOnClickListener {
-            navController.setGraph(R.navigation.auth_nav_graph)
-            navController.navigate(R.id.action_loginFragment_to_passwordRecoveryFragment)
+            navController.navigate(LoginFragmentDirections.actionLoginFragmentToPasswordRecoveryFragment())
         }
 
-        binding.guestBtn.setOnClickListener { navController.navigate(AuthNavGraphDirections.actionToHomeFragmentAsGuest()) }
+        binding.guestBtn.setOnClickListener {
+            navController.navigate(AuthNavGraphDirections.actionToHomeFragmentAsGuest())
+            firebaseAuth.signOut()
+        }
         listenToLoginStatus()
 
         requireActivity().snackBarObserver(viewModel.snackBarFlow)
@@ -162,8 +162,6 @@ class LoginFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
     private fun showDialog() {
         MaterialAlertDialogBuilder(requireContext())
             .setMessage("Email not verified, Check Your Inbox")
-            .setPositiveButton("Open Gmail app") { _, _ ->
-            }
             .show()
     }
 }

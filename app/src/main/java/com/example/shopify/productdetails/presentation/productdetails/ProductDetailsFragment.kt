@@ -17,17 +17,23 @@ import com.example.shopify.R
 import com.example.shopify.databinding.FragmentProductDetailsBinding
 import com.example.shopify.productdetails.domain.model.details.ProductsDetailsModel
 import com.example.shopify.productdetails.presentation.productdetails.options.OptionAdapter
+import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.example.shopify.utils.snackBarObserver
 import com.example.shopify.utils.ui.visibleIf
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 @AndroidEntryPoint
-class ProductDetailsFragment : Fragment() {
+class ProductDetailsFragment(
+    private val connectivityObserver: ConnectivityObserver
+
+) : Fragment() {
 
     lateinit var binding: FragmentProductDetailsBinding
 
@@ -134,9 +140,9 @@ class ProductDetailsFragment : Fragment() {
             }
         }
 
-        viewModel.onEvent(ProductDetailsIntent.GetDetails(args.productId))
-
         requireActivity().snackBarObserver(viewModel.snackBarFlow)
+
+        checkConnection()
 
         observeState()
     }
@@ -196,6 +202,28 @@ class ProductDetailsFragment : Fragment() {
                             Timber.i("Image List: $images")
                             optionAdapter.submitList(options)
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun checkConnection() {
+        val connectivitySnackBar = Snackbar.make(
+            binding.root, getString(com.firebase.ui.auth.R.string.fui_no_internet),
+            Snackbar.LENGTH_INDEFINITE
+        )
+        lifecycleScope.launch {
+            connectivityObserver.observe().collectLatest {
+                delay(200)
+                when (it) {
+                    ConnectivityObserver.Status.Available -> {
+                        connectivitySnackBar.dismiss()
+                        viewModel.onEvent(ProductDetailsIntent.GetDetails(args.productId))
+                    }
+
+                    else -> {
+                        connectivitySnackBar.show()
                     }
                 }
             }
