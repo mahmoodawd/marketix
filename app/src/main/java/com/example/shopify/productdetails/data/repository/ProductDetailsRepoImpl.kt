@@ -7,6 +7,7 @@ import com.example.shopify.productdetails.data.mappers.toFavoriteDraftOrderReque
 import com.example.shopify.productdetails.data.mappers.toProductsDetailsModel
 import com.example.shopify.productdetails.data.remote.RemoteDataSource
 import com.example.shopify.productdetails.domain.model.details.ProductsDetailsModel
+import com.example.shopify.productdetails.domain.model.details.VariantModel
 import com.example.shopify.productdetails.domain.repository.ProductDetailsRepository
 import com.example.shopify.utils.constants.TAG_CART
 import com.example.shopify.utils.constants.TAG_FAVORITES
@@ -57,23 +58,20 @@ class ProductDetailsRepoImpl @Inject constructor(
 
     override suspend
     fun <T> createCartDraftOrder(
-        variantId: Long?,
+        variant: VariantModel?,
         productsDetailsModel: ProductsDetailsModel
     ): Flow<Response<T>> {
         //Handle if the item is already added so ignore it
         val draftOrders =
             remoteDataSource.getDraftOrders<DraftOrderResponse>().data!!.draft_orders
-        Timber.i("variantId: $variantId ")
+        Timber.i("variantId: $variant ")
         val itemExist = draftOrders.any {
             it.tags == TAG_CART &&
                     it.email == auth.currentUser?.email &&
-                    it.line_items.any { lineItem -> lineItem.variant_id == variantId }
+                    it.line_items.any { lineItem -> lineItem.variant_id == variant!!.id }
 
 
         }
-
-
-
 
         return flowOf(
             if (itemExist) {
@@ -83,7 +81,7 @@ class ProductDetailsRepoImpl @Inject constructor(
             } else {
                 remoteDataSource.addDraftOrder(
                     productsDetailsModel.toCartDraftOrderRequest(
-                        variantId
+                        variant
                     )
                 )
 

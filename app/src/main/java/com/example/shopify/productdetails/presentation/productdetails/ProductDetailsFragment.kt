@@ -17,6 +17,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.shopify.R
 import com.example.shopify.databinding.FragmentProductDetailsBinding
 import com.example.shopify.productdetails.domain.model.details.ProductsDetailsModel
+import com.example.shopify.productdetails.domain.model.details.VariantModel
 import com.example.shopify.productdetails.presentation.productdetails.options.OptionAdapter
 import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.example.shopify.utils.snackBarObserver
@@ -100,27 +101,27 @@ class ProductDetailsFragment(
 
             if (optionAdapter.selectedOptions.size == optionAdapter.currentList.size) {
 
-                val selectedVariantId: Long? = try {
+                val selectedVAriant: VariantModel? = try {
 
                     currentProduct?.variants?.first {
                         it.title == title
-                    }?.id
+                    }
                 } catch (e: NoSuchElementException) {
                     Toast.makeText(
                         requireContext(),
                         "Sorry!, No variants available match Selections",
                         Toast.LENGTH_SHORT
                     ).show()
-                    0L
+                    null
                 }
 
-                Timber.i("Selected Variant ID: $selectedVariantId")
-                when (selectedVariantId) {
-                    null, 0L -> {}
+                Timber.i("Selected Variant ID: $selectedVAriant")
+                when (selectedVAriant) {
+                    null -> {}
                     else -> {
                         viewModel.onEvent(
                             ProductDetailsIntent.AddToCart(
-                                selectedVariantId, binding.product!!
+                                selectedVAriant, currentProduct!!
                             )
                         )
                     }
