@@ -180,12 +180,13 @@ class FavoritesFragment(
                 delay(200)
                 when (it) {
                     ConnectivityObserver.Status.Available -> {
-                        connectivitySnackBar.dismiss()
+                        binding.noInternetView.root.gone()
+                        binding.favoritesProgressBar.visible()
                         viewModel.onEvent(FavoritesIntent.GetFavorites)
                     }
 
                     else -> {
-                        connectivitySnackBar.show()
+                        binding.noInternetView.root.visible()
                     }
                 }
             }

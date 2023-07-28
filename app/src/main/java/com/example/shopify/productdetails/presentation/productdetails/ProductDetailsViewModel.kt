@@ -7,6 +7,7 @@ import com.example.shopify.auth.domain.usecases.CheckGuestStatusUseCase
 import com.example.shopify.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
 import com.example.shopify.productdetails.data.dto.draftorder.DraftOrderRequest
 import com.example.shopify.productdetails.domain.model.details.ProductsDetailsModel
+import com.example.shopify.productdetails.domain.model.details.VariantModel
 import com.example.shopify.productdetails.domain.usecase.AddToCartUseCase
 import com.example.shopify.productdetails.domain.usecase.AddToFavoritesUseCase
 import com.example.shopify.productdetails.domain.usecase.GetProductDetailsUseCase
@@ -52,7 +53,7 @@ class ProductDetailsViewModel @Inject constructor(
         when (intent) {
             is ProductDetailsIntent.GetDetails -> getProductDetails(intent.productId)
             is ProductDetailsIntent.AddToFavorite -> addToFavorites(intent.product)
-            is ProductDetailsIntent.AddToCart -> addToCart(intent.variantId, intent.product)
+            is ProductDetailsIntent.AddToCart -> addToCart(intent.variant, intent.product)
 
         }
     }
@@ -131,14 +132,14 @@ class ProductDetailsViewModel @Inject constructor(
         }
     }
 
-    private fun addToCart(variantId: Long?, product: ProductsDetailsModel) {
+    private fun addToCart(variant: VariantModel?, product: ProductsDetailsModel) {
 
         viewModelScope.launch(ioDispatcher) {
             if (checkGuestStatusUseCase()) {
                 _snackBarFlow.emit(R.string.guest_message)
             } else
                 addToCartUseCase<ProductsDetailsModel>(
-                    variantId,
+                    variant,
                     product
                 ).collectLatest { response ->
                     _state.update { it.copy(loading = true) }
