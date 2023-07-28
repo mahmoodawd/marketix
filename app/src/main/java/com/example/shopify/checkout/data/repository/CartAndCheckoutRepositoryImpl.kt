@@ -4,7 +4,6 @@ import android.util.Log
 import com.example.shopify.checkout.data.dto.discountcode.DiscountCodeResponse
 import com.example.shopify.checkout.data.dto.post.PostOrder
 import com.example.shopify.checkout.data.dto.pricerule.PriceRules
-import com.example.shopify.checkout.data.dto.product.Product
 import com.example.shopify.checkout.data.dto.response.PostResponse
 import com.example.shopify.checkout.data.local.CartAndCheckOutLocalDataSource
 import com.example.shopify.checkout.data.mappers.toCartItems
@@ -52,8 +51,8 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(
         return remoteDataSource.updateItemFromCart(id, quantity)
     }
 
-    override suspend fun <T> deleteDiscountCodeFromDatabase(code: DiscountCode): Flow<Response<T>> {
-        return remoteDataSource.deleteDiscountCodeFromDatabase(code)
+    override suspend fun <T> deleteDiscountCodeFromDatabase(code : DiscountCode): Flow<Response<T>> {
+        return localDataSource.deleteDiscountCode(code)
     }
 
     override suspend fun <T> getDiscountCodeById(id: String): Flow<Response<T>> {
@@ -82,7 +81,6 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(
     }
 
     override suspend fun <T> getPriceRule(id: String): Flow<Response<T>> {
-        Log.d("priceRule","repository")
         return remoteDataSource.getPriceRule<T>(id).map {   Response.Success((it.data as PriceRules).toPriceRule() as T) }
     }
 

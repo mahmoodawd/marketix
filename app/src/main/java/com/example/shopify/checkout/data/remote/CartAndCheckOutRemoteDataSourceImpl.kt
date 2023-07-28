@@ -16,7 +16,6 @@ import javax.inject.Inject
 
 class CartAndCheckOutRemoteDataSourceImpl @Inject constructor(
     private val remoteInterface: ShopifyRemoteInterface,
-    private val discountCodeDao: DiscountCodesDao,
     private val firebaseAuth: FirebaseAuth,
     private val firebaseFirestore: FirebaseFirestore
 ) :
@@ -72,17 +71,7 @@ class CartAndCheckOutRemoteDataSourceImpl @Inject constructor(
         )
     }
 
-    override suspend fun <T> deleteDiscountCodeFromDatabase(code: DiscountCode): Flow<Response<T>> {
-        return flowOf(
-            try {
 
-                discountCodeDao.delete(code.code)
-                Response.Success("item deleted Successfully" as T)
-            } catch (e: Exception) {
-                Response.Failure(e.message ?: "unknownError")
-            }
-        )
-    }
 
     override suspend fun <T> getDiscountCodeById(id: String): Flow<Response<T>> {
         return flowOf(

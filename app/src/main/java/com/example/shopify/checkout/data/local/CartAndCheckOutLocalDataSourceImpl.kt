@@ -1,5 +1,6 @@
 package com.example.shopify.checkout.data.local
 
+import com.example.shopify.data.dto.codes.DiscountCode
 import com.example.shopify.home.data.local.DiscountCodesDao
 import com.example.shopify.settings.data.local.AddressDao
 import com.example.shopify.utils.response.Response
@@ -26,6 +27,17 @@ class CartAndCheckOutLocalDataSourceImpl @Inject constructor(
         return flowOf(
             try {
                 Response.Success(discountCodesDao.getAllDiscountCodes().first() as T)
+            } catch (e: Exception) {
+                Response.Failure(e.message ?: "unknownError")
+            }
+        )
+    }
+
+    override suspend fun <T> deleteDiscountCode(code: DiscountCode): Flow<Response<T>> {
+        return flowOf(
+            try {
+                discountCodesDao.delete(code.code)
+                Response.Success("item deleted Successfully" as T)
             } catch (e: Exception) {
                 Response.Failure(e.message ?: "unknownError")
             }

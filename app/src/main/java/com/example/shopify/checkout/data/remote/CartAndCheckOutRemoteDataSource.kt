@@ -18,7 +18,7 @@ interface CartAndCheckOutRemoteDataSource {
     suspend fun <T> updateItemFromCart(id : String,quantity : String) : Flow<Response<T>>
 
 
-    suspend fun <T> deleteDiscountCodeFromDatabase(code : DiscountCode) : Flow<Response<T>>
+
 
     suspend fun <T> getDiscountCodeById(id : String) : Flow<Response<T>>
 
