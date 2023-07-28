@@ -10,13 +10,13 @@ import com.example.shopify.data.dto.PropertiesItem
 import com.example.shopify.utils.rounder.roundTo
 
 
-fun List<DraftOrdersItem>.toCartItems(limits : List<Int>) : CartItems
+fun List<DraftOrdersItem>.toCartItems() : CartItems
 {
     return CartItems(cartItems = this.mapIndexed { index, draftOrdersItem ->
-        draftOrdersItem.toCartItem( if (limits.isNotEmpty()) limits[index] else 0)
+        draftOrdersItem.toCartItem()
     })
 }
-fun DraftOrdersItem.toCartItem(limit : Int): CartItem {
+fun DraftOrdersItem.toCartItem(): CartItem {
     return CartItem(
         itemId = id,
         itemName = line_items.first().name,

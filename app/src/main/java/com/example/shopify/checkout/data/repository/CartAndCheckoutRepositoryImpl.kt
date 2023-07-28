@@ -33,23 +33,10 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(
         return try {
             remoteDataSource.getCartItems<T>()
                 .map { response ->
-                    val limits = mutableListOf<Int>()
                     val email = getUserEmail<String>().first().data!!
                     val myCartItems =
                         (response.data as DraftOrderResponse?)?.draft_orders?.filter { it.email == email && it.tags == "cartItem" }
-//                    myCartItems?.forEachIndexed { index,item   ->
-//                        val productResponse =
-//                            remoteDataSource.getProductById<Product>(item.line_items.first().product_id.toString())
-//                                .first()
-//                        limits.add(
-//                            productResponse
-//                                .data!!.variants.firstOrNull{ variant ->
-//                                    variant.id ==
-//                                            myCartItems[index].line_items.first().variant_id
-//                                }?.inventory_quantity ?: 0
-//                        )
-//                    }
-                    Response.Success(myCartItems?.toCartItems(limits) as T)
+                    Response.Success(myCartItems?.toCartItems() as T)
                 }
         }
        catch (e:Exception){

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -18,10 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
 import com.example.shopify.databinding.FragmentSettingsBinding
 import com.example.shopify.settings.domain.model.CurrencyModel
-import com.example.shopify.utils.snackBarObserver
 import com.example.shopify.utils.ui.goneIf
-import com.example.shopify.utils.ui.invisibleIf
-import com.example.shopify.utils.ui.visibleIf
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -110,7 +106,7 @@ class SettingsFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>,
-                    view: View,
+                    view: View?,
                     position: Int,
                     id: Long
                 ) {
