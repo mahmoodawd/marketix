@@ -7,5 +7,6 @@ data class OrdersState(
     val error: String? = null,
     val loading: Boolean? = null,
     val currency: String = "EGP",
-    val exchangeRate :Double = 1.0
+    val exchangeRate :Double = 1.0,
+    val guestMode:Boolean = false
 )

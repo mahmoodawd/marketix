@@ -13,7 +13,9 @@ import android.view.Window
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -28,6 +30,7 @@ import com.example.shopify.utils.ui.visibleIf
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.RangeSlider.OnSliderTouchListener
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -45,7 +48,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
     private lateinit var brandsAdapter: BrandsAdapter
     private lateinit var productsAdapter: ProductsAdapter
     private var vendor: String = ""
-    private var currency:String = "EGP"
+    private var currency: String = "EGP"
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -167,18 +170,23 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
     }
 
     private fun checkConnection() {
+        val connectivitySnackBar = Snackbar.make(
+            binding.root, getString(com.firebase.ui.auth.R.string.fui_no_internet),
+            Snackbar.LENGTH_INDEFINITE
+        )
         lifecycleScope.launch {
             connectivityObserver.observe().collectLatest {
                 delay(200)
                 when (it) {
                     ConnectivityObserver.Status.Available -> {
+                        connectivitySnackBar.dismiss()
                         viewModel.readCurrencyFactorFromDataStore()
                         viewModel.getAllProducts()
                         viewModel.getAllBrands()
                     }
 
                     else -> {
-                        Toast.makeText(requireContext(), "No Connection", Toast.LENGTH_SHORT).show()
+                        connectivitySnackBar.show()
                     }
                 }
             }
@@ -187,25 +195,28 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
 
     private fun stateObserve() {
         lifecycleScope.launch {
-            viewModel.homeState.collectLatest {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
 
-                if (it.brands.isNotEmpty()) {
-                    brandsAdapter.submitList(it.brands)
-                }
-                if (it.products.isNotEmpty()) {
-                    productsAdapter.submitList(it.products)
-                } else {
-                    productsAdapter.submitList(listOf())
-                }
-                binding.progressBar visibleIf it.loading
-                if (it.currency != "EGP") {
-                    currency = it.currency
-                    productsAdapter.exchangeRate = it.exchangeRate
-                    productsAdapter.currency = it.currency
-                }
+                viewModel.homeState.collectLatest {
 
-                binding.addsCardView visibleIf (it.discountCode != null)
+                    if (it.brands.isNotEmpty()) {
+                        brandsAdapter.submitList(it.brands)
+                    }
+                    if (it.products.isNotEmpty()) {
+                        productsAdapter.submitList(it.products)
+                    } else {
+                        productsAdapter.submitList(listOf())
+                    }
+                    binding.progressBar visibleIf it.loading
+                    if (it.currency != "EGP") {
+                        currency = it.currency
+                        productsAdapter.exchangeRate = it.exchangeRate
+                        productsAdapter.currency = it.currency
+                    }
 
+                    binding.addsCardView visibleIf (it.discountCode != null)
+
+                }
             }
         }
 
