@@ -18,6 +18,7 @@
         app:lottie_rawRes="@raw/shopify" />
 
     <TextView
+        android:id="@+id/appTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="@id/splashAnimation"
