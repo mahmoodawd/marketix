@@ -34,6 +34,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/progressBar"
             android:layout_width="0dp"
@@ -102,7 +103,7 @@
             app:layout_constraintEnd_toEndOf="@+id/skipTextView"
             app:layout_constraintStart_toStartOf="@+id/vGuideline2.5percent"
             app:layout_constraintTop_toBottomOf="@+id/skipTextView"
-            app:srcCompat="@drawable/nike" />
+            app:srcCompat="@drawable/bag" />
 
 
         <TextView
@@ -111,7 +112,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/follow_latest_style_shoes"
+            android:text="@string/your_bags_from_nike_adidas_poma"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/_30ssp"
             app:layout_constraintEnd_toEndOf="@+id/nikeImageView"
@@ -125,7 +126,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
-            android:text="@string/there_are_many_beautiful_and_attractive_plants_to_your_room"
+            android:text="@string/good_material_and_fashionable_bags_with_the_good_brands"
             android:textColor="@color/text_grayed"
             app:layout_constraintEnd_toEndOf="@+id/nikeImageView"
             app:layout_constraintStart_toStartOf="@+id/vGuideline2.5percent"

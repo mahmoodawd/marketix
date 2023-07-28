@@ -46,5 +46,9 @@ class SecondFragment : Fragment() {
                 extras
             )
         }
+
+        binding.skipTextView.setOnClickListener {
+            controller.navigate(FirstFragmentDirections.actionToAuthenticationGraph())
+        }
     }
 }

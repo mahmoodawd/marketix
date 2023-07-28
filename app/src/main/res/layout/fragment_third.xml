@@ -22,14 +22,13 @@
             app:layout_constraintGuide_percent="0.025" />
 
         <TextView
-            android:id="@+id/skipTextView"
+            android:id="@+id/startTextView"
             style="@style/p3"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_15sdp"
             android:layout_marginEnd="@dimen/_20sdp"
-            android:text="@string/skip"
+            android:text="@string/start"
             android:textColor="@color/seed"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -39,7 +38,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/_2sdp"
             android:layout_marginTop="@dimen/_20sdp"
-            app:layout_constraintEnd_toEndOf="@+id/skipTextView"
+            app:layout_constraintEnd_toEndOf="@+id/startTextView"
             app:layout_constraintStart_toStartOf="@+id/vGuideline2.5percent"
             app:layout_constraintTop_toBottomOf="@+id/descriptionTextView">
 
@@ -98,10 +97,10 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/_250sdp"
             android:layout_marginTop="@dimen/_50sdp"
-            app:layout_constraintEnd_toEndOf="@+id/skipTextView"
+            app:layout_constraintEnd_toEndOf="@+id/startTextView"
             app:layout_constraintStart_toStartOf="@+id/vGuideline2.5percent"
-            app:layout_constraintTop_toBottomOf="@+id/skipTextView"
-            app:srcCompat="@drawable/nike" />
+            app:layout_constraintTop_toBottomOf="@+id/startTextView"
+            app:srcCompat="@drawable/clothes" />
 
 
         <TextView
@@ -109,13 +108,14 @@
             style="@style/title_font"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/follow_latest_style_shoes"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:text="@string/fashion_clothes_for_men_women_and_kids"
             android:textColor="@color/colorBlack"
-            android:textSize="@dimen/_30ssp"
+            android:textSize="@dimen/_28ssp"
             app:layout_constraintEnd_toEndOf="@+id/nikeImageView"
             app:layout_constraintStart_toStartOf="@+id/vGuideline2.5percent"
-            app:layout_constraintTop_toBottomOf="@+id/nikeImageView" />
+            app:layout_constraintTop_toBottomOf="@+id/nikeImageView"
+            tools:ignore="PrivateResource" />
 
 
         <TextView
@@ -124,7 +124,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
-            android:text="@string/there_are_many_beautiful_and_attractive_plants_to_your_room"
+            android:text="@string/there_are_many_beautiful_clothes_from_international_brands_for_you"
             android:textColor="@color/text_grayed"
             app:layout_constraintEnd_toEndOf="@+id/nikeImageView"
             app:layout_constraintStart_toStartOf="@+id/vGuideline2.5percent"

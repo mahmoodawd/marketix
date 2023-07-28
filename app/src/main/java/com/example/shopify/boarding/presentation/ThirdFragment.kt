@@ -32,5 +32,15 @@ class ThirdFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         controller = findNavController(view)
+
+
+        binding.startTextView.setOnClickListener {
+            controller.navigate(FirstFragmentDirections.actionToAuthenticationGraph())
+        }
+
+
+        binding.forwardImageView.setOnClickListener {
+            controller.navigate(FirstFragmentDirections.actionToAuthenticationGraph())
+        }
     }
 }

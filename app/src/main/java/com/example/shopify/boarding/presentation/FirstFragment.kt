@@ -42,5 +42,9 @@ class FirstFragment : Fragment() {
                 FirstFragmentDirections.actionCategoriesFragmentToFavouritesFragment(), extras
             )
         }
+
+        binding.skipTextView.setOnClickListener {
+            controller.navigate(FirstFragmentDirections.actionToAuthenticationGraph())
+        }
     }
 }
