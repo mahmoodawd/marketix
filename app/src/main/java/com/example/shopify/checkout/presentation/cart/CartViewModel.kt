@@ -153,14 +153,15 @@ class CartViewModel @Inject constructor(
                 _snackBarFlow.emit(R.string.the_max_mount_item)
                 return@launch
             }
+           // _state.update { it.copy(loading = true) }
             updateCartItemUseCase.execute<String>(id, quantity).collectLatest { response ->
                 when (response) {
                     is Response.Failure -> _snackBarFlow.emit(R.string.failed_message)
                     is Response.Loading -> _state.update { it.copy(loading = true) }
                     is Response.Success -> {
 
-                        val cartItems = _state.value.cartItems
-                        (cartItems as MutableList)[itemPosition] =
+                        val cartItems = _state.value.cartItems.toMutableList()
+                        cartItems[itemPosition] =
                             cartItems[itemPosition].copy(
                                 quantity = quantity,
                                 subtotalPrice = (cartItems[itemPosition].oneItemPrice.toDouble()
@@ -172,7 +173,7 @@ class CartViewModel @Inject constructor(
                             it.copy(
                                 loading = false,
                                 cartItems = cartItems,
-                                cartTotalCost = cartItems.sumOf { it.total.toDouble() }.roundTo(2),
+                                cartTotalCost = cartItems.sumOf { it.subtotalPrice.toDouble() }.roundTo(2),
                             )
                         }
                     }

@@ -47,7 +47,7 @@
         <TextView
             android:id="@+id/itemNameTextView"
             style="@style/p2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
@@ -57,8 +57,9 @@
             android:shadowDy="4"
             android:shadowRadius="5"
             android:text="@{cartItem.itemName}"
-
+            android:maxLines="2"
             android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="@+id/deleteImageView"
             app:layout_constraintStart_toEndOf="@+id/itemImageView"
             app:layout_constraintTop_toTopOf="@+id/itemImageView" />
 
@@ -66,7 +67,9 @@
         <TextView
             android:id="@+id/itemPriceTextView"
             style="@style/p2"
-            android:layout_width="wrap_content"
+            bind:currency="@{cartItem.currency}"
+            bind:price="@{cartItem.subtotalPrice}"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
             android:elevation="@dimen/_10sdp"
@@ -75,9 +78,8 @@
             android:shadowDy="4"
             android:shadowRadius="5"
             android:text="@{cartItem.subtotalPrice}"
-            bind:price="@{cartItem.subtotalPrice}"
-            bind:currency="@{cartItem.currency}"
             android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="@+id/deleteImageView"
             app:layout_constraintStart_toStartOf="@+id/itemNameTextView"
             app:layout_constraintTop_toBottomOf="@+id/itemNameTextView" />
 

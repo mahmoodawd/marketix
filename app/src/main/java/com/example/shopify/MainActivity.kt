@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
 
 
     @Inject
-    lateinit var  notificationManager: NotificationManager
+    lateinit var notificationManager: NotificationManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -83,10 +83,13 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
     private fun createNotificationChannel() {
         val importance = NotificationManager.IMPORTANCE_HIGH
-        val channel = NotificationChannel( getString(R.string.notificationBuilder), getString(R.string.notificationBuilder), importance)
+        val channel = NotificationChannel(
+            getString(R.string.notificationBuilder),
+            getString(R.string.notificationBuilder),
+            importance
+        )
         channel.description = getString(R.string.notificationBuilder)
         notificationManager.createNotificationChannel(channel)
     }
@@ -96,7 +99,7 @@ class MainActivity : AppCompatActivity() {
         {
             lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 dataStore.getString<String>("currency").distinctUntilChanged().collectLatest {
-                 updateCurrencyValueOneTimeWorkRequest()
+                    updateCurrencyValueOneTimeWorkRequest()
                 }
             }
         }
@@ -125,30 +128,35 @@ class MainActivity : AppCompatActivity() {
         workManager.enqueue(workRequest)
     }
 
-    private fun showNotificationPeriodicTimeRequest()
-    {
+    private fun showNotificationPeriodicTimeRequest() {
         val workRequest =
-        PeriodicWorkRequestBuilder<DiscountCodesWorker>(1, TimeUnit.HOURS)
-            .setInitialDelay(0,TimeUnit.MINUTES)
-            .setBackoffCriteria(
-                backoffPolicy = BackoffPolicy.LINEAR,
-                duration = Duration.ofMinutes(5)
-            ).build()
+            PeriodicWorkRequestBuilder<DiscountCodesWorker>(1, TimeUnit.HOURS)
+                .setInitialDelay(0, TimeUnit.MINUTES)
+                .setBackoffCriteria(
+                    backoffPolicy = BackoffPolicy.LINEAR,
+                    duration = Duration.ofMinutes(5)
+                ).build()
         workManager.enqueue(workRequest)
 
     }
 
 
     private fun currentFragmentObserver() {
-        navController.addOnDestinationChangedListener { _: NavController?, _: NavDestination?, _: Bundle? ->
-            when (navController.currentDestination!!.id) {
-                R.id.homeFragment, R.id.favoritesFragment, R.id.settingsFragment, R.id.cartFragment -> {
-                    binding.bottomNavigation.visibility = View.VISIBLE
+
+        lifecycleScope.launch {
+
+            navController.currentBackStackEntryFlow.collectLatest {
+
+                when(it.destination.id){
+                    R.id.homeFragment, R.id.favoritesFragment, R.id.settingsFragment, R.id.cartFragment -> {
+                        binding.bottomNavigation.visibility = View.VISIBLE
+                    }
+
+                    else -> {
+                        binding.bottomNavigation.visibility = View.GONE
+                    }
                 }
 
-                else -> {
-                    binding.bottomNavigation.visibility = View.GONE
-                }
 
             }
         }

@@ -11,6 +11,16 @@
         app:exitAnim="@anim/transitionout"
     />
 
+
+    <action
+        android:id="@+id/action_to_home_graph"
+        app:destination="@id/home_graph"
+        app:popUpToInclusive="true"
+        app:popUpTo="@navigation/home_graph"
+        app:enterAnim="@anim/transitionin"
+        app:exitAnim="@anim/transitionout"
+        />
+
     <include app:graph="@navigation/settings_graph"/>
     <include app:graph="@navigation/auth_nav_graph"/>
     <include app:graph="@navigation/fav_nav_graph"/>

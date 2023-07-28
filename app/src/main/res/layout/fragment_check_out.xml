@@ -219,7 +219,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/discountInputLayout"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_20sdp"
             app:boxStrokeWidthFocused="0dp"
             app:hintEnabled="false"
@@ -235,9 +235,9 @@
                 android:hint="@string/discount_code"
                 android:inputType="text"
                 android:paddingStart="0dp"
-                android:textColor="@color/colorBlack"
                 android:paddingEnd="@dimen/_15sdp"
-                android:textAppearance="@style/p3" />
+                android:textAppearance="@style/p3"
+                android:textColor="@color/colorBlack" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Spinner
@@ -353,11 +353,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/checkOutButton"
             app:paypal_button_color="blue"
-
             app:paypal_button_enabled="true"
-            app:paypal_button_label="paypal"
+            app:paypal_button_label="checkout"
             app:paypal_button_shape="pill"
-            app:paypal_button_size="large" />
+            app:paypal_button_size="small" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

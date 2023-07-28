@@ -26,6 +26,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.shopify.NavGraphDirections
 import com.example.shopify.R
 import com.example.shopify.checkout.data.dto.post.DiscountCode
 import com.example.shopify.checkout.data.dto.post.LineItem
@@ -403,8 +404,8 @@ class CheckOutFragment : Fragment() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.checkOutCompletedFlow.collectLatest {
-                    navController.setGraph(R.navigation.nav_graph)
-                    navController.popBackStack(R.id.homeFragment, false)
+                    navController.popBackStack(R.id.home_graph, true)
+                   navController.navigate(NavGraphDirections.actionToHomeGraph())
                 }
             }
         }

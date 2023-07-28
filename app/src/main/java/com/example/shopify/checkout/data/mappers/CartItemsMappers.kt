@@ -26,7 +26,7 @@ fun DraftOrdersItem.toCartItem(limit : Int): CartItem {
         total = total_price,
         quantity = line_items.first().quantity.toString(),
         imageUrl = line_items.first().properties.first().value,
-        upperLimit = limit,
+        upperLimit = line_items.first().properties[1].value.toInt(),
         oneItemPrice = (subtotal_price.toDouble()/line_items.first().quantity).roundTo(2).toString(),
         oneItemTax = (total_tax.toDouble()/line_items.first().quantity).roundTo(2).toString(),
         variantId = line_items.first().variant_id.toString(),
