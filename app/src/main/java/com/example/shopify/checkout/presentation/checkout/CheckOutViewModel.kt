@@ -289,22 +289,24 @@ class CheckOutViewModel @Inject constructor(
     }
 
   private  fun createOrder(postOrder: PostOrder, draftItemIds: List<Long>){
+      _state.update { it.copy(loading = true) }
         Timber.e(postOrder.toString())
         viewModelScope.launch(ioDispatcher) {
             createOrderUseCase.execute(postOrder).collectLatest { postOrderResponse ->
                 when(postOrderResponse){
                     is Response.Success ->{
-                        Timber.e("postOrderSuccess")
+
                         postOrderResponse.data?.let{
 
                             draftItemIds.forEach { id ->
-                                deleteDraftOrderUseCase.execute<String>(id.toString()).collectLatest {
-                                    when (it){
+                                deleteDraftOrderUseCase.execute<String>(id.toString()).collectLatest { response ->
+                                    when (response){
                                         is Response.Failure->{
-                                            Timber.tag("here ${it.error}")
+                                            Timber.tag("here ${response.error}")
                                         }
                                         else->{
                                             Timber.e("success")
+                                            _state.update { it.copy(loading = false) }
                                         }
                                     }
                                 }
@@ -313,11 +315,20 @@ class CheckOutViewModel @Inject constructor(
                         }
                     }
                     else->{
-                        Timber.e(postOrderResponse.error)
+                        _state.update { it.copy(loading = false) }
+                        if(postOrderResponse.error == "HTTP 422 "){
+                            _state.update {
+                                it.copy(error = "Sorry item is unavailable")
+                            }
+                        }
                     }
                 }
             }
         }
+    }
+
+    fun resetError(){
+        _state.update { it.copy(error = "") }
     }
 
 

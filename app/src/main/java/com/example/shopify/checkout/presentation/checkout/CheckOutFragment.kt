@@ -1,6 +1,7 @@
 package com.example.shopify.checkout.presentation.checkout
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -37,9 +38,11 @@ import com.example.shopify.data.dto.PropertiesItem
 import com.example.shopify.databinding.AddressBottomSheetBinding
 import com.example.shopify.databinding.CodeBottomSheetBinding
 import com.example.shopify.databinding.FragmentCheckOutBinding
+import com.example.shopify.databinding.SuccessDialogBinding
 import com.example.shopify.home.domain.model.discountcode.DiscountCodeModel
 import com.example.shopify.utils.snackBarObserver
 import com.example.shopify.utils.ui.visibleIf
+import com.google.android.material.snackbar.Snackbar
 import com.paypal.checkout.approve.OnApprove
 import com.paypal.checkout.cancel.OnCancel
 import com.paypal.checkout.createorder.CreateOrder
@@ -219,6 +222,15 @@ class CheckOutFragment : Fragment() {
                     binding.codesSpinner visibleIf state.discountCodes.isNotEmpty()
                     binding.discountInputLayout visibleIf state.discountCodes.isNotEmpty()
                     binding.dropDownCodesImageView visibleIf state.discountCodes.isNotEmpty()
+                    binding.progressBar visibleIf state.loading
+
+                    if (state.error.isNotEmpty()){
+                        Snackbar.make(
+                            binding.root, state.error,
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                        viewModel.resetError()
+                    }
                 }
             }
         }
@@ -404,10 +416,30 @@ class CheckOutFragment : Fragment() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.checkOutCompletedFlow.collectLatest {
-                    navController.popBackStack(R.id.home_graph, true)
-                   navController.navigate(NavGraphDirections.actionToHomeGraph())
+                    showSuccessDialog()
                 }
             }
+        }
+    }
+
+
+    private fun showSuccessDialog() {
+        val successDialog = SuccessDialogBinding.inflate(LayoutInflater.from(requireContext()))
+
+        AlertDialog.Builder(requireContext()).create().apply {
+            setOnDismissListener {
+                navController.popBackStack(R.id.home_graph, true)
+                navController.navigate(NavGraphDirections.actionToHomeGraph())
+            }
+            setView(successDialog.root)
+            successDialog.dismissBtn.setOnClickListener {
+                navController.popBackStack(R.id.home_graph, true)
+                navController.navigate(NavGraphDirections.actionToHomeGraph())
+                dismiss()
+            }
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            window?.setGravity(Gravity.CENTER)
+            show()
         }
     }
 }
