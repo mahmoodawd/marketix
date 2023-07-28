@@ -52,11 +52,12 @@
         tools:listitem="@layout/order_list_item" />
 
     <include
+        android:layout_marginBottom="@dimen/_30sdp"
         android:id="@+id/guestView"
         layout="@layout/guest_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

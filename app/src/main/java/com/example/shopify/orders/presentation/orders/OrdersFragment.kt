@@ -13,6 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.shopify.NavGraphDirections
 import com.example.shopify.databinding.FragmentOrdersBinding
 import com.example.shopify.orders.domain.model.OrderModel
 import com.example.shopify.utils.connectivity.ConnectivityObserver
@@ -50,6 +51,9 @@ class OrdersFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
+        binding.guestView.navToAuthBtn.setOnClickListener {
+            navController.navigate(NavGraphDirections.actionToAuthenticationGraph())
+        }
         binding.backImageView.setOnClickListener {
             navController.navigateUp()
         }

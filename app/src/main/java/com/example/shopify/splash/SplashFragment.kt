@@ -33,6 +33,7 @@ class SplashFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
             }
 
             override fun onAnimationEnd(animation: Animator) {
+                binding.splashAnimation.cancelAnimation()
                 if (firebaseAuth.currentUser != null) {
                     navController.navigate(SplashFragmentDirections.actionToHomeGraph())
                 } else {
