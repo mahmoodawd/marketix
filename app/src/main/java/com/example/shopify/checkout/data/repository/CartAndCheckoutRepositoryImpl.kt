@@ -36,8 +36,8 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(
                     val limits = mutableListOf<Int>()
                     val email = getUserEmail<String>().first().data!!
                     val myCartItems =
-                        (response.data as DraftOrderResponse).draft_orders.filter { it.email == email && it.tags == "cartItem" }
-                    myCartItems.forEachIndexed { index,item   ->
+                        (response.data as DraftOrderResponse?)?.draft_orders?.filter { it.email == email && it.tags == "cartItem" }
+                    myCartItems?.forEachIndexed { index,item   ->
                         val productResponse =
                             remoteDataSource.getProductById<Product>(item.line_items.first().product_id.toString())
                                 .first()
@@ -49,7 +49,7 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(
                                 }?.inventory_quantity ?: 0
                         )
                     }
-                    Response.Success(myCartItems.toCartItems(limits) as T)
+                    Response.Success(myCartItems?.toCartItems(limits) as T)
                 }
         }
        catch (e:Exception){
@@ -70,20 +70,19 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(
     }
 
     override suspend fun <T> getDiscountCodeById(id: String): Flow<Response<T>> {
-       return remoteDataSource.getDiscountCodeById<T>(id).map { Response.Success((it.data as DiscountCodeResponse).toDiscountCodeModel() as T)}
+       return remoteDataSource.getDiscountCodeById<T>(id).map { Response.Success((it.data as DiscountCodeResponse?)?.toDiscountCodeModel() as T)}
     }
 
     override suspend fun <T> getAllCustomerAddress(customerId: String): Flow<Response<T>> {
         return remoteDataSource.getAllCustomerAddress<T>(customerId).map {
-            Response.Success((it.data as AddressResponse).addresses.map { it.toAddressModel() } as T)
+            Response.Success((it.data as AddressResponse?)?.addresses?.map { it.toAddressModel() } as T)
         }
     }
 
 
     override suspend fun <T> getAllDiscountCodes(): Flow<Response<T>> {
-        Log.d("repository","repository")
         return  localDataSource.getAllDiscountCodes<T>().map {
-            Response.Success((it.data  as List<DiscountCode>).map { it.toDiscountCodeModel() } as T)
+            Response.Success((it.data  as List<DiscountCode>?)?.map { it.toDiscountCodeModel() } as T)
         }
     }
 

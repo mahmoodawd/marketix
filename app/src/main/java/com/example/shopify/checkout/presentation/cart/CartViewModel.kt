@@ -90,6 +90,7 @@ class CartViewModel @Inject constructor(
     private fun deleteCartItem(id: String, itemPosition: Int) {
         viewModelScope.launch(ioDispatcher)
         {
+            _state.update { it.copy(loading = true) }
             deleteCartItemUseCase.execute<String>(id).collectLatest { response ->
                 when (response) {
                     is Response.Failure -> _snackBarFlow.emit(R.string.failed_message)

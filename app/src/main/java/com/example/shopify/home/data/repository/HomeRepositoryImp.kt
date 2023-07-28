@@ -1,6 +1,5 @@
 package com.example.shopify.home.data.repository
 
-import com.example.shopify.data.dto.codes.DiscountCode
 import com.example.shopify.data.dto.codes.DiscountCodesResponse
 import com.example.shopify.home.data.dto.BrandsResponse
 import com.example.shopify.home.data.dto.ProductsResponse
@@ -76,9 +75,14 @@ class HomeRepositoryImp @Inject constructor(
     }
 
     override suspend fun <T> getDiscountCodes(): Flow<Response<T>> {
-        return productRemoteSource.getDiscountCodes<T>().map { response ->
-            Response.Success((response.data as DiscountCodesResponse).toDiscountCodeModel() as T)
+        return try {
+        productRemoteSource.getDiscountCodes<T>().map { response ->
+            Response.Success((response.data as DiscountCodesResponse?)?.toDiscountCodeModel() as T)
         }
+        }catch (e: Exception) {
+                flowOf(Response.Failure(e.message ?: "UnKnown"))
+            }
+
     }
 
     override suspend fun <T> insertDiscountCodeToDatabase(code: DiscountCodeModel): Flow<Response<T>> {
