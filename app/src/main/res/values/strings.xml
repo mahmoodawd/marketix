@@ -216,12 +216,12 @@ Is between 8 and 30 characters long</string>
     <string name="authFragmentDeepLink">shopify://loginFragment</string>
     <string name="skip">skip</string>
     <string name="let_s_get_started">let\'s get started</string>
-    <string name="follow_latest_style_shoes">Follow Latest Style Shoes</string>
-    <string name="your_bags_from_nike_adidas_poma">your bags from international brands</string>
-    <string name="there_are_many_beautiful_and_attractive_plants_to_your_room">There Are Many Beautiful And Attractive Plants To Your Room</string>
-    <string name="good_material_and_fashionable_bags_with_the_good_brands">good material and fashionable bags with the good brands</string>
-    <string name="there_are_many_beautiful_clothes_from_international_brands_for_you">beautiful clothes from international brands for you</string>
-    <string name="fashion_clothes_for_men_women_and_kids">fashion clothes for all ages</string>
+    <string name="follow_latest_style_shoes">Follow The Latest Style Shoes</string>
+    <string name="your_bags_from_nike_adidas_poma">Your Bags From International Brands.</string>
+    <string name="there_are_many_beautiful_and_attractive_plants_to_your_room">Step Up Your Fashion Game with the Newest Shoe Trends</string>
+    <string name="good_material_and_fashionable_bags_with_the_good_brands">Stylish Bags from Top Brands with Quality Materials</string>
+    <string name="there_are_many_beautiful_clothes_from_international_brands_for_you">Dress to Impress: Fashionable Clothing for Every Generation</string>
+    <string name="fashion_clothes_for_men_women_and_kids">Fashion Clothes For All Ages</string>
     <string name="start">start</string>
 
 </resources>
