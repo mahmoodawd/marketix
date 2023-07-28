@@ -9,7 +9,7 @@
         app:destination="@id/auth_nav_graph"
         app:enterAnim="@anim/transitionin"
         app:exitAnim="@anim/transitionout"
-        />
+    />
 
     <include app:graph="@navigation/settings_graph"/>
     <include app:graph="@navigation/auth_nav_graph"/>
