@@ -1,12 +1,12 @@
 package com.example.shopify.favorites.presentation
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,7 +15,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.NavGraphDirections
-import com.example.shopify.R
 import com.example.shopify.databinding.FragmentFavoritesBinding
 import com.example.shopify.search.presentation.SearchItemsAdapter
 import com.example.shopify.utils.connectivity.ConnectivityObserver
@@ -25,7 +24,6 @@ import com.example.shopify.utils.ui.goneIf
 import com.example.shopify.utils.ui.visible
 import com.example.shopify.utils.ui.visibleIf
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -87,9 +85,6 @@ class FavoritesFragment(
         super.onViewCreated(view, savedInstanceState)
 
 
-
-        requireActivity().snackBarObserver(viewModel.snackBarFlow)
-
         binding.searchEditText.apply {
 
             setOnSearchClickListener {
@@ -119,6 +114,7 @@ class FavoritesFragment(
             )
         }
         checkConnection()
+        requireActivity().snackBarObserver(viewModel.snackBarFlow)
         observeState()
     }
 
@@ -134,6 +130,7 @@ class FavoritesFragment(
         binding.searchEditText.isIconified = true;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun observeState() {
         lifecycleScope.launch(Dispatchers.IO) {
             lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
@@ -141,15 +138,16 @@ class FavoritesFragment(
 
                     withContext(Dispatchers.Main) {
 
-                        binding.noFavsView goneIf (state.products!!.isNotEmpty() || state.loading || state.guest || binding.searchResultRv.isVisible)
+                        binding.noFav.root goneIf (state.products!!.isNotEmpty() || state.loading || state.guest || binding.searchResultRv.isVisible)
                         binding.guestView.root visibleIf (state.guest && !state.loading)
-                        binding.searchEditText goneIf state.guest
                         binding.favoritesProgressBar visibleIf state.loading
                         binding.favItemsRv goneIf state.guest
 
-                        favoritesAdapter.submitList(state.products)
-                        println("Prices: ")
-                        state.products?.forEach { println(it.price) }
+                        favoritesAdapter.apply {
+                            submitList(state.products)
+//                            notifyDataSetChanged()
+                        }
+
                         if (state.searchResult.isNotEmpty()) {
                             searchAdapter.submitList(state.searchResult)
                         }
@@ -171,10 +169,10 @@ class FavoritesFragment(
     }
 
     private fun checkConnection() {
-        val connectivitySnackBar = Snackbar.make(
+        /*val connectivitySnackBar = Snackbar.make(
             binding.root, getString(com.firebase.ui.auth.R.string.fui_no_internet),
             Snackbar.LENGTH_INDEFINITE
-        )
+        )*/
         lifecycleScope.launch {
             connectivityObserver.observe().collectLatest {
                 delay(200)

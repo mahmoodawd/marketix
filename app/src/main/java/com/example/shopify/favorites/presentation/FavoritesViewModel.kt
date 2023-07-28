@@ -112,9 +112,12 @@ class FavoritesViewModel @Inject constructor(
                         _state.update {
                             it.copy(
                                 loading = false,
-                                products = _state.value.products?.drop(itemPosition + 1)
+                                products = _state.value.products?.toMutableList()
+                                    ?.filter { item -> item.id.toString() != id }
                             )
                         }
+                        _snackBarFlow.emit(R.string.item_deleted_successfully)
+                        getFavorites()
 
                     }
 

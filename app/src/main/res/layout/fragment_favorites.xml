@@ -48,7 +48,7 @@
                 android:shadowDy="4"
                 android:shadowRadius="5"
                 android:text="@string/no_favorites"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:drawableBottomCompat="@drawable/heart_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -79,10 +79,12 @@
                 android:drawablePadding="@dimen/_15sdp"
                 android:inputType="text"
                 android:isScrollContainer="false"
+
                 android:padding="@dimen/_10sdp"
                 android:queryHint="@string/looking_for_products"
                 android:searchIcon="@drawable/search_icon"
                 android:textColorHint="@color/md_theme_light_outline"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/fav_title_tv"
@@ -132,17 +134,18 @@
             layout="@layout/guest_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible"
-            app:layout_constraintBottom_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5" />
+            android:visibility="gone" />
 
         <include
             android:id="@+id/noInternetView"
             layout="@layout/no_internet_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/noFav"
+            layout="@layout/no_favorites_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone" />
