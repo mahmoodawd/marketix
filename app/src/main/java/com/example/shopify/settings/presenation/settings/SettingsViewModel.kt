@@ -3,6 +3,7 @@ package com.example.shopify.settings.presenation.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
+import com.example.shopify.auth.domain.usecases.CheckGuestStatusUseCase
 import com.example.shopify.settings.domain.model.CurrenciesModel
 import com.example.shopify.settings.domain.model.CurrencyModel
 import com.example.shopify.settings.domain.usecase.GetAllCurrenciesUseCase
@@ -33,6 +34,7 @@ class SettingsViewModel @Inject constructor(
     private val readBooleanFromDataStoreUseCase: ReadBooleanDataStoreUseCase,
     private val saveStringToDataStoreUseCase: SaveStringToDataStoreUseCase,
     private val readStringFromDataStoreUseCase: ReadStringFromDataStoreUseCase,
+    private val checkGuestStatusUseCase: CheckGuestStatusUseCase
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<SettingsState> =
@@ -52,6 +54,7 @@ class SettingsViewModel @Inject constructor(
             is SettingsIntent.SaveLocationPref ->  saveBooleanToDataStore(intent.key,intent.value)
             is SettingsIntent.SaveNotificationPref -> saveBooleanToDataStore(intent.key,intent.value)
             is SettingsIntent.SaveCurrencyPref -> saveStringToDataStore(intent.key,intent.value)
+            is SettingsIntent.CheckUserIsGuest -> checkIfUserIsGuest()
         }
     }
 
@@ -96,6 +99,13 @@ class SettingsViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    private fun checkIfUserIsGuest()
+    {
+        viewModelScope.launch(ioDispatcher) {
+           _state.update { it.copy(userIsGuest = checkGuestStatusUseCase.invoke()) }
         }
     }
 

@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/onboarding_graph"
-    app:startDestination="@id/categoriesFragment">
+    app:startDestination="@id/firstFragment">
 
 
     <fragment
-        android:id="@+id/categoriesFragment"
+        android:id="@+id/firstFragment"
         android:name="com.example.shopify.boarding.presentation.FirstFragment"
         android:label="CategoriesFragment"
         tools:layout="@layout/fragment_first">
         <action
-            android:id="@+id/action_categoriesFragment_to_favouritesFragment"
-            app:destination="@id/favouritesFragment"
+            android:id="@+id/action_firstFragment_to_secondFragment"
+            app:destination="@id/secondFragment"
             app:enterAnim="@anim/transitionin"
             app:exitAnim="@anim/transitionout"
             />
@@ -22,18 +22,20 @@
         <action
             android:id="@+id/action_to_authentication_graph"
             app:destination="@id/auth_nav_graph"
+            app:popUpTo="@id/firstFragment"
+            app:popUpToInclusive="true"
             app:enterAnim="@anim/transitionin"
             app:exitAnim="@anim/transitionout"
             />
     </fragment>
     <fragment
-        android:id="@+id/favouritesFragment"
+        android:id="@+id/secondFragment"
         android:name="com.example.shopify.boarding.presentation.SecondFragment"
         android:label="FavouritesFragment"
         tools:layout="@layout/fragment_second">
         <action
-            android:id="@+id/action_favouritesFragment_to_allergiesFragment"
-            app:destination="@id/allergiesFragment"
+            android:id="@+id/action_secondFragment_to_thirdFragment"
+            app:destination="@id/thirdFragment"
             app:enterAnim="@anim/transitionin"
             app:exitAnim="@anim/transitionout"
             />
@@ -42,12 +44,14 @@
         <action
             android:id="@+id/action_to_authentication_graph"
             app:destination="@id/auth_nav_graph"
+            app:popUpTo="@id/firstFragment"
+            app:popUpToInclusive="true"
             app:enterAnim="@anim/transitionin"
             app:exitAnim="@anim/transitionout"
             />
     </fragment>
     <fragment
-        android:id="@+id/allergiesFragment"
+        android:id="@+id/thirdFragment"
         android:name="com.example.shopify.boarding.presentation.ThirdFragment"
         android:label="AllergiesFragment"
         tools:layout="@layout/fragment_third" >
@@ -55,6 +59,8 @@
         <action
             android:id="@+id/action_to_authentication_graph"
             app:destination="@id/auth_nav_graph"
+            app:popUpTo="@id/firstFragment"
+            app:popUpToInclusive="true"
             app:enterAnim="@anim/transitionin"
             app:exitAnim="@anim/transitionout"
             />

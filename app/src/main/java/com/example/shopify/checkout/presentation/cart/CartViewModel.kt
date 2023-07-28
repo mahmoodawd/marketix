@@ -3,6 +3,7 @@ package com.example.shopify.checkout.presentation.cart
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
+import com.example.shopify.auth.domain.usecases.CheckGuestStatusUseCase
 import com.example.shopify.checkout.domain.model.CartItems
 import com.example.shopify.checkout.domain.usecase.cart.DeleteCartItemUseCase
 import com.example.shopify.checkout.domain.usecase.cart.GetCartItemsUseCase
@@ -31,7 +32,8 @@ class CartViewModel @Inject constructor(
     private val getCartItemsUseCase: GetCartItemsUseCase,
     private val deleteCartItemUseCase: DeleteCartItemUseCase,
     private val updateCartItemUseCase: UpdateCartItemUseCase,
-    private val readStringFromDataStoreUseCase: ReadStringFromDataStoreUseCase
+    private val readStringFromDataStoreUseCase: ReadStringFromDataStoreUseCase,
+    private val checkGuestStatusUseCase: CheckGuestStatusUseCase
 ) : ViewModel() {
 
 
@@ -56,12 +58,15 @@ class CartViewModel @Inject constructor(
                 intent.quantity,
                 intent.itemPosition
             )
+
+            CartIntent.CheckUserIsGuest -> checkIfUserIsGuest()
         }
     }
 
 
     private fun getAllCartItems() {
         viewModelScope.launch(ioDispatcher) {
+            _state.update { it.copy(loading = true) }
             getCartItemsUseCase.execute<CartItems>().collectLatest { response ->
                 when (response) {
                     is Response.Failure -> _snackBarFlow.emit(R.string.failed_message)
@@ -112,17 +117,31 @@ class CartViewModel @Inject constructor(
                         is Response.Failure -> {}
                         is Response.Loading -> {}
                         is Response.Success -> {
-                            _state.update { it.copy(currencyFactor = currencyFactor.data?.toDouble() ?: 1.0, currency = currency.data ?: "EGP") }
+                            _state.update {
+                                it.copy(
+                                    currencyFactor = currencyFactor.data?.toDouble() ?: 1.0,
+                                    currency = currency.data ?: "EGP"
+                                )
+                            }
                             _state.value.cartItems.forEach { cartItem ->
                                 cartItem.total = ((cartItem.subtotalPrice.toDouble())
                                         * _state.value.currencyFactor).roundTo(2).toString()
 
-                                cartItem.currency = currency.data?:"EGP"
+                                cartItem.currency = currency.data ?: "EGP"
                             }
-                            _state.update { it.copy(cartTotalCost = _state.value.cartItems.sumOf { it.total.toDouble() }.roundTo(2)) }
+                            _state.update {
+                                it.copy(cartTotalCost = _state.value.cartItems.sumOf { it.total.toDouble() }
+                                    .roundTo(2))
+                            }
                         }
                     }
                 }.collect()
+        }
+    }
+
+    private fun checkIfUserIsGuest() {
+        viewModelScope.launch(ioDispatcher) {
+            _state.update { it.copy(userIsGuest = checkGuestStatusUseCase.invoke()) }
         }
     }
 
@@ -141,16 +160,18 @@ class CartViewModel @Inject constructor(
 
                         val cartItems = _state.value.cartItems
                         (cartItems as MutableList)[itemPosition] =
-                            cartItems[itemPosition].copy(quantity = quantity,
-                                subtotalPrice =  (cartItems[itemPosition].oneItemPrice.toDouble()
+                            cartItems[itemPosition].copy(
+                                quantity = quantity,
+                                subtotalPrice = (cartItems[itemPosition].oneItemPrice.toDouble()
                                         * quantity.toDouble()
                                         * _state.value.currencyFactor
-                                        ).roundTo(2).toString())
+                                        ).roundTo(2).toString()
+                            )
                         _state.update {
                             it.copy(
                                 loading = false,
                                 cartItems = cartItems,
-                                cartTotalCost =cartItems.sumOf { it.total.toDouble() }.roundTo(2),
+                                cartTotalCost = cartItems.sumOf { it.total.toDouble() }.roundTo(2),
                             )
                         }
                     }
@@ -158,6 +179,13 @@ class CartViewModel @Inject constructor(
             }
 
         }
+
+    }
+
+
+    init {
+        onEvent(CartIntent.CheckUserIsGuest)
+
 
     }
 

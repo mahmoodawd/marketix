@@ -42,7 +42,7 @@ class SecondFragment : Fragment() {
                 FragmentNavigatorExtras()
             }
             controller.navigate(
-                SecondFragmentDirections.actionFavouritesFragmentToAllergiesFragment(),
+                SecondFragmentDirections.actionSecondFragmentToThirdFragment(),
                 extras
             )
         }

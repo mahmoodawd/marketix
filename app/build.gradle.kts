@@ -109,7 +109,7 @@ dependencies {
     implementation(libs.com.airbnb.android.lottie)
     ksp(libs.androidx.room.compiler)
     kapt(libs.com.google.dagger.hilt.compiler)
-    implementation("ru.tinkoff.scrollingpagerindicator:scrollingpagerindicator:1.2.5")
+    implementation(libs.scrollingpagerindicator)
     kapt(libs.androidx.hilt.hilt.compiler)
 
 

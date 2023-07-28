@@ -7,5 +7,7 @@ data class CartState(
     val currencyFactor: Double = 1.0,
     val cartTotalCost: Double = 0.0,
     val currency: String = "EGP",
-    val loading: Boolean = true
+    val loading: Boolean = false,
+    val userIsGuest : Boolean = false
+
 )

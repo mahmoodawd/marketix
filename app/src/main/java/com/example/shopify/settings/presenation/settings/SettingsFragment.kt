@@ -1,12 +1,13 @@
 package com.example.shopify.settings.presenation.settings
 
-import android.R
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -14,8 +15,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.example.shopify.R
 import com.example.shopify.databinding.FragmentSettingsBinding
 import com.example.shopify.settings.domain.model.CurrencyModel
+import com.example.shopify.utils.snackBarObserver
+import com.example.shopify.utils.ui.goneIf
+import com.example.shopify.utils.ui.invisibleIf
+import com.example.shopify.utils.ui.visibleIf
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -47,11 +54,30 @@ class SettingsFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
         binding.addressRightArrowImageView.setOnClickListener {
-            navController.navigate(SettingsFragmentDirections.actionSettingsFragmentToAllAddressesFragment())
+
+            if (!viewModel.state.value.userIsGuest){
+                navController.navigate(SettingsFragmentDirections.actionSettingsFragmentToAllAddressesFragment())
+            }else{
+                Snackbar.make(
+                    requireActivity().window.decorView.rootView, getString(R.string.guest_message),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+
+            }
+
         }
 
         binding.accountRightArrowImageView.setOnClickListener {
+            if (!viewModel.state.value.userIsGuest){
+
             navController.navigate(SettingsFragmentDirections.actionSettingsFragmentToAccountFragment())
+            }else{
+
+                Snackbar.make(
+                    requireActivity().window.decorView.rootView, getString(R.string.guest_message),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
         }
 
         binding.notificationSwitch.setOnCheckedChangeListener { _, checked ->
@@ -109,6 +135,7 @@ class SettingsFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
                     withContext(Dispatchers.Main) {
                         binding.notificationSwitch.isChecked = state.notification
                         binding.locationSwitch.isChecked = state.LocationService
+                        binding.logoutTextView goneIf   state.userIsGuest
                         spinnerSetup(state.currencies,state.selectedCurrency)
                     }
 
@@ -121,8 +148,8 @@ class SettingsFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
 
     private fun spinnerSetup(arraySpinner: List<CurrencyModel>?,selectedItem : String) {
         val adapter = ArrayAdapter(requireContext(),
-            R.layout.simple_spinner_item, arraySpinner!!.map { it.currency })
-        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+            android.R.layout.simple_spinner_item, arraySpinner!!.map { it.currency })
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.currencySpinner.adapter = adapter
         binding.currencySpinner.setSelection(arraySpinner.indexOfFirst { it.currency == selectedItem }.coerceAtLeast(0))
     }

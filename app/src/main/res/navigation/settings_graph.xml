@@ -7,6 +7,9 @@
     >
 
 
+
+
+
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.shopify.settings.presenation.settings.SettingsFragment"
