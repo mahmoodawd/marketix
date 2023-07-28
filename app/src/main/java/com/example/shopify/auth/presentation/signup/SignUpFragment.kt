@@ -1,14 +1,10 @@
 package com.example.shopify.auth.presentation.signup
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
@@ -100,7 +96,8 @@ class SignUpFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
                         customerViewModel.createCustomerAccount(firebaseAuth.currentUser!!)
-                        navController.navigate(getString(R.string.homeFragmentDeepLink).toUri())                    }
+                        navController.navigate(getString(R.string.homeFragmentDeepLink).toUri())
+                    }
                 }
 
         }
@@ -146,7 +143,7 @@ class SignUpFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
     private fun showVerificationDialog() {
         MaterialAlertDialogBuilder(requireContext())
             .setMessage("Verification mail sent, Check Your Inbox")
-            .setPositiveButton("Open Gmail app") { _, _ ->
+            /*.setPositiveButton("Open Gmail app") { _, _ ->
                 try {
 
                     Intent(
@@ -161,9 +158,9 @@ class SignUpFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
                     Toast.makeText(requireContext(), "Gmail Not Installed", Toast.LENGTH_SHORT)
                         .show()
                 }
-            }.setNeutralButton("Ok") { _, _ ->
-
-                navController.navigate(R.id.action_signUpFragment_to_loginFragment)
+            }*/
+            .setNeutralButton("Ok") { _, _ ->
+                navController.navigate(SignUpFragmentDirections.actionSignUpFragmentToLoginFragment())
             }
             .show()
     }

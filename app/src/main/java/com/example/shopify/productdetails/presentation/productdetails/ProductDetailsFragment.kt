@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -130,6 +131,7 @@ class ProductDetailsFragment(
             }
         }
 
+        binding.cartIV.setOnClickListener { navController.navigate(getString(R.string.cartFragmentDeepLink).toUri()) }
 
         binding.ratingView.apply {
             ratingBar.rating = 3.5F
@@ -188,9 +190,7 @@ class ProductDetailsFragment(
                         isCartItem = state.isCartItem
                         setFabsColors(favorite = state.isFavorite, cart = state.isCartItem)
                         binding.newPriceTv.text = StringBuilder().append(
-                            state.product?.variants?.first()?.price,
-                            " ",
-                            state.currency
+                            state.product?.variants?.first()?.price, " ", state.currency
                         )
 
                         state.product?.run {
@@ -210,7 +210,8 @@ class ProductDetailsFragment(
 
     private fun checkConnection() {
         val connectivitySnackBar = Snackbar.make(
-            binding.root, getString(com.firebase.ui.auth.R.string.fui_no_internet),
+            binding.root,
+            getString(com.firebase.ui.auth.R.string.fui_no_internet),
             Snackbar.LENGTH_INDEFINITE
         )
         lifecycleScope.launch {
