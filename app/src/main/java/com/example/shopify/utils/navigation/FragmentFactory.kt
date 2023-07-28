@@ -12,6 +12,7 @@ import com.example.shopify.orders.presentation.orders.OrdersFragment
 import com.example.shopify.settings.presenation.address.adresses.AllAddressesFragment
 import com.example.shopify.settings.presenation.address.map.MapFragment
 import com.example.shopify.settings.presenation.settings.SettingsFragment
+import com.example.shopify.splash.SplashFragment
 import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
@@ -64,6 +65,10 @@ class FragmentFactory  @Inject constructor(
 
             SettingsFragment::class.java.name ->{
                 SettingsFragment(firebaseAuth)
+            }
+
+            SplashFragment::class.java.name->{
+                SplashFragment(firebaseAuth)
             }
             else -> return super.instantiate(classLoader, className)
         }
