@@ -152,7 +152,7 @@ Is between 8 and 30 characters long</string>
     <string name="please_choose_your_address_location">please choose your address location</string>
     <string name="please_insert_all_required_fields">please insert all required fields</string>
     <string name="newaddressType">newAddress</string>
-     <string name="error_invalid_email">Invalid Email, Check it again</string>
+    <string name="error_invalid_email">Invalid Email, Check it again</string>
     <string name="error_invalid_password">Invalid Password Format!</string>
     <string name="error_empty_fields">Fields can\'t be empty</string>
     <string name="kids_category">451868557591</string>
@@ -187,7 +187,7 @@ Is between 8 and 30 characters long</string>
     <string name="codes">discount codes\n</string>
     <string name="done">done</string>
     <string name="choose_your_address_please">choose your address please</string>
-    <string name="please_choose_address" >please choose your address</string>
+    <string name="please_choose_address">please choose your address</string>
     <string name="please_write_your_email">please write your email address</string>
     <string name="please_write_your_phone_number">please write your phone number\n</string>
     <string name="have_discount_code"><u>discount code ?</u></string>
@@ -212,6 +212,8 @@ Is between 8 and 30 characters long</string>
     <string name="taxTotal">tax total</string>
     <string name="there_is_no_discount_codes_now_please_try_again_letter">there is no discount codes now please try again letter</string>
     <string name="guest">Continue As a Guest</string>
+    <string name="guest_message">You have to sign in\n to use this feature</string>
+    <string name="authFragmentDeepLink">shopify://loginFragment</string>
     <string name="skip">skip</string>
     <string name="let_s_get_started">let\'s get started</string>
     <string name="follow_latest_style_shoes">Follow Latest Style Shoes</string>

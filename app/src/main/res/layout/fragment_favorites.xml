@@ -14,111 +14,131 @@
             type="com.example.shopify.search.presentation.SearchItemsAdapter" />
     </data>
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".favorites.presentation.FavoritesFragment">
+        android:layout_height="match_parent">
 
-
-        <ProgressBar
-            android:id="@+id/favoritesProgressBar"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_150sdp"
-            android:elevation="@dimen/_50sdp"
-            android:indeterminateTint="@color/seed"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/searchEditText" />
+            tools:context=".favorites.presentation.FavoritesFragment">
 
-        <TextView
-            android:id="@+id/no_favs_view"
-            style="@style/title_font"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_250sdp"
-            android:elevation="@dimen/_10sdp"
-            android:shadowColor="@color/md_theme_dark_outline"
-            android:shadowDx="1"
-            android:shadowDy="4"
-            android:shadowRadius="5"
-            android:text="@string/no_favorites"
+
+            <ProgressBar
+                android:id="@+id/favoritesProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_150sdp"
+                android:elevation="@dimen/_50sdp"
+                android:indeterminateTint="@color/seed"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/searchEditText" />
+
+            <TextView
+                android:id="@+id/no_favs_view"
+                style="@style/title_font"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_250sdp"
+                android:elevation="@dimen/_10sdp"
+                android:shadowColor="@color/md_theme_dark_outline"
+                android:shadowDx="1"
+                android:shadowDy="4"
+                android:shadowRadius="5"
+                android:text="@string/no_favorites"
+                android:visibility="visible"
+                app:drawableBottomCompat="@drawable/heart_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/searchEditText" />
+
+
+            <TextView
+                android:id="@+id/fav_title_tv"
+                style="@style/title_two"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:text="@string/favorites"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="TextSizeCheck" />
+
+            <SearchView
+                android:id="@+id/searchEditText"
+                style="@style/p3"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_margin="@dimen/_16sdp"
+                android:background="@drawable/text_view_back"
+                android:drawablePadding="@dimen/_15sdp"
+                android:inputType="text"
+                android:isScrollContainer="false"
+                android:padding="@dimen/_10sdp"
+                android:queryHint="@string/looking_for_products"
+                android:searchIcon="@drawable/search_icon"
+                android:textColorHint="@color/md_theme_light_outline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fav_title_tv"
+                tools:ignore="Autofill,TextSizeCheck,TouchTargetSizeCheck,VisualLintTextFieldSize" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/searchResultRv"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:adapter="@{searchAdapter}"
+                android:background="@drawable/dialog_back"
+                android:elevation="@dimen/_5sdp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/searchEditText"
+                tools:listitem="@layout/search_result_item" />
+
+            <androidx.recyclerview.widget.RecyclerView
+
+                android:id="@+id/fav_items_rv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:adapter="@{adapter}"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/_100sdp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/searchEditText"
+                app:layout_constraintVertical_bias="0.492"
+                app:spanCount="2"
+                tools:itemCount="4"
+                tools:listitem="@layout/product_item" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            android:id="@+id/guestView"
+            layout="@layout/guest_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/searchEditText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/searchEditText" />
-
-
-        <TextView
-            android:id="@+id/fav_title_tv"
-            style="@style/title_two"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:text="@string/favorites"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="TextSizeCheck" />
-
-        <SearchView
-            android:id="@+id/searchEditText"
-            android:searchIcon="@drawable/search_icon"
-            style="@style/p3"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_margin="@dimen/_16sdp"
-            android:background="@drawable/text_view_back"
-            android:drawablePadding="@dimen/_15sdp"
-            android:inputType="text"
-            android:isScrollContainer="false"
-            android:padding="@dimen/_10sdp"
-            android:textColorHint="@color/md_theme_light_outline"
-            android:queryHint="@string/looking_for_products"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fav_title_tv"
-            tools:ignore="Autofill,TextSizeCheck,TouchTargetSizeCheck,VisualLintTextFieldSize" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/searchResultRv"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:adapter="@{searchAdapter}"
-            android:background="@drawable/dialog_back"
-            android:elevation="@dimen/_5sdp"
-            android:orientation="vertical"
-            android:visibility="gone"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/searchEditText"
-            tools:listitem="@layout/search_result_item" />
-
-        <androidx.recyclerview.widget.RecyclerView
-
-            android:id="@+id/fav_items_rv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:adapter="@{adapter}"
-            android:clipToPadding="false"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/_100sdp"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/searchEditText"
-            app:layout_constraintVertical_bias="0.492"
-            app:spanCount="2"
-            tools:itemCount="4"
-            tools:listitem="@layout/product_item" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintVertical_bias="0.5" />
+    </FrameLayout>
 
 </layout>

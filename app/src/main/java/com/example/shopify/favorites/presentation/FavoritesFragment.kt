@@ -6,16 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.example.shopify.R
 import com.example.shopify.databinding.FragmentFavoritesBinding
 import com.example.shopify.search.presentation.SearchItemsAdapter
 import com.example.shopify.utils.snackBarObserver
 import com.example.shopify.utils.ui.gone
+import com.example.shopify.utils.ui.goneIf
 import com.example.shopify.utils.ui.visible
 import com.example.shopify.utils.ui.visibleIf
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -65,6 +69,10 @@ class FavoritesFragment : Fragment() {
 
         binding.adapter = favoritesAdapter
         binding.searchAdapter = searchAdapter
+        binding.guestView.navToAuthBtn.setOnClickListener {
+            navController.navigate(getString(R.string.authFragmentDeepLink).toUri())
+        }
+
 
         return binding.root
     }
@@ -79,21 +87,25 @@ class FavoritesFragment : Fragment() {
 
         binding.searchEditText.apply {
 
+            setOnSearchClickListener {
+                binding.searchResultRv.visible()
+                binding.noFavsView.gone()
+                binding.guestView.root.gone()
+            }
             setOnCloseListener {
                 binding.searchResultRv.gone()
                 false
             }
-
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    //Should take the first element of the result list and go to it's details
                     return false
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    binding.searchResultRv.visible()
                     binding.noFavsView.gone()
-                    search(newText)
+                    binding.guestView.root.gone()
+
+                    viewModel.onEvent(FavoritesIntent.Search(newText ?: ""))
 
 
                     return false
@@ -111,9 +123,10 @@ class FavoritesFragment : Fragment() {
 
     }
 
-    private fun search(keyword: String?) {
-        viewModel.onEvent(FavoritesIntent.Search(keyword ?: ""))
-//        searchAdapter.submitList(searchResultList)
+    override fun onPause() {
+        super.onPause()
+        binding.searchEditText.setQuery("", false);
+        binding.searchEditText.isIconified = true;
     }
 
     private fun observeState() {
@@ -123,8 +136,9 @@ class FavoritesFragment : Fragment() {
 
                     withContext(Dispatchers.Main) {
 
-                        binding.noFavsView visibleIf (state.products.isNullOrEmpty() && !state.loading)
-
+                        binding.noFavsView goneIf (state.products!!.isNotEmpty() || state.loading || state.guest || binding.searchResultRv.isVisible)
+                        binding.guestView.root visibleIf (state.guest && !state.loading)
+                        binding.searchEditText goneIf state.guest
                         binding.favoritesProgressBar visibleIf state.loading
 
                         favoritesAdapter.submitList(state.products)
@@ -143,13 +157,10 @@ class FavoritesFragment : Fragment() {
 
     private fun showConfirmDeleteDialog(id: String, position: Int) {
         MaterialAlertDialogBuilder(requireContext())
-            .setMessage("Are You Sure To Delete")
-            .setPositiveButton("No") { _, _ ->
-
-            }.setNeutralButton("Yes") { _, _ ->
-
+            .setMessage("Item Will be Deleted, Proceed?")
+            .setPositiveButton("Yes") { _, _ ->
                 viewModel.onEvent(FavoritesIntent.RemoveFromFavorites(id, position))
-            }
+            }.setNegativeButton("No") { _, _ -> }
             .show()
     }
 }

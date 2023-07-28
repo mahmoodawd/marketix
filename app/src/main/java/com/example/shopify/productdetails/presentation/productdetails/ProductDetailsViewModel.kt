@@ -1,9 +1,9 @@
 package com.example.shopify.productdetails.presentation.productdetails
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
+import com.example.shopify.auth.domain.usecases.CheckGuestStatusUseCase
 import com.example.shopify.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
 import com.example.shopify.productdetails.data.dto.draftorder.DraftOrderRequest
 import com.example.shopify.productdetails.domain.model.details.ProductsDetailsModel
@@ -34,7 +34,9 @@ class ProductDetailsViewModel @Inject constructor(
     private val getProductDetailsUseCase: GetProductDetailsUseCase,
     private val addToCartUseCase: AddToCartUseCase,
     private val addToFavoritesUseCase: AddToFavoritesUseCase,
-    private val readStringFromDataStoreUseCase: ReadStringFromDataStoreUseCase
+    private val readStringFromDataStoreUseCase: ReadStringFromDataStoreUseCase,
+    private val checkGuestStatusUseCase: CheckGuestStatusUseCase
+
 
 ) : ViewModel() {
 
@@ -94,67 +96,76 @@ class ProductDetailsViewModel @Inject constructor(
     private fun addToFavorites(productsDetailsModel: ProductsDetailsModel) {
 
         viewModelScope.launch(ioDispatcher) {
-            addToFavoritesUseCase<DraftOrderRequest>(productsDetailsModel).collectLatest { response ->
-                _state.update { it.copy(loading = true) }
+            if (checkGuestStatusUseCase()) {
+                _snackBarFlow.emit(R.string.guest_message)
+            } else
+                addToFavoritesUseCase<DraftOrderRequest>(productsDetailsModel).collectLatest { response ->
+                    _state.update { it.copy(loading = true) }
 
-                when (response) {
-                    is Response.Failure -> {
-                        Timber.i("ERROR: ${response.error}")
-                        _state.update { it.copy(loading = false) }
+                    when (response) {
+                        is Response.Failure -> {
+                            Timber.i("ERROR: ${response.error}")
+                            _state.update { it.copy(loading = false) }
 
-                        when (response.error) {
-                            "itemAlreadyExistException" -> {
-                                _snackBarFlow.emit(
-                                    R.string.already_in_fav
-                                )
-                                _state.update { it.copy(isFavorite = true) }
+                            when (response.error) {
+                                "itemAlreadyExistException" -> {
+                                    _snackBarFlow.emit(
+                                        R.string.already_in_fav
+                                    )
+                                    _state.update { it.copy(isFavorite = true) }
+                                }
+
+                                else -> _snackBarFlow.emit(R.string.failed_message)
                             }
+                        }
 
-                            else -> _snackBarFlow.emit(R.string.failed_message)
+                        is Response.Loading -> _state.update { it.copy(loading = true) }
+
+                        is Response.Success -> {
+
+                            _state.update { it.copy(loading = false, isFavorite = true) }
+                            _snackBarFlow.emit(R.string.added_to_favorites)
                         }
                     }
-
-                    is Response.Loading -> _state.update { it.copy(loading = true) }
-
-                    is Response.Success -> {
-
-                        _state.update { it.copy(loading = false, isFavorite = true) }
-                        _snackBarFlow.emit(R.string.added_to_favorites)
-                    }
                 }
-            }
         }
     }
 
     private fun addToCart(variantId: Long?, product: ProductsDetailsModel) {
 
         viewModelScope.launch(ioDispatcher) {
-            addToCartUseCase<ProductsDetailsModel>(variantId, product).collectLatest { response ->
-                _state.update { it.copy(loading = true) }
+            if (checkGuestStatusUseCase()) {
+                _snackBarFlow.emit(R.string.guest_message)
+            } else
+                addToCartUseCase<ProductsDetailsModel>(
+                    variantId,
+                    product
+                ).collectLatest { response ->
+                    _state.update { it.copy(loading = true) }
 
-                when (response) {
-                    is Response.Failure -> {
-                        _state.update { it.copy(loading = false) }
-                        Timber.i("ERROR: ${response.error}")
-                        when (response.error) {
-                            "itemAlreadyExistException" -> {
-                                _snackBarFlow.emit(R.string.already_in_cart)
-                                _state.update { it.copy(isCartItem = true) }
+                    when (response) {
+                        is Response.Failure -> {
+                            _state.update { it.copy(loading = false) }
+                            Timber.i("ERROR: ${response.error}")
+                            when (response.error) {
+                                "itemAlreadyExistException" -> {
+                                    _snackBarFlow.emit(R.string.already_in_cart)
+                                    _state.update { it.copy(isCartItem = true) }
+                                }
+
+                                else -> _snackBarFlow.emit(R.string.failed_message)
                             }
+                        }
 
-                            else -> _snackBarFlow.emit(R.string.failed_message)
+                        is Response.Loading -> _state.update { it.copy(loading = true) }
+
+                        is Response.Success -> {
+
+                            _state.update { it.copy(loading = false, isCartItem = true) }
+                            _snackBarFlow.emit(R.string.added_to_cart)
                         }
                     }
-
-                    is Response.Loading -> _state.update { it.copy(loading = true) }
-
-                    is Response.Success -> {
-
-                        _state.update { it.copy(loading = false, isCartItem = true) }
-                        _snackBarFlow.emit(R.string.added_to_cart)
-                    }
                 }
-            }
         }
     }
 

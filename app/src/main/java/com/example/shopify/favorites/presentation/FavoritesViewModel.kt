@@ -3,6 +3,7 @@ package com.example.shopify.favorites.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
+import com.example.shopify.auth.domain.usecases.CheckGuestStatusUseCase
 import com.example.shopify.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
 import com.example.shopify.favorites.domain.model.FavoritesModel
 import com.example.shopify.favorites.domain.usecase.GetFavoriteProductsUseCase
@@ -33,7 +34,9 @@ class FavoritesViewModel @Inject constructor(
     private val getFavoritesUseCase: GetFavoriteProductsUseCase,
     private val removeDraftOrderUseCase: RemoveDraftOrderUseCase,
     private val getSearchResultUseCase: GetSearchResultUseCase,
-    private val readStringFromDataStoreUseCase: ReadStringFromDataStoreUseCase
+    private val readStringFromDataStoreUseCase: ReadStringFromDataStoreUseCase,
+    private val checkGuestStatusUseCase: CheckGuestStatusUseCase
+
 
 ) : ViewModel() {
 
@@ -57,39 +60,42 @@ class FavoritesViewModel @Inject constructor(
 
     private fun getFavorites() {
         viewModelScope.launch(ioDispatcher) {
-            getFavoritesUseCase<FavoritesModel>().collectLatest { response ->
-                Timber.i(" RESPONSE: ${response.data?.products?.size}")
-                when (response) {
+            if (checkGuestStatusUseCase()) {
+                _state.update { it.copy(loading = false, guest = true) }
+            } else
+                getFavoritesUseCase<FavoritesModel>().collectLatest { response ->
+                    Timber.i(" RESPONSE: ${response.data?.products?.size}")
+                    when (response) {
 
-                    is Response.Failure -> {
-                        _snackBarFlow.emit(R.string.failed_message)
+                        is Response.Failure -> {
+                            _snackBarFlow.emit(R.string.failed_message)
 
-                        Timber.i(" ERROR: ${response.error}")
+                            Timber.i(" ERROR: ${response.error}")
 
-                        _state.update { it.copy(loading = false) }
-                    }
-
-
-                    is Response.Loading -> {
-                        _state.update { it.copy(loading = true) }
-                    }
-
-                    is Response.Success -> {
-
-                        _state.update {
-                            it.copy(
-                                loading = false,
-                                products = response.data?.products,
-                            )
-
-
+                            _state.update { it.copy(loading = false) }
                         }
 
-                        readCurrencyFactorFromDataStore()
-                    }
 
+                        is Response.Loading -> {
+                            _state.update { it.copy(loading = true) }
+                        }
+
+                        is Response.Success -> {
+
+                            _state.update {
+                                it.copy(
+                                    loading = false,
+                                    products = response.data?.products,
+                                )
+
+
+                            }
+
+                            readCurrencyFactorFromDataStore()
+                        }
+
+                    }
                 }
-            }
         }
 
     }

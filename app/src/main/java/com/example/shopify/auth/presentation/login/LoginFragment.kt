@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -14,22 +13,27 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.example.shopify.AuthNavGraphDirections
 import com.example.shopify.R
 import com.example.shopify.auth.presentation.CustomerViewModel
 import com.example.shopify.auth.presentation.getValue
 import com.example.shopify.databinding.FragmentLoginBinding
 import com.example.shopify.utils.snackBarObserver
+import com.example.shopify.utils.ui.visibleIf
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.UserProfileChangeRequest
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 @AndroidEntryPoint
 class LoginFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
@@ -70,7 +74,7 @@ class LoginFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
             navController.navigate(R.id.action_loginFragment_to_passwordRecoveryFragment)
         }
 
-
+        binding.guestBtn.setOnClickListener { navController.navigate(AuthNavGraphDirections.actionToHomeFragmentAsGuest()) }
         listenToLoginStatus()
 
         requireActivity().snackBarObserver(viewModel.snackBarFlow)
@@ -97,15 +101,20 @@ class LoginFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
     private fun setCurrentUser(idToken: String?) {
         val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
         lifecycleScope.launch {
+            var userName = ""
             firebaseAuth.apply {
                 signInWithCredential(firebaseCredential)
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
-                            currentUser?.let { user -> customerViewModel.createCustomerAccount(user) }
-                            navController.navigate(getString(R.string.homeFragmentDeepLink).toUri())                        }
+                            currentUser?.let { user ->
+                                customerViewModel.createCustomerAccount(user)
+                                userName = user.displayName.toString()
+                            }
+
+                            navController.navigate(AuthNavGraphDirections.actionLoginFragmentToHomeFragment())
+                        }
                     }
             }
-
         }
     }
 
@@ -131,11 +140,17 @@ class LoginFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
                 viewModel.loginState.collectLatest { state ->
                     withContext(Dispatchers.Main) {
 
-                        binding.loginProgressBar.visibility =
-                            if (state.loading == true) View.VISIBLE else View.GONE
+                        binding.loginProgressBar visibleIf state.loading
 
                         if (state.success == true) {
-                            navController.navigate(R.id.action_loginFragment_to_homeFragment)                        }
+                            firebaseAuth.currentUser?.apply {
+                                Timber.i("email: $email")
+                                Timber.i("Name: $displayName")
+                                Timber.i("phone: $phoneNumber")
+                                Timber.i("photoUrl: $photoUrl")
+                            }
+                            navController.navigate(AuthNavGraphDirections.actionLoginFragmentToHomeFragment())
+                        }
                         if (state.unVerified == true) showDialog()
                     }
                 }

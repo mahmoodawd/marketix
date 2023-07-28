@@ -4,6 +4,7 @@ import com.example.shopify.auth.data.remote.CustomerRemoteDataSource
 import com.example.shopify.auth.data.remote.RemoteDataSource
 import com.example.shopify.auth.data.repository.AuthRepoImpl
 import com.example.shopify.auth.domain.repository.AuthRepository
+import com.example.shopify.auth.domain.usecases.CheckGuestStatusUseCase
 import com.example.shopify.auth.domain.usecases.CreateCustomerAccountUseCase
 import com.example.shopify.auth.domain.usecases.LogInUseCase
 import com.example.shopify.auth.domain.usecases.LogOutUseCase
@@ -58,6 +59,12 @@ abstract class AuthViewModelModule {
         @ViewModelScoped
         fun provideCreateCustomerAccountUseCase(authRepoImpl: AuthRepoImpl): CreateCustomerAccountUseCase =
             CreateCustomerAccountUseCase(authRepoImpl)
+
+        @Provides
+        @ViewModelScoped
+        fun provideCheckGuestStatusUseCase(authRepoImpl: AuthRepoImpl): CheckGuestStatusUseCase =
+            CheckGuestStatusUseCase(authRepoImpl)
+
 
     }
 }
