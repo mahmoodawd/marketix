@@ -25,6 +25,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopify.R
+import com.example.shopify.data.datastore.DataStoreUserPreferences
 import com.example.shopify.databinding.FragmentAllAddressesBinding
 import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.example.shopify.utils.recycler.moveRecyclerItemListener
@@ -138,23 +139,27 @@ class AllAddressesFragment(
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         binding.addressesRecyclerView.apply {
 
-       swipeRecyclerItemListener { viewHolder ->
-            if (viewModel.state.value.addresses[viewHolder.adapterPosition].isDefault) {
-            binding.addressesRecyclerView.adapter!!.notifyItemChanged(viewHolder.adapterPosition)
-                Toast.makeText(requireContext(), getString(R.string.you_can_t_delete_the_default_address), Toast.LENGTH_SHORT).show()
-            return@swipeRecyclerItemListener
+            swipeRecyclerItemListener { viewHolder ->
+                if (viewModel.state.value.addresses[viewHolder.adapterPosition].isDefault) {
+                    binding.addressesRecyclerView.adapter!!.notifyItemChanged(viewHolder.adapterPosition)
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.you_can_t_delete_the_default_address),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@swipeRecyclerItemListener
+                }
+                viewModel.onEvent(AllAddressesIntent.DeleteAddress(viewHolder.adapterPosition))
+                viewModel.onEvent(AllAddressesIntent.GetAllAddresses)
             }
-            viewModel.onEvent(AllAddressesIntent.DeleteAddress(viewHolder.adapterPosition))
-            viewModel.onEvent(AllAddressesIntent.GetAllAddresses)
-        }
 
             moveRecyclerItemListener { draggedIndex, targetIndex ->
-                viewModel.onEvent(AllAddressesIntent.ItemIsDragged(draggedIndex,targetIndex))
-                 binding.addressesRecyclerView.adapter!!.notifyItemMoved(draggedIndex,targetIndex)
+                viewModel.onEvent(AllAddressesIntent.ItemIsDragged(draggedIndex, targetIndex))
+                binding.addressesRecyclerView.adapter!!.notifyItemMoved(draggedIndex, targetIndex)
 
             }
-        layoutManager = linearLayoutManager
-        adapter = addressesRecyclerAdapter
+            layoutManager = linearLayoutManager
+            adapter = addressesRecyclerAdapter
         }
     }
 
@@ -165,7 +170,7 @@ class AllAddressesFragment(
                     if (state.addresses.isNotEmpty()) {
                         addressesRecyclerAdapter.submitList(state.addresses)
                     }
-                        binding.progressBar visibleIf state.loading
+                    binding.progressBar visibleIf state.loading
 
                 }
             }
@@ -195,6 +200,16 @@ class AllAddressesFragment(
 
                     if (!isLocationEnabled()) {
                         startLocationPage()
+                        return@collectLatest
+                    }
+
+
+                    if (!viewModel.state.value.LocationService) {
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.please_enable_location_services_from_settings_page),
+                            Toast.LENGTH_SHORT
+                        ).show()
                         return@collectLatest
                     }
                     if (checkPermission()) {

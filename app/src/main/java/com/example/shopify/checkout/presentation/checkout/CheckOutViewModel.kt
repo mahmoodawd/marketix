@@ -72,9 +72,8 @@ class CheckOutViewModel @Inject constructor(
             CheckOutIntent.GetAllDiscountCodes -> getAllDiscountCodes()
             CheckOutIntent.GetUserEmail -> getUserEmail()
             CheckOutIntent.GetUserPhone -> getUserPhone()
-            CheckOutIntent.PostOrdersFromCart -> {}
             CheckOutIntent.ValidateDiscountCode -> {validateDiscountCode()}
-            is CheckOutIntent.ChooseAddress -> _state.update { it.copy(deliveryAddress = intent.Address) }
+            is CheckOutIntent.ChooseAddress -> _state.update { it.copy(deliveryAddress = intent.address) }
             is CheckOutIntent.ChooseDiscountCode -> _state.update { it.copy(discountCode = state.value.discountCodes[intent.discountCodeIndex]) }
             is CheckOutIntent.EmitMessage -> { viewModelScope.launch(ioDispatcher) { _snackBarFlow.emit(intent.message) } }
             is CheckOutIntent.UserEditEmail -> _state.update { it.copy(email = intent.email) }
@@ -93,6 +92,7 @@ class CheckOutViewModel @Inject constructor(
             }
 
             CheckOutIntent.GetUserId -> {getCustomerIdWithEmail()}
+            CheckOutIntent.PostOrdersFromCart -> {}
         }
 
     }
@@ -129,7 +129,7 @@ class CheckOutViewModel @Inject constructor(
                     }
 
                     is Response.Loading -> {
-
+                         _state.update { it.copy(loading = true) }
                     }
 
                     is Response.Success -> {

@@ -163,6 +163,7 @@ class SettingsViewModel @Inject constructor(
 
     init {
         onEvent(SettingsIntent.GetCurrencies)
+        onEvent(SettingsIntent.CheckUserIsGuest)
         readBooleanPrefFromDataStore("notification")
         readBooleanPrefFromDataStore("LocationService")
         readStringPrefFromDataStore("currency")

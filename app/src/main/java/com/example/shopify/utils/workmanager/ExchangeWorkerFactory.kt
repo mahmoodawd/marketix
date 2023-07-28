@@ -33,7 +33,7 @@ class ExchangeWorkerFactory @Inject constructor(private val exchangeApi: Exchang
 
           DiscountCodesWorker::class.java.name ->
           {
-              DiscountCodesWorker(shopifyRemoteInterface,notificationManager,context,workerParams)
+              DiscountCodesWorker(shopifyRemoteInterface,notificationManager,datastore,context,workerParams)
           }
 
 

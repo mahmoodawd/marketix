@@ -20,4 +20,5 @@ data class CheckOutState(
     val addresses : List<AddressModel>  = listOf(),
     val discountCodes : List<DiscountCodeModel> = listOf(),
     val cartItems: List<CartItem> = emptyList(),
+    val loading : Boolean= false
     )

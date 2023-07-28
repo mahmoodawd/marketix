@@ -4,7 +4,7 @@ import android.net.Uri
 
 sealed interface AccountIntent {
 
-    object ConfirmUpdate : AccountIntent
+    data object ConfirmUpdate : AccountIntent
 
 
     data class NewImageUri(val uri: Uri) : AccountIntent

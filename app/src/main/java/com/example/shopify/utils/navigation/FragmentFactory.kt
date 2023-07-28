@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import com.example.shopify.auth.presentation.login.LoginFragment
 import com.example.shopify.auth.presentation.signup.SignUpFragment
+import com.example.shopify.data.datastore.DataStoreUserPreferences
 import com.example.shopify.favorites.presentation.FavoritesFragment
 import com.example.shopify.home.presentation.HomeFragment
 import com.example.shopify.orders.presentation.orders.OrdersFragment
@@ -29,6 +30,7 @@ class FragmentFactory @Inject constructor(
     private val locationManager: LocationManager,
     private val locationRequest: LocationRequest,
     private val firebaseAuth: FirebaseAuth,
+    private val dataStore : DataStoreUserPreferences,
     private val firebaseStorage: FirebaseStorage,
     private val firebaseFirestore: FirebaseFirestore
 
