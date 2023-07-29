@@ -77,7 +77,6 @@ class ProductDetailsFragment(
 
         binding.productImagesRv.adapter = imagesAdapter
         binding.indicator.attachToRecyclerView(binding.productImagesRv)
-
         binding.backImageView.setOnClickListener { navController.popBackStack() }
 
         binding.addToFavFab.setOnClickListener {
@@ -143,10 +142,8 @@ class ProductDetailsFragment(
             }
         }
 
+        viewModel.onEvent(ProductDetailsIntent.GetDetails(args.productId))
         requireActivity().snackBarObserver(viewModel.snackBarFlow)
-
-        checkConnection()
-
         observeState()
     }
 
@@ -185,7 +182,7 @@ class ProductDetailsFragment(
 
                     withContext(Dispatchers.Main) {
 
-                        binding.progressBar visibleIf state.loading
+                        binding.loadingAnimation visibleIf state.loading
 
                         isFav = state.isFavorite
                         isCartItem = state.isCartItem

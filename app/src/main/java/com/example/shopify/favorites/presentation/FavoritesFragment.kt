@@ -1,13 +1,11 @@
 package com.example.shopify.favorites.presentation
 
-import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -20,7 +18,6 @@ import com.example.shopify.search.presentation.SearchItemsAdapter
 import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.example.shopify.utils.snackBarObserver
 import com.example.shopify.utils.ui.gone
-import com.example.shopify.utils.ui.goneIf
 import com.example.shopify.utils.ui.visible
 import com.example.shopify.utils.ui.visibleIf
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -113,7 +110,7 @@ class FavoritesFragment(
             }
             )
         }
-        checkConnection()
+        viewModel.onEvent(FavoritesIntent.GetFavorites)
         requireActivity().snackBarObserver(viewModel.snackBarFlow)
         observeState()
     }
@@ -130,7 +127,6 @@ class FavoritesFragment(
         binding.searchEditText.isIconified = true;
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun observeState() {
         lifecycleScope.launch(Dispatchers.IO) {
             lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
@@ -138,19 +134,16 @@ class FavoritesFragment(
 
                     withContext(Dispatchers.Main) {
 
-                        binding.noFav.root goneIf (state.products!!.isNotEmpty() || state.loading || state.guest || binding.searchResultRv.isVisible)
-                        binding.guestView.root visibleIf (state.guest && !state.loading)
+                        binding.noFav.root visibleIf (state.products.isNullOrEmpty() && !state.guest)
+                        binding.guestView.root visibleIf state.guest
                         binding.favoritesProgressBar visibleIf state.loading
-                        binding.favItemsRv goneIf state.guest
 
-                        favoritesAdapter.apply {
-                            submitList(state.products)
-//                            notifyDataSetChanged()
-                        }
+                        favoritesAdapter.submitList(state.products)
 
-                        if (state.searchResult.isNotEmpty()) {
-                            searchAdapter.submitList(state.searchResult)
-                        }
+
+                        /* if (state.searchResult.isNotEmpty()) {
+                             searchAdapter.submitList(state.searchResult)
+                         }*/
 
                     }
                 }

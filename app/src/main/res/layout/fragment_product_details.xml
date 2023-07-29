@@ -25,185 +25,202 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/_32sdp"
+        app:layout_constraintEnd_toStartOf="@+id/product_images_rv"
+        app:layout_constraintStart_toStartOf="@+id/product_images_rv"
+        tools:context=".productdetails.presentation.productdetails.ProductDetailsFragment">
+
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_150sdp"
+            android:elevation="@dimen/_50sdp"
+            android:indeterminateTint="@color/seed"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/backImageView"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/cartIV"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/cart_icon"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/product_images_rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="@dimen/_32sdp"
-            app:layout_constraintEnd_toStartOf="@+id/product_images_rv"
-            app:layout_constraintStart_toStartOf="@+id/product_images_rv"
-            tools:context=".productdetails.presentation.productdetails.ProductDetailsFragment">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:adapter="@{imageAdapter}"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/backImageView"
+            tools:listitem="@layout/product_image_item" />
+
+        <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
+            android:id="@+id/indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/product_images_rv"
+            app:layout_constraintStart_toStartOf="@id/product_images_rv"
+            app:layout_constraintTop_toBottomOf="@id/product_images_rv"
+            app:spi_dotSelectedColor="@color/md_theme_light_primary"
+            app:spi_looped="true" />
+
+        <TextView
+            android:id="@+id/productTypeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:text="@{product.vendor}"
+            android:textColor="@color/md_theme_light_primary"
+            app:layout_constraintStart_toStartOf="@+id/item_name_tv"
+            app:layout_constraintTop_toBottomOf="@+id/product_images_rv"
+            tools:text="Best Seller" />
+
+        <TextView
+            android:id="@+id/item_name_tv"
+            style="@style/p3"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:elevation="@dimen/_10sdp"
+            android:minLines="2"
+            android:shadowColor="@color/md_theme_dark_outline"
+            android:shadowDx="1"
+            android:shadowDy="4"
+            android:shadowRadius="5"
+            android:text="@{product.handle}"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/productTypeTv"
+            tools:text=" Nike Club Max" />
+
+        <TextView
+            android:id="@+id/new_price_tv"
+            style="@style/p2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:elevation="@dimen/_10sdp"
+            android:shadowColor="@color/md_theme_dark_outline"
+            android:shadowDx="1"
+            android:shadowDy="4"
+            android:shadowRadius="5"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/item_name_tv"
+            app:layout_constraintEnd_toEndOf="@+id/add_to_cart_fab"
+            tools:text="new price" />
+
+        <include
+            android:id="@+id/rating_view"
+            layout="@layout/rating_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_name_tv" />
+
+        <TextView
+            android:id="@+id/description_tv"
+            style="@style/p1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_8sdp"
+            android:layout_marginTop="8dp"
+            android:padding="@dimen/_4sdp"
+            android:text="@{product.description}"
+            android:textAlignment="center"
+            android:textColor="@color/md_theme_light_outline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rating_view"
+            tools:text="@string/lorem_ipsum" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/optionsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adapter="@{optionAdapter}"
+            android:nestedScrollingEnabled="false"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintStart_toStartOf="@+id/item_name_tv"
+            app:layout_constraintTop_toBottomOf="@+id/description_tv"
+            tools:itemCount="3"
+            tools:listitem="@layout/product_options_layout" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/add_to_cart_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/to_cart"
+            app:icon="@drawable/cart_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/add_to_fav_fab"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/add_to_fav_fab"
+            app:layout_constraintTop_toTopOf="@+id/add_to_fav_fab" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/add_to_fav_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:text="@string/to_favorites"
+            app:icon="@drawable/heart_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/add_to_cart_fab"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/optionsRecyclerView" />
 
 
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_150sdp"
-                android:elevation="@dimen/_50sdp"
-                android:indeterminateTint="@color/seed"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/backImageView"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_30sdp"
-                android:importantForAccessibility="no"
-                android:src="@drawable/back"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/cartIV"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
-                android:layout_marginTop="@dimen/_30sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:visibility="visible"
-                android:importantForAccessibility="no"
-                android:src="@drawable/cart_icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/product_images_rv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:adapter="@{imageAdapter}"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/backImageView"
-                tools:listitem="@layout/product_image_item" />
-
-            <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
-                android:id="@+id/indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@id/product_images_rv"
-                app:layout_constraintStart_toStartOf="@id/product_images_rv"
-                app:layout_constraintTop_toBottomOf="@id/product_images_rv"
-                app:spi_dotSelectedColor="@color/md_theme_light_primary"
-                app:spi_looped="true" />
-
-            <TextView
-                android:id="@+id/productTypeTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:text="@{product.vendor}"
-                android:textColor="@color/md_theme_light_primary"
-                app:layout_constraintStart_toStartOf="@+id/item_name_tv"
-                app:layout_constraintTop_toBottomOf="@+id/product_images_rv"
-                tools:text="Best Seller" />
-
-            <TextView
-                android:id="@+id/item_name_tv"
-                style="@style/p3"
-                android:layout_width="@dimen/_150sdp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_16sdp"
-                android:elevation="@dimen/_10sdp"
-                android:minLines="2"
-                android:shadowColor="@color/md_theme_dark_outline"
-                android:shadowDx="1"
-                android:shadowDy="4"
-                android:shadowRadius="5"
-                android:text="@{product.handle}"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/productTypeTv"
-                tools:text=" Nike Club Max" />
-
-            <TextView
-                android:id="@+id/new_price_tv"
-                style="@style/p2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:elevation="@dimen/_10sdp"
-                android:shadowColor="@color/md_theme_dark_outline"
-                android:shadowDx="1"
-                android:shadowDy="4"
-                android:shadowRadius="5"
-                android:textStyle="bold"
-                app:layout_constraintBaseline_toBaselineOf="@+id/item_name_tv"
-                app:layout_constraintEnd_toEndOf="@+id/add_to_cart_fab"
-                tools:text="new price" />
-
-            <include
-                android:id="@+id/rating_view"
-                layout="@layout/rating_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_16sdp"
-                android:layout_marginEnd="@dimen/_16sdp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/item_name_tv" />
-
-            <TextView
-                android:id="@+id/description_tv"
-                style="@style/p1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_8sdp"
-                android:padding="@dimen/_4sdp"
-                android:text="@{product.description}"
-                android:textAlignment="center"
-                android:textColor="@color/md_theme_light_outline"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rating_view"
-                tools:text="@string/lorem_ipsum" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/optionsRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adapter="@{optionAdapter}"
-                android:nestedScrollingEnabled="false"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintStart_toStartOf="@+id/item_name_tv"
-                app:layout_constraintTop_toBottomOf="@+id/description_tv"
-                tools:itemCount="3"
-                tools:listitem="@layout/product_options_layout" />
-
-            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                android:id="@+id/add_to_cart_fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/to_cart"
-                app:icon="@drawable/cart_icon"
-                app:layout_constraintBottom_toBottomOf="@+id/add_to_fav_fab"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/add_to_fav_fab"
-                app:layout_constraintTop_toTopOf="@+id/add_to_fav_fab" />
-
-            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                android:id="@+id/add_to_fav_fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:layout_marginBottom="@dimen/_8sdp"
-                android:text="@string/to_favorites"
-                app:icon="@drawable/heart_icon"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/add_to_cart_fab"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/optionsRecyclerView" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loading_animation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/md_theme_light_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:lottie_autoPlay="true"
+        android:visibility="gone"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading" />
+</FrameLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>
