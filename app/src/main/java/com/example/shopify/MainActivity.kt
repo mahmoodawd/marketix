@@ -25,8 +25,11 @@ import androidx.work.WorkManager
 import com.example.shopify.data.datastore.DataStoreUserPreferences
 import com.example.shopify.databinding.ActivityMainBinding
 import com.example.shopify.utils.connectivity.ConnectivityObserver
+import com.example.shopify.utils.ui.goneIf
+import com.example.shopify.utils.ui.visibleIf
 import com.example.shopify.utils.workmanager.discount.DiscountCodesWorker
 import com.example.shopify.utils.workmanager.exchnage.ApiExchangeWorker
+import com.google.common.util.concurrent.Service.State
 import com.paypal.checkout.approve.OnApprove
 import com.paypal.checkout.cancel.OnCancel
 import com.paypal.checkout.createorder.CreateOrder
@@ -78,6 +81,7 @@ class MainActivity : AppCompatActivity() {
         updateCurrencyValuePeriodicallyWorkRequest()
         currentFragmentObserver()
         currencyChangeObserver()
+        connectivityObserver()
         showNotificationPeriodicTimeRequest()
 
     }
@@ -140,6 +144,14 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun connectivityObserver() {
+        lifecycleScope.launch {
+            connectivityObserver.observe().collectLatest { state ->
+               binding.internetIsLost.root goneIf  (state == ConnectivityObserver.Status.Available)
+            }
+        }
+    }
+
 
     private fun currentFragmentObserver() {
 
@@ -147,7 +159,7 @@ class MainActivity : AppCompatActivity() {
 
             navController.currentBackStackEntryFlow.collectLatest {
 
-                when(it.destination.id){
+                when (it.destination.id) {
                     R.id.homeFragment, R.id.favoritesFragment, R.id.settingsFragment, R.id.cartFragment -> {
                         binding.bottomNavigation.visibility = View.VISIBLE
                     }

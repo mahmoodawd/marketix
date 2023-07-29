@@ -137,6 +137,7 @@
 Contains only alphanumeric characters and underscores and
 Is between 8 and 30 characters long</string>
     <string name="password_invalid">password must have Capital letter, small letter , special character and at least 8 chars</string>
+    <string name="phone_invalid">this phone number is invalid</string>
     <string name="userName_isUpdated">your user name updated successfully</string>
     <string name="userImage_isUpdated">your image updated successfully</string>
     <string name="userPassword_isUpdated">your  password updated successfully</string>

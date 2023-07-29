@@ -89,7 +89,6 @@ dependencies {
     implementation(libs.androidx.core.core.splashscreen)
     implementation(libs.hdodenhof.circleimageview)
     implementation(libs.com.jakewharton.timber.timber)
-    implementation("com.google.android.gms:play-services-wallet:19.2.0")
     implementation(libs.com.google.android.gms.play.services.pay)
     implementation(libs.com.jakewharton.timber.timber)
     implementation(libs.com.google.firebase.firebase.auth.ktx)
@@ -107,9 +106,9 @@ dependencies {
     implementation(libs.android.sdk)
     implementation(libs.scrollingpagerindicator)
     implementation(libs.com.airbnb.android.lottie)
+    implementation(libs.scrollingpagerindicator)
     ksp(libs.androidx.room.compiler)
     kapt(libs.com.google.dagger.hilt.compiler)
-    implementation(libs.scrollingpagerindicator)
     kapt(libs.androidx.hilt.hilt.compiler)
 
 
