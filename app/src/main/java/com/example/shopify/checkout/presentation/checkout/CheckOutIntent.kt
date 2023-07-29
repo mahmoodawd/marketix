@@ -21,4 +21,6 @@ sealed interface CheckOutIntent{
     data object GetPriceRule : CheckOutIntent
     data class NewCartItems(val cartItems: CartItems) : CheckOutIntent
     data class CreateOrder(val postOrder: PostOrder, val draftItemsIds : List<Long>): CheckOutIntent
+
+    data class ExchangeRequest(val from : String = "EGP" , val to : String = "USD") : CheckOutIntent
 }

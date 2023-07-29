@@ -18,7 +18,7 @@ interface CartAndCheckOutRemoteDataSource {
     suspend fun <T> updateItemFromCart(id : String,quantity : String) : Flow<Response<T>>
 
 
-    suspend fun <T> deleteDiscountCodeFromDatabase(code : DiscountCode) : Flow<Response<T>>
+
 
     suspend fun <T> getDiscountCodeById(id : String) : Flow<Response<T>>
 
@@ -39,6 +39,10 @@ interface CartAndCheckOutRemoteDataSource {
 
 
     suspend fun <T> getCustomerId()  : Flow<Response<T>>
+
+
+    suspend fun <T> exchangeCurrency(from : String , to : String)  : Flow<Response<T>>
+
 
 
 

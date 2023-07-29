@@ -96,11 +96,12 @@ class CartViewModel @Inject constructor(
                     is Response.Failure -> _snackBarFlow.emit(R.string.failed_message)
                     is Response.Loading -> _state.update { it.copy(loading = true) }
                     is Response.Success -> {
-
+                        (_state.value.cartItems as MutableList).removeAt(itemPosition)
                         _state.update {
                             it.copy(
                                 loading = false,
-                                cartItems = _state.value.cartItems.drop(itemPosition + 1)
+                                cartItems = _state.value.cartItems.toMutableList().filter { it.itemId.toString() != id },
+                                cartTotalCost = _state.value.cartItems.sumOf { it.subtotalPrice.toDouble() }.roundTo(2)
                             )
                         }
                         _snackBarFlow.emit(R.string.item_deleted_successfully)
@@ -125,13 +126,13 @@ class CartViewModel @Inject constructor(
                                 )
                             }
                             _state.value.cartItems.forEach { cartItem ->
-                                cartItem.total = ((cartItem.subtotalPrice.toDouble())
+                                cartItem.subtotalPrice = ((cartItem.subtotalPrice.toDouble())
                                         * _state.value.currencyFactor).roundTo(2).toString()
 
                                 cartItem.currency = currency.data ?: "EGP"
                             }
                             _state.update {
-                                it.copy(cartTotalCost = _state.value.cartItems.sumOf { it.total.toDouble() }
+                                it.copy(cartTotalCost = _state.value.cartItems.sumOf { it.subtotalPrice.toDouble() }
                                     .roundTo(2))
                             }
                         }

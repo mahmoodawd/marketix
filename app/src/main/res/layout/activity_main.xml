@@ -31,6 +31,12 @@
         app:menu="@menu/menu_main"
         />
 
+    <include
+        android:id="@+id/internetIsLost"
+        layout="@layout/no_internet_layout"
+        android:visibility="gone"
+        />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
