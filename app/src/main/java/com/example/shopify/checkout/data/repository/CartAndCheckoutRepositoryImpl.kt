@@ -102,4 +102,8 @@ class CartAndCheckoutRepositoryImpl @Inject constructor(
         return remoteDataSource.getCustomerId()
 
     }
+
+    override suspend fun <T> exchangeCurrency(from: String, to: String): Flow<Response<T>> {
+        return remoteDataSource.exchangeCurrency(from ,  to)
+    }
 }

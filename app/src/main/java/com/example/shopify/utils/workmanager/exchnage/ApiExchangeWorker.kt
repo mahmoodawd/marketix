@@ -21,6 +21,7 @@ class ApiExchangeWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
+        Log.d("exchangeFactory",  " error")
         val targetCurrency = dataStore.getString<String>("currency").first().data
         targetCurrency?.let {
 

@@ -40,6 +40,7 @@ import com.example.shopify.databinding.CodeBottomSheetBinding
 import com.example.shopify.databinding.FragmentCheckOutBinding
 import com.example.shopify.databinding.SuccessDialogBinding
 import com.example.shopify.home.domain.model.discountcode.DiscountCodeModel
+import com.example.shopify.utils.rounder.roundTo
 import com.example.shopify.utils.snackBarObserver
 import com.example.shopify.utils.ui.visibleIf
 import com.google.android.material.snackbar.Snackbar
@@ -54,6 +55,7 @@ import com.paypal.checkout.order.AppContext
 import com.paypal.checkout.order.OrderRequest
 import com.paypal.checkout.order.PurchaseUnit
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -224,7 +226,7 @@ class CheckOutFragment : Fragment() {
                     binding.dropDownCodesImageView visibleIf state.discountCodes.isNotEmpty()
                     binding.progressBar visibleIf state.loading
 
-                    if (state.error.isNotEmpty()){
+                    if (state.error.isNotEmpty()) {
                         Snackbar.make(
                             binding.root, state.error,
                             Snackbar.LENGTH_SHORT
@@ -267,28 +269,6 @@ class CheckOutFragment : Fragment() {
         }
     }
 
-    private fun showDiscountCodesSheet() {
-        val bottomSheetBinding = CodeBottomSheetBinding.inflate(layoutInflater)
-        discountDialog.apply {
-            setContentView(bottomSheetBinding.root)
-
-            window?.setLayout(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-            //   setUpRecyclerView(bottomSheetBinding.codesRecycler, discountCodesRecyclerAdapter)
-
-            bottomSheetBinding.done.setOnClickListener {
-                dismiss()
-            }
-
-            window?.setBackgroundDrawable(ColorDrawable(Color.WHITE))
-            window?.attributes?.windowAnimations = R.style.DialogAnimation
-            window?.setGravity(Gravity.BOTTOM)
-
-        }.show()
-    }
-
     private fun showAddressSheet() {
         val bottomSheetBinding = AddressBottomSheetBinding.inflate(layoutInflater)
 
@@ -325,6 +305,8 @@ class CheckOutFragment : Fragment() {
     private fun paypalSetup() {
 
         binding.paymentButtonContainer.setup(
+
+
             createOrder =
             CreateOrder { createOrderActions ->
 
@@ -342,8 +324,6 @@ class CheckOutFragment : Fragment() {
                     viewModel.onEvent(CheckOutIntent.EmitMessage(R.string.please_write_your_phone_number))
                     return@CreateOrder
                 }
-
-
                 val order =
                     OrderRequest(
                         intent = OrderIntent.CAPTURE,
@@ -354,7 +334,7 @@ class CheckOutFragment : Fragment() {
                                 amount =
                                 Amount(
                                     currencyCode = CurrencyCode.USD,
-                                    value = viewModel.state.value.totalCost.toString()
+                                    value = (viewModel.state.value.totalCost * viewModel.state.value.usdCurrencyFactor).roundTo(2).toString()
                                 )
                             )
                         )

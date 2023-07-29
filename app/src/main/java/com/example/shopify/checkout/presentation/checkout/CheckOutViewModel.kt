@@ -14,6 +14,7 @@ import com.example.shopify.checkout.domain.usecase.cart.DeleteDraftOrderUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.DeleteDiscountCodeFromDatabaseUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.GetDiscountCodeByIdUseCase
 import com.example.shopify.checkout.domain.usecase.discountcode.GetPriceRuleUseCase
+import com.example.shopify.checkout.domain.usecase.exchange.ExchangeRateUseCase
 import com.example.shopify.checkout.domain.usecase.order.CreateOrderUseCase
 import com.example.shopify.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
 import com.example.shopify.home.domain.model.discountcode.DiscountCodeModel
@@ -51,7 +52,8 @@ class CheckOutViewModel @Inject constructor(
     private val readStringFromDataStoreUseCase: ReadStringFromDataStoreUseCase,
     private val getCustomerIdUseCase: GetCustomerIdUseCase,
     private val createOrderUseCase: CreateOrderUseCase,
-    private val deleteDraftOrderUseCase : DeleteDraftOrderUseCase
+    private val deleteDraftOrderUseCase : DeleteDraftOrderUseCase,
+    private val exchangeRateUseCase: ExchangeRateUseCase,
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<CheckOutState> =
@@ -92,6 +94,7 @@ class CheckOutViewModel @Inject constructor(
             }
 
             CheckOutIntent.GetUserId -> {getCustomerIdWithEmail()}
+            is CheckOutIntent.ExchangeRequest -> {exchangeApiKey(intent.from,intent.to)}
             CheckOutIntent.PostOrdersFromCart -> {}
         }
 
@@ -162,6 +165,30 @@ class CheckOutViewModel @Inject constructor(
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private fun exchangeApiKey(from : String , to : String)
+    {
+        viewModelScope.launch(ioDispatcher) {
+            exchangeRateUseCase.execute<Double>(from, to).collectLatest {  response ->
+                when(response)
+                {
+                    is Response.Failure -> {
+                        _snackBarFlow.emit(R.string.failed_message)
+                    }
+                    is Response.Loading -> {
+                        _state.update { it.copy(loading = true) }
+                    }
+                    is Response.Success -> {
+
+                        _state.update { it.copy(usdRequestDone = true,usdCurrencyFactor = response.data!!,loading = false) }
+                        Log.d("usdFactor",response.data.toString())
+
+                    }
+                }
+
             }
         }
     }
@@ -340,6 +367,7 @@ class CheckOutViewModel @Inject constructor(
         onEvent(CheckOutIntent.GetUserPhone)
         getCurrency("currency"){ response ->
             _state.update { it.copy(currency = response.data ?: "EGP") }
+            exchangeApiKey(_state.value.currency,"USD")
         }
 
         getCurrency("currencyFactor"){ response ->
