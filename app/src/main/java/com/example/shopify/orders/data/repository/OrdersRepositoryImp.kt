@@ -18,7 +18,7 @@ class OrdersRepositoryImp @Inject constructor(
     override suspend fun getCustomerOrders(customerEmail: String): Flow<Response<OrdersModel>> {
         return try {
             ordersRemoteSource.getCustomerOrders<OrdersResponse>(customerEmail).map {
-                Response.Success(it.data!!.toOrdersModel())
+                Response.Success(it.data?.toOrdersModel()?:OrdersModel(listOf()))
             }
         } catch (e: Exception) {
             Timber.e(e.message)
