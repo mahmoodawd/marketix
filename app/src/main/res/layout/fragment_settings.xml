@@ -189,14 +189,16 @@
         <TextView
             android:id="@+id/logoutTextView"
             style="@style/p2"
-            android:textColor="@color/md_theme_light_primary"
-            android:textStyle="normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_30sdp"
             android:layout_marginBottom="@dimen/_30sdp"
             android:text="@string/logout"
+            android:textColor="@color/md_theme_light_primary"
+            android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/locationTextView" />
+            app:layout_constraintStart_toStartOf="@+id/locationTextView"
+            app:layout_constraintTop_toBottomOf="@+id/locationTextView" />
 
 
 
