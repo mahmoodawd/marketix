@@ -100,7 +100,6 @@ dependencies {
     implementation(libs.androidx.work.work.runtime.kts)
     implementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.play.services)
     implementation(libs.androidx.viewpager2.viewpager2)
-    implementation(libs.androidx.startup.startup.runtime)
     implementation(libs.com.squareup.okhttp3.logging.interceptor)
     implementation(libs.androidx.startup.startup.runtime)
     implementation(libs.android.sdk)
