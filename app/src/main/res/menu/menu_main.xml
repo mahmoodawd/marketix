@@ -12,12 +12,14 @@
         android:id="@+id/fav_nav_graph"
         android:title="@string/favorites"
         android:icon="@drawable/heart" />
-    <item
-        android:id="@+id/settings_graph"
-        android:title="@string/action_settings"
-        android:icon="@drawable/settings_icon" />
+
     <item
         android:id="@+id/cart_nav_graph"
         android:title="@string/my_cart"
         android:icon="@drawable/cart_icon" />
+
+    <item
+        android:id="@+id/settings_graph"
+        android:title="@string/action_settings"
+        android:icon="@drawable/settings_icon" />
 </menu>

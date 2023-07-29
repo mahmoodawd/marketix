@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
@@ -42,6 +43,7 @@ import com.paypal.checkout.order.OrderRequest
 import com.paypal.checkout.order.PurchaseUnit
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
@@ -71,6 +73,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
+        changeStatusBarColor()
         installSplashScreen()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -84,6 +87,11 @@ class MainActivity : AppCompatActivity() {
         connectivityObserver()
         showNotificationPeriodicTimeRequest()
 
+    }
+
+    private fun changeStatusBarColor()
+    {
+            window.statusBarColor= ContextCompat.getColor(this, R.color.seed)
     }
 
 
@@ -147,6 +155,7 @@ class MainActivity : AppCompatActivity() {
     private fun connectivityObserver() {
         lifecycleScope.launch {
             connectivityObserver.observe().collectLatest { state ->
+                delay(200)
                binding.internetIsLost.root goneIf  (state == ConnectivityObserver.Status.Available)
             }
         }
