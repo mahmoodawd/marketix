@@ -30,7 +30,7 @@ data class DraftOrdersItem(
     val tags: String = "",
     val completed_at: Any = "",
     // other properties of the draft order...
-    val note_attributes: List<PropertiesItem>,
+    val note_attributes: List<PropertiesItem> = mutableListOf(),
     val admin_graphql_api_id: String = "",
     val name: String = "",
     val shipping_line: Any = "",
@@ -43,11 +43,11 @@ data class DraftOrdersItem(
 data class LineItem(
 
     val variant_title: String = "",
-    val quantity: Int = 0,
+    var quantity: Int = 0,
     val taxable: Boolean = false,
     val gift_card: Boolean = false,
     val fulfillment_service: String = "",
-    val applied_discount: AppliedDiscount?,
+    val applied_discount: AppliedDiscount? = null,
     val requires_shipping: Boolean = false,
     val custom: Boolean = false,
     val title: String = "",
@@ -61,7 +61,7 @@ data class LineItem(
     val id: Long = 0L,
     val sku: String = "",
     val grams: Int = 0,
-    val properties: List<PropertiesItem>
+    val properties: List<PropertiesItem> = listOf()
 )
 @Parcelize
 data class PropertiesItem(
