@@ -66,10 +66,10 @@ class OrdersFragment(
     }
 
     private fun checkConnection() {
-        val connectivitySnackBar = Snackbar.make(
-            binding.root, getString(com.firebase.ui.auth.R.string.fui_no_internet),
-            Snackbar.LENGTH_INDEFINITE
-        )
+//        val connectivitySnackBar = Snackbar.make(
+//            binding.root, getString(com.firebase.ui.auth.R.string.fui_no_internet),
+//            Snackbar.LENGTH_INDEFINITE
+//        )
         lifecycleScope.launch {
             connectivityObserver.observe().collectLatest { connectionStatus ->
                 delay(200)
@@ -85,7 +85,7 @@ class OrdersFragment(
                     }
 
                     else -> {
-                        connectivitySnackBar.show()
+//                        connectivitySnackBar.show()
                     }
                 }
             }
