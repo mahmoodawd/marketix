@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -25,12 +26,12 @@ import com.example.shopify.databinding.BottomSheetLayoutBinding
 import com.example.shopify.databinding.FragmentHomeBinding
 import com.example.shopify.home.domain.model.BrandModel
 import com.example.shopify.home.domain.model.ProductModel
+import com.example.shopify.search.presentation.SearchItemsAdapter
 import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.example.shopify.utils.ui.visibleIf
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.RangeSlider.OnSliderTouchListener
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -49,6 +50,18 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
     private lateinit var productsAdapter: ProductsAdapter
     private var vendor: String = ""
     private var currency: String = "EGP"
+
+    private val searchAdapter: SearchItemsAdapter by lazy {
+        SearchItemsAdapter { productId ->
+            navToDetails(productId)
+        }
+    }
+
+    private fun navToDetails(productId: String) {
+        val uri = Uri.parse("shopify://productDetailsFragment/${productId}")
+        navController.navigate(uri)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -80,10 +93,22 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
                 showDiscountCodeDialog(it.code)
             }
         }
+
+        binding.searchEditText.doOnTextChanged { text, start, before, count ->
+            viewModel.search(text.toString())
+
+        }
+        binding.searchResultAdapter = searchAdapter
         setProductsRecycler()
         setBrandsRecycler()
         checkConnection()
         stateObserve()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.searchEditText.text.clear()
+
     }
 
     private fun showBottomDialog() {
@@ -215,6 +240,11 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
                     }
 
                     binding.addsCardView visibleIf (it.discountCode != null)
+
+                    binding.searchResultRv visibleIf binding.searchEditText.hasFocus()
+                    if (it.searchResult.isNotEmpty()) {
+                        searchAdapter.submitList(it.searchResult)
+                    }
 
                 }
             }
