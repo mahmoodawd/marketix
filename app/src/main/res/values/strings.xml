@@ -83,7 +83,7 @@
     <string name="create_account">Create Account</string>
     <string name="your_name">Your Name</string>
     <string name="your_name_here">Your Name Here</string>
-    <string name="already_have_an_account">Already Have An Account</string>
+    <string name="already_have_an_account">Already Have An Account? </string>
     <string name="create_account_msg">Let\'s Create New Account</string>
     <string name="password_recovery">Password Recovery</string>
     <string name="password_recovery_msg">Please Enter Your Email address to receive a Verification Code</string>

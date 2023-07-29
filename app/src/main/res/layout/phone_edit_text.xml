@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginStart="@dimen/_8sdp"
@@ -7,31 +7,31 @@
 
     <TextView
         style="@style/p1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_8sdp"
-        android:text="@string/password"
+        android:text="@string/phone"
         android:textStyle="bold"
         android:visibility="gone" />
 
+
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/password_et"
+        android:id="@+id/phone_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginEnd="@dimen/_16sdp"
-        android:orientation="vertical"
-        app:endIconMode="password_toggle">
+        android:orientation="vertical">
 
-
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="@dimen/_48sdp"
-            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_16sdp"
+            android:autofillHints="emailAddress"
             android:background="@drawable/edit_text_background"
             android:ems="10"
-            android:hint="@string/password_here"
-            android:inputType="textPassword"
+            android:hint="@string/fui_phone_hint"
+            android:inputType="phone"
             android:padding="@dimen/_8sdp" />
     </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

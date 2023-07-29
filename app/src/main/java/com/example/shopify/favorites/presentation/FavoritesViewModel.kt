@@ -62,6 +62,7 @@ class FavoritesViewModel @Inject constructor(
         viewModelScope.launch(ioDispatcher) {
             if (checkGuestStatusUseCase()) {
                 _state.update { it.copy(loading = false, guest = true) }
+                Timber.i("NO USER")
             } else {
                 _state.update { it.copy(guest = false) }
                 getFavoritesUseCase<FavoritesModel>().collectLatest { response ->
