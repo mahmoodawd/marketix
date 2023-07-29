@@ -170,23 +170,23 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
     }
 
     private fun checkConnection() {
-        val connectivitySnackBar = Snackbar.make(
-            binding.root, getString(com.firebase.ui.auth.R.string.fui_no_internet),
-            Snackbar.LENGTH_INDEFINITE
-        )
+//        val connectivitySnackBar = Snackbar.make(
+//            binding.root, getString(com.firebase.ui.auth.R.string.fui_no_internet),
+//            Snackbar.LENGTH_INDEFINITE
+//        )
         lifecycleScope.launch {
             connectivityObserver.observe().collectLatest {
                 delay(200)
                 when (it) {
                     ConnectivityObserver.Status.Available -> {
-                        connectivitySnackBar.dismiss()
+//                        connectivitySnackBar.dismiss()
                         viewModel.readCurrencyFactorFromDataStore()
                         viewModel.getAllProducts()
                         viewModel.getAllBrands()
                     }
 
                     else -> {
-                        connectivitySnackBar.show()
+//                        connectivitySnackBar.show()
                     }
                 }
             }
