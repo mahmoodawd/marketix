@@ -15,6 +15,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
+import com.example.shopify.auth.domain.UserModel
 import com.example.shopify.auth.presentation.CustomerViewModel
 import com.example.shopify.auth.presentation.getValue
 import com.example.shopify.databinding.FragmentSignUpBinding
@@ -113,10 +114,13 @@ class SignUpFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
     }
 
     private fun signUp() {
-        val userName = binding.userNameField.userNameEt.getValue()
-        val email = binding.emailField.emailEt.getValue().trim()
-        val password = binding.passwordField.passwordEt.getValue()
-        viewModel.signUp(userName, email, password)
+        val userModel = UserModel(
+            userName = binding.userNameField.userNameEt.getValue(),
+            phone = binding.phoneField.phoneEt.getValue(),
+            email = binding.emailField.emailEt.getValue().trim(),
+            password = binding.passwordField.passwordEt.getValue(),
+        )
+        viewModel.signUp(userModel)
     }
 
     private fun listenToSignUpStatus() {

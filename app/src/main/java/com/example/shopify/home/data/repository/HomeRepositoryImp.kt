@@ -28,8 +28,8 @@ class HomeRepositoryImp @Inject constructor(
     HomeRepository {
     override suspend fun getAllBrands(): Flow<Response<BrandsModel>> {
         return try {
-            brandsRemoteSource.getAllBrands<BrandsResponse>().map {
-                Response.Success(it.data!!.toBrandsModel())
+            brandsRemoteSource.getAllBrands<BrandsResponse>().map { response->
+                Response.Success(response.data?.toBrandsModel() ?: BrandsModel(listOf()))
             }
         } catch (e: Exception) {
             flowOf(Response.Failure(e.message ?: "UnKnown"))
@@ -41,7 +41,7 @@ class HomeRepositoryImp @Inject constructor(
     override suspend fun getAllProducts(): Flow<Response<ProductsModel>> {
         return try {
             productRemoteSource.getAllProducts<ProductsResponse>().map {
-                Response.Success(it.data!!.toProductsModel())
+                Response.Success(it.data?.toProductsModel()?: ProductsModel(listOf()))
             }
         } catch (e: Exception) {
             flowOf(Response.Failure(e.message ?: "Unknown"))
@@ -52,7 +52,7 @@ class HomeRepositoryImp @Inject constructor(
     override suspend fun getProductsByBrand(brand: String): Flow<Response<ProductsModel>> {
         return try {
             productRemoteSource.getProductsByBrand<ProductsResponse>(brand).map {
-                Response.Success(it.data!!.toProductsModel())
+                Response.Success(it.data?.toProductsModel()?: ProductsModel(listOf()))
             }
         } catch (e: Exception) {
             flowOf(Response.Failure(e.message ?: "UnKnown"))
@@ -67,7 +67,7 @@ class HomeRepositoryImp @Inject constructor(
     ): Flow<Response<ProductsModel>> {
         return try {
             productRemoteSource.filterProducts<ProductsResponse>(category, productType).map {
-                Response.Success(it.data!!.toProductsModel())
+                Response.Success(it.data?.toProductsModel()?: ProductsModel(listOf()))
             }
         } catch (e: Exception) {
             flowOf(Response.Failure(e.message ?: "UnKnown"))

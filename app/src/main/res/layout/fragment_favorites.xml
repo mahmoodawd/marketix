@@ -30,6 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_150sdp"
                 android:elevation="@dimen/_50sdp"
+                android:visibility="gone"
                 android:indeterminateTint="@color/seed"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

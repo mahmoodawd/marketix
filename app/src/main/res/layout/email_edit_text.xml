@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_8sdp"
         android:text="@string/email"
+        android:visibility="gone"
         android:textStyle="bold" />
 
 
@@ -18,7 +19,8 @@
         android:id="@+id/email_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
         android:orientation="vertical">
 
         <EditText

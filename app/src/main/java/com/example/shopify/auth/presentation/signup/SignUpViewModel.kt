@@ -3,6 +3,7 @@ package com.example.shopify.auth.presentation.signup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
+import com.example.shopify.auth.domain.UserModel
 import com.example.shopify.auth.domain.usecases.SignUpUseCase
 import com.example.shopify.auth.domain.usecases.ValidateEmailUseCase
 import com.example.shopify.auth.domain.usecases.ValidatePasswordUseCase
@@ -39,46 +40,47 @@ class SignUpViewModel @Inject constructor(
     val snackBarFlow = _snackBarFlow.asSharedFlow()
 
 
-    fun signUp(userName: String, email: String, password: String) =
+    fun signUp(userModel: UserModel) =
         viewModelScope.launch(ioDispatcher) {
-            if (userName.isBlank() || email.isBlank() || password.isBlank()) {
+            userModel.apply {
 
-                _snackBarFlow.emit(R.string.error_empty_fields)
+                if (userName.isBlank() || email.isBlank() || password.isBlank() || phone.isBlank()) {
 
-            } else {
-
-                if (!validateEmailUseCase(email)) {
-                    _snackBarFlow.emit(R.string.error_invalid_email)
-                } else if (!validatePasswordUseCase(password)) {
-                    _snackBarFlow.emit(R.string.error_invalid_password)
+                    _snackBarFlow.emit(R.string.error_empty_fields)
 
                 } else {
 
-                    _signUpState.update { it.copy(loading = true) }
+                    if (!validateEmailUseCase(email)) {
+                        _snackBarFlow.emit(R.string.error_invalid_email)
+                    } else if (!validatePasswordUseCase(password)) {
+                        _snackBarFlow.emit(R.string.error_invalid_password)
 
-                    signUpUseCase<FirebaseUser>(
-                        userName,
-                        email,
-                        password
-                    ).collectLatest { response ->
-                        when (response) {
-                            is Response.Success -> {
-                                _signUpState.update { it.copy(success = true, loading = false) }
+                    } else {
+
+                        _signUpState.update { it.copy(loading = true) }
+
+                        signUpUseCase<FirebaseUser>(
+                            userModel
+                        ).collectLatest { response ->
+                            when (response) {
+                                is Response.Success -> {
+                                    _signUpState.update { it.copy(success = true, loading = false) }
+                                }
+
+                                is Response.Failure -> {
+                                    _signUpState.update { it.copy(loading = false) }
+                                    _snackBarFlow.emit(R.string.failed_message)
+                                }
+
+                                is Response.Loading -> {
+                                    _signUpState.update { it.copy(loading = true) }
+
+                                }
+
+
                             }
-
-                            is Response.Failure -> {
-                                _signUpState.update { it.copy(loading = false) }
-                                _snackBarFlow.emit(R.string.failed_message)
-                            }
-
-                            is Response.Loading -> {
-                                _signUpState.update { it.copy(loading = true) }
-
-                            }
-
 
                         }
-
                     }
                 }
             }
