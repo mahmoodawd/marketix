@@ -6,6 +6,6 @@ import com.example.shopify.checkout.domain.model.PriceRule
 fun PriceRules.toPriceRule() : PriceRule
 {
 
-    return PriceRule(price_rule.value,price_rule.value_type)
+    return PriceRule(price_rule.value!!,price_rule.value_type!!)
 
 }

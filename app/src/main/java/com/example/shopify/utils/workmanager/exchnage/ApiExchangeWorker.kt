@@ -31,8 +31,7 @@ class ApiExchangeWorker @AssistedInject constructor(
         val notification = NotificationCompat
             .Builder(context, context.getString(R.string.notificationBuilder))
             .setSmallIcon(R.drawable.discount)
-            .setContentTitle(context.getString(R.string.discount_code))
-            .setContentText(context.getString(R.string.please_wait_to_get_the_exchange_info_s))
+            .setContentTitle(context.getString(R.string.data_sync))
             .build()
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             ForegroundInfo(
@@ -49,17 +48,12 @@ class ApiExchangeWorker @AssistedInject constructor(
     }
 
     override suspend fun doWork(): Result {
-        Log.d("exchangeFactory",  " error")
         val targetCurrency = dataStore.getString<String>("currency").first().data
         targetCurrency?.let {
-
             try {
-
                 val exchangeResponse = exchangeApi.getExchangeMagicNumber(to = targetCurrency)
                 dataStore.putString("currencyFactor",exchangeResponse.info.rate.toString())
-                Log.d("exchangeFactory", dataStore.getString<String>("currencyFactor").first().data.toString())
             } catch (e: Exception) {
-
                 Log.d("exchangeFactory", e.message ?: " error")
             }
         } ?: run{
