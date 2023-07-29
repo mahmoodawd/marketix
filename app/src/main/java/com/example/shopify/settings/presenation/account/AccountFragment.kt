@@ -105,6 +105,7 @@ class AccountFragment() : Fragment() {
     private fun changePhoneListener() {
         lifecycleScope.launch {
             binding.phoneTextInputLayout.changeFlow().collectLatest {
+
                 viewModel.onEvent(AccountIntent.NewPhoneNumber(it))
             }
         }

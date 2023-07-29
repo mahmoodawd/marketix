@@ -3,6 +3,7 @@ package com.example.shopify.checkout.data.remote
 import android.util.Log
 import com.example.shopify.checkout.data.dto.post.PostOrder
 import com.example.shopify.data.dto.codes.DiscountCode
+import com.example.shopify.data.remote.ExchangeApi
 import com.example.shopify.data.remote.ShopifyRemoteInterface
 import com.example.shopify.home.data.local.DiscountCodesDao
 import com.example.shopify.settings.data.local.AddressDao
@@ -16,6 +17,7 @@ import javax.inject.Inject
 
 class CartAndCheckOutRemoteDataSourceImpl @Inject constructor(
     private val remoteInterface: ShopifyRemoteInterface,
+    private val exchangeApi: ExchangeApi,
     private val firebaseAuth: FirebaseAuth,
     private val firebaseFirestore: FirebaseFirestore
 ) :
@@ -162,6 +164,14 @@ class CartAndCheckOutRemoteDataSourceImpl @Inject constructor(
             Response.Failure(e.message ?: "unknownError")
         })
 
+    }
+
+    override suspend fun <T> exchangeCurrency(from: String, to: String): Flow<Response<T>> {
+        return flowOf(try {
+            Response.Success(exchangeApi.getExchangeMagicNumber(from  = from , to = to).info.rate as T)
+        } catch (e: Exception) {
+            Response.Failure(e.message ?: "unknownError")
+        })
     }
 
 }

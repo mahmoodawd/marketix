@@ -41,5 +41,9 @@ interface CartAndCheckOutRemoteDataSource {
     suspend fun <T> getCustomerId()  : Flow<Response<T>>
 
 
+    suspend fun <T> exchangeCurrency(from : String , to : String)  : Flow<Response<T>>
+
+
+
 
 }

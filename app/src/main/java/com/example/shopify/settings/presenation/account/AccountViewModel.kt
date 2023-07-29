@@ -83,16 +83,15 @@ class AccountViewModel @Inject constructor(
 
         viewModelScope.launch {
 
+
             val oldImageUri = getUserImageUseCase.execute<Uri>().data
             if (_state.value.imageFromServerUri != null &&  _state.value.imageFromServerUri != oldImageUri) {
                 updateProfileImage()
             }
 
             if (!validateUserNameUseCase.execute(_state.value.userName)) {
-                viewModelScope.launch {
                     _snackBarFlow.emit(R.string.username_invalid)
 
-                }
             } else {
 
                 updateUserName()
@@ -100,11 +99,7 @@ class AccountViewModel @Inject constructor(
 
             if (!validatePhoneUseCase.execute(_state.value.phone)) {
                 if (_state.value.phone.isNotEmpty()) {
-
-                    viewModelScope.launch {
-                        _snackBarFlow.emit(R.string.password_invalid)
-
-                    }
+                        _snackBarFlow.emit(R.string.phone_invalid)
                 }
             } else {
                 updateUserPhone()

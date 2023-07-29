@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
 import com.example.shopify.databinding.FragmentSettingsBinding
 import com.example.shopify.settings.domain.model.CurrencyModel
+import com.example.shopify.utils.connectivity.ConnectivityObserver
 import com.example.shopify.utils.ui.goneIf
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -28,7 +29,9 @@ import kotlinx.coroutines.withContext
 
 
 @AndroidEntryPoint
-class SettingsFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
+class SettingsFragment(
+    private val firebaseAuth: FirebaseAuth,
+) : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
 
@@ -120,6 +123,7 @@ class SettingsFragment(private val firebaseAuth: FirebaseAuth) : Fragment() {
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
     }
+
 
 
 

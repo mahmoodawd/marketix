@@ -17,8 +17,11 @@ data class CheckOutState(
     val discountValue :Double =  0.0,
     val currency : String = "EGP",
     val currencyFactor : Double = 1.0,
+    val usdCurrencyFactor : Double = 1.0,
+    val  usdRequestDone : Boolean = false,
     val addresses : List<AddressModel>  = listOf(),
     val discountCodes : List<DiscountCodeModel> = listOf(),
     val cartItems: List<CartItem> = emptyList(),
-    val loading : Boolean= false
+    val loading : Boolean= false,
+    val error:String = ""
     )
