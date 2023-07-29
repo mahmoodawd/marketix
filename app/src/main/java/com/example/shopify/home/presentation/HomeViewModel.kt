@@ -12,6 +12,8 @@ import com.example.shopify.home.domain.usecase.GetAllProductsUseCase
 import com.example.shopify.home.domain.usecase.GetProductsByBrandUseCase
 import com.example.shopify.home.domain.usecase.discount.GetDiscountCodesUseCase
 import com.example.shopify.home.domain.usecase.discount.InsertDiscountCodesUseCase
+import com.example.shopify.search.domain.model.SearchProductsModel
+import com.example.shopify.search.domain.usecase.GetSearchResultUseCase
 import com.example.shopify.utils.hiltanotations.Dispatcher
 import com.example.shopify.utils.hiltanotations.Dispatchers
 import com.example.shopify.utils.response.Response
@@ -26,6 +28,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,7 +41,8 @@ class HomeViewModel @Inject constructor(
     private val filerByPriceUseCase: FilterByPriceUseCase,
     private val getDiscountCodesUseCase: GetDiscountCodesUseCase,
     private val insertDiscountCodesUseCase: InsertDiscountCodesUseCase,
-    private val readStringFromDataStoreUseCase: ReadStringFromDataStoreUseCase
+    private val readStringFromDataStoreUseCase: ReadStringFromDataStoreUseCase,
+    private val gatSearchResultUseCase: GetSearchResultUseCase
 ) : ViewModel() {
 
     private val _homeState: MutableStateFlow<HomeState.Display> =
@@ -245,6 +249,38 @@ class HomeViewModel @Inject constructor(
                     }
 
                 }.collect()
+        }
+    }
+
+    fun search(keyword: String) {
+        viewModelScope.launch {
+            if (keyword.isNotBlank()) {
+
+                gatSearchResultUseCase<SearchProductsModel>(keyword).collectLatest { response ->
+                    when (response) {
+                        is Response.Success -> {
+                            response.data!!.products.filter { product ->
+                                product.title.contains(keyword, true)
+                            }.let {
+                                _homeState.update { uiState ->
+                                    uiState.copy(searchResult = it, loading = false)
+                                }
+                                it.forEach { item ->
+
+                                    Timber.i("Search Results: ${item.title}\n_________")
+                                }
+                            }
+
+                        }
+
+                        is Response.Failure -> {
+                            Timber.i("ERROR: ${response.error}")
+                        }
+
+                        is Response.Loading -> {}
+                    }
+                }
+            }
         }
     }
 }

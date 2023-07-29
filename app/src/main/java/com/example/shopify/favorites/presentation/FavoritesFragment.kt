@@ -69,7 +69,7 @@ class FavoritesFragment(
         binding = FragmentFavoritesBinding.inflate(inflater, container, false)
 
         binding.adapter = favoritesAdapter
-        binding.searchAdapter = searchAdapter
+//        binding.searchAdapter = searchAdapter
         binding.guestView.navToAuthBtn.setOnClickListener {
             navController.navigate(NavGraphDirections.actionToAuthenticationGraph())
         }
