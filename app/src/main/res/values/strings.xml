@@ -227,6 +227,7 @@ Is between 8 and 30 characters long</string>
     <string name="please_enable_location_services_from_settings_page">please enable location services from settings page</string>
     <string name="please_wait_to_get_the_exchange_info_s">please wait to get the exchange info\'s</string>
     <string name="data_sync">data sync</string>
+    <string name="check_credentials">Invalid Email or password</string>
 
 </resources>
 

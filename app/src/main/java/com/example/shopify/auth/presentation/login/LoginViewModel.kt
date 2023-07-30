@@ -71,7 +71,7 @@ class LoginViewModel @Inject constructor(
 
                                 null -> Unit
                                 else -> {
-                                    _snackBarFlow.emit(R.string.failed_message)
+                                    _snackBarFlow.emit(R.string.check_credentials)
                                     _loginState.update {
                                         it.copy(
                                             unVerified = false,

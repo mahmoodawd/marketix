@@ -106,7 +106,7 @@ class FavoritesViewModel @Inject constructor(
     private fun removeItem(id: String, itemPosition: Int) {
         viewModelScope.launch(ioDispatcher) {
 
-            removeDraftOrderUseCase(id).collectLatest { response ->
+            removeDraftOrderUseCase<String>(id).collectLatest { response ->
                 Timber.i("response: ${response.data}")
                 when (response) {
                     is Response.Success -> {
