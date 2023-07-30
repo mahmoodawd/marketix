@@ -52,14 +52,16 @@
         <TextView
             android:id="@+id/cityValueTextView"
             style="@style/p2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_50sdp"
+            android:layout_marginEnd="10dp"
             android:elevation="@dimen/_10sdp"
             android:text="@{address.city}"
-            android:textStyle="normal"
             android:textColor="@color/white_color"
+            android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="@+id/cityTitleTextView"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cityTitleTextView"
             app:layout_constraintTop_toTopOf="@+id/cityTitleTextView" />
 
@@ -80,12 +82,14 @@
         <TextView
             android:id="@+id/addressValueTextView"
             style="@style/p2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
             android:text="@{address.address}"
-            android:textStyle="normal"
             android:textColor="@color/white_color"
+            android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="@+id/addressTitleTextView"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/cityValueTextView"
             app:layout_constraintTop_toTopOf="@+id/addressTitleTextView" />
 

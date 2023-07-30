@@ -14,6 +14,8 @@ sealed interface HomeState {
         val loading: Boolean = true,
         val currency: String = "EGP",
         val exchangeRate: Double = 1.0,
-        val searchResult: List<SearchProductModel> = emptyList()
+        val searchResult: List<SearchProductModel> = emptyList(),
+        val userIsGuest : Boolean = true
+
     ) : HomeState
 }

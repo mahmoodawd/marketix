@@ -239,7 +239,7 @@ class HomeFragment(private val connectivityObserver: ConnectivityObserver) : Fra
                         productsAdapter.currency = it.currency
                     }
 
-                    binding.addsCardView visibleIf (it.discountCode != null)
+                    binding.addsCardView visibleIf (it.discountCode != null && !it.userIsGuest)
 
                     binding.searchResultRv visibleIf binding.searchEditText.hasFocus()
                     if (it.searchResult.isNotEmpty()) {

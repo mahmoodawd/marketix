@@ -3,6 +3,7 @@ package com.example.shopify.home.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.R
+import com.example.shopify.auth.domain.usecases.CheckGuestStatusUseCase
 import com.example.shopify.domain.usecase.dataStore.ReadStringFromDataStoreUseCase
 import com.example.shopify.home.domain.model.discountcode.DiscountCodesModel
 import com.example.shopify.home.domain.usecase.FilterByPriceUseCase
@@ -42,7 +43,8 @@ class HomeViewModel @Inject constructor(
     private val getDiscountCodesUseCase: GetDiscountCodesUseCase,
     private val insertDiscountCodesUseCase: InsertDiscountCodesUseCase,
     private val readStringFromDataStoreUseCase: ReadStringFromDataStoreUseCase,
-    private val gatSearchResultUseCase: GetSearchResultUseCase
+    private val gatSearchResultUseCase: GetSearchResultUseCase,
+    private val guestStatusUseCase: CheckGuestStatusUseCase,
 ) : ViewModel() {
 
     private val _homeState: MutableStateFlow<HomeState.Display> =
@@ -223,6 +225,14 @@ class HomeViewModel @Inject constructor(
 
     }
 
+
+    private fun checkUserIsGuest()
+    {
+        viewModelScope.launch(ioDispatcher) {
+            _homeState.update { it.copy(userIsGuest = guestStatusUseCase.invoke()) }
+        }
+    }
+
     fun initDiscountCodeHomeState() {
         _homeState.update { it.copy(discountCode = null) }
     }
@@ -282,5 +292,8 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
+    }
+    init {
+        checkUserIsGuest()
     }
 }

@@ -217,7 +217,7 @@ class CheckOutFragment : Fragment() {
                         binding.addressValueTextView.text = state.deliveryAddress.address
                         binding.addressSection.visibility = View.VISIBLE
                     } ?: kotlin.run {
-                        binding.addressSection.visibility = View.GONE
+                        binding.addressSection.visibility = View.INVISIBLE
                     }
                     spinnerSetup(state.discountCodes, state.discountCode)
                     binding.discountInputLayout.editText!!.setText(state.discountCode?.code)
