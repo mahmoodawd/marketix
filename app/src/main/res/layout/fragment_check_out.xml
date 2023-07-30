@@ -373,6 +373,16 @@
             app:paypal_button_label="checkout"
             app:paypal_button_shape="pill"
             app:paypal_button_size="small" />
+        <ProgressBar
+            android:id="@+id/progressBarPaypal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/_8sdp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="@dimen/_50sdp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
