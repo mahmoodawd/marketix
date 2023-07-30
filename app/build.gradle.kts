@@ -129,6 +129,7 @@ dependencies {
     testImplementation(libs.org.robolectric.robolectric)
     testImplementation(libs.bundles.hamcrest)
     testImplementation(libs.junit)
+    testImplementation(libs.org.mockito.kotlin.mockito.kotlin)
     kaptTest(libs.com.google.dagger.hilt.android.compiler)
     kaptTest(libs.com.google.dagger.hilt.android.testing)
     androidTestImplementation(libs.androidx.test.ext)
