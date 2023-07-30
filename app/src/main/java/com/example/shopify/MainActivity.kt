@@ -156,7 +156,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             connectivityObserver.observe().collectLatest { state ->
                 delay(200)
-               binding.internetIsLost.root goneIf  (state == ConnectivityObserver.Status.Available)
+               binding.internetIsLost.root visibleIf   (state == ConnectivityObserver.Status.Lost || state ==  ConnectivityObserver.Status.Unavailable)
             }
         }
     }
