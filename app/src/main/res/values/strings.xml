@@ -144,8 +144,8 @@ Is between 8 and 30 characters long</string>
     <string name="userPhone_isUpdated">your phone number updated successfully</string>
     <string name="account_updated_successfully"> your account is updated successfully</string>
     <string name="location_database">locationDatabase\n</string>
-    <string name="city_colon">City : </string>
-    <string name="address_colon">Address : </string>
+    <string name="city_colon">City: </string>
+    <string name="address_colon">Address: </string>
     <string name="latitudeType">latitude</string>
     <string name="longitude">longitude</string>
     <string name="inserted_successfully">address inserted successfully</string>
@@ -203,7 +203,7 @@ Is between 8 and 30 characters long</string>
     <string name="discount">discount\n</string>
     <string name="cartItems">cartItems</string>
     <string name="make_this_address_default">make this address default</string>
-    <string name="cash_on_delivery">cash on delivery</string>
+    <string name="cash_on_delivery">Cash on delivery</string>
     <string name="already_in_fav">Already In Favorites</string>
     <string name="already_in_cart">Already InCart</string>
     <string name="emptyCart">Empty Cart</string>
