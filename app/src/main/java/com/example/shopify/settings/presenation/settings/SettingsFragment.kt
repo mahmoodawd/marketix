@@ -93,9 +93,9 @@ class SettingsFragment(
             navController.popBackStack()
         }
 
-        binding.logoutTextView.setOnClickListener {
+        binding.logoutImageView.setOnClickListener {
             firebaseAuth.signOut()
-           navController.navigate(SettingsFragmentDirections.actionSettingsFragmentToAuthenticationGraph())
+            navController.navigate(SettingsFragmentDirections.actionSettingsFragmentToAuthenticationGraph())
         }
 
 
@@ -135,7 +135,7 @@ class SettingsFragment(
                     withContext(Dispatchers.Main) {
                         binding.notificationSwitch.isChecked = state.notification
                         binding.locationSwitch.isChecked = state.LocationService
-                        binding.logoutTextView goneIf   state.userIsGuest
+                        binding.logoutImageView goneIf   state.userIsGuest
                         spinnerSetup(state.currencies,state.selectedCurrency)
                     }
 

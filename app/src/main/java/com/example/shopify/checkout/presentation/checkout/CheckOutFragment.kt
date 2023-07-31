@@ -50,6 +50,7 @@ import com.paypal.checkout.createorder.CreateOrder
 import com.paypal.checkout.createorder.CurrencyCode
 import com.paypal.checkout.createorder.OrderIntent
 import com.paypal.checkout.createorder.UserAction
+import com.paypal.checkout.error.OnError
 import com.paypal.checkout.order.Amount
 import com.paypal.checkout.order.AppContext
 import com.paypal.checkout.order.OrderRequest
@@ -309,7 +310,6 @@ class CheckOutFragment : Fragment() {
 
             createOrder =
             CreateOrder { createOrderActions ->
-
                 if (viewModel.state.value.deliveryAddress == null) {
                     viewModel.onEvent(CheckOutIntent.EmitMessage(R.string.please_choose_address))
                     return@CreateOrder
@@ -324,6 +324,9 @@ class CheckOutFragment : Fragment() {
                     viewModel.onEvent(CheckOutIntent.EmitMessage(R.string.please_write_your_phone_number))
                     return@CreateOrder
                 }
+                binding.progressBarPaypal.visibility = View.VISIBLE
+                binding.paymentButtonContainer.visibility = View.GONE
+                binding.checkOutButton.visibility = View.GONE
                 val order =
                     OrderRequest(
                         intent = OrderIntent.CAPTURE,
@@ -343,11 +346,22 @@ class CheckOutFragment : Fragment() {
             },
             onApprove =
             OnApprove { approval ->
+                binding.progressBarPaypal.visibility = View.GONE
+                binding.paymentButtonContainer.visibility = View.VISIBLE
+                binding.checkOutButton.visibility = View.VISIBLE
                 createOrder(mCartItems as CartItems)
             },
 
             onCancel = OnCancel {
+                binding.progressBarPaypal.visibility = View.GONE
+                binding.paymentButtonContainer.visibility = View.VISIBLE
+                binding.checkOutButton.visibility = View.VISIBLE
                 Log.d("paypalResult", "Buyer canceled the PayPal experience.")
+            },
+            onError = OnError{
+                binding.progressBarPaypal.visibility = View.GONE
+                binding.paymentButtonContainer.visibility = View.VISIBLE
+                binding.checkOutButton.visibility = View.VISIBLE
             }
         )
     }
